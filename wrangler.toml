@@ -7,7 +7,7 @@ compatibility_date = "2026-06-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "carrera-analytics"
-database_id = "PLACEHOLDER_DATABASE_ID"
+database_id = "5f777d4b-d80b-42bd-9a03-6a268a766c82"
 
 [vars]
 GA_PROPERTY_ID = "483869089"
