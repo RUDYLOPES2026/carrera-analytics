@@ -1,0 +1,19 @@
+name = "carrera-analytics-api"
+main = "server/worker.ts"
+compatibility_date = "2026-06-01"
+
+# Banco D1 (criado com: npx wrangler d1 create carrera-analytics)
+# Depois de criar, substitua database_id abaixo pelo id retornado.
+[[d1_databases]]
+binding = "DB"
+database_name = "carrera-analytics"
+database_id = "PLACEHOLDER_DATABASE_ID"
+
+[vars]
+GA_PROPERTY_ID = "483869089"
+
+# Secrets (configurar com: npx wrangler secret put <NOME>):
+#   GA_SERVICE_ACCOUNT_EMAIL
+#   GA_PRIVATE_KEY
+#   GA_PRIVATE_KEY_ID
+#   GA_CLIENT_ID

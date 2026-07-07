@@ -1,0 +1,50 @@
+{
+  "coletadoEm": "2026-06-12",
+  "periodo": "90 dias (14/03 a 12/06/2026)",
+  "totalSessoes90d": 1093510,
+  "canais90d": [
+    { "canal": "Unassigned", "sessoes": 774792, "pct": 70.9 },
+    { "canal": "Direct", "sessoes": 68672, "pct": 6.3 },
+    { "canal": "Organic Search", "sessoes": 108234, "pct": 9.9 },
+    { "canal": "Paid Search", "sessoes": 79422, "pct": 7.3 },
+    { "canal": "Paid Video", "sessoes": 2270, "pct": 0.2 },
+    { "canal": "Organic Video", "sessoes": 623, "pct": 0.1 },
+    { "canal": "Organic Shopping", "sessoes": 67, "pct": 0.0 },
+    { "canal": "AI Assistant", "sessoes": 7, "pct": 0.0 }
+  ],
+  "semAtribuicaoTotal": 843464,
+  "semAtribuicaoPct": 77.1,
+  "tendenciaMensal": [
+    { "mes": "2025-12", "total": 163199, "direct": 19403, "unassigned": 36176, "semAtrib": 55579, "pct": 34.1 },
+    { "mes": "2026-01", "total": 337514, "direct": 41250, "unassigned": 8200, "semAtrib": 49450, "pct": 14.7 },
+    { "mes": "2026-02", "total": 326971, "direct": 35598, "unassigned": 6603, "semAtrib": 42201, "pct": 12.9 },
+    { "mes": "2026-03", "total": 323391, "direct": 28131, "unassigned": 144621, "semAtrib": 172752, "pct": 53.4 },
+    { "mes": "2026-04", "total": 361532, "direct": 22340, "unassigned": 256818, "semAtrib": 279158, "pct": 77.2 },
+    { "mes": "2026-05", "total": 383167, "direct": 23553, "unassigned": 274151, "semAtrib": 297704, "pct": 77.7 },
+    { "mes": "2026-06", "total": 148352, "direct": 8575, "unassigned": 104294, "semAtrib": 112869, "pct": 76.1 }
+  ],
+  "unassignedSourceMedium": [
+    { "source": "(not set)", "medium": "(not set)", "sessoes": 769267, "nota": "PRINCIPAL: sem UTM nenhum" },
+    { "source": "leadhub_lp", "medium": "(not set)", "sessoes": 5464, "nota": "LeadHub sem medium configurado" },
+    { "source": "chatgpt.com", "medium": "(not set)", "sessoes": 148, "nota": "Referência de IA" },
+    { "source": "(not set)", "medium": "zeekr7x", "sessoes": 28, "nota": "UTM incompleto - só medium" },
+    { "source": "leadhub_lp", "medium": "(none)", "sessoes": 12, "nota": "LeadHub sem medium" }
+  ],
+  "dispositivoSemAtrib": {
+    "mobile_unassigned": 635429,
+    "desktop_unassigned": 130664,
+    "mobile_direct": 50908,
+    "desktop_direct": 18099,
+    "tablet_unassigned": 2601
+  },
+  "paginasEntradaDirect": [
+    { "pagina": "/", "sessoes": 11580 },
+    { "pagina": "/comprar/carros/usados", "sessoes": 3413 },
+    { "pagina": "/comprar/carros/novos/chevrolet/onix-plus", "sessoes": 1770 },
+    { "pagina": "/comprar/carros/novos/nissan", "sessoes": 1560 },
+    { "pagina": "/carro-por-assinatura", "sessoes": 1481 },
+    { "pagina": "/comprar/carros/novos/chevrolet", "sessoes": 1447 },
+    { "pagina": "/carros/novos/zeekr", "sessoes": 1074 },
+    { "pagina": "/comprar/carros/novos/gwm", "sessoes": 882 }
+  ]
+}
