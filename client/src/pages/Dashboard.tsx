@@ -2262,6 +2262,11 @@ const GWM_JUN_CONFIG: GWMCampaignConfig = {
   days: GWM_JUN_DAYS,
   dayNames: GWM_JUN_DAY_NAMES,
   gradeNote: "191 insercoes, 18-30/06",
+  pdf: {
+    file: "Relatorio-TV-GWM-Junho-2026.pdf",
+    title: "Relatorio Completo, GWM Junho 2026",
+    desc: "Resumo executivo + analise por dia (13 dias) + ranking de programas · 15 paginas · PDF",
+  },
 };
 
 type GWMCampaignData = {

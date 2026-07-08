@@ -1,5 +1,5 @@
 import PDFDocument from "pdfkit";
-import { getGWMCampaignData, GWM_MAI_INSERTIONS_DATA } from "./analytics";
+import { getGWMCampaignData, GWM_MAI_INSERTIONS_DATA, getGWMJunCampaignData, GWM_JUN_INSERTIONS_DATA } from "./analytics";
 
 // ---- COLORS ----
 const C = {
@@ -126,19 +126,78 @@ function drawHourlyChart(
   doc.fontSize(5.5).fillColor(C.mid).text("Hora com insercao de TV", x + 222, ly - 5);
 }
 
-function drawFooter(doc: PDFKit.PDFDocument, pageNum: number, totalPages: number) {
+function drawFooter(doc: PDFKit.PDFDocument, pageNum: number, totalPages: number, footerText: string) {
   doc.moveTo(MARGIN, PAGE_H - 30).lineTo(PAGE_W - MARGIN, PAGE_H - 30).stroke(C.lighter);
   doc.fontSize(7.5).fillColor(C.light).font("Helvetica");
   doc.x = MARGIN; doc.y = PAGE_H - 22;
-  doc.text("Carrera Novos · GWM · Campanha TV Maio 2026 · Dados: Google Analytics 4", { lineBreak: false, continued: true });
+  doc.text(footerText, { lineBreak: false, continued: true });
   doc.text(`  Pagina ${pageNum} de ${totalPages}`, { align: "right", lineBreak: false });
 }
 
-// ---- MAIN EXPORT ----
-export async function generateGWMCampaignPDF(): Promise<Buffer> {
-  console.log("[PDF-GWM] Starting GWM campaign PDF generation (PDFKit)...");
+// ---- CAMPAIGN CONFIGS ----
+const GWM_PDF_CONFIGS = {
+  mai: {
+    name: "GWM Maio 2026",
+    title: "TV GWM, Maio 2026",
+    headerLine: "21 a 31 de maio de 2026  ·  Rede Globo e GloboNews  ·  171 insercoes",
+    footerLine: "Carrera Novos · GWM · Campanha TV Maio 2026 · Dados: Google Analytics 4",
+    periodShort: "21-31/05",
+    networks: "Rede Globo e GloboNews",
+    totalInsertions: 171,
+    daysCount: 11,
+    getData: getGWMCampaignData,
+    insertions: GWM_MAI_INSERTIONS_DATA,
+    dayFullLabels: {
+      "2026-05-21": "QUINTA-FEIRA, 21 DE MAIO",
+      "2026-05-22": "SEXTA-FEIRA, 22 DE MAIO",
+      "2026-05-23": "SABADO, 23 DE MAIO",
+      "2026-05-24": "DOMINGO, 24 DE MAIO",
+      "2026-05-25": "SEGUNDA-FEIRA, 25 DE MAIO",
+      "2026-05-26": "TERCA-FEIRA, 26 DE MAIO",
+      "2026-05-27": "QUARTA-FEIRA, 27 DE MAIO",
+      "2026-05-28": "QUINTA-FEIRA, 28 DE MAIO",
+      "2026-05-29": "SEXTA-FEIRA, 29 DE MAIO",
+      "2026-05-30": "SABADO, 30 DE MAIO",
+      "2026-05-31": "DOMINGO, 31 DE MAIO",
+    } as Record<string, string>,
+    dayShortNames: ["Qui 21", "Sex 22", "Sab 23", "Dom 24", "Seg 25", "Ter 26", "Qua 27", "Qui 28", "Sex 29", "Sab 30", "Dom 31"],
+  },
+  jun: {
+    name: "GWM Junho 2026",
+    title: "TV GWM, Junho 2026",
+    headerLine: "18 a 30 de junho de 2026  ·  TV Globo SP e GloboNews  ·  191 insercoes",
+    footerLine: "Carrera Novos · GWM · Campanha TV Junho 2026 · Dados: Google Analytics 4",
+    periodShort: "18-30/06",
+    networks: "TV Globo SP e GloboNews",
+    totalInsertions: 191,
+    daysCount: 13,
+    getData: getGWMJunCampaignData,
+    insertions: GWM_JUN_INSERTIONS_DATA,
+    dayFullLabels: {
+      "2026-06-18": "QUINTA-FEIRA, 18 DE JUNHO",
+      "2026-06-19": "SEXTA-FEIRA, 19 DE JUNHO",
+      "2026-06-20": "SABADO, 20 DE JUNHO",
+      "2026-06-21": "DOMINGO, 21 DE JUNHO",
+      "2026-06-22": "SEGUNDA-FEIRA, 22 DE JUNHO",
+      "2026-06-23": "TERCA-FEIRA, 23 DE JUNHO",
+      "2026-06-24": "QUARTA-FEIRA, 24 DE JUNHO",
+      "2026-06-25": "QUINTA-FEIRA, 25 DE JUNHO",
+      "2026-06-26": "SEXTA-FEIRA, 26 DE JUNHO",
+      "2026-06-27": "SABADO, 27 DE JUNHO",
+      "2026-06-28": "DOMINGO, 28 DE JUNHO",
+      "2026-06-29": "SEGUNDA-FEIRA, 29 DE JUNHO",
+      "2026-06-30": "TERCA-FEIRA, 30 DE JUNHO",
+    } as Record<string, string>,
+    dayShortNames: ["Qui 18", "Sex 19", "Sab 20", "Dom 21", "Seg 22", "Ter 23", "Qua 24", "Qui 25", "Sex 26", "Sab 27", "Dom 28", "Seg 29", "Ter 30"],
+  },
+};
 
-  const data = await getGWMCampaignData();
+// ---- MAIN EXPORT ----
+export async function generateGWMCampaignPDF(campaign: "mai" | "jun" = "mai"): Promise<Buffer> {
+  const cfg = GWM_PDF_CONFIGS[campaign];
+  console.log(`[PDF-GWM] Starting GWM campaign PDF generation (PDFKit) - ${cfg.name}...`);
+
+  const data = await cfg.getData();
   const { campaignDays, baselineDays, programImpact, leadsByDay } = data;
 
   // Compute totals
@@ -181,25 +240,13 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
   const liftSignOpt = (v: number | null) => v == null ? "-" : v >= 0 ? `+${v}%` : `${v}%`;
 
   // Day labels (full names for per-day pages)
-  const dayFullLabels: Record<string, string> = {
-    "2026-05-21": "QUINTA-FEIRA, 21 DE MAIO",
-    "2026-05-22": "SEXTA-FEIRA, 22 DE MAIO",
-    "2026-05-23": "SABADO, 23 DE MAIO",
-    "2026-05-24": "DOMINGO, 24 DE MAIO",
-    "2026-05-25": "SEGUNDA-FEIRA, 25 DE MAIO",
-    "2026-05-26": "TERCA-FEIRA, 26 DE MAIO",
-    "2026-05-27": "QUARTA-FEIRA, 27 DE MAIO",
-    "2026-05-28": "QUINTA-FEIRA, 28 DE MAIO",
-    "2026-05-29": "SEXTA-FEIRA, 29 DE MAIO",
-    "2026-05-30": "SABADO, 30 DE MAIO",
-    "2026-05-31": "DOMINGO, 31 DE MAIO",
-  };
+  const dayFullLabels = cfg.dayFullLabels;
 
   // Short day names for bar chart
-  const dayShortNames = ["Qui 21", "Sex 22", "Sab 23", "Dom 24", "Seg 25", "Ter 26", "Qua 27", "Qui 28", "Sex 29", "Sab 30", "Dom 31"];
+  const dayShortNames = cfg.dayShortNames;
 
-  // Total pages: 1 (resumo) + 11 (dias) + 1 (ranking/metodologia) = 13
-  const TOTAL_PAGES = 13;
+  // Total pages: 1 (resumo) + N (dias) + 1 (ranking/metodologia)
+  const TOTAL_PAGES = 1 + cfg.daysCount + 1;
 
   // Create PDF
   const doc = new PDFDocument({ size: "A4", margin: MARGIN, autoFirstPage: true, bufferPages: true });
@@ -218,8 +265,8 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
   // Header bar (GWM green)
   roundRect(doc, 0, 0, PAGE_W, 70, 0, C.dark);
   doc.fontSize(9).fillColor(C.light).text("RELATORIO DE CAMPANHA", MARGIN, 14);
-  doc.fontSize(22).fillColor("#ffffff").font("Helvetica-Bold").text("TV GWM, Maio 2026", MARGIN, 26);
-  doc.fontSize(9).fillColor(C.light).font("Helvetica").text("21 a 31 de maio de 2026  ·  Rede Globo e GloboNews  ·  171 insercoes", MARGIN, 52);
+  doc.fontSize(22).fillColor("#ffffff").font("Helvetica-Bold").text(cfg.title, MARGIN, 26);
+  doc.fontSize(9).fillColor(C.light).font("Helvetica").text(cfg.headerLine, MARGIN, 52);
 
   const today = new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
   doc.fontSize(8).fillColor(C.light).text("GERADO EM", PAGE_W - MARGIN - 80, 14, { width: 80, align: "right" });
@@ -239,7 +286,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
   // 4 KPI cards
   const cardW = (CONTENT_W - 9) / 4;
   const kpiCards = [
-    { label: "VISITAS AO SITE", value: totalCamp.toLocaleString("pt-BR"), sub: "em 11 dias de campanha", bg: C.gwm, textColor: "#ffffff" },
+    { label: "VISITAS AO SITE", value: totalCamp.toLocaleString("pt-BR"), sub: `em ${cfg.daysCount} dias de campanha`, bg: C.gwm, textColor: "#ffffff" },
     { label: "CRESCIMENTO DE VISITAS", value: liftSign(overallLift), sub: "vs. semana sem TV", bg: overallLift > 5 ? C.green : overallLift < -5 ? C.red : C.yellow, textColor: "#ffffff" },
     { label: "MELHOR DIA", value: bestDay?.label?.split(" ")[0] || "-", sub: liftSign(bestDay?.lift || 0), bg: C.orange, textColor: "#ffffff" },
     { label: "MELHOR PROGRAMA", value: bestProgram?.program?.split(" ").slice(0, 2).join(" ") || "-", sub: liftSign(bestProgram?.avgLift || 0), bg: C.purple, textColor: "#ffffff" },
@@ -259,7 +306,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
   const leadsCards = [
     { label: "LEADS CAPTADOS", value: String(totalLeads), sub: `${liftSignOpt(totalLeadsLift)} vs sem TV`, bg: C.emerald, tc: "#ffffff" },
     { label: "CONTATOS CAPTADOS", value: String(totalContacts), sub: `${liftSignOpt(totalContactsLift)} vs sem TV`, bg: C.darkMid, tc: "#ffffff" },
-    { label: "INSERCOES TOTAIS", value: "171", sub: "em 11 dias de campanha", bg: C.blue, tc: "#ffffff" },
+    { label: "INSERCOES TOTAIS", value: String(cfg.totalInsertions), sub: `em ${cfg.daysCount} dias de campanha`, bg: C.blue, tc: "#ffffff" },
     { label: "PROGRAMAS", value: String(programRanking.length), sub: "programas veiculados", bg: C.purple, tc: "#ffffff" },
   ];
 
@@ -301,7 +348,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
   curY += barChartH + 10;
 
   // Conclusion box
-  const conclusionText = `A campanha TV GWM Maio 2026 veiculou 171 insercoes em 11 dias (21-31/05) na Rede Globo e GloboNews. O site registrou ${totalCamp.toLocaleString("pt-BR")} visitas no periodo, com crescimento de ${liftSign(overallLift)} vs. semana anterior sem TV. Melhor dia: ${bestDay?.label || "-"} (${liftSign(bestDay?.lift || 0)}). Melhor programa: ${bestProgram?.program || "-"} (${liftSign(bestProgram?.avgLift || 0)}).`;
+  const conclusionText = `A campanha ${cfg.title} veiculou ${cfg.totalInsertions} insercoes em ${cfg.daysCount} dias (${cfg.periodShort}) na ${cfg.networks}. O site registrou ${totalCamp.toLocaleString("pt-BR")} visitas no periodo, com crescimento de ${liftSign(overallLift)} vs. semana anterior sem TV. Melhor dia: ${bestDay?.label || "-"} (${liftSign(bestDay?.lift || 0)}). Melhor programa: ${bestProgram?.program || "-"} (${liftSign(bestProgram?.avgLift || 0)}).`;
 
   const conclusionH = 52;
   roundRect(doc, MARGIN, curY, CONTENT_W, conclusionH, 8, "#ecfdf5");
@@ -310,7 +357,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
   doc.fontSize(8).fillColor(C.gwm).font("Helvetica-Bold").text("CONCLUSAO PRINCIPAL", MARGIN + 12, curY + 8);
   doc.fontSize(8.5).fillColor(C.darkMid).font("Helvetica").text(conclusionText, MARGIN + 12, curY + 20, { width: CONTENT_W - 24, lineGap: 2 });
 
-  drawFooter(doc, 1, TOTAL_PAGES);
+  drawFooter(doc, 1, TOTAL_PAGES, cfg.footerLine);
 
   // ================================================================
   // PAGES 2-12: ANALISE POR DIA (11 dias)
@@ -320,7 +367,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
     doc.addPage();
 
     const baseDay = baselineDays[dayIdx];
-    const dayInsertions = GWM_MAI_INSERTIONS_DATA.filter(ins => ins.date === campDay.date);
+    const dayInsertions = cfg.insertions.filter(ins => ins.date === campDay.date);
     const insertionHours = dayInsertions.map(ins => ins.hour);
     const dayTotal = campDay.hours.reduce((s, h) => s + h.sessions, 0);
     const baseTotal = baseDay?.hours.reduce((s, h) => s + h.sessions, 0) || 0;
@@ -331,7 +378,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
     // Header badge
     roundRect(doc, MARGIN, MARGIN, 110, 16, 8, C.dark);
     doc.fontSize(8).fillColor("#ffffff").font("Helvetica-Bold").text("ANALISE DETALHADA", MARGIN + 4, MARGIN + 4, { width: 102, align: "center" });
-    doc.fontSize(9).fillColor(C.mid).font("Helvetica").text(`Dia ${dayIdx + 1} de 11`, MARGIN + 118, MARGIN + 4);
+    doc.fontSize(9).fillColor(C.mid).font("Helvetica").text(`Dia ${dayIdx + 1} de ${cfg.daysCount}`, MARGIN + 118, MARGIN + 4);
 
     let dy = MARGIN + 24;
     doc.fontSize(9).fillColor(C.mid).font("Helvetica-Bold").text(dayFullLabels[campDay.date] || campDay.label, MARGIN, dy);
@@ -445,7 +492,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
       }
     }
 
-    drawFooter(doc, dayIdx + 2, TOTAL_PAGES);
+    drawFooter(doc, dayIdx + 2, TOTAL_PAGES, cfg.footerLine);
   });
 
   // ================================================================
@@ -460,7 +507,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
 
   let py = MARGIN + 26;
 
-  doc.fontSize(14).fillColor(C.dark).font("Helvetica-Bold").text("Ranking de Programas por Impacto, GWM Maio 2026", MARGIN, py);
+  doc.fontSize(14).fillColor(C.dark).font("Helvetica-Bold").text(`Ranking de Programas por Impacto, ${cfg.name}`, MARGIN, py);
   py += 16;
   doc.fontSize(8.5).fillColor(C.mid).font("Helvetica").text("Qual programa de TV gerou mais visitas ao site na hora da veiculacao?", MARGIN, py);
   py += 16;
@@ -491,7 +538,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
   // Leads per day table com comparacao baseline
   doc.fontSize(12).fillColor(C.dark).font("Helvetica-Bold").text("Leads e Contatos por Dia (GWM/Haval)", MARGIN, py);
   py += 14;
-  doc.fontSize(8.5).fillColor(C.mid).font("Helvetica").text("Comparacao: campanha com TV (21-31/05) vs semana anterior sem TV. Apenas paginas /gwm e /haval.", MARGIN, py);
+  doc.fontSize(8.5).fillColor(C.mid).font("Helvetica").text(`Comparacao: campanha com TV (${cfg.periodShort}) vs semana anterior sem TV. Apenas paginas /gwm e /haval.`, MARGIN, py);
   py += 14;
 
   const ldCols = [MARGIN + 8, MARGIN + 90, MARGIN + 140, MARGIN + 195, MARGIN + 260, MARGIN + 310, MARGIN + 375, MARGIN + 430];
@@ -554,7 +601,7 @@ export async function generateGWMCampaignPDF(): Promise<Buffer> {
     doc.fontSize(7.5).fillColor(C.darkMid).font("Helvetica").text(`• ${line}`, MARGIN + 10, py + 20 + i * 11, { width: CONTENT_W - 20 });
   });
 
-  drawFooter(doc, 13, TOTAL_PAGES);
+  drawFooter(doc, TOTAL_PAGES, TOTAL_PAGES, cfg.footerLine);
 
   doc.flushPages();
   doc.end();

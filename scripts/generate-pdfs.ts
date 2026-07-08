@@ -21,7 +21,8 @@ async function main() {
     { file: "Relatorio-TV-Carrera-Days-Chevrolet-2026.pdf", gen: () => generateTVCampaignPDF("Chevrolet") },
     { file: "Relatorio-TV-Carrera-Days-GWM-2026.pdf", gen: () => generateTVCampaignPDF("GWM") },
     { file: "Relatorio-TV-Carrera-Days-VW-2026.pdf", gen: () => generateTVCampaignPDF("VW") },
-    { file: "Relatorio-TV-GWM-Maio-2026.pdf", gen: () => generateGWMCampaignPDF() },
+    { file: "Relatorio-TV-GWM-Maio-2026.pdf", gen: () => generateGWMCampaignPDF("mai") },
+    { file: "Relatorio-TV-GWM-Junho-2026.pdf", gen: () => generateGWMCampaignPDF("jun") },
   ];
 
   for (const job of jobs) {
