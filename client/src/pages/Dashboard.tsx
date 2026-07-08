@@ -2186,24 +2186,126 @@ const GWM_MAI_INSERTIONS = [
 // Todos os dias da campanha GWM conforme mapa de mídia (21-31/05/2026)
 const GWM_MAI_DAYS = [21,22,23,24,25,26,27,28,29,30,31].map(d => `2026-05-${String(d).padStart(2,"0")}`);
 
+// GWM Junho 2026 static insertion schedule (mapa de mídia 18-30/06: TV Globo SP + GloboNews)
+const gwmJunIns = (program: string, hour: number, duration: string, days: Record<number, number>) =>
+  Object.entries(days).flatMap(([d, n]) =>
+    Array(n).fill(null).map(() => ({
+      date: `2026-06-${String(d).padStart(2, "0")}`, program, hour, duration, brand: "GWM",
+    }))
+  );
+const GWM_JUN_INSERTIONS = [
+  // TV Globo SP
+  ...gwmJunIns("Bom Dia Praca", 8, "15s", { 18: 1, 19: 1, 24: 1, 25: 1, 26: 2 }),
+  ...gwmJunIns("Praca TV 1a Edicao", 12, "15s", { 18: 1, 19: 1, 20: 1, 24: 1, 25: 1, 26: 2, 27: 1 }),
+  ...gwmJunIns("Globo Esporte", 13, "30s", { 25: 1, 26: 1 }),
+  ...gwmJunIns("Jornal Hoje", 14, "30s", { 24: 1, 25: 1, 26: 1 }),
+  ...gwmJunIns("Pequenas Empresas Grandes Negocios", 8, "15s", { 20: 1, 27: 1 }),
+  ...gwmJunIns("E de Casa", 9, "15s", { 20: 1, 27: 1 }),
+  // GloboNews (nacional)
+  ...gwmJunIns("Faixa 06h-12h", 9, "30s", { 18: 4, 19: 4, 21: 4, 22: 4, 23: 4, 24: 4, 25: 4, 26: 4, 29: 4, 30: 4 }),
+  ...gwmJunIns("Faixa 12h-18h", 15, "30s", { 18: 4, 19: 4, 22: 4, 23: 4, 24: 4, 25: 4, 26: 4, 29: 4, 30: 4 }),
+  ...gwmJunIns("Faixa 18h-01h", 19, "30s", { 18: 4, 19: 4, 22: 4, 23: 4, 24: 4, 25: 4, 26: 2, 29: 4, 30: 4 }),
+  ...gwmJunIns("Estudio I", 13, "30s", { 18: 2, 19: 2, 20: 2, 22: 2, 23: 2, 24: 2, 25: 2, 26: 2, 27: 2, 29: 2, 30: 2 }),
+  ...gwmJunIns("GloboNews em Ponto", 17, "30s", { 18: 2, 19: 2, 22: 2, 23: 2, 24: 2, 25: 2, 26: 2, 29: 2, 30: 2 }),
+  ...gwmJunIns("GloboNews em Pauta", 20, "30s", { 18: 2, 19: 2, 22: 2, 23: 2, 24: 2, 25: 2, 26: 2, 29: 2, 30: 2 }),
+];
+
+// Todos os dias da campanha GWM junho conforme mapa de mídia (18-30/06/2026)
+const GWM_JUN_DAYS = [18,19,20,21,22,23,24,25,26,27,28,29,30].map(d => `2026-06-${String(d).padStart(2,"0")}`);
+
+const GWM_MAI_DAY_NAMES: Record<string, string> = {
+  "2026-05-21": "Qui 21/05", "2026-05-22": "Sex 22/05", "2026-05-23": "Sab 23/05",
+  "2026-05-24": "Dom 24/05", "2026-05-25": "Seg 25/05", "2026-05-26": "Ter 26/05",
+  "2026-05-27": "Qua 27/05", "2026-05-28": "Qui 28/05", "2026-05-29": "Sex 29/05",
+  "2026-05-30": "Sab 30/05", "2026-05-31": "Dom 31/05",
+};
+
+const GWM_JUN_DAY_NAMES: Record<string, string> = {
+  "2026-06-18": "Qui 18/06", "2026-06-19": "Sex 19/06", "2026-06-20": "Sab 20/06",
+  "2026-06-21": "Dom 21/06", "2026-06-22": "Seg 22/06", "2026-06-23": "Ter 23/06",
+  "2026-06-24": "Qua 24/06", "2026-06-25": "Qui 25/06", "2026-06-26": "Sex 26/06",
+  "2026-06-27": "Sab 27/06", "2026-06-28": "Dom 28/06", "2026-06-29": "Seg 29/06",
+  "2026-06-30": "Ter 30/06",
+};
+
+type GWMCampaignConfig = {
+  title: string;
+  subtitle: string;
+  stats: { insertions: number; days: number; programs: number };
+  insertions: { date: string; program: string; hour: number; duration: string; brand: string }[];
+  days: string[];
+  dayNames: Record<string, string>;
+  gradeNote: string;
+  pdf?: { file: string; title: string; desc: string };
+};
+
+const GWM_MAI_CONFIG: GWMCampaignConfig = {
+  title: "GWM, Maio 2026",
+  subtitle: "21 a 31 de maio de 2026, Rede Globo e GloboNews",
+  stats: { insertions: 171, days: 11, programs: 11 },
+  insertions: GWM_MAI_INSERTIONS,
+  days: GWM_MAI_DAYS,
+  dayNames: GWM_MAI_DAY_NAMES,
+  gradeNote: "171 insercoes, 21-31/05",
+  pdf: {
+    file: "Relatorio-TV-GWM-Maio-2026.pdf",
+    title: "Relatorio Completo, GWM Maio 2026",
+    desc: "Resumo executivo + analise por dia (11 dias) + ranking de programas · 13 paginas · PDF",
+  },
+};
+
+const GWM_JUN_CONFIG: GWMCampaignConfig = {
+  title: "GWM, Junho 2026",
+  subtitle: "18 a 30 de junho de 2026, TV Globo SP e GloboNews",
+  stats: { insertions: 191, days: 13, programs: 12 },
+  insertions: GWM_JUN_INSERTIONS,
+  days: GWM_JUN_DAYS,
+  dayNames: GWM_JUN_DAY_NAMES,
+  gradeNote: "191 insercoes, 18-30/06",
+};
+
+type GWMCampaignData = {
+  campaignDays: { date: string; label: string; hours: { hour: string; sessions: number }[] }[];
+  baselineDays: { date: string; label: string; hours: { hour: string; sessions: number }[] }[];
+  programImpact: { program: string; brand: string; date: string; hour: number; sessionsBefore: number; sessionsAfter: number; lift: number; windowLift: number }[];
+  leadsByDay: { date: string; contacts: number; leads: number; baseContacts: number; baseLeads: number; leadsLift: number | null; contactsLift: number | null }[];
+  totalLeads: number;
+  totalContacts: number;
+  totalBaseLeads: number;
+  totalBaseContacts: number;
+  totalLeadsLift: number | null;
+  totalContactsLift: number | null;
+  responseWindow: { hour: string; avgLift: number; insertions: number }[];
+};
+
 function GWMCampaignDetail() {
   const { data, isLoading } = trpc.analytics.gwmCampaign.useQuery(undefined, { staleTime: 5 * 60 * 1000 });
+  return <GWMCampaignView config={GWM_MAI_CONFIG} data={data} isLoading={isLoading} />;
+}
+
+function GWMJunCampaignDetail() {
+  const { data, isLoading } = trpc.analytics.gwmJunCampaign.useQuery(undefined, { staleTime: 5 * 60 * 1000 });
+  return <GWMCampaignView config={GWM_JUN_CONFIG} data={data} isLoading={isLoading} />;
+}
+
+function GWMCampaignView({ config, data, isLoading }: { config: GWMCampaignConfig; data: GWMCampaignData | undefined; isLoading: boolean }) {
   const [selectedDay, setSelectedDay] = useState(0);
   const [showInsertions, setShowInsertions] = useState(false);
   const [showImpactTable, setShowImpactTable] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const handleDownloadGWMPDF = async () => {
+    if (!config.pdf) return;
     setIsGeneratingPDF(true);
     try {
       // Relatório de campanha passada: pré-gerado e servido como arquivo estático
-      const response = await fetch(`${import.meta.env.BASE_URL}reports/Relatorio-TV-GWM-Maio-2026.pdf`);
+      const response = await fetch(`${import.meta.env.BASE_URL}reports/${config.pdf.file}`);
       if (!response.ok) throw new Error("Erro ao gerar PDF");
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "Relatorio-TV-GWM-Maio-2026.pdf";
+      a.download = config.pdf.file;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -2215,13 +2317,7 @@ function GWMCampaignDetail() {
     }
   };
 
-  // Todos os dias da campanha GWM conforme mapa de mídia (21-31/05/2026)
-  const dayNames: Record<string, string> = {
-    "2026-05-21": "Qui 21/05", "2026-05-22": "Sex 22/05", "2026-05-23": "Sab 23/05",
-    "2026-05-24": "Dom 24/05", "2026-05-25": "Seg 25/05", "2026-05-26": "Ter 26/05",
-    "2026-05-27": "Qua 27/05", "2026-05-28": "Qui 28/05", "2026-05-29": "Sex 29/05",
-    "2026-05-30": "Sab 30/05", "2026-05-31": "Dom 31/05",
-  };
+  const dayNames = config.dayNames;
 
   // Build chart data for selected day
   const currentDayData = data?.campaignDays[selectedDay];
@@ -2234,7 +2330,7 @@ function GWMCampaignDetail() {
 
   // Insertions for selected day
   const currentDate = currentDayData?.date || "";
-  const dayInsertions = GWM_MAI_INSERTIONS.filter(ins => ins.date === currentDate);
+  const dayInsertions = config.insertions.filter(ins => ins.date === currentDate);
 
   // Program impact ranking (unique programs, best lift)
   const programRanking = Object.values(
@@ -2249,7 +2345,7 @@ function GWMCampaignDetail() {
     .sort((a, b) => b.avgLift - a.avgLift);
 
   // Program summary for accordion
-  const programSummary = GWM_MAI_INSERTIONS.reduce((acc: Record<string, { count: number; duration: string; hours: number[] }>, ins) => {
+  const programSummary = config.insertions.reduce((acc: Record<string, { count: number; duration: string; hours: number[] }>, ins) => {
     if (!acc[ins.program]) acc[ins.program] = { count: 0, duration: ins.duration, hours: [] };
     acc[ins.program].count += 1;
     if (!acc[ins.program].hours.includes(ins.hour)) acc[ins.program].hours.push(ins.hour);
@@ -2266,21 +2362,21 @@ function GWMCampaignDetail() {
               <Activity className="w-5 h-5 text-emerald-400" />
             </div>
             <div>
-              <div className="text-base font-bold text-white">GWM, Maio 2026</div>
-              <div className="text-xs text-slate-400">21 a 31 de maio de 2026, Rede Globo e GloboNews</div>
+              <div className="text-base font-bold text-white">{config.title}</div>
+              <div className="text-xs text-slate-400">{config.subtitle}</div>
             </div>
           </div>
           <div className="flex gap-4">
             <div className="text-center">
-              <div className="text-xl font-bold text-emerald-400">171</div>
+              <div className="text-xl font-bold text-emerald-400">{config.stats.insertions}</div>
               <div className="text-xs text-slate-400">insercoes totais</div>
             </div>
             <div className="text-center">
-              <div className="text-xl font-bold text-white">11</div>
+              <div className="text-xl font-bold text-white">{config.stats.days}</div>
               <div className="text-xs text-slate-400">dias de campanha</div>
             </div>
             <div className="text-center">
-              <div className="text-xl font-bold text-white">11</div>
+              <div className="text-xl font-bold text-white">{config.stats.programs}</div>
               <div className="text-xs text-slate-400">programas</div>
             </div>
           </div>
@@ -2288,35 +2384,37 @@ function GWMCampaignDetail() {
       </div>
 
       {/* PDF Download Banner */}
-      <div className="bg-gradient-to-r from-emerald-900/30 to-slate-900 border border-emerald-500/20 rounded-xl p-4 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-            <Activity className="w-4 h-4 text-emerald-400" />
+      {config.pdf && (
+        <div className="bg-gradient-to-r from-emerald-900/30 to-slate-900 border border-emerald-500/20 rounded-xl p-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+              <Activity className="w-4 h-4 text-emerald-400" />
+            </div>
+            <div>
+              <div className="text-sm font-bold text-white">{config.pdf.title}</div>
+              <div className="text-xs text-slate-400">{config.pdf.desc}</div>
+            </div>
           </div>
-          <div>
-            <div className="text-sm font-bold text-white">Relatorio Completo, GWM Maio 2026</div>
-            <div className="text-xs text-slate-400">Resumo executivo + analise por dia (11 dias) + ranking de programas · 13 paginas · PDF</div>
-          </div>
+          <button
+            onClick={handleDownloadGWMPDF}
+            disabled={isGeneratingPDF}
+            className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
+          >
+            {isGeneratingPDF ? (
+              <span className="animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full inline-block" />
+            ) : (
+              <span>&#11015;</span>
+            )}
+            <span>{isGeneratingPDF ? "Gerando PDF..." : "Gerar PDF"}</span>
+          </button>
         </div>
-        <button
-          onClick={handleDownloadGWMPDF}
-          disabled={isGeneratingPDF}
-          className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
-        >
-          {isGeneratingPDF ? (
-            <span className="animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full inline-block" />
-          ) : (
-            <span>&#11015;</span>
-          )}
-          <span>{isGeneratingPDF ? "Gerando PDF..." : "Gerar PDF"}</span>
-        </button>
-      </div>
+      )}
 
       {/* Day selector */}
       <div>
         <p className="text-xs text-muted-foreground mb-2">Selecione o dia para ver o grafico hora a hora:</p>
         <div className="flex flex-wrap gap-1.5">
-          {(data?.campaignDays || GWM_MAI_DAYS.map((d, i) => ({ date: d, label: dayNames[d], hours: [] }))).map((day, i) => (
+          {(data?.campaignDays || config.days.map((d, i) => ({ date: d, label: dayNames[d], hours: [] }))).map((day, i) => (
             <button
               key={day.date}
               onClick={() => setSelectedDay(i)}
@@ -2611,7 +2709,7 @@ function GWMCampaignDetail() {
         >
           <div>
             <span className="text-sm font-semibold text-foreground">Grade de Veiculacao</span>
-            <span className="text-xs text-muted-foreground ml-2">171 insercoes, 21-31/05</span>
+            <span className="text-xs text-muted-foreground ml-2">{config.gradeNote}</span>
           </div>
           <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${showInsertions ? "rotate-180" : ""}`} />
         </button>
@@ -3670,7 +3768,7 @@ function CarreraDaysCampaignDetail() {
 
 // ---- TV TAB (campaign selector) ----
 function TVTab() {
-  const [activeCampaign, setActiveCampaign] = useState<"carrera-days" | "gwm-mai-2026" | null>(null);
+  const [activeCampaign, setActiveCampaign] = useState<"carrera-days" | "gwm-mai-2026" | "gwm-jun-2026" | null>(null);
 
   if (activeCampaign === "carrera-days") {
     return (
@@ -3696,6 +3794,20 @@ function TVTab() {
           <span>&#8592;</span> Voltar para campanhas
         </button>
         <GWMCampaignDetail />
+      </div>
+    );
+  }
+
+  if (activeCampaign === "gwm-jun-2026") {
+    return (
+      <div className="space-y-4">
+        <button
+          onClick={() => setActiveCampaign(null)}
+          className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <span>&#8592;</span> Voltar para campanhas
+        </button>
+        <GWMJunCampaignDetail />
       </div>
     );
   }
@@ -3745,7 +3857,7 @@ function TVTab() {
             <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
               <Activity className="w-5 h-5 text-emerald-400" />
             </div>
-            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">Em andamento</span>
+            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Concluida</span>
           </div>
           <div className="text-sm font-bold text-foreground mb-1">GWM, Maio 2026</div>
           <div className="text-xs text-muted-foreground mb-3">21 a 31 de maio de 2026, Rede Globo e GloboNews</div>
@@ -3760,6 +3872,32 @@ function TVTab() {
             </div>
           </div>
           <div className="mt-3 text-xs text-emerald-400 font-medium group-hover:underline">Ver grade de veiculacao &#8594;</div>
+        </button>
+
+        {/* GWM Jun/2026 */}
+        <button
+          onClick={() => setActiveCampaign("gwm-jun-2026")}
+          className="text-left bg-card border border-border hover:border-emerald-500/40 rounded-xl p-5 transition-all group"
+        >
+          <div className="flex items-start justify-between mb-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+              <Activity className="w-5 h-5 text-emerald-400" />
+            </div>
+            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Concluida</span>
+          </div>
+          <div className="text-sm font-bold text-foreground mb-1">GWM, Junho 2026</div>
+          <div className="text-xs text-muted-foreground mb-3">18 a 30 de junho de 2026, TV Globo SP e GloboNews</div>
+          <div className="flex gap-4">
+            <div>
+              <div className="text-lg font-bold text-emerald-400">191</div>
+              <div className="text-xs text-muted-foreground">insercoes totais</div>
+            </div>
+            <div>
+              <div className="text-lg font-bold text-foreground">13 dias</div>
+              <div className="text-xs text-muted-foreground">de campanha</div>
+            </div>
+          </div>
+          <div className="mt-3 text-xs text-emerald-400 font-medium group-hover:underline">Ver analise completa &#8594;</div>
         </button>
       </div>
 

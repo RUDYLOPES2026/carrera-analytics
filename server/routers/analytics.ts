@@ -23,6 +23,7 @@ import {
   getTVCampaignData,
   getTVLeadsData,
   getGWMCampaignData,
+  getGWMJunCampaignData,
   // LPs
   getLPsRealtimeUsers,
   getLPsKeyMetrics,
@@ -183,6 +184,10 @@ export const analyticsRouter = router({
 
   gwmCampaign: publicProcedure.query(async () => {
     return getGWMCampaignData();
+  }),
+
+  gwmJunCampaign: publicProcedure.query(async () => {
+    return getGWMJunCampaignData();
   }),
 
   // ─── Carrera LPs (property 503617174) ────────────────────────────────────

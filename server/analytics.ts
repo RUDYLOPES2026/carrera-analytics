@@ -3270,6 +3270,245 @@ export async function getGWMCampaignData(): Promise<{
   return { campaignDays, baselineDays, programImpact, leadsByDay, totalLeads, totalContacts, totalBaseLeads, totalBaseContacts, totalLeadsLift, totalContactsLift, responseWindow };
 }
 
+// ---- GWM JUN 2026 CAMPAIGN DATA ----
+// Mapa de mídia GWM junho/2026: TV Globo SP (23 inserções) + GloboNews nacional (168 inserções), 18-30/06
+const gwmJunIns = (program: string, hour: number, duration: string, days: Record<number, number>) =>
+  Object.entries(days).flatMap(([d, n]) =>
+    Array(n).fill(null).map(() => ({
+      date: `2026-06-${String(d).padStart(2, "0")}`,
+      program,
+      hour,
+      duration,
+      brand: "GWM",
+    }))
+  );
+
+export const GWM_JUN_INSERTIONS_DATA = [
+  // TV Globo SP
+  ...gwmJunIns("Bom Dia Praca", 8, "15s", { 18: 1, 19: 1, 24: 1, 25: 1, 26: 2 }),
+  ...gwmJunIns("Praca TV 1a Edicao", 12, "15s", { 18: 1, 19: 1, 20: 1, 24: 1, 25: 1, 26: 2, 27: 1 }),
+  ...gwmJunIns("Globo Esporte", 13, "30s", { 25: 1, 26: 1 }),
+  ...gwmJunIns("Jornal Hoje", 14, "30s", { 24: 1, 25: 1, 26: 1 }),
+  ...gwmJunIns("Pequenas Empresas Grandes Negocios", 8, "15s", { 20: 1, 27: 1 }),
+  ...gwmJunIns("E de Casa", 9, "15s", { 20: 1, 27: 1 }),
+  // GloboNews (nacional)
+  ...gwmJunIns("Faixa 06h-12h", 9, "30s", { 18: 4, 19: 4, 21: 4, 22: 4, 23: 4, 24: 4, 25: 4, 26: 4, 29: 4, 30: 4 }),
+  ...gwmJunIns("Faixa 12h-18h", 15, "30s", { 18: 4, 19: 4, 22: 4, 23: 4, 24: 4, 25: 4, 26: 4, 29: 4, 30: 4 }),
+  ...gwmJunIns("Faixa 18h-01h", 19, "30s", { 18: 4, 19: 4, 22: 4, 23: 4, 24: 4, 25: 4, 26: 2, 29: 4, 30: 4 }),
+  ...gwmJunIns("Estudio I", 13, "30s", { 18: 2, 19: 2, 20: 2, 22: 2, 23: 2, 24: 2, 25: 2, 26: 2, 27: 2, 29: 2, 30: 2 }),
+  ...gwmJunIns("GloboNews em Ponto", 17, "30s", { 18: 2, 19: 2, 22: 2, 23: 2, 24: 2, 25: 2, 26: 2, 29: 2, 30: 2 }),
+  ...gwmJunIns("GloboNews em Pauta", 20, "30s", { 18: 2, 19: 2, 22: 2, 23: 2, 24: 2, 25: 2, 26: 2, 29: 2, 30: 2 }),
+];
+
+export async function getGWMJunCampaignData(): Promise<{
+  campaignDays: { date: string; label: string; hours: { hour: string; sessions: number }[] }[];
+  baselineDays: { date: string; label: string; hours: { hour: string; sessions: number }[] }[];
+  programImpact: { program: string; brand: string; date: string; hour: number; sessionsBefore: number; sessionsAfter: number; lift: number; windowLift: number }[];
+  leadsByDay: { date: string; contacts: number; leads: number; baseContacts: number; baseLeads: number; leadsLift: number | null; contactsLift: number | null }[];
+  totalLeads: number;
+  totalContacts: number;
+  totalBaseLeads: number;
+  totalBaseContacts: number;
+  totalLeadsLift: number | null;
+  totalContactsLift: number | null;
+  responseWindow: { hour: string; avgLift: number; insertions: number }[];
+}> {
+  // Campanha: 18-30/06/2026. Baseline: mesmo dia da semana na semana anterior à campanha (11-17/06);
+  // dias 25-30/06 usam 2 semanas antes, pois a semana anterior já é campanha.
+  const dayLabels: Record<string, string> = {
+    "2026-06-11": "Qui 11/06", "2026-06-12": "Sex 12/06", "2026-06-13": "Sab 13/06",
+    "2026-06-14": "Dom 14/06", "2026-06-15": "Seg 15/06", "2026-06-16": "Ter 16/06",
+    "2026-06-17": "Qua 17/06", "2026-06-18": "Qui 18/06", "2026-06-19": "Sex 19/06",
+    "2026-06-20": "Sab 20/06", "2026-06-21": "Dom 21/06", "2026-06-22": "Seg 22/06",
+    "2026-06-23": "Ter 23/06", "2026-06-24": "Qua 24/06", "2026-06-25": "Qui 25/06",
+    "2026-06-26": "Sex 26/06", "2026-06-27": "Sab 27/06", "2026-06-28": "Dom 28/06",
+    "2026-06-29": "Seg 29/06", "2026-06-30": "Ter 30/06",
+  };
+
+  // Filtro de paginas GWM/Haval para leads
+  const gwmLeadsFilter = {
+    andGroup: {
+      expressions: [
+        { filter: { fieldName: "eventName", inListFilter: { values: ["generate_lead", "contact"] } } },
+        {
+          orGroup: {
+            expressions: [
+              { filter: { fieldName: "pagePath", stringFilter: { matchType: "CONTAINS", value: "/gwm" } } },
+              { filter: { fieldName: "pagePath", stringFilter: { matchType: "CONTAINS", value: "/haval" } } },
+            ],
+          },
+        },
+      ],
+    },
+  };
+
+  const [sessionsData, leadsData, leadsBaselineData] = await Promise.all([
+    gaRequest(":runReport", {
+      dateRanges: [{ startDate: "2026-06-11", endDate: "2026-06-30" }],
+      dimensions: [{ name: "dateHour" }],
+      metrics: [{ name: "sessions" }],
+      orderBys: [{ dimension: { dimensionName: "dateHour" } }],
+    }),
+    gaRequest(":runReport", {
+      dateRanges: [{ startDate: "2026-06-18", endDate: "2026-06-30" }],
+      dimensions: [{ name: "date" }, { name: "eventName" }, { name: "pagePath" }],
+      metrics: [{ name: "eventCount" }],
+      dimensionFilter: gwmLeadsFilter,
+    }),
+    gaRequest(":runReport", {
+      dateRanges: [{ startDate: "2026-06-11", endDate: "2026-06-17" }],
+      dimensions: [{ name: "date" }, { name: "eventName" }],
+      metrics: [{ name: "eventCount" }],
+      dimensionFilter: gwmLeadsFilter,
+    }),
+  ]);
+
+  const hourMap: Record<string, Record<string, number>> = {};
+  (sessionsData.rows || []).forEach((row: any) => {
+    const dateHour: string = row.dimensionValues[0].value;
+    const date = `${dateHour.slice(0, 4)}-${dateHour.slice(4, 6)}-${dateHour.slice(6, 8)}`;
+    const hour = dateHour.slice(-2);
+    if (!hourMap[date]) hourMap[date] = {};
+    hourMap[date][hour] = (hourMap[date][hour] || 0) + parseInt(row.metricValues[0].value);
+  });
+
+  const buildDayHours = (date: string) =>
+    Array.from({ length: 24 }, (_, i) => {
+      const h = String(i).padStart(2, "0");
+      return { hour: `${h}:00`, sessions: hourMap[date]?.[h] || 0 };
+    });
+
+  const gwmCampaignDates = ["2026-06-18","2026-06-19","2026-06-20","2026-06-21","2026-06-22","2026-06-23","2026-06-24","2026-06-25","2026-06-26","2026-06-27","2026-06-28","2026-06-29","2026-06-30"];
+  const campaignDays = gwmCampaignDates.map(date => ({
+    date,
+    label: dayLabels[date] || date,
+    hours: buildDayHours(date),
+  }));
+
+  // Baseline: mesmo dia da semana na semana pre-campanha (11-17/06)
+  const baselineMap: Record<string, string> = {
+    "2026-06-18": "2026-06-11", // Qui -> Qui
+    "2026-06-19": "2026-06-12", // Sex -> Sex
+    "2026-06-20": "2026-06-13", // Sab -> Sab
+    "2026-06-21": "2026-06-14", // Dom -> Dom
+    "2026-06-22": "2026-06-15", // Seg -> Seg
+    "2026-06-23": "2026-06-16", // Ter -> Ter
+    "2026-06-24": "2026-06-17", // Qua -> Qua
+    "2026-06-25": "2026-06-11", // Qui (2 semanas antes)
+    "2026-06-26": "2026-06-12", // Sex
+    "2026-06-27": "2026-06-13", // Sab
+    "2026-06-28": "2026-06-14", // Dom
+    "2026-06-29": "2026-06-15", // Seg
+    "2026-06-30": "2026-06-16", // Ter
+  };
+  const baselineDays = gwmCampaignDates.map(date => {
+    const bDate = baselineMap[date] || date;
+    return {
+      date: bDate,
+      label: dayLabels[bDate] || bDate,
+      hours: buildDayHours(bDate),
+    };
+  });
+
+  const availableDates = new Set(gwmCampaignDates);
+  const programImpact = GWM_JUN_INSERTIONS_DATA
+    .filter(ins => availableDates.has(ins.date))
+    .map(ins => {
+      const campaignDay = campaignDays.find(d => d.date === ins.date);
+      const baselineDate = baselineMap[ins.date];
+      const baselineDay = baselineDays.find(d => d.date === baselineDate);
+      const hourStr = String(ins.hour).padStart(2, "0") + ":00";
+      const sessionsAfter = campaignDay?.hours.find(h => h.hour === hourStr)?.sessions || 0;
+      const sessionsBefore = baselineDay?.hours.find(h => h.hour === hourStr)?.sessions || 0;
+      const lift = sessionsBefore > 0 ? Math.round(((sessionsAfter - sessionsBefore) / sessionsBefore) * 100) : 0;
+      const windowAfter = [0,1,2].reduce((sum, offset) => {
+        const wh = String(ins.hour + offset).padStart(2, "0") + ":00";
+        return sum + (campaignDay?.hours.find(h => h.hour === wh)?.sessions || 0);
+      }, 0);
+      const windowBefore = [0,1,2].reduce((sum, offset) => {
+        const wh = String(ins.hour + offset).padStart(2, "0") + ":00";
+        return sum + (baselineDay?.hours.find(h => h.hour === wh)?.sessions || 0);
+      }, 0);
+      const windowLift = windowBefore > 0 ? Math.round(((windowAfter - windowBefore) / windowBefore) * 100) : 0;
+      return { program: ins.program, brand: ins.brand, date: ins.date, hour: ins.hour, sessionsBefore, sessionsAfter, lift, windowLift };
+    });
+
+  // Leads/contatos por dia (campanha 18-30/06)
+  const leadsMap: Record<string, { contacts: number; leads: number }> = {};
+  (leadsData.rows || []).forEach((row: any) => {
+    const rawDate: string = row.dimensionValues[0].value;
+    const date = rawDate.length === 8
+      ? `${rawDate.slice(0, 4)}-${rawDate.slice(4, 6)}-${rawDate.slice(6, 8)}`
+      : rawDate;
+    const event = row.dimensionValues[1].value;
+    const count = parseInt(row.metricValues[0].value);
+    if (!leadsMap[date]) leadsMap[date] = { contacts: 0, leads: 0 };
+    if (event === "contact") leadsMap[date].contacts += count;
+    else if (event === "generate_lead") leadsMap[date].leads += count;
+  });
+
+  const baselineLeadsMap: Record<string, { contacts: number; leads: number }> = {};
+  (leadsBaselineData.rows || []).forEach((row: any) => {
+    const rawDate: string = row.dimensionValues[0].value;
+    const date = rawDate.length === 8
+      ? `${rawDate.slice(0, 4)}-${rawDate.slice(4, 6)}-${rawDate.slice(6, 8)}`
+      : rawDate;
+    const event = row.dimensionValues[1].value;
+    const count = parseInt(row.metricValues[0].value);
+    if (!baselineLeadsMap[date]) baselineLeadsMap[date] = { contacts: 0, leads: 0 };
+    if (event === "contact") baselineLeadsMap[date].contacts += count;
+    else if (event === "generate_lead") baselineLeadsMap[date].leads += count;
+  });
+
+  const leadsByDay = gwmCampaignDates.map(date => {
+    const baseDate = baselineMap[date];
+    const camp = leadsMap[date] || { contacts: 0, leads: 0 };
+    const base = baselineLeadsMap[baseDate] || { contacts: 0, leads: 0 };
+    const leadsLift = base.leads > 0 ? Math.round(((camp.leads - base.leads) / base.leads) * 100) : null;
+    const contactsLift = base.contacts > 0 ? Math.round(((camp.contacts - base.contacts) / base.contacts) * 100) : null;
+    return {
+      date,
+      contacts: camp.contacts,
+      leads: camp.leads,
+      baseContacts: base.contacts,
+      baseLeads: base.leads,
+      leadsLift,
+      contactsLift,
+    };
+  });
+  const totalContacts = leadsByDay.reduce((s, d) => s + d.contacts, 0);
+  const totalLeads = leadsByDay.reduce((s, d) => s + d.leads, 0);
+  const totalBaseLeads = leadsByDay.reduce((s, d) => s + d.baseLeads, 0);
+  const totalBaseContacts = leadsByDay.reduce((s, d) => s + d.baseContacts, 0);
+  const totalLeadsLift = totalBaseLeads > 0 ? Math.round(((totalLeads - totalBaseLeads) / totalBaseLeads) * 100) : null;
+  const totalContactsLift = totalBaseContacts > 0 ? Math.round(((totalContacts - totalBaseContacts) / totalBaseContacts) * 100) : null;
+
+  // Janela de resposta: lift medio por deslocamento de hora apos a insercao (0h a 3h)
+  const windowBuckets: Record<number, { totalLift: number; count: number }> = {};
+  for (let offset = 0; offset <= 3; offset++) windowBuckets[offset] = { totalLift: 0, count: 0 };
+  programImpact.forEach(ins => {
+    const campaignDay = campaignDays.find(d => d.date === ins.date);
+    const baselineDate = baselineMap[ins.date];
+    const baselineDay = baselineDays.find(d => d.date === baselineDate);
+    for (let offset = 0; offset <= 3; offset++) {
+      const wh = String(ins.hour + offset).padStart(2, "0") + ":00";
+      const after = campaignDay?.hours.find(h => h.hour === wh)?.sessions || 0;
+      const before = baselineDay?.hours.find(h => h.hour === wh)?.sessions || 0;
+      if (before > 0) {
+        windowBuckets[offset].totalLift += Math.round(((after - before) / before) * 100);
+        windowBuckets[offset].count++;
+      }
+    }
+  });
+  const responseWindow = [0,1,2,3].map(offset => ({
+    hour: offset === 0 ? "Na hora" : `+${offset}h`,
+    avgLift: windowBuckets[offset].count > 0 ? Math.round(windowBuckets[offset].totalLift / windowBuckets[offset].count) : 0,
+    insertions: windowBuckets[offset].count,
+  }));
+
+  return { campaignDays, baselineDays, programImpact, leadsByDay, totalLeads, totalContacts, totalBaseLeads, totalBaseContacts, totalLeadsLift, totalContactsLift, responseWindow };
+}
+
 
 // ---- OVERVIEW FILTERS -------------------------------------------------------
 // Builds a GA4 dimensionFilter combining optional URL filter and UTM filters.
