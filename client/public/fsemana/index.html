@@ -113,6 +113,7 @@
   .mini .nm .sw { width:10px; height:10px; border-radius:3px; flex:none; }
   .mini .ytd { font-size:11.5px; color:var(--muted); margin-left:auto; font-weight:400; }
   .mini .big { font-size:23px; font-weight:680; letter-spacing:-.01em; margin-top:4px; }
+  .mini .big .cur { font-size:11.5px; color:var(--muted); font-weight:400; margin-left:7px; letter-spacing:0; }
   .mini .dlt { font-size:11.5px; color:var(--muted); }
   .mini svg { display:block; width:100%; height:auto; margin-top:4px; }
 
@@ -327,23 +328,24 @@ function tile(parent, lbl, val, deltaTxt, dir, vals){
 (function kpis(){
   const box = document.getElementById('kpis');
   const last = G[G.length-1], prev = G[G.length-2];
+  const vsPrev = 'vs fds ' + prev.label;
+  const dtx = (dv, base) => (dv>=0?'+':'') + fmt(dv) + (base > 0 ? ' (' + (dv>=0?'+':'') + pct(dv/base,1) + ')' : '');
   const dG = last.gFS - prev.gFS;
-  tile(box, 'Novos do grupo no fds (sex+sáb)', fmt(last.gFS),
-    {txt: (dG>=0?'+':'') + fmt(dG) + ' (' + pct(dG/prev.gFS) + ')', ref:'vs fds anterior'},
-    Math.sign(dG), G.map(w=>w.gFS));
+  tile(box, 'Novos do grupo · fds ' + last.label + ' (sex+sáb)', fmt(last.gFS),
+    {txt: dtx(dG, prev.gFS), ref:vsPrev}, Math.sign(dG), G.map(w=>w.gFS));
   const ytd = G.reduce((a,w)=>a+(w.gTotal||0),0);
-  tile(box, 'Acumulado 2026 (novos, fds)', fmt(ytd), {txt:'25 fins de semana', ref:''}, 0, null);
+  tile(box, 'Acumulado 2026 (novos, fds)', fmt(ytd), {txt:G.length + ' fins de semana', ref:''}, 0, null);
   const dW = last.mkFS['GWM'] - prev.mkFS['GWM'];
   tile(box, 'GWM no fds (sex+sáb)', fmt(last.mkFS['GWM']),
-    {txt:(dW>=0?'+':'')+fmt(dW), ref:'vs fds anterior'}, Math.sign(dW), G.map(w=>w.mkFS['GWM']));
+    {txt:dtx(dW, prev.mkFS['GWM']), ref:vsPrev}, Math.sign(dW), G.map(w=>w.mkFS['GWM']));
   const lc = DATA[DATA.length-1].chev;
   tile(box, 'Chevrolet SP na semana (N+S)', fmt(lc.total),
     {txt: pct(lc.var), ref:'vs semana de referência'}, Math.sign(lc.var), DATA.map(w=>w.chev.total));
   tile(box, 'Seminovos GM no fds', fmt(last.semiGM),
-    {txt:(last.semiGM-prev.semiGM>=0?'+':'')+fmt(last.semiGM-prev.semiGM), ref:'vs fds anterior'},
+    {txt:dtx(last.semiGM-prev.semiGM, prev.semiGM), ref:vsPrev},
     Math.sign(last.semiGM-prev.semiGM), G.map(w=>w.semiGM));
   tile(box, 'Motos Bajaj no fds', fmt(last.bajaj),
-    {txt:(last.bajaj-prev.bajaj>=0?'+':'')+fmt(last.bajaj-prev.bajaj), ref:'vs fds anterior'},
+    {txt:dtx(last.bajaj-prev.bajaj, prev.bajaj), ref:vsPrev},
     Math.sign(last.bajaj-prev.bajaj), G.map(w=>w.bajaj));
 })();
 
@@ -605,11 +607,16 @@ function chartMulti(){
     const card = el('div','mini',box);
     const nm = el('div','nm',card); const sw = el('span','sw',nm); sw.style.background = COR[m];
     nm.append(NOME[m]); el('span','ytd',nm, fmt(ytd) + ' no ano');
-    el('div','big',card, fmt(vals[vals.length-1]));
-    const dv = vals.length > 1 ? vals[vals.length-1] - vals[vals.length-2] : null;
+    const big = el('div','big',card, fmt(vals[vals.length-1]));
+    el('span','cur',big, 'fds ' + G[G.length-1].label);
+    const prev = vals.length > 1 ? vals[vals.length-2] : null;
+    const dv = prev == null ? null : vals[vals.length-1] - prev;
     const dl = el('div','dlt',card);
-    if (dv != null){ el('span', dv>0?'up':dv<0?'down':'', dl, (dv>0?'▲ +':dv<0?'▼ ':'▬ ') + fmt(dv));
-      dl.append(' vs fds anterior'); }
+    if (dv != null){
+      const ptxt = prev > 0 ? ' (' + (dv>0?'+':'') + pct(dv/prev,0) + ')' : '';
+      el('span', dv>0?'up':dv<0?'down':'', dl, (dv>0?'▲ +':dv<0?'▼ ':'▬ ') + fmt(dv) + ptxt);
+      dl.append(' vs fds ' + G[G.length-2].label);
+    }
     const W = 240, H = 74, mX = 6, mY = 8;
     const svg = S('svg',{viewBox:`0 0 ${W} ${H}`},card);
     const max = Math.max(...vals, 1);
