@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Vendas Grupo Carrera · FSEMANA 2026</title>
+<style>
+  :root {
+    --page:#f9f9f7; --card:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --ring:rgba(11,11,11,0.10);
+    --good:#006300; --bad:#d03b3b; --band:rgba(42,120,214,0.06);
+    --s1:#2a78d6; --s2:#1baf7a; --s3:#eda100; --s4:#008300;
+    --s5:#4a3aa7; --s6:#e34948; --s7:#e87ba4; --s8:#eb6834;
+    --wash1:rgba(42,120,214,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page:#0d0d0d; --card:#1a1a19; --ink:#ffffff; --ink2:#c3c2b7; --muted:#898781;
+      --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,0.10);
+      --good:#0ca30c; --bad:#e66767; --band:rgba(57,135,229,0.10);
+      --s1:#3987e5; --s2:#199e70; --s3:#c98500; --s4:#008300;
+      --s5:#9085e9; --s6:#e66767; --s7:#d55181; --s8:#d95926;
+      --wash1:rgba(57,135,229,0.14);
+    }
+  }
+  :root[data-theme="dark"] {
+    --page:#0d0d0d; --card:#1a1a19; --ink:#ffffff; --ink2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,0.10);
+    --good:#0ca30c; --bad:#e66767; --band:rgba(57,135,229,0.10);
+    --s1:#3987e5; --s2:#199e70; --s3:#c98500; --s4:#008300;
+    --s5:#9085e9; --s6:#e66767; --s7:#d55181; --s8:#d95926;
+    --wash1:rgba(57,135,229,0.14);
+  }
+  :root[data-theme="light"] {
+    --page:#f9f9f7; --card:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --ring:rgba(11,11,11,0.10);
+    --good:#006300; --bad:#d03b3b; --band:rgba(42,120,214,0.06);
+    --s1:#2a78d6; --s2:#1baf7a; --s3:#eda100; --s4:#008300;
+    --s5:#4a3aa7; --s6:#e34948; --s7:#e87ba4; --s8:#eb6834;
+    --wash1:rgba(42,120,214,0.10);
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--page); color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.5; }
+  .wrap { max-width:1080px; margin:0 auto; padding:36px 20px 64px; }
+
+  .eyebrow { font-size:11px; font-weight:650; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:27px; font-weight:750; letter-spacing:-.015em; margin:6px 0 6px; text-wrap:balance; }
+  .sub { color:var(--ink2); margin:0; max-width:72ch; }
+  .metodo { margin-top:14px; padding:10px 14px; background:var(--card); border:1px solid var(--ring);
+    border-radius:10px; color:var(--ink2); font-size:13.5px; max-width:78ch; }
+  .metodo b { color:var(--ink); }
+
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin:22px 0 8px; }
+  .tile { background:var(--card); border:1px solid var(--ring); border-radius:12px; padding:14px 16px 12px; }
+  .tile .lbl { font-size:12.5px; color:var(--ink2); }
+  .tile .val { font-size:30px; font-weight:680; letter-spacing:-.01em; margin-top:2px; }
+  .tile .delta { font-size:12.5px; margin-top:2px; color:var(--muted); }
+  .tile .delta .up { color:var(--good); font-weight:600; }
+  .tile .delta .down { color:var(--bad); font-weight:600; }
+  .tile svg { display:block; margin-top:8px; }
+
+  .card { background:var(--card); border:1px solid var(--ring); border-radius:14px;
+    padding:18px 20px 14px; margin-top:16px; }
+  .card h2 { font-size:16px; font-weight:700; margin:0; letter-spacing:-.005em; }
+  .card .desc { font-size:13px; color:var(--ink2); margin:2px 0 0; }
+  .card-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  .chart { position:relative; margin-top:10px; }
+  .chart svg { display:block; width:100%; height:auto; }
+
+  .legend { display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:10px; font-size:12.5px; color:var(--ink2); }
+  .legend .it { display:inline-flex; align-items:center; gap:7px; }
+  .legend .sw { width:12px; height:12px; border-radius:3px; }
+  .legend .ln { width:16px; height:2.5px; border-radius:2px; }
+
+  .toggle { display:inline-flex; border:1px solid var(--ring); border-radius:8px; overflow:hidden; }
+  .toggle button { border:0; background:transparent; color:var(--ink2); font:inherit; font-size:12.5px;
+    padding:5px 12px; cursor:pointer; }
+  .toggle button.on { background:var(--band); color:var(--ink); font-weight:650; }
+  .toggle button:focus-visible { outline:2px solid var(--s1); outline-offset:-2px; }
+
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .chip { font-size:12px; color:var(--ink2); background:var(--band); border-radius:999px; padding:3px 10px; }
+  .chip b { color:var(--ink); font-weight:650; }
+
+  .tt { position:absolute; pointer-events:none; background:var(--card); border:1px solid var(--ring);
+    border-radius:10px; padding:9px 12px; font-size:12.5px; box-shadow:0 4px 16px rgba(0,0,0,.12);
+    min-width:150px; z-index:5; display:none; }
+  .tt .h { font-weight:700; margin-bottom:5px; color:var(--ink); }
+  .tt .r { display:flex; align-items:center; gap:7px; margin-top:2px; color:var(--ink2); }
+  .tt .r .k { width:14px; height:2.5px; border-radius:2px; flex:none; }
+  .tt .r b { color:var(--ink); font-variant-numeric:tabular-nums; margin-left:auto; padding-left:14px; }
+  .tt .note { margin-top:5px; color:var(--muted); font-size:11.5px; }
+
+  .ins-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px; margin-top:12px; }
+  .ins { border:1px solid var(--ring); border-radius:10px; padding:12px 14px; }
+  .ins .t { font-size:13px; font-weight:650; }
+  .ins .n { font-size:26px; font-weight:680; letter-spacing:-.01em; margin-top:2px; }
+  .ins .x { font-size:12.5px; color:var(--ink2); margin-top:4px; }
+  .ins svg { display:block; margin-top:8px; }
+
+  .statrow { display:flex; flex-wrap:wrap; gap:8px 30px; margin:12px 0 2px; }
+  .statrow .n { font-size:22px; font-weight:680; }
+  .statrow .l { font-size:12px; color:var(--ink2); max-width:26ch; }
+
+  .up { color:var(--good); font-weight:600; }
+  .down { color:var(--bad); font-weight:600; }
+
+  .multi { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; margin-top:12px; }
+  .mini { border:1px solid var(--ring); border-radius:10px; padding:10px 12px 6px; position:relative; }
+  .mini .nm { display:flex; align-items:center; gap:7px; font-size:12.5px; font-weight:650; }
+  .mini .nm .sw { width:10px; height:10px; border-radius:3px; flex:none; }
+  .mini .ytd { font-size:11.5px; color:var(--muted); margin-left:auto; font-weight:400; }
+  .mini .big { font-size:23px; font-weight:680; letter-spacing:-.01em; margin-top:4px; }
+  .mini .dlt { font-size:11.5px; color:var(--muted); }
+  .mini svg { display:block; width:100%; height:auto; margin-top:4px; }
+
+  .heat-scroll { overflow-x:auto; margin-top:12px; }
+  .heat { display:grid; gap:2px; font-size:11.5px; width:max-content; }
+  .heat .rl { position:sticky; left:0; background:var(--card); padding:0 10px 0 0; display:flex;
+    align-items:center; justify-content:flex-end; color:var(--ink2); white-space:nowrap; }
+  .heat .cl { color:var(--muted); writing-mode:vertical-rl; transform:rotate(180deg);
+    display:flex; align-items:center; justify-content:flex-start; padding-top:4px; }
+  .heat .cell { width:26px; height:26px; border-radius:4px; cursor:default; }
+  .heat .cell.z { background:transparent; border:1px solid var(--grid); }
+  .heat .ytd { color:var(--ink); font-weight:650; display:flex; align-items:center; padding-left:10px;
+    font-variant-numeric:tabular-nums; }
+
+  details { margin-top:18px; }
+  summary { cursor:pointer; font-weight:650; color:var(--ink2); font-size:14px; }
+  .tbl-scroll { overflow-x:auto; margin-top:10px; }
+  table { border-collapse:collapse; font-size:12.5px; white-space:nowrap; }
+  th, td { padding:5px 10px; text-align:right; font-variant-numeric:tabular-nums; border-bottom:1px solid var(--grid); }
+  th { color:var(--ink2); font-weight:650; position:sticky; top:0; background:var(--card); }
+  th:first-child, td:first-child { text-align:left; }
+  td.ev { text-align:left; color:var(--ink2); }
+
+  footer { margin-top:28px; color:var(--muted); font-size:12.5px; max-width:80ch; }
+  footer p { margin:4px 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .cell, .toggle button { transition:opacity .12s ease; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">Grupo Carrera · Planilha FSemana · 2026</div>
+  <h1>Vendas do fim de semana ao longo do ano</h1>
+  <p class="sub">26 semanas reportadas por Giovanni Mirandola (29/dez a 12/jul), extraídas dos emails
+  "CARRERA SP - PLANILHA FSEMANA 2026". Veículos novos por marca, Chevrolet SP na semana cheia,
+  seminovos, Bajaj e a abertura por loja GM SP.</p>
+  <div class="metodo"><b>Como ler:</b> o grupo não abre todo domingo (normalmente só nos 2 últimos
+  domingos do mês), então em 13 das 25 semanas o domingo é zero. Para comparar qualquer fim de semana
+  com qualquer outro, as séries principais usam <b>sexta + sábado</b>; os fins de semana com domingo
+  aberto ganham uma seção própria logo abaixo. Não houve envio nos fins de semana de 27/fev a 01/mar
+  e de 22 a 24/mai.</div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Padrões que os dados mostram</h2>
+        <p class="desc">Comportamentos recorrentes nas 25 semanas com abertura por marca. Os números são recalculados a cada atualização dos dados.</p>
+      </div>
+    </div>
+    <div class="ins-grid" id="ins"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Novos do grupo por fim de semana</h2>
+        <p class="desc">Soma das 8 marcas. Sexta + sábado em azul; total reportado em cinza, como apoio.</p>
+      </div>
+    </div>
+    <div class="chart" id="ch-grupo"></div>
+    <div class="legend" id="lg-grupo"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Fins de semana com domingo aberto</h2>
+        <p class="desc">O grupo abre normalmente só nos 2 últimos domingos do mês. Aqui entram apenas esses fins de semana: a base sexta + sábado e o que o domingo acrescentou por cima.</p>
+      </div>
+    </div>
+    <div class="statrow" id="st-dom"></div>
+    <div class="chart" id="ch-dom"></div>
+    <div class="legend" id="lg-dom"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Composição por marca (sexta + sábado)</h2>
+        <p class="desc">Quem está puxando o volume do grupo em cada fim de semana.</p>
+      </div>
+      <div class="toggle" role="group" aria-label="Modo de exibição">
+        <button id="bt-vol" class="on">Volume</button><button id="bt-pct">Participação</button>
+      </div>
+    </div>
+    <div class="chart" id="ch-stack"></div>
+    <div class="legend" id="lg-stack"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Cada marca no seu ritmo</h2>
+        <p class="desc">Sexta + sábado por marca, escalas independentes. O número grande é o último fim de semana, comparado com o anterior; à direita, o acumulado do ano.</p>
+      </div>
+    </div>
+    <div class="multi" id="ch-multi"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Chevrolet SP na semana cheia</h2>
+        <p class="desc">Novos e seminovos de segunda a domingo, série de referência do próprio relatório. Faixas azuis marcam semanas de campanha.</p>
+      </div>
+    </div>
+    <div class="chips" id="chips-ev"></div>
+    <div class="chart" id="ch-chev"></div>
+    <div class="legend" id="lg-chev"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Lojas GM SP, fim de semana a fim de semana</h2>
+        <p class="desc">Novos + seminovos por loja (valores como reportados). Quanto mais escuro, mais vendas; célula vazia é fim de semana sem venda.
+        Vila Lobos operou como duas unidades em janeiro (somadas aqui). Rebouças sai da planilha no início de junho, quando entra a Av. Brasil, ainda sem vendas registradas.</p>
+      </div>
+    </div>
+    <div class="heat-scroll"><div class="heat" id="ch-heat"></div></div>
+  </div>
+
+  <details>
+    <summary>Tabela completa, semana a semana</summary>
+    <div class="tbl-scroll" id="tbl"></div>
+  </details>
+
+  <footer>
+    <p>Fonte: anexos dos 26 emails "CARRERA SP - PLANILHA FSEMANA 2026" (10/jan a 11/jul/2026), caixa CARRERA.</p>
+    <p>GWM inclui varejo + venda direta varejo, conforme observação da planilha. "Mesa" é a célula de venda
+    interna da GM SP. A semana de referência do relatório vale 200 unidades (100 novos + 100 seminovos).
+    Domingo zerado significa loja fechada: a abertura acontece normalmente só nos 2 últimos domingos do mês.</p>
+  </footer>
+</div>
+
+<script>
+const DATA = [{"dom":"2026-01-04","label":"29-04 jan","evento":"","chev":{"novos":46,"semi":46,"total":92,"var":-0.54}},{"dom":"2026-01-11","label":"05-11 jan","evento":"Breca Varejo","chev":{"novos":39,"semi":60,"total":99,"var":-0.505},"mk":{"GWM":39,"GM SP":23,"NISSAN":32,"VW":19,"OMODA/JAECOO":20,"GM BSB":6,"GAC":2},"mkFS":{"GWM":39,"GM SP":23,"NISSAN":32,"VW":19,"OMODA/JAECOO":20,"GM BSB":6,"GAC":2},"gTotal":141,"gFS":141,"gDom":0,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"BUTANTA":{"novos":3,"semi":3,"total":6},"REBOUCAS":{"novos":0,"semi":2,"total":2},"ALPHAVILLE":{"novos":4,"semi":6,"total":10},"OSASCO":{"novos":4,"semi":6,"total":10},"SUMARE":{"novos":2,"semi":3,"total":5},"BARRA FUNDA":{"novos":1,"semi":2,"total":3},"EDGAR FACO":{"novos":1,"semi":2,"total":3},"MESA":{"novos":2,"semi":0,"total":2},"VILA LOBOS":{"novos":6,"semi":9,"total":15}},"gSex":52,"gSab":89},{"dom":"2026-01-18","label":"12-18 jan","evento":"","chev":{"novos":47,"semi":80,"total":127,"var":-0.365},"mk":{"GWM":26,"GM SP":25,"NISSAN":36,"VW":28,"OMODA/JAECOO":20,"GM BSB":5,"GAC":4},"mkFS":{"GWM":23,"GM SP":17,"NISSAN":28,"VW":17,"OMODA/JAECOO":16,"GM BSB":5,"GAC":3},"gTotal":144,"gFS":109,"gDom":35,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"BUTANTA":{"novos":4,"semi":9,"total":13},"REBOUCAS":{"novos":1,"semi":2,"total":3},"ALPHAVILLE":{"novos":1,"semi":5,"total":6},"OSASCO":{"novos":7,"semi":6,"total":13},"SUMARE":{"novos":3,"semi":1,"total":4},"BARRA FUNDA":{"novos":0,"semi":8,"total":8},"EDGAR FACO":{"novos":3,"semi":4,"total":7},"MESA":{"novos":0,"semi":0,"total":0},"VILA LOBOS":{"novos":6,"semi":9,"total":15}},"gSex":37,"gSab":72},{"dom":"2026-01-25","label":"19-25 jan","evento":"","chev":{"novos":43,"semi":80,"total":123,"var":-0.385},"mk":{"GWM":40,"GM SP":23,"NISSAN":54,"VW":48,"OMODA/JAECOO":28,"GM BSB":6,"GAC":5},"mkFS":{"GWM":30,"GM SP":15,"NISSAN":41,"VW":38,"OMODA/JAECOO":18,"GM BSB":4,"GAC":2},"gTotal":204,"gFS":148,"gDom":56,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"BUTANTA":{"novos":7,"semi":5,"total":12},"REBOUCAS":{"novos":1,"semi":2,"total":3},"ALPHAVILLE":{"novos":3,"semi":9,"total":12},"OSASCO":{"novos":3,"semi":9,"total":12},"SUMARE":{"novos":3,"semi":8,"total":11},"BARRA FUNDA":{"novos":0,"semi":6,"total":6},"EDGAR FACO":{"novos":0,"semi":0,"total":0},"MESA":{"novos":2,"semi":0,"total":2},"VILA LOBOS":{"novos":4,"semi":7,"total":11}},"gSex":57,"gSab":91},{"dom":"2026-02-01","label":"26-01 fev","evento":"","chev":{"novos":48,"semi":74,"total":122,"var":-0.39},"mk":{"GWM":40,"GM SP":27,"NISSAN":42,"VW":21,"OMODA/JAECOO":38,"GM BSB":17,"GAC":5},"mkFS":{"GWM":40,"GM SP":27,"NISSAN":42,"VW":21,"OMODA/JAECOO":38,"GM BSB":17,"GAC":5},"gTotal":190,"gFS":190,"gDom":0,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"BUTANTA":{"novos":4,"semi":1,"total":5},"REBOUCAS":{"novos":0,"semi":4,"total":4},"ALPHAVILLE":{"novos":4,"semi":10,"total":14},"OSASCO":{"novos":3,"semi":4,"total":7},"SUMARE":{"novos":1,"semi":3,"total":4},"BARRA FUNDA":{"novos":0,"semi":4,"total":4},"EDGAR FACO":{"novos":1,"semi":2,"total":3},"MESA":{"novos":11,"semi":0,"total":11},"VILA LOBOS":{"novos":3,"semi":9,"total":12}},"gSex":65,"gSab":125},{"dom":"2026-02-08","label":"02-08 fev","evento":"","chev":{"novos":49,"semi":69,"total":118,"var":-0.41},"mk":{"GWM":33,"GM SP":34,"NISSAN":23,"VW":27,"OMODA/JAECOO":18,"GM BSB":0,"GAC":8},"mkFS":{"GWM":28,"GM SP":20,"NISSAN":15,"VW":20,"OMODA/JAECOO":13,"GM BSB":0,"GAC":8},"gTotal":143,"gFS":104,"gDom":39,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"VILA LOBOS":{"novos":11,"semi":4,"total":15},"BUTANTA":{"novos":5,"semi":6,"total":11},"REBOUCAS":{"novos":1,"semi":1,"total":2},"ALPHAVILLE":{"novos":7,"semi":5,"total":12},"OSASCO":{"novos":4,"semi":9,"total":13},"SUMARE":{"novos":3,"semi":2,"total":5},"BARRA FUNDA":{"novos":0,"semi":2,"total":2},"EDGAR FACO":{"novos":3,"semi":12,"total":15},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":35,"gSab":69},{"dom":"2026-02-15","label":"09-15 fev","evento":"","chev":{"novos":65,"semi":78,"total":143,"var":-0.285},"mk":{"GWM":28,"GM SP":29,"NISSAN":19,"VW":14,"OMODA/JAECOO":18,"GM BSB":5,"GAC":6},"mkFS":{"GWM":28,"GM SP":29,"NISSAN":19,"VW":14,"OMODA/JAECOO":18,"GM BSB":5,"GAC":6},"gTotal":119,"gFS":119,"gDom":0,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"VILA LOBOS":{"novos":9,"semi":5,"total":14},"BUTANTA":{"novos":6,"semi":6,"total":12},"REBOUCAS":{"novos":1,"semi":1,"total":2},"ALPHAVILLE":{"novos":2,"semi":6,"total":8},"OSASCO":{"novos":6,"semi":6,"total":12},"SUMARE":{"novos":0,"semi":1,"total":1},"BARRA FUNDA":{"novos":1,"semi":2,"total":3},"EDGAR FACO":{"novos":2,"semi":6,"total":8},"MESA":{"novos":2,"semi":0,"total":2}},"gSex":38,"gSab":81},{"dom":"2026-02-22","label":"16-22 fev","evento":"","chev":{"novos":47,"semi":60,"total":107,"var":-0.465},"mk":{"GWM":35,"GM SP":34,"NISSAN":29,"VW":30,"OMODA/JAECOO":30,"GM BSB":10,"GAC":2},"mkFS":{"GWM":26,"GM SP":22,"NISSAN":19,"VW":23,"OMODA/JAECOO":22,"GM BSB":8,"GAC":2},"gTotal":170,"gFS":122,"gDom":48,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"VILA LOBOS":{"novos":9,"semi":6,"total":15},"BUTANTA":{"novos":8,"semi":6,"total":14},"REBOUCAS":{"novos":2,"semi":2,"total":4},"ALPHAVILLE":{"novos":2,"semi":7,"total":9},"OSASCO":{"novos":3,"semi":9,"total":12},"SUMARE":{"novos":2,"semi":5,"total":7},"BARRA FUNDA":{"novos":2,"semi":4,"total":6},"EDGAR FACO":{"novos":6,"semi":4,"total":10},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":52,"gSab":70},{"dom":"2026-03-08","label":"02-08 mar","evento":"","chev":{"novos":44,"semi":59,"total":103,"var":-0.485},"mk":{"GWM":30,"GM SP":29,"NISSAN":16,"VW":23,"OMODA/JAECOO":21,"GM BSB":2,"GAC":12},"mkFS":{"GWM":30,"GM SP":29,"NISSAN":16,"VW":23,"OMODA/JAECOO":21,"GM BSB":2,"GAC":7},"gTotal":133,"gFS":128,"gDom":5,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"VILA LOBOS":{"novos":9,"semi":5,"total":14},"BUTANTA":{"novos":3,"semi":5,"total":8},"REBOUCAS":{"novos":1,"semi":3,"total":4},"ALPHAVILLE":{"novos":4,"semi":8,"total":12},"OSASCO":{"novos":5,"semi":8,"total":13},"SUMARE":{"novos":1,"semi":4,"total":5},"BARRA FUNDA":{"novos":3,"semi":2,"total":5},"EDGAR FACO":{"novos":3,"semi":6,"total":9},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":35,"gSab":93},{"dom":"2026-03-15","label":"09-15 mar","evento":"","chev":{"novos":47,"semi":76,"total":123,"var":-0.385},"mk":{"GWM":32,"GM SP":27,"NISSAN":15,"VW":38,"OMODA/JAECOO":26,"GM BSB":4,"GAC":8},"mkFS":{"GWM":32,"GM SP":27,"NISSAN":15,"VW":38,"OMODA/JAECOO":26,"GM BSB":4,"GAC":8},"gTotal":150,"gFS":150,"gDom":0,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"VILA LOBOS":{"novos":5,"semi":13,"total":18},"BUTANTA":{"novos":4,"semi":7,"total":11},"REBOUCAS":{"novos":0,"semi":1,"total":1},"ALPHAVILLE":{"novos":1,"semi":4,"total":5},"OSASCO":{"novos":7,"semi":9,"total":16},"SUMARE":{"novos":0,"semi":1,"total":1},"BARRA FUNDA":{"novos":8,"semi":1,"total":9},"EDGAR FACO":{"novos":2,"semi":6,"total":8},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":51,"gSab":99},{"dom":"2026-03-22","label":"16-22 mar","evento":"Carrera Days","chev":{"novos":69,"semi":103,"total":172,"var":-0.14},"mk":{"GWM":65,"GM SP":53,"NISSAN":35,"VW":46,"OMODA/JAECOO":39,"GM BSB":17,"GAC":17},"mkFS":{"GWM":37,"GM SP":33,"NISSAN":22,"VW":33,"OMODA/JAECOO":29,"GM BSB":11,"GAC":12},"gTotal":272,"gFS":177,"gDom":95,"semiGM":null,"semiGMFS":null,"bajaj":null,"bajajFS":null,"lojas":{"VILA LOBOS":{"novos":11,"semi":9,"total":20},"BUTANTA":{"novos":9,"semi":10,"total":19},"REBOUCAS":{"novos":1,"semi":3,"total":4},"ALPHAVILLE":{"novos":4,"semi":12,"total":16},"OSASCO":{"novos":12,"semi":7,"total":19},"SUMARE":{"novos":5,"semi":3,"total":8},"BARRA FUNDA":{"novos":5,"semi":10,"total":15},"EDGAR FACO":{"novos":6,"semi":10,"total":16},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":53,"gSab":124},{"dom":"2026-03-29","label":"23-29 mar","evento":"Carrera Days","chev":{"novos":71,"semi":93,"total":164,"var":-0.18},"mk":{"GWM":52,"GM SP":42,"NISSAN":47,"VW":41,"OMODA/JAECOO":45,"GM BSB":6,"GAC":11},"mkFS":{"GWM":40,"GM SP":28,"NISSAN":26,"VW":27,"OMODA/JAECOO":32,"GM BSB":6,"GAC":8},"gTotal":244,"gFS":167,"gDom":77,"semiGM":63,"semiGMFS":46,"bajaj":null,"bajajFS":null,"lojas":{"VILA LOBOS":{"novos":10,"semi":6,"total":16},"BUTANTA":{"novos":13,"semi":7,"total":20},"REBOUCAS":{"novos":1,"semi":5,"total":6},"ALPHAVILLE":{"novos":2,"semi":7,"total":9},"OSASCO":{"novos":6,"semi":6,"total":12},"SUMARE":{"novos":3,"semi":8,"total":11},"BARRA FUNDA":{"novos":3,"semi":8,"total":11},"EDGAR FACO":{"novos":3,"semi":8,"total":11},"MESA":{"novos":1,"semi":0,"total":1}},"gSex":57,"gSab":110},{"dom":"2026-04-05","label":"30-05 abr","evento":"","chev":{"novos":49,"semi":75,"total":124,"var":-0.38},"mk":{"GWM":25,"GM SP":18,"NISSAN":12,"VW":15,"OMODA/JAECOO":11,"GM BSB":1,"GAC":1},"mkFS":{"GWM":25,"GM SP":18,"NISSAN":12,"VW":15,"OMODA/JAECOO":11,"GM BSB":1,"GAC":1},"gTotal":83,"gFS":83,"gDom":0,"semiGM":21,"semiGMFS":21,"bajaj":null,"bajajFS":null,"lojas":{"VILA LOBOS":{"novos":3,"semi":1,"total":4},"BUTANTA":{"novos":4,"semi":4,"total":8},"REBOUCAS":{"novos":1,"semi":1,"total":2},"ALPHAVILLE":{"novos":3,"semi":7,"total":10},"OSASCO":{"novos":2,"semi":1,"total":3},"SUMARE":{"novos":0,"semi":0,"total":0},"BARRA FUNDA":{"novos":1,"semi":2,"total":3},"EDGAR FACO":{"novos":4,"semi":3,"total":7},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":23,"gSab":60},{"dom":"2026-04-12","label":"06-12 abr","evento":"","chev":{"novos":56,"semi":65,"total":121,"var":-0.395},"mk":{"GWM":52,"GM SP":32,"NISSAN":19,"VW":18,"OMODA/JAECOO":24,"GM BSB":4,"GAC":6,"ZEEKER":2},"mkFS":{"GWM":52,"GM SP":32,"NISSAN":19,"VW":18,"OMODA/JAECOO":24,"GM BSB":4,"GAC":6,"ZEEKER":2},"gTotal":157,"gFS":157,"gDom":0,"semiGM":47,"semiGMFS":47,"bajaj":32,"bajajFS":32,"lojas":{"VILA LOBOS":{"novos":8,"semi":4,"total":12},"BUTANTA":{"novos":3,"semi":6,"total":9},"REBOUCAS":{"novos":2,"semi":2,"total":4},"ALPHAVILLE":{"novos":3,"semi":6,"total":9},"OSASCO":{"novos":4,"semi":11,"total":15},"SUMARE":{"novos":2,"semi":4,"total":6},"BARRA FUNDA":{"novos":1,"semi":4,"total":5},"EDGAR FACO":{"novos":8,"semi":6,"total":14},"MESA":{"novos":1,"semi":0,"total":1}},"gSex":41,"gSab":116},{"dom":"2026-04-19","label":"13-19 abr","evento":"","chev":{"novos":55,"semi":86,"total":141,"var":-0.295},"mk":{"GWM":44,"GM SP":36,"NISSAN":24,"VW":32,"OMODA/JAECOO":20,"GM BSB":4,"GAC":2,"ZEEKER":2},"mkFS":{"GWM":39,"GM SP":28,"NISSAN":14,"VW":20,"OMODA/JAECOO":13,"GM BSB":4,"GAC":1,"ZEEKER":2},"gTotal":164,"gFS":121,"gDom":43,"semiGM":54,"semiGMFS":35,"bajaj":15,"bajajFS":14,"lojas":{"VILA LOBOS":{"novos":11,"semi":8,"total":19},"BUTANTA":{"novos":4,"semi":11,"total":15},"REBOUCAS":{"novos":2,"semi":2,"total":4},"ALPHAVILLE":{"novos":6,"semi":12,"total":18},"OSASCO":{"novos":3,"semi":2,"total":5},"SUMARE":{"novos":2,"semi":3,"total":5},"BARRA FUNDA":{"novos":5,"semi":4,"total":9},"EDGAR FACO":{"novos":2,"semi":9,"total":11},"MESA":{"novos":1,"semi":0,"total":1}},"gSex":46,"gSab":75},{"dom":"2026-04-26","label":"20-26 abr","evento":"Pregao","chev":{"novos":76,"semi":91,"total":167,"var":-0.165},"mk":{"GWM":52,"GM SP":45,"NISSAN":63,"VW":46,"OMODA/JAECOO":31,"GM BSB":11,"GAC":1,"ZEEKER":0},"mkFS":{"GWM":36,"GM SP":35,"NISSAN":47,"VW":36,"OMODA/JAECOO":16,"GM BSB":11,"GAC":1,"ZEEKER":0},"gTotal":249,"gFS":182,"gDom":67,"semiGM":55,"semiGMFS":45,"bajaj":34,"bajajFS":31,"lojas":{"VILA LOBOS":{"novos":10,"semi":11,"total":21},"BUTANTA":{"novos":10,"semi":6,"total":16},"REBOUCAS":{"novos":3,"semi":1,"total":4},"ALPHAVILLE":{"novos":4,"semi":8,"total":12},"OSASCO":{"novos":8,"semi":9,"total":17},"SUMARE":{"novos":1,"semi":6,"total":7},"BARRA FUNDA":{"novos":4,"semi":4,"total":8},"EDGAR FACO":{"novos":5,"semi":5,"total":10},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":50,"gSab":132},{"dom":"2026-05-03","label":"27-03 mai","evento":"","chev":{"novos":56,"semi":67,"total":123,"var":-0.385},"mk":{"GWM":11,"GM SP":15,"NISSAN":16,"VW":10,"OMODA/JAECOO":25,"GM BSB":3,"GAC":5,"ZEEKER":0},"mkFS":{"GWM":11,"GM SP":15,"NISSAN":16,"VW":10,"OMODA/JAECOO":25,"GM BSB":3,"GAC":5,"ZEEKER":0},"gTotal":85,"gFS":85,"gDom":0,"semiGM":19,"semiGMFS":19,"bajaj":14,"bajajFS":14,"lojas":{"VILA LOBOS":{"novos":5,"semi":1,"total":6},"BUTANTA":{"novos":2,"semi":2,"total":4},"REBOUCAS":{"novos":0,"semi":0,"total":0},"ALPHAVILLE":{"novos":0,"semi":4,"total":4},"OSASCO":{"novos":5,"semi":3,"total":8},"SUMARE":{"novos":1,"semi":2,"total":3},"BARRA FUNDA":{"novos":0,"semi":1,"total":1},"EDGAR FACO":{"novos":2,"semi":1,"total":3},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":0,"gSab":85},{"dom":"2026-05-10","label":"04-10 mai","evento":"","chev":{"novos":40,"semi":43,"total":83,"var":-0.585},"mk":{"GWM":33,"GM SP":21,"NISSAN":21,"VW":34,"OMODA/JAECOO":84,"GM BSB":11,"GAC":6,"ZEEKER":1},"mkFS":{"GWM":33,"GM SP":21,"NISSAN":21,"VW":34,"OMODA/JAECOO":84,"GM BSB":11,"GAC":6,"ZEEKER":1},"gTotal":211,"gFS":211,"gDom":0,"semiGM":38,"semiGMFS":38,"bajaj":43,"bajajFS":43,"lojas":{"VILA LOBOS":{"novos":6,"semi":1,"total":7},"BUTANTA":{"novos":3,"semi":4,"total":7},"REBOUCAS":{"novos":0,"semi":0,"total":0},"ALPHAVILLE":{"novos":3,"semi":6,"total":9},"OSASCO":{"novos":3,"semi":8,"total":11},"SUMARE":{"novos":2,"semi":1,"total":3},"BARRA FUNDA":{"novos":2,"semi":2,"total":4},"EDGAR FACO":{"novos":2,"semi":4,"total":6},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":70,"gSab":141},{"dom":"2026-05-17","label":"11-17 mai","evento":"","chev":{"novos":58,"semi":75,"total":133,"var":-0.335},"mk":{"GWM":59,"GM SP":29,"NISSAN":23,"VW":37,"OMODA/JAECOO":39,"GM BSB":6,"GAC":7,"ZEEKER":1},"mkFS":{"GWM":59,"GM SP":29,"NISSAN":23,"VW":37,"OMODA/JAECOO":39,"GM BSB":6,"GAC":7,"ZEEKER":1},"gTotal":201,"gFS":201,"gDom":0,"semiGM":38,"semiGMFS":38,"bajaj":38,"bajajFS":38,"lojas":{"VILA LOBOS":{"novos":7,"semi":5,"total":12},"BUTANTA":{"novos":6,"semi":4,"total":10},"REBOUCAS":{"novos":1,"semi":1,"total":2},"ALPHAVILLE":{"novos":2,"semi":6,"total":8},"OSASCO":{"novos":6,"semi":8,"total":14},"SUMARE":{"novos":2,"semi":2,"total":4},"BARRA FUNDA":{"novos":0,"semi":2,"total":2},"EDGAR FACO":{"novos":5,"semi":5,"total":10},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":76,"gSab":125},{"dom":"2026-05-31","label":"25-31 mai","evento":"Sonic","chev":{"novos":78,"semi":84,"total":162,"var":-0.19},"mk":{"GWM":61,"GM SP":48,"NISSAN":43,"VW":59,"OMODA/JAECOO":114,"GM BSB":8,"GAC":19,"ZEEKER":0},"mkFS":{"GWM":52,"GM SP":28,"NISSAN":28,"VW":34,"OMODA/JAECOO":101,"GM BSB":7,"GAC":10,"ZEEKER":0},"gTotal":352,"gFS":260,"gDom":92,"semiGM":51,"semiGMFS":38,"bajaj":49,"bajajFS":42,"lojas":{"VILA LOBOS":{"novos":14,"semi":7,"total":21},"BUTANTA":{"novos":8,"semi":12,"total":20},"REBOUCAS":{"novos":0,"semi":0,"total":0},"ALPHAVILLE":{"novos":6,"semi":10,"total":16},"OSASCO":{"novos":8,"semi":8,"total":16},"SUMARE":{"novos":4,"semi":1,"total":5},"BARRA FUNDA":{"novos":4,"semi":2,"total":6},"EDGAR FACO":{"novos":2,"semi":4,"total":6},"MESA":{"novos":2,"semi":0,"total":2}},"gSex":141,"gSab":119},{"dom":"2026-06-07","label":"01-07 jun","evento":"","chev":{"novos":45,"semi":64,"total":109,"var":-0.455},"mk":{"GWM":39,"GM SP":22,"NISSAN":24,"VW":18,"OMODA/JAECOO":14,"GM BSB":3,"GAC":5,"ZEEKER":1},"mkFS":{"GWM":39,"GM SP":22,"NISSAN":24,"VW":18,"OMODA/JAECOO":14,"GM BSB":3,"GAC":5,"ZEEKER":1},"gTotal":126,"gFS":126,"gDom":0,"semiGM":42,"semiGMFS":42,"bajaj":21,"bajajFS":21,"lojas":{"VILA LOBOS":{"novos":4,"semi":9,"total":13},"BUTANTA":{"novos":3,"semi":2,"total":5},"REBOUCAS":{"novos":0,"semi":0,"total":0},"ALPHAVILLE":{"novos":4,"semi":9,"total":13},"OSASCO":{"novos":3,"semi":6,"total":9},"SUMARE":{"novos":0,"semi":1,"total":1},"BARRA FUNDA":{"novos":4,"semi":3,"total":7},"EDGAR FACO":{"novos":3,"semi":5,"total":8},"MESA":{"novos":1,"semi":0,"total":1}},"gSex":56,"gSab":70},{"dom":"2026-06-14","label":"08-14 jun","evento":"","chev":{"novos":48,"semi":56,"total":104,"var":-0.48},"mk":{"GWM":44,"GM SP":23,"NISSAN":16,"VW":35,"OMODA/JAECOO":17,"GM BSB":7,"GAC":10,"ZEEKER":1},"mkFS":{"GWM":44,"GM SP":23,"NISSAN":16,"VW":35,"OMODA/JAECOO":17,"GM BSB":7,"GAC":10,"ZEEKER":1},"gTotal":153,"gFS":153,"gDom":0,"semiGM":29,"semiGMFS":29,"bajaj":15,"bajajFS":15,"lojas":{"VILA LOBOS":{"novos":8,"semi":3,"total":11},"BUTANTA":{"novos":2,"semi":2,"total":4},"AV. BRASIL":{"novos":0,"semi":0,"total":0},"ALPHAVILLE":{"novos":3,"semi":5,"total":8},"OSASCO":{"novos":3,"semi":7,"total":10},"SUMARE":{"novos":1,"semi":1,"total":2},"BARRA FUNDA":{"novos":1,"semi":2,"total":3},"EDGAR FACO":{"novos":3,"semi":6,"total":9},"MESA":{"novos":2,"semi":0,"total":2}},"gSex":56,"gSab":97},{"dom":"2026-06-21","label":"15-21 jun","evento":"Programa Move","chev":{"novos":97,"semi":76,"total":173,"var":-0.135},"mk":{"GWM":48,"GM SP":63,"NISSAN":30,"VW":42,"OMODA/JAECOO":22,"GM BSB":29,"GAC":6,"ZEEKER":1},"mkFS":{"GWM":47,"GM SP":54,"NISSAN":19,"VW":30,"OMODA/JAECOO":16,"GM BSB":29,"GAC":5,"ZEEKER":1},"gTotal":241,"gFS":201,"gDom":40,"semiGM":46,"semiGMFS":35,"bajaj":20,"bajajFS":19,"lojas":{"VILA LOBOS":{"novos":11,"semi":5,"total":16},"BUTANTA":{"novos":15,"semi":6,"total":21},"AV. BRASIL":{"novos":0,"semi":0,"total":0},"ALPHAVILLE":{"novos":3,"semi":9,"total":12},"OSASCO":{"novos":11,"semi":6,"total":17},"SUMARE":{"novos":5,"semi":3,"total":8},"BARRA FUNDA":{"novos":9,"semi":2,"total":11},"EDGAR FACO":{"novos":8,"semi":7,"total":15},"MESA":{"novos":1,"semi":0,"total":1}},"gSex":81,"gSab":120},{"dom":"2026-06-28","label":"22-28 jun","evento":"72 Horas","chev":{"novos":98,"semi":80,"total":178,"var":-0.11},"mk":{"GWM":94,"GM SP":53,"NISSAN":45,"VW":48,"OMODA/JAECOO":41,"GM BSB":11,"GAC":12,"ZEEKER":3},"mkFS":{"GWM":81,"GM SP":36,"NISSAN":22,"VW":31,"OMODA/JAECOO":31,"GM BSB":8,"GAC":9,"ZEEKER":3},"gTotal":307,"gFS":221,"gDom":86,"semiGM":64,"semiGMFS":46,"bajaj":32,"bajajFS":22,"lojas":{"VILA LOBOS":{"novos":11,"semi":12,"total":23},"BUTANTA":{"novos":10,"semi":7,"total":17},"AV. BRASIL":{"novos":0,"semi":0,"total":0},"ALPHAVILLE":{"novos":8,"semi":15,"total":23},"OSASCO":{"novos":8,"semi":8,"total":16},"SUMARE":{"novos":4,"semi":6,"total":10},"BARRA FUNDA":{"novos":2,"semi":3,"total":5},"EDGAR FACO":{"novos":9,"semi":3,"total":12},"MESA":{"novos":1,"semi":0,"total":1}},"gSex":101,"gSab":120},{"dom":"2026-07-05","label":"29-05 jul","evento":"","chev":{"novos":84,"semi":64,"total":148,"var":-0.26},"mk":{"GWM":59,"GM SP":39,"NISSAN":19,"VW":26,"OMODA/JAECOO":24,"GM BSB":3,"GAC":6,"ZEEKER":1},"mkFS":{"GWM":59,"GM SP":39,"NISSAN":19,"VW":26,"OMODA/JAECOO":24,"GM BSB":3,"GAC":6,"ZEEKER":1},"gTotal":177,"gFS":177,"gDom":0,"semiGM":36,"semiGMFS":36,"bajaj":19,"bajajFS":19,"lojas":{"VILA LOBOS":{"novos":4,"semi":3,"total":7},"BUTANTA":{"novos":10,"semi":7,"total":17},"AV. BRASIL":{"novos":0,"semi":0,"total":0},"ALPHAVILLE":{"novos":8,"semi":7,"total":15},"OSASCO":{"novos":7,"semi":5,"total":12},"SUMARE":{"novos":3,"semi":4,"total":7},"BARRA FUNDA":{"novos":3,"semi":3,"total":6},"EDGAR FACO":{"novos":4,"semi":1,"total":5},"MESA":{"novos":0,"semi":0,"total":0}},"gSex":49,"gSab":128},{"dom":"2026-07-12","label":"06-12 jul","evento":"","chev":{"novos":72,"semi":53,"total":125,"var":-0.375},"mk":{"GWM":67,"GM SP":35,"NISSAN":28,"VW":22,"OMODA/JAECOO":23,"GM BSB":3,"GAC":8,"ZEEKER":2},"mkFS":{"GWM":67,"GM SP":35,"NISSAN":28,"VW":22,"OMODA/JAECOO":23,"GM BSB":3,"GAC":8,"ZEEKER":2},"gTotal":188,"gFS":188,"gDom":0,"semiGM":30,"semiGMFS":30,"bajaj":26,"bajajFS":26,"lojas":{"VILA LOBOS":{"novos":10,"semi":5,"total":15},"BUTANTA":{"novos":7,"semi":4,"total":11},"AV. BRASIL":{"novos":0,"semi":0,"total":0},"ALPHAVILLE":{"novos":6,"semi":2,"total":8},"OSASCO":{"novos":1,"semi":7,"total":8},"SUMARE":{"novos":3,"semi":2,"total":5},"BARRA FUNDA":{"novos":3,"semi":2,"total":5},"EDGAR FACO":{"novos":4,"semi":5,"total":9},"MESA":{"novos":1,"semi":0,"total":1}},"gSex":86,"gSab":102}];
+
+const MARCAS = ['GWM','GM SP','NISSAN','VW','OMODA/JAECOO','GM BSB','GAC','ZEEKER'];
+const NOME = {'GWM':'GWM','GM SP':'GM SP','NISSAN':'Nissan','VW':'VW',
+  'OMODA/JAECOO':'Omoda/Jaecoo','GM BSB':'GM BSB','GAC':'GAC','ZEEKER':'Zeekr'};
+const COR = {'GWM':'var(--s1)','GM SP':'var(--s2)','NISSAN':'var(--s3)','VW':'var(--s4)',
+  'OMODA/JAECOO':'var(--s5)','GM BSB':'var(--s6)','GAC':'var(--s7)','ZEEKER':'var(--s8)'};
+const EVNOME = {'Pregao':'Pregão','Sonic':'Ação Sonic'};
+const LOJA_NOME = {'VILA LOBOS':'Vila Lobos','BUTANTA':'Butantã','SUMARE':'Sumaré','REBOUCAS':'Rebouças',
+  'EDGAR FACO':'Edgar Facó','AV. BRASIL':'Av. Brasil','ALPHAVILLE':'Alphaville','OSASCO':'Osasco',
+  'BARRA FUNDA':'Barra Funda','MESA':'Mesa (venda interna)'};
+const lojaNome = l => LOJA_NOME[l] || (l.charAt(0) + l.slice(1).toLowerCase());
+const SEQ = ['#cde2fb','#b7d3f6','#9ec5f4','#86b6ef','#6da7ec','#5598e7','#3987e5','#2a78d6','#256abf','#1c5cab','#184f95','#104281','#0d366b'];
+
+const G = DATA.filter(w => w.mk);            // semanas com dados do grupo (25)
+const fmt = n => (n==null ? 'n/d' : n.toLocaleString('pt-BR'));
+const pct = (x,d=1) => (x*100).toFixed(d).replace('.',',') + '%';
+const evName = e => EVNOME[e] || e;
+const NS = 'http://www.w3.org/2000/svg';
+function S(tag, attrs, parent){ const el = document.createElementNS(NS, tag);
+  for (const k in attrs) el.setAttribute(k, attrs[k]); if (parent) parent.appendChild(el); return el; }
+function el(tag, cls, parent, text){ const e = document.createElement(tag); if (cls) e.className = cls;
+  if (text != null) e.textContent = text; if (parent) parent.appendChild(e); return e; }
+
+function monthTicks(weeks){ const t = []; let last = '';
+  weeks.forEach((w,i) => { const m = w.label.split(' ')[1]; if (m !== last){ t.push({i, m}); last = m; } });
+  return t; }
+
+function ticks(max){ const step = max > 200 ? 50 : max > 80 ? 25 : max > 30 ? 10 : 5;
+  const top = Math.ceil(max/step)*step; const out = [];
+  for (let v = 0; v <= top; v += step) out.push(v); return {out, top}; }
+
+/* ---------- tooltip ---------- */
+function mkTT(container){ const t = el('div','tt',container); return t; }
+function ttRows(tt, title, rows, note){
+  tt.textContent = '';
+  el('div','h',tt,title);
+  rows.forEach(r => { const d = el('div','r',tt);
+    const k = el('span','k',d); k.style.background = r.color || 'transparent';
+    el('span','',d,r.name); el('b','',d,r.val); });
+  if (note) el('div','note',tt,note);
+}
+function moveTT(tt, chart, px, py){
+  tt.style.display = 'block';
+  const cw = chart.clientWidth, tw = tt.offsetWidth;
+  tt.style.left = Math.min(Math.max(px + 14, 0), cw - tw - 4) + 'px';
+  tt.style.top = Math.max(py - tt.offsetHeight - 12, 0) + 'px';
+}
+
+/* ---------- KPIs ---------- */
+function spark(parent, vals, w=120, h=26){
+  const svg = S('svg',{width:w,height:h,viewBox:`0 0 ${w} ${h}`},parent);
+  const v = vals.slice(-12).filter(x => x != null);
+  if (v.length < 2) return;
+  const max = Math.max(...v), min = Math.min(...v);
+  const x = i => 2 + i*(w-8)/(v.length-1);
+  const y = val => h-3 - (max===min ? 0.5 : (val-min)/(max-min)) * (h-8);
+  let dPath = '';
+  v.forEach((val,i) => dPath += (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(val).toFixed(1));
+  S('path',{d:dPath,fill:'none',stroke:'var(--muted)','stroke-width':1.6,'stroke-linecap':'round','stroke-linejoin':'round'},svg);
+  S('circle',{cx:x(v.length-1),cy:y(v[v.length-1]),r:3.4,fill:'var(--s1)',stroke:'var(--card)','stroke-width':1.5},svg);
+}
+function tile(parent, lbl, val, deltaTxt, dir, vals){
+  const t = el('div','tile',parent);
+  el('div','lbl',t,lbl);
+  el('div','val',t,val);
+  const d = el('div','delta',t);
+  if (deltaTxt){ const s = el('span', dir>0 ? 'up' : dir<0 ? 'down' : '', d,
+    (dir>0 ? '▲ ' : dir<0 ? '▼ ' : '') + deltaTxt.txt); d.append(' ' + deltaTxt.ref); }
+  if (vals) spark(t, vals);
+}
+(function kpis(){
+  const box = document.getElementById('kpis');
+  const last = G[G.length-1], prev = G[G.length-2];
+  const dG = last.gFS - prev.gFS;
+  tile(box, 'Novos do grupo no fds (sex+sáb)', fmt(last.gFS),
+    {txt: (dG>=0?'+':'') + fmt(dG) + ' (' + pct(dG/prev.gFS) + ')', ref:'vs fds anterior'},
+    Math.sign(dG), G.map(w=>w.gFS));
+  const ytd = G.reduce((a,w)=>a+(w.gTotal||0),0);
+  tile(box, 'Acumulado 2026 (novos, fds)', fmt(ytd), {txt:'25 fins de semana', ref:''}, 0, null);
+  const dW = last.mkFS['GWM'] - prev.mkFS['GWM'];
+  tile(box, 'GWM no fds (sex+sáb)', fmt(last.mkFS['GWM']),
+    {txt:(dW>=0?'+':'')+fmt(dW), ref:'vs fds anterior'}, Math.sign(dW), G.map(w=>w.mkFS['GWM']));
+  const lc = DATA[DATA.length-1].chev;
+  tile(box, 'Chevrolet SP na semana (N+S)', fmt(lc.total),
+    {txt: pct(lc.var), ref:'vs semana de referência'}, Math.sign(lc.var), DATA.map(w=>w.chev.total));
+  tile(box, 'Seminovos GM no fds', fmt(last.semiGM),
+    {txt:(last.semiGM-prev.semiGM>=0?'+':'')+fmt(last.semiGM-prev.semiGM), ref:'vs fds anterior'},
+    Math.sign(last.semiGM-prev.semiGM), G.map(w=>w.semiGM));
+  tile(box, 'Motos Bajaj no fds', fmt(last.bajaj),
+    {txt:(last.bajaj-prev.bajaj>=0?'+':'')+fmt(last.bajaj-prev.bajaj), ref:'vs fds anterior'},
+    Math.sign(last.bajaj-prev.bajaj), G.map(w=>w.bajaj));
+})();
+
+/* ---------- insights ---------- */
+function insCard(parent, title, big, text){
+  const c = el('div','ins',parent);
+  el('div','t',c,title);
+  if (big != null) el('div','n',c,big);
+  if (text) el('div','x',c,text);
+  return c;
+}
+function insights(){
+  const box = document.getElementById('ins'); box.textContent = '';
+  const sun = w => new Date(w.dom + 'T12:00:00');
+  const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
+
+  // 1) ciclo dentro do mês
+  const pos = [[],[],[],[],[]];
+  G.forEach(w => pos[Math.min(4, Math.floor((sun(w).getDate()-1)/7))].push(w.gFS));
+  const pv = pos.map(avg);
+  const ini = pv[0], fim = avg(pos[3].concat(pos[4]));
+  const c1 = insCard(box, 'Fim de mês vende mais que começo', '+' + pct((fim-ini)/ini,0),
+    'Média de novos (sex+sáb) por posição do fim de semana no mês: ' + fmt(Math.round(ini)) +
+    ' na 1ª semana, subindo até ' + fmt(Math.round(pv[4] || pv[3])) + ' na virada do mês.');
+  (function(){ const W=220,H=56,bw=34,g=8;
+    const svg = S('svg',{viewBox:`0 0 ${W} ${H}`},c1);
+    const mx = Math.max(...pv);
+    pv.forEach((v,i) => { const h = Math.max(v/mx*(H-16),2), x0 = i*(bw+g);
+      const r = 4;
+      S('path',{d:`M${x0} ${H-12} v${-(h-r)} a${r} ${r} 0 0 1 ${r} ${-r} h${bw-2*r} a${r} ${r} 0 0 1 ${r} ${r} v${h-r} Z`,fill:'var(--s1)'},svg);
+      S('text',{x:x0+bw/2,y:H-1,'text-anchor':'middle',fill:'var(--muted)','font-size':10},svg).textContent = (i+1) + 'ª'; });
+  })();
+
+  // 2) domingo aberto
+  const Dw = G.filter(w => w.gDom > 0);
+  const upl = Dw.reduce((a,w)=>a+w.gDom,0) / Dw.reduce((a,w)=>a+w.gFS,0);
+  const bestD = Dw.reduce((a,w)=> (w.gDom/w.gFS > a.gDom/a.gFS ? w : a), Dw[0]);
+  insCard(box, 'Domingo aberto rende mais um terço', '+' + pct(upl,0),
+    Dw.length + ' dos ' + G.length + ' fins de semana abriram domingo, quase sempre nos 2 últimos do mês. ' +
+    'Nesses, o domingo acrescentou em média ' + pct(upl,0) + ' sobre sexta + sábado. Melhor caso: +' +
+    pct(bestD.gDom/bestD.gFS,0) + ' no fds ' + bestD.label + '.');
+
+  // 3) campanha
+  const gc = avg(G.filter(w=>w.evento).map(w=>w.gFS)), gn = avg(G.filter(w=>!w.evento).map(w=>w.gFS));
+  insCard(box, 'Campanha move o ponteiro', '+' + pct((gc-gn)/gn,0),
+    'Fim de semana com campanha vende em média ' + fmt(Math.round(gc)) + ' novos (sex+sáb), contra ' +
+    fmt(Math.round(gn)) + ' nas semanas comuns. Vale para o grupo todo, não só para a marca da ação.');
+
+  // 4) sábado vs sexta
+  const sx = avg(G.map(w=>w.gSex||0)), sb = avg(G.map(w=>w.gSab||0));
+  const sbWins = G.filter(w => (w.gSab||0) > (w.gSex||0)).length;
+  insCard(box, 'Sábado é o dia que decide', (sb/sx).toFixed(1).replace('.',',') + 'x',
+    'Sábado vende em média ' + fmt(Math.round(sb)) + ' novos contra ' + fmt(Math.round(sx)) +
+    ' da sexta, e foi o maior dia em ' + sbWins + ' dos ' + G.length + ' fins de semana.');
+
+  // 5) marcas acelerando / cedendo
+  const half = m => {
+    const h1 = avg(G.filter(w=>sun(w).getMonth()<3).map(w=>w.mkFS[m]||0));
+    const h2 = avg(G.filter(w=>sun(w).getMonth()>=3).map(w=>w.mkFS[m]||0));
+    return [h1,h2];
+  };
+  const [g1,g2] = half('GWM'), [o1,o2] = half('OMODA/JAECOO'), [n1,n2] = half('NISSAN');
+  insCard(box, 'GWM e Omoda aceleram, Nissan cede', null,
+    'Média por fds (sex+sáb), jan-mar contra abr-jul: GWM ' + fmt(Math.round(g1)) + ' subiu para ' + fmt(Math.round(g2)) +
+    '; Omoda/Jaecoo ' + fmt(Math.round(o1)) + ' para ' + fmt(Math.round(o2)) +
+    '; Nissan recuou de ' + fmt(Math.round(n1)) + ' para ' + fmt(Math.round(n2)) +
+    '. Zeekr estreou em abril.');
+
+  // 6) seminovos na Chevrolet SP
+  const semWins = DATA.filter(w => w.chev.semi > w.chev.novos).length;
+  insCard(box, 'Seminovos seguram a Chevrolet SP', semWins + ' de ' + DATA.length,
+    'semanas com seminovos vendendo mais que novos (médias ' + fmt(Math.round(avg(DATA.map(w=>w.chev.semi)))) +
+    ' contra ' + fmt(Math.round(avg(DATA.map(w=>w.chev.novos)))) + ' por semana cheia).');
+
+  // 7) perfil das lojas
+  const lt = {};
+  G.forEach(w => Object.entries(w.lojas||{}).forEach(([l,v]) => {
+    const a = lt[l] || (lt[l]=[0,0]); a[0] += v.novos||0; a[1] += v.semi||0; }));
+  insCard(box, 'Cada loja tem um perfil', null,
+    'Vila Lobos (' + fmt(lt['VILA LOBOS'][0]) + ' novos) e Butantã puxam 0 km; Alphaville vive de seminovos (' +
+    fmt(lt['ALPHAVILLE'][1]) + ' semi contra ' + fmt(lt['ALPHAVILLE'][0]) + ' novos) e Osasco também vende mais usado que novo.');
+
+  // 8) extremos
+  const best = G.reduce((a,w)=> w.gFS>a.gFS?w:a, G[0]), worst = G.reduce((a,w)=> w.gFS<a.gFS?w:a, G[0]);
+  insCard(box, 'Extremos do ano', null,
+    'Melhor fim de semana: ' + best.label + ', ' + fmt(best.gFS) + ' novos em sex+sáb' +
+    (best.evento ? ' (' + evName(best.evento) + ')' : '') + '. Pior: ' + worst.label + ', ' + fmt(worst.gFS) + '.');
+}
+
+/* ---------- domingos abertos ---------- */
+const DOM_COR = '#86b6ef';
+function chartDom(){
+  const box = document.getElementById('ch-dom'); box.textContent = '';
+  const Dw = G.filter(w => w.gDom > 0);
+  const sr = document.getElementById('st-dom'); sr.textContent = '';
+  const totD = Dw.reduce((a,w)=>a+w.gDom,0), totF = Dw.reduce((a,w)=>a+w.gFS,0);
+  const stat = (n,l) => { const s = el('div','st',sr); el('div','n',s,n); el('div','l',s,l); };
+  stat(Dw.length + ' de ' + G.length, 'fins de semana com domingo aberto');
+  stat('+' + pct(totD/totF), 'o que o domingo adiciona, em média, sobre sexta + sábado');
+  const bestU = Dw.reduce((a,w)=> w.gDom>a.gDom?w:a, Dw[0]);
+  stat(fmt(bestU.gDom), 'melhor domingo do ano (fds ' + bestU.label + ')');
+
+  const W = Math.max(box.clientWidth || 900, 620), H = 290, mL = 38, mR = 14, mT = 16, mB = 34;
+  const iw = W - mL - mR, ih = H - mT - mB;
+  const svg = S('svg',{viewBox:`0 0 ${W} ${H}`},box);
+  const max = Math.max(...Dw.map(w => w.gFS + w.gDom));
+  const {out:tk, top} = ticks(max);
+  const band = iw/Dw.length, bw = Math.min(24, band-10);
+  const y = v => mT + ih - v/top*ih;
+  tk.forEach(v => { S('line',{x1:mL,x2:W-mR,y1:y(v),y2:y(v),stroke:'var(--grid)','stroke-width':1},svg);
+    S('text',{x:mL-7,y:y(v)+4,'text-anchor':'end',fill:'var(--muted)','font-size':11},svg).textContent = fmt(v); });
+  S('line',{x1:mL,x2:W-mR,y1:y(0),y2:y(0),stroke:'var(--axis)','stroke-width':1},svg);
+  const tt = mkTT(box);
+  Dw.forEach((w,i) => {
+    const cx = mL + i*band + band/2, xx = cx-bw/2;
+    const yB = y(w.gFS), yT = y(w.gFS + w.gDom), r = 4;
+    const g = S('g',{},svg);
+    S('path',{d:`M${xx} ${y(0)} v${-(y(0)-yB-1)} h${bw} v${y(0)-yB-1} Z`,fill:'var(--s1)'},g);
+    const hD = yB - yT - 1;
+    if (hD > 1) S('path',{d:`M${xx} ${yB-1} v${-(hD-r)} a${r} ${r} 0 0 1 ${r} ${-r} h${bw-2*r} a${r} ${r} 0 0 1 ${r} ${r} v${hD-r} Z`,fill:DOM_COR},g);
+    if (i === Dw.length-1 || w === bestU)
+      S('text',{x:cx,y:yT-6,'text-anchor':'middle',fill:'var(--ink)','font-size':11.5,'font-weight':650},svg)
+        .textContent = '+' + pct(w.gDom/w.gFS,0);
+    S('text',{x:cx,y:H-10,'text-anchor':'middle',fill:'var(--muted)','font-size':10.5},svg).textContent = w.label;
+    const hit = S('rect',{x:mL+i*band,y:mT,width:band,height:ih,fill:'transparent'},g);
+    hit.addEventListener('pointermove', e => {
+      const rc = box.getBoundingClientRect();
+      ttRows(tt, 'Fds ' + w.label, [
+        {name:'Sexta + sábado', color:'var(--s1)', val:fmt(w.gFS)},
+        {name:'Domingo', color:DOM_COR, val:fmt(w.gDom)},
+        {name:'Total', color:'transparent', val:fmt(w.gFS + w.gDom)},
+        {name:'Domingo somou', color:'transparent', val:'+' + pct(w.gDom/w.gFS,0)}]);
+      moveTT(tt, box, e.clientX-rc.left, e.clientY-rc.top);
+    });
+    hit.addEventListener('pointerleave', () => tt.style.display='none');
+  });
+  const lg = document.getElementById('lg-dom'); lg.textContent = '';
+  [['Sexta + sábado','var(--s1)'],['Domingo',DOM_COR]].forEach(([n,c]) => {
+    const it = el('span','it',lg); const k = el('span','sw',it); k.style.background = c; it.append(n); });
+}
+
+/* ---------- gráfico 1: linhas do grupo ---------- */
+function chartGrupo(){
+  const box = document.getElementById('ch-grupo'); box.textContent = '';
+  const W = Math.max(box.clientWidth || 900, 620), H = 300, mL = 38, mR = 14, mT = 14, mB = 34;
+  const iw = W - mL - mR, ih = H - mT - mB;
+  const svg = S('svg',{viewBox:`0 0 ${W} ${H}`},box);
+  const max = Math.max(...G.map(w => Math.max(w.gFS, w.gTotal||0)));
+  const {out:tk, top} = ticks(max);
+  const x = i => mL + (G.length===1 ? iw/2 : i*iw/(G.length-1));
+  const y = v => mT + ih - v/top*ih;
+  tk.forEach(v => { S('line',{x1:mL,x2:W-mR,y1:y(v),y2:y(v),stroke:'var(--grid)','stroke-width':1},svg);
+    S('text',{x:mL-7,y:y(v)+4,'text-anchor':'end',fill:'var(--muted)','font-size':11},svg).textContent = fmt(v); });
+  S('line',{x1:mL,x2:W-mR,y1:y(0),y2:y(0),stroke:'var(--axis)','stroke-width':1},svg);
+  monthTicks(G).forEach(t => S('text',{x:x(t.i),y:H-10,'text-anchor':'middle',fill:'var(--muted)','font-size':11},svg).textContent = t.m);
+
+  const mkPath = (get, color, width, dash) => {
+    let dP = ''; G.forEach((w,i) => dP += (i?'L':'M') + x(i).toFixed(1) + ' ' + y(get(w)).toFixed(1));
+    S('path',{d:dP,fill:'none',stroke:color,'stroke-width':width,'stroke-linecap':'round','stroke-linejoin':'round', ...(dash?{'stroke-dasharray':dash}:{})},svg);
+  };
+  let dA = 'M' + x(0).toFixed(1) + ' ' + y(0).toFixed(1);
+  G.forEach((w,i) => dA += 'L' + x(i).toFixed(1) + ' ' + y(w.gFS).toFixed(1));
+  dA += 'L' + x(G.length-1).toFixed(1) + ' ' + y(0).toFixed(1) + 'Z';
+  S('path',{d:dA,fill:'var(--wash1)'},svg);
+  mkPath(w => w.gTotal, 'var(--muted)', 1.8);
+  mkPath(w => w.gFS, 'var(--s1)', 2.4);
+  const li = G.length-1;
+  S('circle',{cx:x(li),cy:y(G[li].gFS),r:4.5,fill:'var(--s1)',stroke:'var(--card)','stroke-width':2},svg);
+  S('text',{x:x(li)-8,y:y(G[li].gFS)-10,'text-anchor':'end',fill:'var(--ink)','font-size':12,'font-weight':650},svg).textContent = fmt(G[li].gFS);
+
+  const cross = S('line',{y1:mT,y2:mT+ih,stroke:'var(--axis)','stroke-width':1,visibility:'hidden'},svg);
+  const tt = mkTT(box);
+  const hit = S('rect',{x:mL,y:mT,width:iw,height:ih,fill:'transparent'},svg);
+  hit.addEventListener('pointermove', e => {
+    const r = box.getBoundingClientRect(), sx = (e.clientX-r.left) * W/r.width;
+    const i = Math.max(0, Math.min(G.length-1, Math.round((sx-mL)/(iw/(G.length-1)))));
+    cross.setAttribute('x1',x(i)); cross.setAttribute('x2',x(i)); cross.setAttribute('visibility','visible');
+    const w = G[i];
+    const rows = [
+      {name:'Sexta + sábado', color:'var(--s1)', val:fmt(w.gFS)},
+      {name:'Total reportado', color:'var(--muted)', val:fmt(w.gTotal)}
+    ];
+    MARCAS.forEach(m => { if (w.mkFS[m] != null) rows.push({name:NOME[m], color:COR[m], val:fmt(w.mkFS[m])}); });
+    ttRows(tt, 'Fds ' + w.label, rows, w.gDom ? 'Domingo aberto: +' + fmt(w.gDom) : 'Domingo fechado');
+    moveTT(tt, box, x(i)*r.width/W, y(Math.max(w.gFS,w.gTotal||0))*r.height/H);
+  });
+  hit.addEventListener('pointerleave', () => { tt.style.display='none'; cross.setAttribute('visibility','hidden'); });
+
+  const lg = document.getElementById('lg-grupo'); lg.textContent = '';
+  [['Sexta + sábado','var(--s1)'],['Total reportado (inclui domingo quando aberto)','var(--muted)']].forEach(([n,c]) => {
+    const it = el('span','it',lg); const k = el('span','ln',it); k.style.background = c; it.append(n); });
+}
+
+/* ---------- gráfico 2: barras empilhadas ---------- */
+let stackMode = 'vol';
+function chartStack(){
+  const box = document.getElementById('ch-stack'); box.textContent = '';
+  const W = Math.max(box.clientWidth || 900, 620), H = 320, mL = 38, mR = 14, mT = 14, mB = 34;
+  const iw = W - mL - mR, ih = H - mT - mB;
+  const svg = S('svg',{viewBox:`0 0 ${W} ${H}`},box);
+  const totals = G.map(w => MARCAS.reduce((a,m)=>a+(w.mkFS[m]||0),0));
+  const top = stackMode === 'pct' ? 1 : ticks(Math.max(...totals)).top;
+  const tk = stackMode === 'pct' ? [0,.25,.5,.75,1] : ticks(Math.max(...totals)).out;
+  const band = iw/G.length, bw = Math.min(24, band-6);
+  const y = v => mT + ih - v/top*ih;
+  tk.forEach(v => { S('line',{x1:mL,x2:W-mR,y1:y(v),y2:y(v),stroke:'var(--grid)','stroke-width':1},svg);
+    S('text',{x:mL-7,y:y(v)+4,'text-anchor':'end',fill:'var(--muted)','font-size':11},svg)
+      .textContent = stackMode==='pct' ? Math.round(v*100)+'%' : fmt(v); });
+  S('line',{x1:mL,x2:W-mR,y1:y(0),y2:y(0),stroke:'var(--axis)','stroke-width':1},svg);
+  monthTicks(G).forEach(t => S('text',{x:mL+t.i*band+band/2,y:H-10,'text-anchor':'middle',fill:'var(--muted)','font-size':11},svg).textContent = t.m);
+
+  const tt = mkTT(box);
+  G.forEach((w,i) => {
+    const tot = totals[i] || 1;
+    const cx = mL + i*band + band/2;
+    let acc = 0;
+    const gr = S('g',{},svg);
+    MARCAS.forEach((m,mi) => {
+      const raw = w.mkFS[m] || 0; if (!raw) return;
+      const v = stackMode==='pct' ? raw/tot : raw;
+      const y1 = y(acc+v), y2 = y(acc);
+      const isTop = (acc+v) >= (stackMode==='pct' ? 0.999 : tot-0.001);
+      const gTop = isTop ? 0 : 1, gBot = acc===0 ? 0 : 1;
+      const hpx = Math.max(y2-y1-gTop-gBot, 1);
+      const yy = y1+gTop, xx = cx-bw/2, r = isTop ? 4 : 0;
+      const dP = r
+        ? `M${xx} ${yy+r} a${r} ${r} 0 0 1 ${r} ${-r} h${bw-2*r} a${r} ${r} 0 0 1 ${r} ${r} v${hpx-r} h${-bw} Z`
+        : `M${xx} ${yy} h${bw} v${hpx} h${-bw} Z`;
+      const seg = S('path',{d:dP,fill:COR[m]},gr);
+      seg.addEventListener('pointermove', e => {
+        seg.style.opacity = .82;
+        const r2 = box.getBoundingClientRect();
+        const rows = MARCAS.filter(k => w.mkFS[k] != null).map(k => ({
+          name:NOME[k], color:COR[k],
+          val: stackMode==='pct' ? pct((w.mkFS[k]||0)/tot,0) : fmt(w.mkFS[k]) }));
+        ttRows(tt, 'Fds ' + w.label + ' · total ' + fmt(tot), rows);
+        moveTT(tt, box, e.clientX-r2.left, e.clientY-r2.top);
+      });
+      seg.addEventListener('pointerleave', () => { seg.style.opacity = 1; tt.style.display='none'; });
+      acc += v;
+    });
+  });
+
+  const lg = document.getElementById('lg-stack'); lg.textContent = '';
+  MARCAS.forEach(m => { const it = el('span','it',lg); const k = el('span','sw',it);
+    k.style.background = COR[m]; it.append(NOME[m]); });
+}
+document.getElementById('bt-vol').addEventListener('click', () => { stackMode='vol';
+  document.getElementById('bt-vol').classList.add('on'); document.getElementById('bt-pct').classList.remove('on'); chartStack(); });
+document.getElementById('bt-pct').addEventListener('click', () => { stackMode='pct';
+  document.getElementById('bt-pct').classList.add('on'); document.getElementById('bt-vol').classList.remove('on'); chartStack(); });
+
+/* ---------- gráfico 3: small multiples ---------- */
+function chartMulti(){
+  const box = document.getElementById('ch-multi'); box.textContent = '';
+  MARCAS.forEach(m => {
+    const vals = G.map(w => w.mkFS[m] ?? 0);
+    const ytd = G.reduce((a,w)=>a+(w.mk[m]||0),0);
+    const card = el('div','mini',box);
+    const nm = el('div','nm',card); const sw = el('span','sw',nm); sw.style.background = COR[m];
+    nm.append(NOME[m]); el('span','ytd',nm, fmt(ytd) + ' no ano');
+    el('div','big',card, fmt(vals[vals.length-1]));
+    const dv = vals.length > 1 ? vals[vals.length-1] - vals[vals.length-2] : null;
+    const dl = el('div','dlt',card);
+    if (dv != null){ el('span', dv>0?'up':dv<0?'down':'', dl, (dv>0?'▲ +':dv<0?'▼ ':'▬ ') + fmt(dv));
+      dl.append(' vs fds anterior'); }
+    const W = 240, H = 74, mX = 6, mY = 8;
+    const svg = S('svg',{viewBox:`0 0 ${W} ${H}`},card);
+    const max = Math.max(...vals, 1);
+    const x = i => mX + i*(W-2*mX)/(vals.length-1);
+    const y = v => H-10 - v/max*(H-mY-14);
+    let dP = '', dA = 'M' + x(0) + ' ' + (H-10);
+    vals.forEach((v,i) => { dP += (i?'L':'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1);
+      dA += 'L' + x(i).toFixed(1) + ' ' + y(v).toFixed(1); });
+    dA += 'L' + x(vals.length-1).toFixed(1) + ' ' + (H-10) + 'Z';
+    S('path',{d:dA,fill:COR[m],opacity:.10},svg);
+    S('line',{x1:mX,x2:W-mX,y1:H-10,y2:H-10,stroke:'var(--grid)','stroke-width':1},svg);
+    S('path',{d:dP,fill:'none',stroke:COR[m],'stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round'},svg);
+    S('circle',{cx:x(vals.length-1),cy:y(vals[vals.length-1]),r:4,fill:COR[m],stroke:'var(--card)','stroke-width':1.6},svg);
+    const tt = mkTT(card);
+    const hit = S('rect',{x:0,y:0,width:W,height:H,fill:'transparent'},svg);
+    hit.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect(), sw2 = svg.getBoundingClientRect();
+      const sx = (e.clientX - sw2.left) * W / sw2.width;
+      const i = Math.max(0, Math.min(vals.length-1, Math.round((sx-mX)/((W-2*mX)/(vals.length-1)))));
+      ttRows(tt, 'Fds ' + G[i].label, [{name:NOME[m], color:COR[m], val:fmt(vals[i])}]);
+      moveTT(tt, card, e.clientX-r.left, e.clientY-r.top);
+    });
+    hit.addEventListener('pointerleave', () => tt.style.display='none');
+  });
+}
+
+/* ---------- gráfico 4: Chevrolet SP semana cheia ---------- */
+function chartChev(){
+  const box = document.getElementById('ch-chev'); box.textContent = '';
+  const W = Math.max(box.clientWidth || 900, 620), H = 300, mL = 38, mR = 14, mT = 16, mB = 34;
+  const iw = W - mL - mR, ih = H - mT - mB;
+  const svg = S('svg',{viewBox:`0 0 ${W} ${H}`},box);
+  const A = DATA;
+  const max = Math.max(...A.map(w => Math.max(w.chev.novos, w.chev.semi)));
+  const {out:tk, top} = ticks(max);
+  const x = i => mL + i*iw/(A.length-1);
+  const y = v => mT + ih - v/top*ih;
+  A.forEach((w,i) => { if (w.evento){ const half = iw/(A.length-1)/2;
+    S('rect',{x:x(i)-half,y:mT,width:half*2,height:ih,fill:'var(--band)'},svg); } });
+  tk.forEach(v => { S('line',{x1:mL,x2:W-mR,y1:y(v),y2:y(v),stroke:'var(--grid)','stroke-width':1},svg);
+    S('text',{x:mL-7,y:y(v)+4,'text-anchor':'end',fill:'var(--muted)','font-size':11},svg).textContent = fmt(v); });
+  S('line',{x1:mL,x2:W-mR,y1:y(0),y2:y(0),stroke:'var(--axis)','stroke-width':1},svg);
+  monthTicks(A).forEach(t => S('text',{x:x(t.i),y:H-10,'text-anchor':'middle',fill:'var(--muted)','font-size':11},svg).textContent = t.m);
+  const line = (get,color) => { let dP='';
+    A.forEach((w,i) => dP += (i?'L':'M') + x(i).toFixed(1) + ' ' + y(get(w)).toFixed(1));
+    S('path',{d:dP,fill:'none',stroke:color,'stroke-width':2.2,'stroke-linecap':'round','stroke-linejoin':'round'},svg); };
+  line(w=>w.chev.novos,'var(--s1)'); line(w=>w.chev.semi,'var(--s2)');
+  const li = A.length-1;
+  [['novos','var(--s1)'],['semi','var(--s2)']].forEach(([k,c]) => {
+    S('circle',{cx:x(li),cy:y(A[li].chev[k]),r:4.5,fill:c,stroke:'var(--card)','stroke-width':2},svg);
+    S('text',{x:x(li)-8,y:y(A[li].chev[k]) + (k==='novos'?-9:18),'text-anchor':'end',fill:'var(--ink)','font-size':12,'font-weight':650},svg).textContent = fmt(A[li].chev[k]); });
+
+  const cross = S('line',{y1:mT,y2:mT+ih,stroke:'var(--axis)','stroke-width':1,visibility:'hidden'},svg);
+  const tt = mkTT(box);
+  const hit = S('rect',{x:mL,y:mT,width:iw,height:ih,fill:'transparent'},svg);
+  hit.addEventListener('pointermove', e => {
+    const r = box.getBoundingClientRect(), sx = (e.clientX-r.left)*W/r.width;
+    const i = Math.max(0, Math.min(A.length-1, Math.round((sx-mL)/(iw/(A.length-1)))));
+    cross.setAttribute('x1',x(i)); cross.setAttribute('x2',x(i)); cross.setAttribute('visibility','visible');
+    const w = A[i];
+    const rows = [
+      {name:'Novos', color:'var(--s1)', val:fmt(w.chev.novos)},
+      {name:'Seminovos', color:'var(--s2)', val:fmt(w.chev.semi)},
+      {name:'Total', color:'transparent', val:fmt(w.chev.total)},
+      {name:'vs referência', color:'transparent', val:pct(w.chev.var)}
+    ];
+    ttRows(tt, 'Semana ' + w.label, rows, w.evento ? 'Campanha: ' + evName(w.evento) : null);
+    moveTT(tt, box, x(i)*r.width/W, mT*r.height/H + 10);
+  });
+  hit.addEventListener('pointerleave', () => { tt.style.display='none'; cross.setAttribute('visibility','hidden'); });
+
+  const lg = document.getElementById('lg-chev'); lg.textContent = '';
+  [['Novos','var(--s1)'],['Seminovos','var(--s2)']].forEach(([n,c]) => {
+    const it = el('span','it',lg); const k = el('span','ln',it); k.style.background = c; it.append(n); });
+  const chips = document.getElementById('chips-ev'); chips.textContent = '';
+  DATA.filter(w=>w.evento).forEach(w => { const c = el('span','chip',chips);
+    const b = el('b','',c,evName(w.evento)); c.append(' · ' + w.label); });
+}
+
+/* ---------- gráfico 5: heatmap lojas ---------- */
+function chartHeat(){
+  const box = document.getElementById('ch-heat'); box.textContent = '';
+  const lojas = {};
+  G.forEach(w => Object.keys(w.lojas||{}).forEach(l => { lojas[l] = (lojas[l]||0) + (w.lojas[l].total||0); }));
+  const names = Object.keys(lojas).sort((a,b) => lojas[b]-lojas[a]);
+  const max = Math.max(...G.flatMap(w => names.map(l => (w.lojas[l]||{}).total || 0)));
+  box.style.gridTemplateColumns = `auto repeat(${G.length}, 26px) auto`;
+  el('div','rl',box,'');
+  const mt = monthTicks(G);
+  G.forEach((w,i) => { const c = el('div','cl',box); const t = mt.find(t=>t.i===i); if (t) c.textContent = t.m; });
+  el('div','ytd',box,'ano');
+  const tt = mkTT(box.parentElement.parentElement);
+  names.forEach(l => {
+    el('div','rl',box, lojaNome(l));
+    G.forEach(w => {
+      const d = (w.lojas||{})[l] || {novos:0,semi:0,total:0};
+      const c = el('div','cell' + (d.total ? '' : ' z'),box);
+      if (d.total) c.style.background = SEQ[Math.min(SEQ.length-1, Math.ceil(d.total/max*(SEQ.length-1)))];
+      c.addEventListener('pointermove', e => {
+        const host = box.parentElement.parentElement, r = host.getBoundingClientRect();
+        ttRows(tt, lojaNome(l) + ' · fds ' + w.label, [
+          {name:'Novos', color:'var(--s1)', val:fmt(d.novos||0)},
+          {name:'Seminovos', color:'var(--s2)', val:fmt(d.semi||0)},
+          {name:'Total', color:'transparent', val:fmt(d.total||0)}]);
+        moveTT(tt, host, e.clientX-r.left, e.clientY-r.top);
+      });
+      c.addEventListener('pointerleave', () => tt.style.display='none');
+    });
+    el('div','ytd',box, fmt(lojas[l]));
+  });
+}
+
+/* ---------- tabela ---------- */
+(function table(){
+  const box = document.getElementById('tbl');
+  const t = el('table','',box), thead = el('thead','',t), trh = el('tr','',thead);
+  ['Semana','Campanha','Grupo sex+sáb','Grupo total','Domingo',
+    ...MARCAS.map(m=>NOME[m]), 'Semin. GM','Bajaj','Chev SP novos','Chev SP semi','Chev SP total','vs ref.']
+    .forEach(h => el('th','',trh,h));
+  const tb = el('tbody','',t);
+  DATA.forEach(w => {
+    const tr = el('tr','',tb);
+    el('td','',tr,w.label);
+    el('td','ev',tr, w.evento ? evName(w.evento) : '');
+    el('td','',tr, w.mk ? fmt(w.gFS) : 'n/d');
+    el('td','',tr, w.mk ? fmt(w.gTotal) : 'n/d');
+    el('td','',tr, w.mk ? (w.gDom ? fmt(w.gDom) : 'fechado') : 'n/d');
+    MARCAS.forEach(m => el('td','',tr, w.mk && w.mk[m] != null ? fmt(w.mk[m]) : ''));
+    el('td','',tr, w.mk ? fmt(w.semiGM) : '');
+    el('td','',tr, w.mk ? fmt(w.bajaj) : '');
+    el('td','',tr, fmt(w.chev.novos)); el('td','',tr, fmt(w.chev.semi));
+    el('td','',tr, fmt(w.chev.total)); el('td','',tr, pct(w.chev.var));
+  });
+})();
+
+function renderAll(){ insights(); chartGrupo(); chartDom(); chartStack(); chartMulti(); chartChev(); chartHeat(); }
+renderAll();
+let rsz; window.addEventListener('resize', () => { clearTimeout(rsz); rsz = setTimeout(renderAll, 150); });
+</script>
+
+</body>
+</html>
