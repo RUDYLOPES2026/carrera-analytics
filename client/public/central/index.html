@@ -114,7 +114,7 @@ function cmpSP(cur, base, goodUp, fmt){
   return `<div class="c ${cls}">${arw} ${(d>=0?"+":"")+(d*100).toFixed(0)}% <span class="z">vs ${per} (${fmt(base)})</span></div>`;
 }
 const kpis = [
-  ["Investimento no mês", BRL(G.spend_tot), "de "+BRL(G.budget)+" · "+PCT(G.attain)+" do orçamento", cmpSP(G.spend_comm, G.psp_spend, null, BRL)],
+  ["Investimento no mês", BRL(G.spend_tot), "de "+BRL(G.budget)+" · "+PCT(G.attain)+" do orçamento", cmpSP(G.spend_comm, G.psp_spend, true, BRL)],
   ["Projeção fim de mês", BRL(G.proj_tot), PCT(G.proj_attain)+" do orçamento", ""],
   ["Ideal até hoje", BRL(G.ideal), "ritmo linear do orçamento", ""],
   ["Leads (mês)", G.leads.toLocaleString("pt-BR"), "formulário", cmpSP(G.leads, G.psp_leads, true, v=>v.toLocaleString("pt-BR"))],
