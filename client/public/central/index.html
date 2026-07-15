@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carrera · Central de Mídia</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#0b0f14;--card:#141b24;--line:#1f2a36;--tx:#e6edf3;--mut:#8b98a5;--acc:#f59e0b;
+        --good:#1baf7a;--warn:#eab308;--bad:#e34948;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--tx);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  a{color:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:36px 20px 72px;}
+  .top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:8px;}
+  h1{font-size:25px;margin:0;letter-spacing:.3px;}
+  h1 .b{color:var(--acc);}
+  .meta{color:var(--mut);font-size:13.5px;}
+  .back{font-size:13px;color:var(--mut);text-decoration:none;border:1px solid var(--line);
+        padding:7px 12px;border-radius:9px;white-space:nowrap;}
+  .back:hover{border-color:var(--acc);color:var(--tx);}
+  h2{font-size:15px;margin:34px 0 12px;color:var(--tx);font-weight:600;letter-spacing:.2px;}
+  h2 .h{color:var(--mut);font-weight:400;font-size:12.5px;margin-left:8px;}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px;}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;}
+  .kpi .l{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;}
+  .kpi .v{font-size:22px;font-weight:650;margin-top:5px;}
+  .kpi .s{font-size:12px;color:var(--mut);margin-top:3px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{padding:9px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap;}
+  th{color:var(--mut);font-weight:500;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;}
+  th:first-child,td:first-child{text-align:left;}
+  tbody tr:hover{background:rgba(245,158,11,.04);}
+  td a{text-decoration:none;font-weight:600;}
+  td a:hover{color:var(--acc);}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle;}
+  .pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11.5px;font-weight:600;}
+  .pill.g{background:rgba(27,175,122,.15);color:var(--good);}
+  .pill.w{background:rgba(234,179,8,.15);color:var(--warn);}
+  .pill.b{background:rgba(227,73,72,.16);color:var(--bad);}
+  .mut{color:var(--mut);} .up{color:var(--good);} .down{color:var(--bad);}
+  .alerts{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+  .alert{background:var(--card);border:1px solid var(--line);border-left-width:4px;border-radius:12px;padding:13px 15px;}
+  .alert.b{border-left-color:var(--bad);} .alert.w{border-left-color:var(--warn);} .alert.g{border-left-color:var(--good);}
+  .alert .n{font-weight:650;font-size:14px;} .alert .d{font-size:12.5px;color:var(--mut);margin-top:4px;line-height:1.5;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr;}}
+  .chartbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 8px;}
+  .chartbox .t{font-size:13px;color:var(--mut);margin-bottom:8px;}
+  canvas{max-width:100%;}
+  footer{margin-top:40px;color:var(--mut);font-size:12px;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Grupo <span class="b">Carrera</span> , Central de Mídia</h1>
+      <div class="meta" id="sub"></div>
+    </div>
+    <a class="back" href="../dashboards/">← dashboards por marca</a>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <h2>Consolidado por marca <span class="h">mês corrente (MTD) · projeção de fim de mês · orçamento bruto</span></h2>
+  <div class="card" style="overflow-x:auto"><table id="tbl"></table></div>
+
+  <h2>Alertas de pacing <span class="h">projeção de fim de mês vs orçamento</span></h2>
+  <div class="alerts" id="alerts"></div>
+
+  <h2>Evolução diária por marca <span class="h">investimento/dia, últimos 30 dias</span></h2>
+  <div class="chartbox"><canvas id="cDaily" height="150"></canvas></div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="chartbox"><div class="t">Mês atual (projeção) x mês anterior , investimento</div><canvas id="cMoM" height="220"></canvas></div>
+    <div class="chartbox"><div class="t">Participação de cada marca no investimento do grupo</div><canvas id="cShare" height="220"></canvas></div>
+  </div>
+
+  <h2>Mix de canal , Formulário x WhatsApp <span class="h">investimento do mês, por marca</span></h2>
+  <div class="chartbox"><canvas id="cMix" height="140"></canvas></div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const P = {"gerado": "2026-07-15", "asof": "15/07/2026", "elapsed": 15, "days": 31, "brands": [{"slug": "nissan", "nome": "Nissan", "cor": "#f59e0b", "budget": 84112.5, "days": 31, "elapsed": 15, "spend_comm": 31896.55, "pv": 2210.84, "spend_tot": 34107.39, "leads": 2984, "conv": 165, "res": 3149, "cpl": 10.13, "ideal": 40699.6, "proj_tot": 70488.61, "proj_comm": 65919.54, "attain": 0.4055, "proj_attain": 0.838, "prev_bruto": 72365.1, "prev_leads": 5930, "prev_conv": 1368, "prev_res": 7298, "form_b": 27951.19, "wa_b": 2547.17, "eng_b": 1398.19, "form_r": 2925, "wa_r": 142, "daily": [{"date": "2026-06-16", "tot": 2852.42, "form": 1919.41, "wa": 604.94}, {"date": "2026-06-17", "tot": 2906.33, "form": 1910.38, "wa": 690.8}, {"date": "2026-06-18", "tot": 2710.12, "form": 1898.59, "wa": 552.66}, {"date": "2026-06-19", "tot": 2256.74, "form": 1607.44, "wa": 414.8}, {"date": "2026-06-20", "tot": 2004.58, "form": 1482.41, "wa": 302.02}, {"date": "2026-06-21", "tot": 3340.71, "form": 2238.24, "wa": 769.31}, {"date": "2026-06-22", "tot": 2996.13, "form": 1967.87, "wa": 739.59}, {"date": "2026-06-23", "tot": 2844.48, "form": 1904.12, "wa": 635.31}, {"date": "2026-06-24", "tot": 2628.86, "form": 1820.6, "wa": 553.44}, {"date": "2026-06-25", "tot": 2496.47, "form": 1700.99, "wa": 481.81}, {"date": "2026-06-26", "tot": 2325.5, "form": 1709.2, "wa": 387.73}, {"date": "2026-06-27", "tot": 2223.03, "form": 1725.03, "wa": 290.35}, {"date": "2026-06-28", "tot": 3240.76, "form": 2239.1, "wa": 704.56}, {"date": "2026-06-29", "tot": 2912.87, "form": 1940.57, "wa": 721.48}, {"date": "2026-06-30", "tot": 2883.17, "form": 1951.58, "wa": 679.53}, {"date": "2026-07-01", "tot": 2695.19, "form": 1955.47, "wa": 491.44}, {"date": "2026-07-02", "tot": 1955.3, "form": 1567.85, "wa": 166.32}, {"date": "2026-07-03", "tot": 1849.68, "form": 1584.22, "wa": 99.8}, {"date": "2026-07-04", "tot": 1895.74, "form": 1633.67, "wa": 95.84}, {"date": "2026-07-05", "tot": 1064.42, "form": 900.62, "wa": 66.42}, {"date": "2026-07-06", "tot": 2278.11, "form": 1835.4, "wa": 150.22}, {"date": "2026-07-07", "tot": 762.33, "form": 577.17, "wa": 56.84}, {"date": "2026-07-08", "tot": 2217.76, "form": 1834.2, "wa": 148.72}, {"date": "2026-07-09", "tot": 1787.5, "form": 1499.53, "wa": 104.45}, {"date": "2026-07-10", "tot": 1737.08, "form": 1500.57, "wa": 38.82}, {"date": "2026-07-11", "tot": 1805.79, "form": 1563.03, "wa": 40.85}, {"date": "2026-07-12", "tot": 2551.45, "form": 2163.32, "wa": 136.01}, {"date": "2026-07-13", "tot": 698.1, "form": 562.09, "wa": 48.48}, {"date": "2026-07-14", "tot": 671.62, "form": 471.6, "wa": 110.17}, {"date": "2026-07-15", "tot": 300.98, "form": 228.08, "wa": 34.16}], "share": 0.1421}, {"slug": "bajaj", "nome": "Bajaj", "cor": "#e34948", "budget": 45981.5, "days": 31, "elapsed": 15, "spend_comm": 17184.37, "pv": 0.0, "spend_tot": 17184.37, "leads": 4091, "conv": 636, "res": 4727, "cpl": 3.64, "ideal": 22249.11, "proj_tot": 35514.36, "proj_comm": 35514.36, "attain": 0.3737, "proj_attain": 0.7724, "prev_bruto": 62446.81, "prev_leads": 6996, "prev_conv": 6775, "prev_res": 13771, "form_b": 14437.55, "wa_b": 1863.26, "eng_b": 883.56, "form_r": 4146, "wa_r": 581, "daily": [{"date": "2026-06-16", "tot": 1544.31, "form": 838.05, "wa": 675.41}, {"date": "2026-06-17", "tot": 1460.04, "form": 811.08, "wa": 617.81}, {"date": "2026-06-18", "tot": 1483.22, "form": 813.6, "wa": 637.91}, {"date": "2026-06-19", "tot": 1402.58, "form": 772.81, "wa": 602.66}, {"date": "2026-06-20", "tot": 1577.0, "form": 900.69, "wa": 627.94}, {"date": "2026-06-21", "tot": 2230.44, "form": 1043.17, "wa": 1007.8}, {"date": "2026-06-22", "tot": 2041.3, "form": 867.32, "wa": 1012.03}, {"date": "2026-06-23", "tot": 4313.43, "form": 744.42, "wa": 2798.53}, {"date": "2026-06-24", "tot": 4090.17, "form": 801.57, "wa": 2416.31}, {"date": "2026-06-25", "tot": 4431.2, "form": 799.78, "wa": 2750.37}, {"date": "2026-06-26", "tot": 4838.38, "form": 1487.46, "wa": 2472.44}, {"date": "2026-06-27", "tot": 3765.91, "form": 1146.8, "wa": 1686.71}, {"date": "2026-06-28", "tot": 2408.09, "form": 667.3, "wa": 1239.18}, {"date": "2026-06-29", "tot": 680.43, "form": 347.05, "wa": 304.6}, {"date": "2026-06-30", "tot": 961.02, "form": 513.79, "wa": 418.95}, {"date": "2026-07-01", "tot": 1192.87, "form": 863.02, "wa": 269.26}, {"date": "2026-07-02", "tot": 1018.2, "form": 736.65, "wa": 229.83}, {"date": "2026-07-03", "tot": 952.11, "form": 688.84, "wa": 214.91}, {"date": "2026-07-04", "tot": 1070.96, "form": 774.82, "wa": 241.74}, {"date": "2026-07-05", "tot": 460.4, "form": 333.08, "wa": 103.93}, {"date": "2026-07-06", "tot": 1081.88, "form": 886.89, "wa": 140.09}, {"date": "2026-07-07", "tot": 980.26, "form": 833.5, "wa": 95.01}, {"date": "2026-07-08", "tot": 1051.57, "form": 889.7, "wa": 108.74}, {"date": "2026-07-09", "tot": 1787.5, "form": 1466.08, "wa": 204.54}, {"date": "2026-07-10", "tot": 993.74, "form": 915.16, "wa": 25.39}, {"date": "2026-07-11", "tot": 1052.05, "form": 996.66, "wa": 0.0}, {"date": "2026-07-12", "tot": 1274.08, "form": 1208.21, "wa": 0.0}, {"date": "2026-07-13", "tot": 309.51, "form": 287.92, "wa": 0.0}, {"date": "2026-07-14", "tot": 478.74, "form": 455.21, "wa": 0.0}, {"date": "2026-07-15", "tot": 185.35, "form": 172.31, "wa": 0.0}], "share": 0.0716}, {"slug": "chevrolet-sp", "nome": "Chevrolet SP", "cor": "#2a78d6", "budget": 89720.0, "days": 31, "elapsed": 15, "spend_comm": 36516.77, "pv": 1272.97, "spend_tot": 37789.74, "leads": 2333, "conv": 1275, "res": 3608, "cpl": 10.12, "ideal": 43412.9, "proj_tot": 78098.8, "proj_comm": 75467.99, "attain": 0.4212, "proj_attain": 0.8705, "prev_bruto": 92281.62, "prev_leads": 6410, "prev_conv": 3152, "prev_res": 9562, "form_b": 17661.59, "wa_b": 18042.36, "eng_b": 812.82, "form_r": 2349, "wa_r": 1259, "daily": [{"date": "2026-06-16", "tot": 3143.19, "form": 1480.1, "wa": 1445.56}, {"date": "2026-06-17", "tot": 2754.37, "form": 1370.64, "wa": 1195.75}, {"date": "2026-06-18", "tot": 2549.87, "form": 1420.7, "wa": 941.87}, {"date": "2026-06-19", "tot": 2786.03, "form": 1365.87, "wa": 1199.43}, {"date": "2026-06-20", "tot": 2480.48, "form": 1374.62, "wa": 878.66}, {"date": "2026-06-21", "tot": 3621.67, "form": 1743.13, "wa": 1653.68}, {"date": "2026-06-22", "tot": 3321.99, "form": 1496.08, "wa": 1638.68}, {"date": "2026-06-23", "tot": 3232.38, "form": 1514.08, "wa": 1521.28}, {"date": "2026-06-24", "tot": 3468.97, "form": 1643.29, "wa": 1621.01}, {"date": "2026-06-25", "tot": 3793.94, "form": 1800.04, "wa": 1790.2}, {"date": "2026-06-26", "tot": 3605.48, "form": 2354.13, "wa": 1094.85}, {"date": "2026-06-27", "tot": 2637.82, "form": 2086.56, "wa": 452.62}, {"date": "2026-06-28", "tot": 3605.44, "form": 2706.8, "wa": 768.55}, {"date": "2026-06-29", "tot": 2972.69, "form": 2222.37, "wa": 634.11}, {"date": "2026-06-30", "tot": 3124.98, "form": 2359.76, "wa": 646.68}, {"date": "2026-07-01", "tot": 3114.06, "form": 1720.73, "wa": 1257.63}, {"date": "2026-07-02", "tot": 2263.11, "form": 1082.22, "wa": 1059.04}, {"date": "2026-07-03", "tot": 2214.2, "form": 1038.33, "wa": 1055.15}, {"date": "2026-07-04", "tot": 1973.75, "form": 922.11, "wa": 923.63}, {"date": "2026-07-05", "tot": 2681.39, "form": 1204.22, "wa": 1329.84}, {"date": "2026-07-06", "tot": 2657.44, "form": 1186.37, "wa": 1347.37}, {"date": "2026-07-07", "tot": 461.1, "form": 238.7, "wa": 195.77}, {"date": "2026-07-08", "tot": 2340.75, "form": 1086.71, "wa": 1155.34}, {"date": "2026-07-09", "tot": 2289.65, "form": 1116.83, "wa": 1075.09}, {"date": "2026-07-10", "tot": 1979.5, "form": 995.39, "wa": 901.7}, {"date": "2026-07-11", "tot": 1915.15, "form": 987.91, "wa": 841.86}, {"date": "2026-07-12", "tot": 2699.22, "form": 1324.26, "wa": 1287.22}, {"date": "2026-07-13", "tot": 741.27, "form": 299.08, "wa": 404.64}, {"date": "2026-07-14", "tot": 632.1, "form": 219.5, "wa": 310.32}, {"date": "2026-07-15", "tot": 308.09, "form": 111.19, "wa": 139.23}], "share": 0.1574}, {"slug": "chevrolet-bsb", "nome": "Chevrolet Brasília", "cor": "#1baf7a", "budget": 19850.55, "days": 31, "elapsed": 15, "spend_comm": 10116.22, "pv": 0.0, "spend_tot": 10116.22, "leads": 602, "conv": 242, "res": 844, "cpl": 11.99, "ideal": 9605.1, "proj_tot": 20906.85, "proj_comm": 20906.85, "attain": 0.5096, "proj_attain": 1.0532, "prev_bruto": 20763.72, "prev_leads": 1055, "prev_conv": 688, "prev_res": 1743, "form_b": 5956.97, "wa_b": 3633.4, "eng_b": 525.85, "form_r": 648, "wa_r": 162, "daily": [{"date": "2026-06-16", "tot": 268.7, "form": 134.94, "wa": 96.19}, {"date": "2026-06-17", "tot": 252.05, "form": 128.42, "wa": 83.45}, {"date": "2026-06-18", "tot": 242.3, "form": 131.29, "wa": 72.84}, {"date": "2026-06-19", "tot": 202.38, "form": 101.21, "wa": 61.35}, {"date": "2026-06-20", "tot": 140.27, "form": 84.77, "wa": 27.06}, {"date": "2026-06-21", "tot": 282.08, "form": 150.37, "wa": 94.84}, {"date": "2026-06-22", "tot": 336.41, "form": 181.25, "wa": 125.02}, {"date": "2026-06-23", "tot": 274.89, "form": 135.04, "wa": 104.85}, {"date": "2026-06-24", "tot": 197.9, "form": 106.69, "wa": 54.65}, {"date": "2026-06-25", "tot": 249.29, "form": 161.2, "wa": 54.3}, {"date": "2026-06-26", "tot": 831.04, "form": 501.99, "wa": 284.97}, {"date": "2026-06-27", "tot": 907.94, "form": 571.91, "wa": 297.85}, {"date": "2026-06-28", "tot": 1092.5, "form": 677.01, "wa": 369.65}, {"date": "2026-06-29", "tot": 1097.17, "form": 627.16, "wa": 421.71}, {"date": "2026-06-30", "tot": 1149.76, "form": 705.18, "wa": 400.41}, {"date": "2026-07-01", "tot": 1351.8, "form": 844.53, "wa": 464.19}, {"date": "2026-07-02", "tot": 1025.27, "form": 584.32, "wa": 403.36}, {"date": "2026-07-03", "tot": 834.43, "form": 470.65, "wa": 325.44}, {"date": "2026-07-04", "tot": 1004.82, "form": 627.3, "wa": 342.5}, {"date": "2026-07-05", "tot": 1179.59, "form": 749.37, "wa": 382.67}, {"date": "2026-07-06", "tot": 816.49, "form": 422.27, "wa": 353.49}, {"date": "2026-07-07", "tot": 364.34, "form": 189.43, "wa": 146.98}, {"date": "2026-07-08", "tot": 336.33, "form": 188.15, "wa": 122.12}, {"date": "2026-07-09", "tot": 313.55, "form": 176.97, "wa": 112.55}, {"date": "2026-07-10", "tot": 118.64, "form": 70.27, "wa": 39.03}, {"date": "2026-07-11", "tot": 240.31, "form": 157.72, "wa": 65.58}, {"date": "2026-07-12", "tot": 355.65, "form": 213.98, "wa": 120.52}, {"date": "2026-07-13", "tot": 177.5, "form": 89.32, "wa": 76.36}, {"date": "2026-07-14", "tot": 123.76, "form": 57.48, "wa": 48.27}, {"date": "2026-07-15", "tot": 67.28, "form": 36.56, "wa": 24.55}], "share": 0.0421}, {"slug": "omoda", "nome": "Omoda & Jaecoo", "cor": "#e87ba4", "budget": 100000.0, "days": 31, "elapsed": 15, "spend_comm": 40003.96, "pv": 409.41, "spend_tot": 40413.37, "leads": 734, "conv": 1764, "res": 2498, "cpl": 16.01, "ideal": 48387.1, "proj_tot": 83520.96, "proj_comm": 82674.85, "attain": 0.4041, "proj_attain": 0.8352, "prev_bruto": 62440.33, "prev_leads": 1476, "prev_conv": 2506, "prev_res": 3982, "form_b": 8917.59, "wa_b": 30570.46, "eng_b": 515.91, "form_r": 705, "wa_r": 1756, "daily": [{"date": "2026-06-16", "tot": 1740.99, "form": 723.42, "wa": 1017.57}, {"date": "2026-06-17", "tot": 1669.91, "form": 693.41, "wa": 976.5}, {"date": "2026-06-18", "tot": 1507.74, "form": 652.12, "wa": 855.62}, {"date": "2026-06-19", "tot": 1276.45, "form": 579.31, "wa": 697.14}, {"date": "2026-06-20", "tot": 1004.03, "form": 444.64, "wa": 559.39}, {"date": "2026-06-21", "tot": 1655.09, "form": 738.41, "wa": 916.68}, {"date": "2026-06-22", "tot": 1494.82, "form": 616.06, "wa": 878.76}, {"date": "2026-06-23", "tot": 2023.8, "form": 579.67, "wa": 1444.13}, {"date": "2026-06-24", "tot": 2439.4, "form": 430.82, "wa": 2008.58}, {"date": "2026-06-25", "tot": 2380.92, "form": 525.29, "wa": 1855.63}, {"date": "2026-06-26", "tot": 2227.72, "form": 478.36, "wa": 1749.36}, {"date": "2026-06-27", "tot": 2664.09, "form": 467.86, "wa": 2196.23}, {"date": "2026-06-28", "tot": 2952.29, "form": 657.64, "wa": 2294.65}, {"date": "2026-06-29", "tot": 2735.16, "form": 606.62, "wa": 2128.54}, {"date": "2026-06-30", "tot": 2767.91, "form": 514.54, "wa": 2253.37}, {"date": "2026-07-01", "tot": 2970.83, "form": 599.95, "wa": 2370.88}, {"date": "2026-07-02", "tot": 2905.92, "form": 519.81, "wa": 2386.11}, {"date": "2026-07-03", "tot": 2892.38, "form": 497.2, "wa": 2395.18}, {"date": "2026-07-04", "tot": 3432.15, "form": 482.07, "wa": 2950.08}, {"date": "2026-07-05", "tot": 3220.48, "form": 564.09, "wa": 2656.39}, {"date": "2026-07-06", "tot": 3202.66, "form": 589.81, "wa": 2612.85}, {"date": "2026-07-07", "tot": 1497.96, "form": 312.0, "wa": 1185.96}, {"date": "2026-07-08", "tot": 2129.37, "form": 590.63, "wa": 1474.4}, {"date": "2026-07-09", "tot": 1968.99, "form": 621.85, "wa": 1292.11}, {"date": "2026-07-10", "tot": 1736.44, "form": 617.71, "wa": 1067.55}, {"date": "2026-07-11", "tot": 1596.8, "form": 508.42, "wa": 1052.78}, {"date": "2026-07-12", "tot": 2122.57, "form": 666.86, "wa": 1382.8}, {"date": "2026-07-13", "tot": 955.53, "form": 260.72, "wa": 657.58}, {"date": "2026-07-14", "tot": 966.92, "form": 243.91, "wa": 688.44}, {"date": "2026-07-15", "tot": 339.74, "form": 83.06, "wa": 249.04}], "share": 0.1684}, {"slug": "seminovos", "nome": "Carrera Seminovos", "cor": "#8b98a5", "budget": 3000.0, "days": 31, "elapsed": 15, "spend_comm": 3082.62, "pv": 0.0, "spend_tot": 3082.62, "leads": 192, "conv": 174, "res": 366, "cpl": 8.42, "ideal": 1451.61, "proj_tot": 6370.75, "proj_comm": 6370.75, "attain": 1.0275, "proj_attain": 2.1236, "prev_bruto": 0.0, "prev_leads": 0, "prev_conv": 0, "prev_res": 0, "form_b": 1464.99, "wa_b": 1567.04, "eng_b": 50.59, "form_r": 197, "wa_r": 169, "daily": [{"date": "2026-06-16", "tot": 193.83, "form": 84.91, "wa": 104.15}, {"date": "2026-06-17", "tot": 183.99, "form": 84.39, "wa": 90.78}, {"date": "2026-06-18", "tot": 110.85, "form": 37.52, "wa": 68.06}, {"date": "2026-06-19", "tot": 87.31, "form": 28.03, "wa": 53.89}, {"date": "2026-06-20", "tot": 65.38, "form": 24.46, "wa": 36.28}, {"date": "2026-06-21", "tot": 166.91, "form": 42.12, "wa": 118.2}, {"date": "2026-06-22", "tot": 147.97, "form": 37.8, "wa": 104.86}, {"date": "2026-06-23", "tot": 145.15, "form": 33.64, "wa": 106.76}, {"date": "2026-06-24", "tot": 119.31, "form": 28.93, "wa": 85.75}, {"date": "2026-06-25", "tot": 10.66, "form": 2.17, "wa": 7.98}, {"date": "2026-06-26", "tot": 265.4, "form": 140.51, "wa": 111.09}, {"date": "2026-06-27", "tot": 453.79, "form": 260.99, "wa": 175.29}, {"date": "2026-06-28", "tot": 635.7, "form": 321.79, "wa": 284.24}, {"date": "2026-06-29", "tot": 657.97, "form": 383.79, "wa": 249.01}, {"date": "2026-06-30", "tot": 567.34, "form": 320.06, "wa": 223.16}, {"date": "2026-07-01", "tot": 424.8, "form": 224.41, "wa": 181.12}, {"date": "2026-07-02", "tot": 212.3, "form": 78.69, "wa": 126.15}, {"date": "2026-07-03", "tot": 111.43, "form": 32.47, "wa": 73.78}, {"date": "2026-07-04", "tot": 56.53, "form": 18.91, "wa": 33.91}, {"date": "2026-07-05", "tot": 131.15, "form": 40.97, "wa": 83.74}, {"date": "2026-07-06", "tot": 125.62, "form": 46.52, "wa": 76.05}, {"date": "2026-07-07", "tot": 59.03, "form": 20.61, "wa": 38.42}, {"date": "2026-07-08", "tot": 235.04, "form": 116.14, "wa": 118.9}, {"date": "2026-07-09", "tot": 253.25, "form": 142.08, "wa": 111.17}, {"date": "2026-07-10", "tot": 1737.08, "form": 1737.08, "wa": 0.0}, {"date": "2026-07-11", "tot": 1805.79, "form": 1805.79, "wa": 0.0}, {"date": "2026-07-12", "tot": 269.52, "form": 144.69, "wa": 124.83}, {"date": "2026-07-13", "tot": 122.92, "form": 58.53, "wa": 64.39}, {"date": "2026-07-14", "tot": 81.76, "form": 30.62, "wa": 51.14}, {"date": "2026-07-15", "tot": 36.32, "form": 13.92, "wa": 22.4}], "share": 0.0128}, {"slug": "gac", "nome": "GAC", "cor": "#4a3aa7", "budget": 55000.0, "days": 31, "elapsed": 15, "spend_comm": 24575.93, "pv": 768.09, "spend_tot": 25344.02, "leads": 752, "conv": 1270, "res": 2022, "cpl": 12.15, "ideal": 26612.9, "proj_tot": 52377.64, "proj_comm": 50790.26, "attain": 0.4608, "proj_attain": 0.9523, "prev_bruto": 57871.08, "prev_leads": 1884, "prev_conv": 3852, "prev_res": 5736, "form_b": 9189.29, "wa_b": 14758.43, "eng_b": 628.21, "form_r": 752, "wa_r": 1183, "daily": [{"date": "2026-06-16", "tot": 1258.64, "form": 404.43, "wa": 814.77}, {"date": "2026-06-17", "tot": 1134.56, "form": 342.51, "wa": 747.81}, {"date": "2026-06-18", "tot": 1177.66, "form": 436.83, "wa": 689.6}, {"date": "2026-06-19", "tot": 934.31, "form": 396.62, "wa": 484.64}, {"date": "2026-06-20", "tot": 907.6, "form": 350.56, "wa": 508.11}, {"date": "2026-06-21", "tot": 1133.67, "form": 404.49, "wa": 660.73}, {"date": "2026-06-22", "tot": 1320.03, "form": 423.57, "wa": 845.05}, {"date": "2026-06-23", "tot": 1232.85, "form": 399.66, "wa": 776.99}, {"date": "2026-06-24", "tot": 1146.93, "form": 423.51, "wa": 671.4}, {"date": "2026-06-25", "tot": 1132.47, "form": 405.06, "wa": 677.34}, {"date": "2026-06-26", "tot": 1562.82, "form": 553.62, "wa": 875.71}, {"date": "2026-06-27", "tot": 1535.25, "form": 552.51, "wa": 874.6}, {"date": "2026-06-28", "tot": 2276.59, "form": 855.93, "wa": 1228.63}, {"date": "2026-06-29", "tot": 2043.62, "form": 690.21, "wa": 1150.13}, {"date": "2026-06-30", "tot": 1986.28, "form": 612.68, "wa": 1211.91}, {"date": "2026-07-01", "tot": 2112.18, "form": 696.51, "wa": 1258.29}, {"date": "2026-07-02", "tot": 1742.33, "form": 578.86, "wa": 1046.05}, {"date": "2026-07-03", "tot": 1740.86, "form": 625.51, "wa": 991.87}, {"date": "2026-07-04", "tot": 1661.4, "form": 537.17, "wa": 1017.62}, {"date": "2026-07-05", "tot": 2084.46, "form": 768.16, "wa": 1133.7}, {"date": "2026-07-06", "tot": 1862.11, "form": 603.72, "wa": 1134.2}, {"date": "2026-07-07", "tot": 1536.75, "form": 528.32, "wa": 944.5}, {"date": "2026-07-08", "tot": 1532.02, "form": 565.93, "wa": 910.07}, {"date": "2026-07-09", "tot": 1403.62, "form": 546.96, "wa": 800.57}, {"date": "2026-07-10", "tot": 182.79, "form": 93.11, "wa": 81.49}, {"date": "2026-07-11", "tot": 1388.95, "form": 488.18, "wa": 851.86}, {"date": "2026-07-12", "tot": 1656.78, "form": 668.98, "wa": 915.57}, {"date": "2026-07-13", "tot": 275.41, "form": 110.89, "wa": 149.6}, {"date": "2026-07-14", "tot": 248.2, "form": 110.69, "wa": 129.24}, {"date": "2026-07-15", "tot": 110.79, "form": 62.18, "wa": 46.0}], "share": 0.1056}, {"slug": "gwm", "nome": "GWM", "cor": "#eb6834", "budget": 105000.0, "days": 31, "elapsed": 15, "spend_comm": 46494.55, "pv": 0.0, "spend_tot": 46494.55, "leads": 893, "conv": 1535, "res": 2428, "cpl": 19.15, "ideal": 50806.45, "proj_tot": 96088.74, "proj_comm": 96088.74, "attain": 0.4428, "proj_attain": 0.9151, "prev_bruto": 101898.55, "prev_leads": 1679, "prev_conv": 3912, "prev_res": 5591, "form_b": 15919.34, "wa_b": 29902.16, "eng_b": 673.07, "form_r": 893, "wa_r": 1535, "daily": [{"date": "2026-06-16", "tot": 2941.73, "form": 954.91, "wa": 1958.55}, {"date": "2026-06-17", "tot": 2527.14, "form": 881.57, "wa": 1624.58}, {"date": "2026-06-18", "tot": 2384.85, "form": 890.94, "wa": 1471.96}, {"date": "2026-06-19", "tot": 2138.56, "form": 805.05, "wa": 1303.66}, {"date": "2026-06-20", "tot": 1772.02, "form": 709.03, "wa": 1035.83}, {"date": "2026-06-21", "tot": 2783.94, "form": 915.65, "wa": 1832.47}, {"date": "2026-06-22", "tot": 2361.94, "form": 758.64, "wa": 1578.31}, {"date": "2026-06-23", "tot": 2315.38, "form": 748.73, "wa": 1547.14}, {"date": "2026-06-24", "tot": 2326.02, "form": 1000.54, "wa": 1300.82}, {"date": "2026-06-25", "tot": 2365.73, "form": 997.01, "wa": 1312.67}, {"date": "2026-06-26", "tot": 2904.72, "form": 1064.61, "wa": 1789.41}, {"date": "2026-06-27", "tot": 2614.1, "form": 1017.12, "wa": 1554.67}, {"date": "2026-06-28", "tot": 3791.05, "form": 1411.25, "wa": 2325.15}, {"date": "2026-06-29", "tot": 3449.71, "form": 1112.88, "wa": 2284.6}, {"date": "2026-06-30", "tot": 3200.08, "form": 1181.06, "wa": 1957.29}, {"date": "2026-07-01", "tot": 3346.23, "form": 1216.1, "wa": 2071.05}, {"date": "2026-07-02", "tot": 2487.4, "form": 885.09, "wa": 1564.97}, {"date": "2026-07-03", "tot": 2661.64, "form": 958.92, "wa": 1655.72}, {"date": "2026-07-04", "tot": 2760.8, "form": 1006.22, "wa": 1691.44}, {"date": "2026-07-05", "tot": 3471.58, "form": 1151.18, "wa": 2246.14}, {"date": "2026-07-06", "tot": 3114.33, "form": 972.15, "wa": 2091.68}, {"date": "2026-07-07", "tot": 3312.28, "form": 1102.18, "wa": 2176.85}, {"date": "2026-07-08", "tot": 1100.39, "form": 274.4, "wa": 815.61}, {"date": "2026-07-09", "tot": 2554.09, "form": 900.75, "wa": 1621.46}, {"date": "2026-07-10", "tot": 497.17, "form": 158.72, "wa": 329.69}, {"date": "2026-07-11", "tot": 2196.08, "form": 892.86, "wa": 1277.7}, {"date": "2026-07-12", "tot": 3249.01, "form": 1123.43, "wa": 2086.81}, {"date": "2026-07-13", "tot": 631.12, "form": 215.26, "wa": 406.09}, {"date": "2026-07-14", "tot": 677.29, "form": 200.56, "wa": 464.07}, {"date": "2026-07-15", "tot": 375.12, "form": 165.14, "wa": 204.73}], "share": 0.1937}, {"slug": "vw", "nome": "Volkswagen", "cor": "#00a3e0", "budget": 70000.0, "days": 31, "elapsed": 15, "spend_comm": 25492.69, "pv": 0.0, "spend_tot": 25492.69, "leads": 1147, "conv": 925, "res": 2072, "cpl": 12.3, "ideal": 33870.97, "proj_tot": 52684.89, "proj_comm": 52684.89, "attain": 0.3642, "proj_attain": 0.7526, "prev_bruto": 71253.17, "prev_leads": 2695, "prev_conv": 3003, "prev_res": 5698, "form_b": 10040.01, "wa_b": 14575.24, "eng_b": 877.43, "form_r": 1147, "wa_r": 925, "daily": [{"date": "2026-06-16", "tot": 2410.98, "form": 890.16, "wa": 1520.82}, {"date": "2026-06-17", "tot": 2124.79, "form": 762.68, "wa": 1362.11}, {"date": "2026-06-18", "tot": 1801.57, "form": 597.76, "wa": 1191.06}, {"date": "2026-06-19", "tot": 2027.15, "form": 645.37, "wa": 1334.65}, {"date": "2026-06-20", "tot": 1926.2, "form": 410.26, "wa": 1459.61}, {"date": "2026-06-21", "tot": 2723.74, "form": 628.98, "wa": 2078.11}, {"date": "2026-06-22", "tot": 2500.06, "form": 556.13, "wa": 1943.93}, {"date": "2026-06-23", "tot": 2208.27, "form": 442.4, "wa": 1765.87}, {"date": "2026-06-24", "tot": 1958.71, "form": 493.6, "wa": 1465.11}, {"date": "2026-06-25", "tot": 1802.77, "form": 417.53, "wa": 1385.24}, {"date": "2026-06-26", "tot": 2835.66, "form": 972.65, "wa": 1863.01}, {"date": "2026-06-27", "tot": 2993.75, "form": 1160.18, "wa": 1833.57}, {"date": "2026-06-28", "tot": 4348.46, "form": 1692.97, "wa": 2655.49}, {"date": "2026-06-29", "tot": 3878.26, "form": 1421.25, "wa": 2457.01}, {"date": "2026-06-30", "tot": 3642.84, "form": 1166.69, "wa": 2476.15}, {"date": "2026-07-01", "tot": 2111.11, "form": 669.13, "wa": 1441.98}, {"date": "2026-07-02", "tot": 1407.48, "form": 564.89, "wa": 842.59}, {"date": "2026-07-03", "tot": 1531.74, "form": 613.63, "wa": 918.11}, {"date": "2026-07-04", "tot": 1388.32, "form": 548.25, "wa": 840.07}, {"date": "2026-07-05", "tot": 1905.41, "form": 767.05, "wa": 1138.36}, {"date": "2026-07-06", "tot": 1985.87, "form": 747.09, "wa": 1238.78}, {"date": "2026-07-07", "tot": 1891.02, "form": 709.49, "wa": 1181.53}, {"date": "2026-07-08", "tot": 605.07, "form": 205.55, "wa": 399.52}, {"date": "2026-07-09", "tot": 1380.05, "form": 594.2, "wa": 731.24}, {"date": "2026-07-10", "tot": 294.97, "form": 114.26, "wa": 166.98}, {"date": "2026-07-11", "tot": 1123.51, "form": 485.7, "wa": 580.83}, {"date": "2026-07-12", "tot": 1645.17, "form": 708.22, "wa": 871.61}, {"date": "2026-07-13", "tot": 330.09, "form": 126.08, "wa": 190.89}, {"date": "2026-07-14", "tot": 477.48, "form": 159.35, "wa": 306.12}, {"date": "2026-07-15", "tot": 203.34, "form": 78.33, "wa": 118.41}], "share": 0.1062}], "grupo": {"budget": 572664.55, "spend_tot": 240024.96999999997, "spend_comm": 235363.65999999997, "pv": 4661.31, "leads": 13728, "conv": 7986, "ideal": 277095.74, "proj_tot": 496051.60000000003, "proj_comm": 486418.23000000004, "prev_bruto": 541320.38, "prev_leads": 28125, "prev_conv": 25256, "form_b": 111538.52, "wa_b": 117459.52, "res": 21714, "attain": 0.4191, "proj_attain": 0.8662}, "dates": ["2026-06-16", "2026-06-17", "2026-06-18", "2026-06-19", "2026-06-20", "2026-06-21", "2026-06-22", "2026-06-23", "2026-06-24", "2026-06-25", "2026-06-26", "2026-06-27", "2026-06-28", "2026-06-29", "2026-06-30", "2026-07-01", "2026-07-02", "2026-07-03", "2026-07-04", "2026-07-05", "2026-07-06", "2026-07-07", "2026-07-08", "2026-07-09", "2026-07-10", "2026-07-11", "2026-07-12", "2026-07-13", "2026-07-14", "2026-07-15"]};
+const BRL = v => "R$ "+Math.round(v).toLocaleString("pt-BR");
+const BRL1 = v => "R$ "+(v).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const PCT = v => (v*100).toFixed(0)+"%";
+const G = P.grupo;
+
+document.getElementById("sub").textContent =
+  "9 marcas · Meta Ads · dia "+P.elapsed+"/"+P.days+" · atualizado em "+P.asof;
+
+// ---- KPIs do grupo ----
+const momInv = G.prev_bruto ? (G.proj_comm/G.prev_bruto-1) : 0;
+const momRes = G.prev_res ? ((G.leads+G.conv)/P.elapsed*P.days/G.prev_res-1) : 0;
+const kpis = [
+  ["Investimento no mês", BRL(G.spend_tot), "de "+BRL(G.budget)+" · "+PCT(G.attain)+" do orçamento"],
+  ["Projeção fim de mês", BRL(G.proj_tot), PCT(G.proj_attain)+" do orçamento"],
+  ["Ideal até hoje", BRL(G.ideal), "ritmo linear do orçamento"],
+  ["Leads (mês)", G.leads.toLocaleString("pt-BR"), "formulário"],
+  ["Conversas (mês)", G.conv.toLocaleString("pt-BR"), "WhatsApp"],
+  ["Mês x anterior", (momInv>=0?"+":"")+PCT(momInv), "investimento projetado vs "+BRL(G.prev_bruto)],
+];
+document.getElementById("kpis").innerHTML = kpis.map(k=>
+  `<div class="kpi"><div class="l">${k[0]}</div><div class="v">${k[1]}</div><div class="s">${k[2]}</div></div>`).join("");
+
+// ---- tabela consolidada ----
+function pace(pa){ if(pa>1.08) return ["b","acima"]; if(pa<0.90) return ["w","abaixo"]; return ["g","no ritmo"]; }
+const rows = P.brands.slice().sort((a,b)=>b.spend_tot-a.spend_tot).map(b=>{
+  const [cls,lab]=pace(b.proj_attain);
+  const mom = b.prev_bruto ? (b.proj_comm/b.prev_bruto-1) : 0;
+  const momc = mom>=0?"up":"down";
+  return `<tr>
+    <td><span class="dot" style="background:${b.cor}"></span><a href="../${b.slug}/">${b.nome}</a></td>
+    <td>${BRL(b.budget)}</td>
+    <td>${BRL(b.spend_tot)}</td>
+    <td class="mut">${BRL(b.ideal)}</td>
+    <td>${PCT(b.attain)}</td>
+    <td>${BRL(b.proj_tot)}</td>
+    <td><span class="pill ${cls}">${lab} · ${PCT(b.proj_attain)}</span></td>
+    <td>${b.leads.toLocaleString("pt-BR")}</td>
+    <td>${b.conv.toLocaleString("pt-BR")}</td>
+    <td>${b.cpl?BRL1(b.cpl):","}</td>
+    <td class="${momc}">${(mom>=0?"+":"")+PCT(mom)}</td>
+  </tr>`;
+}).join("");
+document.getElementById("tbl").innerHTML =
+  `<thead><tr><th>Marca</th><th>Orçamento</th><th>Gasto MTD</th><th>Ideal hoje</th><th>Atingido</th>
+   <th>Projeção</th><th>Pacing</th><th>Leads</th><th>Conversas</th><th>CPL</th><th>vs mês ant.</th></tr></thead>
+   <tbody>${rows}</tbody>`;
+
+// ---- alertas de pacing ----
+const al = P.brands.map(b=>{const [cls]=pace(b.proj_attain);return {b,cls};})
+  .filter(x=>x.cls!=="g").sort((a,b)=>Math.abs(b.b.proj_attain-1)-Math.abs(a.b.proj_attain-1));
+const alertsEl=document.getElementById("alerts");
+if(!al.length){ alertsEl.innerHTML=`<div class="alert g"><div class="n">Tudo no ritmo</div><div class="d">As 9 marcas projetam fechar o mês entre 90% e 108% do orçamento.</div></div>`; }
+else{ alertsEl.innerHTML=al.map(({b,cls})=>{
+  const over=b.proj_attain>1;
+  const dif=BRL(Math.abs(b.proj_tot-b.budget));
+  return `<div class="alert ${cls}"><div class="n">${b.nome} · ${PCT(b.proj_attain)} do orçamento</div>
+    <div class="d">Projeção ${BRL(b.proj_tot)} vs orçamento ${BRL(b.budget)}. ${over?"Tende a ESTOURAR em ~"+dif:"Tende a SOBRAR ~"+dif+" (subutilização)"}. Gasto até hoje ${BRL(b.spend_tot)}, ideal ${BRL(b.ideal)}.</div></div>`;
+}).join(""); }
+
+// ---- Chart.js comum ----
+Chart.defaults.color="#8b98a5"; Chart.defaults.font.family="-apple-system,Segoe UI,Roboto,sans-serif";
+Chart.defaults.font.size=11; const GRID={color:"rgba(255,255,255,.05)"};
+
+// evolucao diaria
+new Chart(document.getElementById("cDaily"),{type:"line",
+  data:{labels:P.dates.map(d=>d.slice(5).replace("-","/")),
+    datasets:P.brands.map(b=>{const m=Object.fromEntries(b.daily.map(d=>[d.date,d.tot]));
+      return {label:b.nome,data:P.dates.map(d=>m[d]??null),borderColor:b.cor,backgroundColor:b.cor,
+        borderWidth:1.8,tension:.3,pointRadius:0,spanGaps:true};})},
+  options:{responsive:true,interaction:{mode:"index",intersect:false},
+    plugins:{legend:{position:"bottom",labels:{boxWidth:10,boxHeight:10,padding:10}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+": "+BRL(c.parsed.y||0)}}},
+    scales:{y:{grid:GRID,ticks:{callback:v=>"R$"+(v/1000)+"k"}},x:{grid:{display:false}}}}});
+
+// MoM (projecao mes atual x mes anterior)
+const bs=P.brands.slice().sort((a,b)=>b.proj_comm-a.proj_comm);
+new Chart(document.getElementById("cMoM"),{type:"bar",
+  data:{labels:bs.map(b=>b.nome),datasets:[
+    {label:"Mês anterior",data:bs.map(b=>b.prev_bruto),backgroundColor:"#33414f"},
+    {label:"Mês atual (projeção)",data:bs.map(b=>b.proj_comm),backgroundColor:"#f59e0b"}]},
+  options:{indexAxis:"y",responsive:true,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:10,boxHeight:10}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+": "+BRL(c.parsed.x||0)}}},
+    scales:{x:{grid:GRID,ticks:{callback:v=>"R$"+(v/1000)+"k"}},y:{grid:{display:false}}}}});
+
+// participacao (donut)
+const bss=P.brands.slice().sort((a,b)=>b.spend_tot-a.spend_tot);
+new Chart(document.getElementById("cShare"),{type:"doughnut",
+  data:{labels:bss.map(b=>b.nome),datasets:[{data:bss.map(b=>b.spend_tot),
+    backgroundColor:bss.map(b=>b.cor),borderColor:"#0b0f14",borderWidth:2}]},
+  options:{responsive:true,cutout:"58%",
+    plugins:{legend:{position:"right",labels:{boxWidth:10,boxHeight:10,padding:8}},
+      tooltip:{callbacks:{label:c=>c.label+": "+BRL(c.parsed)+" ("+(c.parsed/G.spend_tot*100).toFixed(0)+"%)"}}}}});
+
+// mix Form x WhatsApp (stacked)
+const bm=P.brands.slice().sort((a,b)=>(b.form_b+b.wa_b)-(a.form_b+a.wa_b));
+new Chart(document.getElementById("cMix"),{type:"bar",
+  data:{labels:bm.map(b=>b.nome),datasets:[
+    {label:"Formulário",data:bm.map(b=>b.form_b),backgroundColor:"#2a78d6",stack:"s"},
+    {label:"WhatsApp",data:bm.map(b=>b.wa_b),backgroundColor:"#1baf7a",stack:"s"}]},
+  options:{responsive:true,
+    plugins:{legend:{position:"bottom",labels:{boxWidth:10,boxHeight:10}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+": "+BRL(c.parsed.y||0)}}},
+    scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:GRID,ticks:{callback:v=>"R$"+(v/1000)+"k"}}}}});
+
+document.getElementById("foot").innerHTML =
+  "Documento interno · investimento em bruto (líquido ×1,1215) · pós-venda incluído no gasto/orçamento e fora do total comercial · "+
+  "projeção = ritmo do mês (gasto ÷ dia atual × dias do mês) · comparativo: projeção do mês corrente vs "+P.asof.slice(3)+" anterior fechado.";
+</script>
+</body>
+</html>
