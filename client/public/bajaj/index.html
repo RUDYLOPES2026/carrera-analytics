@@ -1095,6 +1095,11 @@ function pacingSection(){
   // investido do pacing = gasto comercial (kpi.ALL) + segmentos fora do total (PV) que consomem a mesma verba.
   const foraBr=_foraBruto("jun");
   const budget=P.budget, consumed=k.bruto+foraBr;
+  // MODELO imposto (Rudy 16/jul): orçamento e projecao = BRUTO (o que paga, com imposto);
+  // gasto/ideal/ritmo do DIA = LIQUIDO (valor real na Meta). Razoes (barra) nao mudam.
+  const TAX=(typeof CFG!=='undefined'&&CFG.gross_up)||1.1215;
+  const L=v=>brl(v/TAX);          // formata em LIQUIDO
+  const budgetLiq=budget/TAX;
   const pctC=consumed/budget, pctE=P.elapsed/P.days;
   const ideal=budget*pctE, defas=consumed-ideal;
   const daily=consumed/P.elapsed, future=P.days-P.elapsed;
@@ -1112,14 +1117,14 @@ function pacingSection(){
   const over=consumed>ideal;
   // QUADRINHOS no topo (estilo Bajaj)
   const ydDiff = yd? (yd.bruto/daily-1) : 0;
-  const ydBox = yd? `<div class="pq"><div class="pql">Ontem · D-1 (${yd.date.slice(8)}/${_mmOf(yd.date)})</div><div class="pqv" style="color:${ydDiff>=0?'#34d399':'#fbbf24'}">${brl(yd.bruto)}<span> /dia</span> <span style="font-size:14px">${ydDiff>=0?'▲':'▼'}</span></div><div class="pqs">${ydDiff>=0?'+':'−'}${Math.abs(ydDiff*100).toFixed(0)}% vs a média diária do mês</div></div>` : '';
+  const ydBox = yd? `<div class="pq"><div class="pql">Ontem · D-1 (${yd.date.slice(8)}/${_mmOf(yd.date)})</div><div class="pqv" style="color:${ydDiff>=0?'#34d399':'#fbbf24'}">${L(yd.bruto)}<span> /dia</span> <span style="font-size:14px">${ydDiff>=0?'▲':'▼'}</span></div><div class="pqs">líquido · ${ydDiff>=0?'+':'−'}${Math.abs(ydDiff*100).toFixed(0)}% vs a média diária do mês</div></div>` : '';
   const quad=`<div class="pquads">
-    <div class="pq"><div class="pql">1. Já gastou</div><div class="pqv">${brl(consumed)}</div><div class="pqs">${(pctC*100).toFixed(1)}% do orçamento em ${(pctE*100).toFixed(0)}% do mês (${P.elapsed} de ${P.days} dias)</div></div>
-    <div class="pq"><div class="pql">2. Projeção fim do mês</div><div class="pqv" style="color:${projPct<0.9?'#fbbf24':(projPct>1.1?'#f87171':'#34d399')}">${brl(proj)}</div><div class="pqs">${(projPct*100).toFixed(0)}% do orçamento · ritmo atual</div></div>
-    <div class="pq"><div class="pql">3. Ideal p/ usar a meta (${brl(budget)})</div><div class="pqv" style="color:#34d399">${brl(budget)}</div><div class="pqs">ritmo ideal ${brl(budget/P.days)}/dia · até hoje o ideal seria ${brl(ideal)} gastos</div></div>
+    <div class="pq"><div class="pql">1. Já gastou na Meta (líquido)</div><div class="pqv">${L(consumed)}</div><div class="pqs">${(pctC*100).toFixed(1)}% do orçamento em ${(pctE*100).toFixed(0)}% do mês (${P.elapsed} de ${P.days} dias)</div></div>
+    <div class="pq"><div class="pql">2. Vai pagar (fim do mês)</div><div class="pqv" style="color:${projPct<0.9?'#fbbf24':(projPct>1.1?'#f87171':'#34d399')}">${brl(proj)}</div><div class="pqs">com imposto · ${(projPct*100).toFixed(0)}% do orçamento · ritmo atual</div></div>
+    <div class="pq"><div class="pql">3. Ideal na Meta hoje (líquido)</div><div class="pqv" style="color:#34d399">${L(ideal)}</div><div class="pqs">ritmo ${L(budget/P.days)}/dia · teto do mês ${L(budget)} líq (${brl(budget)} c/ imposto)</div></div>
   </div>
   <div class="pquads two">
-    <div class="pq"><div class="pql">Média diária do mês</div><div class="pqv">${brl(daily)}<span> /dia</span></div><div class="pqs">${brl(consumed)} ÷ ${P.elapsed} dias decorridos (bruto)</div></div>
+    <div class="pq"><div class="pql">Média diária na Meta</div><div class="pqv">${L(daily)}<span> /dia</span></div><div class="pqs">${L(consumed)} ÷ ${P.elapsed} dias decorridos (líquido)</div></div>
     ${ydBox}
   </div>`;
   const kpis=quad;
@@ -1131,24 +1136,24 @@ function pacingSection(){
     <div class="pacing-mk proj" style="left:${projL}%"><span class="lbl">projeção</span></div>
   </div>
   <div class="pacing-legend" style="margin-top:14px">
-    <span><i style="display:inline-block;width:16px;height:8px;background:#34d399;border-radius:2px;vertical-align:middle;margin-right:6px"></i>Gasto até hoje: <b>${brl(consumed)}</b> (${(pctC*100).toFixed(1)}%)</span>
-    <span><i style="display:inline-block;width:2px;height:12px;background:#fff;vertical-align:middle;margin-right:7px"></i>Ideal hoje: <b>${brl(ideal)}</b> (${(pctE*100).toFixed(0)}%)</span>
-    <span><i style="display:inline-block;width:14px;border-top:2px dashed #fbbf24;vertical-align:middle;margin-right:6px"></i>Projeção fim do mês: <b>${brl(proj)}</b> (${desvio>=0?'+':''}${((projPct-1)*100).toFixed(1)}%)</span>
-    <span style="color:#888">Meta: <b style="color:#aaa">${brl(budget)}</b></span>
+    <span><i style="display:inline-block;width:16px;height:8px;background:#34d399;border-radius:2px;vertical-align:middle;margin-right:6px"></i>Na Meta até hoje (líq): <b>${L(consumed)}</b> (${(pctC*100).toFixed(1)}%)</span>
+    <span><i style="display:inline-block;width:2px;height:12px;background:#fff;vertical-align:middle;margin-right:7px"></i>Ideal hoje (líq): <b>${L(ideal)}</b> (${(pctE*100).toFixed(0)}%)</span>
+    <span><i style="display:inline-block;width:14px;border-top:2px dashed #fbbf24;vertical-align:middle;margin-right:6px"></i>Vai pagar (fim do mês): <b>${brl(proj)}</b> (${desvio>=0?'+':''}${((projPct-1)*100).toFixed(1)}%)</span>
+    <span style="color:#888">Orçamento (c/ imposto): <b style="color:#aaa">${brl(budget)}</b></span>
   </div>
   <div class="pacing-legend" style="margin-top:8px">
-    <span>Restante: <b>${brl(Math.max(0,budget-consumed))}</b></span>
+    <span>Restante do orçamento: <b>${brl(Math.max(0,budget-consumed))}</b></span>
     <span>Dias restantes: <b>${future}</b></span>
-    <span>Ritmo atual: <b>${brl(daily)}/dia</b></span>
-    <span>Pra fechar a meta (${brl(budget)}): <b>${need>0?brl(need)+'/dia':'orçamento já atingido'}</b></span>
+    <span>Ritmo atual na Meta: <b>${L(daily)}/dia</b></span>
+    <span>Pra fechar (líq/dia): <b>${need>0?L(need)+'/dia':'orçamento já atingido'}</b></span>
   </div>`;
   const resumo=`<div class="secsub" style="margin-bottom:10px;margin-top:16px">
     <b>${P.elapsed} de ${P.days} dias</b> decorridos (${(pctE*100).toFixed(1)}%) · consumido <b>${(pctC*100).toFixed(1)}%</b> ·
-    defasagem <b style="color:${defas<0?'#fbbf24':'#f87171'}">${defas<0?'−':'+'}${brl(Math.abs(defas))}</b> vs o ritmo ideal ·
+    defasagem <b style="color:${defas<0?'#fbbf24':'#f87171'}">${defas<0?'−':'+'}${L(Math.abs(defas))}</b> (líq) vs o ritmo ideal ·
     desvio do pacing <b style="color:${dc}">${desvio>0?'+':''}${(desvio*100).toFixed(0)}%</b>
   </div>
   <span class="pdiag" style="color:${dc};background:${dbg};border:1px solid ${dc}55">${diag}</span>
-  ${need>0?`<span class="secsub" style="margin-left:10px">Para bater o orçamento, o ritmo precisa subir de <b>${brl(daily)}</b> para <b>${brl(need)}</b> por dia (+${((need/daily-1)*100).toFixed(0)}%) nos ${future} dias que faltam.</span>`:``}`;
+  ${need>0?`<span class="secsub" style="margin-left:10px">Para bater o orçamento, o ritmo na Meta precisa subir de <b>${L(daily)}</b> para <b>${L(need)}</b> por dia (líq, +${((need/daily-1)*100).toFixed(0)}%) nos ${future} dias que faltam.</span>`:``}`;
   // por segmento (consumo de junho) , empilhado por região , FONTE UNICA (aggRegion).
   // Mesma funcao que alimenta os cards de praça da secao G: nada de kpifilter divergente.
   // Denominador do H = total COMERCIAL (kpi.ALL, sem PV) pra as barras dos segmentos fecharem ~100%.
