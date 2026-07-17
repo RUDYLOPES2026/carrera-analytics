@@ -1,0 +1,15 @@
+{
+ "quando": "2026-07-17T03:13:46Z",
+ "ok": [
+  "nissan",
+  "bajaj",
+  "chevrolet_sp",
+  "chevrolet_bsb",
+  "omoda",
+  "seminovos_sp",
+  "gac",
+  "gwm",
+  "vw"
+ ],
+ "fail": {}
+}
