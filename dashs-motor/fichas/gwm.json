@@ -1,0 +1,61 @@
+{
+  "brand": "GWM",
+  "subtitle": "Acompanhamento Comercial",
+  "account_id": "act_1615350695589358",
+  "data_file": "data/gwm_D.json",
+
+  "segments": ["NV", "VD"],
+  "segnome": {
+    "NV": "Novos / 0km",
+    "VD": "Venda Direta",
+    "OUT": "Outros"
+  },
+  "segshort": {
+    "NV": "Novos",
+    "VD": "Venda Direta",
+    "OUT": "Outros"
+  },
+  "segsub": {
+    "NV": "0km (Haval, Tank, Ora, Poer)",
+    "VD": "CNPJ/frotas"
+  },
+  "segcol": {
+    "NV": "#f59e0b",
+    "VD": "#60a5fa",
+    "OUT": "#a1a1aa"
+  },
+
+  "hasRegion": false,
+  "regions": [],
+  "regnome": {},
+  "regsub": {},
+  "regcol": {},
+  "lojas": {},
+
+  "lojanome": {
+    "VLO": "Villa Lobos",
+    "FMO": "Francisco Morato",
+    "EUR": "Europa",
+    "ALP": "Alphaville",
+    "ELD": "Shopping Eldorado",
+    "MOR": "Morumbi"
+  },
+
+  "channels": ["Form", "WhatsApp"],
+  "channome": {
+    "Form": "Formulário",
+    "WhatsApp": "WhatsApp",
+    "Trafego": "Tráfego",
+    "Awareness": "Awareness",
+    "Engaj": "Engajamento"
+  },
+
+  "budget": 105000,
+  "orcamento_key": "GWM",
+  "orcamento_mes": "jul",
+  "gross_up": 1.1215,
+
+  "exceptions": {
+    "geralLabel": "campanhas auxiliares (engajamento, tráfego, alcance)"
+  }
+}

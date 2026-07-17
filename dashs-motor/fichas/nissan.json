@@ -1,0 +1,99 @@
+{
+  "brand": "Nissan",
+  "subtitle": "Acompanhamento Comercial",
+  "account_id": "act_464593798098397",
+  "data_file": "data/nissan_D.json",
+  "segments": [
+    "NV",
+    "SN",
+    "VD"
+  ],
+  "segnome": {
+    "NV": "Novos / 0km",
+    "SN": "Seminovos",
+    "VD": "Venda Direta",
+    "OUT": "Outros"
+  },
+  "segshort": {
+    "NV": "Novos",
+    "SN": "Seminovos",
+    "VD": "Venda Direta",
+    "OUT": "Outros"
+  },
+  "segsub": {
+    "NV": "0km",
+    "SN": "usados",
+    "VD": "CNPJ/PCD"
+  },
+  "segcol": {
+    "NV": "#f59e0b",
+    "SN": "#34d399",
+    "VD": "#60a5fa",
+    "OUT": "#a1a1aa"
+  },
+  "hasRegion": true,
+  "regions": [
+    "SP",
+    "VL",
+    "INT"
+  ],
+  "regnome": {
+    "SP": "São Paulo",
+    "VL": "Vale",
+    "INT": "Interior",
+    "G": "Geral"
+  },
+  "regsub": {
+    "SP": "capital",
+    "VL": "região",
+    "INT": "região"
+  },
+  "regcol": {
+    "SP": "#f59e0b",
+    "VL": "#60a5fa",
+    "INT": "#34d399",
+    "G": "#71717a"
+  },
+  "lojas": {
+    "SP": [
+      "BRA",
+      "BUT",
+      "BFU",
+      "COT",
+      "MOR",
+      "SUM",
+      "VOL"
+    ],
+    "VL": [
+      "GUA",
+      "PIN",
+      "SJC",
+      "TBT"
+    ],
+    "INT": [
+      "ARQ",
+      "SCA",
+      "CAT",
+      "VOT"
+    ]
+  },
+  "channels": [
+    "Form",
+    "WhatsApp"
+  ],
+  "channome": {
+    "Form": "Formulário",
+    "WhatsApp": "WhatsApp",
+    "Engaj": "Engajamento",
+    "Awareness": "Awareness",
+    "Trafego": "Tráfego"
+  },
+  "budget": 84112.5,
+  "gross_up": 1.1215,
+  "exceptions": {
+    "pvForaDoTotal": true,
+    "geralLabel": "campanhas sem região no nome"
+  },
+  "orcamento_key": "NISSAN",
+  "orcamento_mes": "jul"
+}

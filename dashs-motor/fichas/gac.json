@@ -1,0 +1,70 @@
+{
+  "brand": "GAC",
+  "subtitle": "Acompanhamento Comercial",
+  "account_id": "act_1174941344352331",
+  "data_file": "data/gac_D.json",
+
+  "segments": ["NV", "SN", "VD", "PV"],
+  "segnome": {
+    "NV": "Novos / 0km",
+    "SN": "Seminovos",
+    "VD": "Venda Direta",
+    "PV": "Pós-venda",
+    "OUT": "Outros"
+  },
+  "segshort": {
+    "NV": "Novos",
+    "SN": "Seminovos",
+    "VD": "Venda Direta",
+    "PV": "Pós-venda",
+    "OUT": "Outros"
+  },
+  "segsub": {
+    "NV": "0km (Aion, GS3, GS4, Hyptec)",
+    "SN": "usados",
+    "VD": "CNPJ/PCD/Táxi",
+    "PV": "serviços"
+  },
+  "segcol": {
+    "NV": "#f59e0b",
+    "SN": "#34d399",
+    "VD": "#60a5fa",
+    "PV": "#c084fc",
+    "OUT": "#a1a1aa"
+  },
+
+  "hasRegion": false,
+  "regions": [],
+  "regnome": {},
+  "regsub": {},
+  "regcol": {},
+  "lojas": {},
+
+  "lojanome": {
+    "MOR": "Morumbi",
+    "VLO": "Villa Lobos",
+    "COT": "Cotia"
+  },
+
+  "channels": ["Form", "WhatsApp"],
+  "channome": {
+    "Form": "Formulário",
+    "WhatsApp": "WhatsApp",
+    "Catalogo": "Catálogo",
+    "Trafego": "Tráfego",
+    "Awareness": "Awareness",
+    "RMKT": "Remarketing",
+    "Engaj": "Engajamento"
+  },
+
+  "budget": 55000,
+  "orcamento_key": "GAC",
+  "orcamento_mes": "jul",
+  "gross_up": 1.1215,
+
+  "exceptions": {
+    "pvForaDoTotal": true,
+    "segForaTotal": ["PV"],
+    "geralLabel": "campanhas auxiliares (catálogo, engajamento, alcance)"
+  }
+}

@@ -93,10 +93,20 @@ def atividades_conta(account_id, limit=200, since=None, until=None):
     rows = _paged(f"{account_id}/activities", p)
     return {"ok": True, "activities": rows}
 
-def list_adsets(account_id, limit=500):
-    p = {"fields": "name,daily_budget,lifetime_budget,status,effective_status,campaign_id,targeting", "limit": limit}
-    rows = _paged(f"{account_id}/adsets", p)
-    return {"ok": True, "adsets": rows}
+def list_adsets(account_id, limit=200):
+    # `targeting` pesa: contas grandes estouram "reduce the amount of data".
+    # Degrada o page size até passar (paginação junta tudo do mesmo jeito).
+    p = {"fields": "name,daily_budget,lifetime_budget,status,effective_status,campaign_id,targeting"}
+    last = None
+    for lim in (limit, 50, 25, 10):
+        try:
+            rows = _paged(f"{account_id}/adsets", dict(p), node_limit=lim)
+            return {"ok": True, "adsets": rows}
+        except MetaError as e:
+            last = e
+            if "reduce the amount" not in str(e).lower():
+                raise
+    raise last
 
 def list_campaigns(account_id, limit=500):
     p = {"fields": "name,daily_budget,lifetime_budget,status,effective_status", "limit": limit}

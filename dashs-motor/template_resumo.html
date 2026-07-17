@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Resumo executivo · Acompanhamento Comercial</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{max-width:1080px;margin:0 auto;padding:22px 24px 30px}
+.rhead{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-bottom:1px solid #1f1f1f;padding-bottom:16px}
+.logo{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#f59e0b,#b45309);display:flex;align-items:center;justify-content:center;font-weight:800;color:#0a0a0a;font-size:19px}
+.rh1{font-size:22px;font-weight:800;letter-spacing:-.5px}.rh1 b{color:#f59e0b}
+.rtag{font-size:12.5px;color:#a1a1aa;margin-top:2px}
+.rpill{margin-left:auto;text-align:right;font-size:12px;color:#a1a1aa;border:1px solid #2a2a2a;border-radius:12px;padding:8px 14px;line-height:1.5}
+.rpill b{color:#f4f4f5}
+.bignums{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.bn{background:#141414;border:1px solid #222;border-radius:14px;padding:14px 16px}
+.bn .l{font-size:11px;color:#a1a1aa;text-transform:uppercase;letter-spacing:.6px}
+.bn .v{font-size:26px;font-weight:800;margin-top:5px;letter-spacing:-1px}
+.bn .v.gold{color:#f59e0b}
+.bn .s{font-size:11.5px;color:#8b8b93;margin-top:5px;line-height:1.4}
+.pacingline{background:#0f0f12;border:1px solid #26262c;border-radius:12px;padding:12px 16px;display:flex;gap:22px;flex-wrap:wrap;font-size:13px;margin-bottom:18px}
+.pacingline .pl-it{display:flex;flex-direction:column;gap:1px}
+.pacingline .pl-l{font-size:10.5px;color:#71717a;text-transform:uppercase;letter-spacing:.6px}
+.pacingline .pl-v{font-size:16px;font-weight:800}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.col{background:#0f0f12;border:1px solid #26262c;border-radius:12px;padding:15px 17px}
+.colh{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#a1a1aa;margin:0 0 11px;font-weight:800}
+.inslist{list-style:none;margin:0;padding:0}
+.insbullet{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid #1c1c22;font-size:13px;line-height:1.5;color:#e7e7ea}
+.insbullet:last-child{border-bottom:none}
+.insdot{flex:0 0 auto;font-size:10px;line-height:1.7}
+.instxt b{color:#fff}
+.creatives{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.cbox{background:#0f0f12;border:1px solid #26262c;border-radius:12px;padding:13px 16px}
+.cbox h4{font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:#a1a1aa;margin:0 0 9px;font-weight:800}
+.crow{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:5px 0;font-size:12.5px;border-bottom:1px solid #1a1a1f}
+.crow:last-child{border-bottom:none}
+.crow .cn{color:#e7e7ea;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:62%}
+.crow .cv{font-weight:700;flex:0 0 auto}
+.rfoot{margin-top:16px;font-size:11px;color:#52525b;text-align:center;border-top:1px solid #1f1f1f;padding-top:12px}
+@media print{ body{background:#fff} @page{size:A4;margin:10mm} }
+@media(max-width:760px){.bignums{grid-template-columns:repeat(2,1fr)}.cols,.creatives{grid-template-columns:1fr}}
+</style></head><body>
+<div class="page">
+  <div class="rhead">
+    <div class="logo" id="rlogo">N</div>
+    <div>
+      <div class="rh1" id="rbrand">Marca <b>·</b> Resumo executivo</div>
+      <div class="rtag" id="rsub">Acompanhamento Comercial</div>
+    </div>
+    <div class="rpill" id="rpill"></div>
+  </div>
+  <div class="bignums" id="bignums"></div>
+  <div class="pacingline" id="pacingline"></div>
+  <div class="cols">
+    <div class="col"><h3 class="colh">📊 Resumo do mês</h3><ul class="inslist" id="resumoList"></ul></div>
+    <div class="col"><h3 class="colh">🛠 Melhorias</h3><ul class="inslist" id="melhoriasList"></ul></div>
+  </div>
+  <div class="creatives" id="creatives"></div>
+  <div class="rfoot" id="rfoot"></div>
+</div>
+<script>
+const D=/*__D_INJECT__*/{};
+const CFG=(D&&D.config)?D.config:{};
+const SEGMENTS=CFG.segments||["NV","SN","VD"];
+const MULTISEG=SEGMENTS.length>1;
+const HASREGION=CFG.hasRegion!==false;
+const REGIONS=CFG.regions||["SP","VL","INT"];
+const BUDGET=CFG.budget||(D.pacing&&D.pacing.budget)||0;
+const BRANDNM=CFG.brand||D.conta||"";
+const SEGN=Object.assign({ALL:"Todos os segmentos"},CFG.segnome||{NV:"Novos / 0km",SN:"Seminovos",VD:"Venda Direta",OUT:"Outros"});
+const REGSHORT=Object.assign({G:"Geral"},CFG.regnome||{SP:"São Paulo",VL:"Vale",INT:"Interior"});
+const SEGSHORT=CFG.segshort||{NV:"Novos",SN:"Seminovos",VD:"Venda Direta",OUT:"Outros"};
+// Rotulos de mes dinamicos (mesma fonte do dash: D.mes_nome / D.mom_nome). O ENGINE
+// injetado abaixo usa MESNM_LC / MOMNM_LC / VS_MOM.
+const MESNM=(D&&D.mes_nome)||"o mês";
+const MOMNM=(D&&D.mom_nome)||"o mês anterior";
+const MESNM_LC=MESNM.toLowerCase();
+const MOMNM_LC=MOMNM.toLowerCase();
+const VS_MOM="vs "+MOMNM_LC;
+// ND_MAIO injetado do template (mesma fonte). Marca sem ND_MAIO -> comparativos somem, nao quebra.
+/*__ND_INJECT__*/
+const hasMaioConst=(typeof ND_MAIO!=="undefined")&&ND_MAIO&&ND_MAIO.total;
+// One-page e um RETRATO do mes: fixa na janela de junho.
+const WIN="jun";
+// ---- helpers (mesma identidade do dash) ----
+function brl(v){return v>=1000?("R$ "+Math.round(v).toLocaleString("pt-BR")):("R$ "+v.toFixed(2).replace(".",","))}
+function brl2(v){return "R$ "+v.toFixed(2).replace(".",",")}
+function nfmt(v){return v.toLocaleString("pt-BR")}
+function _median(arr){if(!arr.length)return 0;const s=arr.slice().sort((x,y)=>x-y);const m=Math.floor(s.length/2);return s.length%2?s[m]:(s[m-1]+s[m])/2;}
+function _regBucket(reg){return REGIONS.indexOf(reg)>=0?reg:"G";}
+const NREG_ORDER=HASREGION?REGIONS.concat(["G"]):[];
+function kpiFor(seg,win){if(seg==="ALL")return D.kpi[win]["ALL"];return D.kpi[win][seg]||{bruto:0,leads:0,conv:0,liq:0};}
+function chanFor(seg,win){const C=(D.chan&&D.chan[win])||{};if(seg!=="ALL")return C[seg]||{};let m={};SEGMENTS.concat(["OUT"]).forEach(s=>{Object.entries(C[s]||{}).forEach(([c,v])=>{if(!m[c])m[c]={bruto:0,leads:0,conv:0};m[c].bruto+=v.bruto;m[c].leads+=v.leads;m[c].conv+=v.conv})});return m;}
+function aggRegion(win,segFilter,canalFilter){
+  win=win||WIN;
+  let ads=(D.ads&&D.ads[win])?D.ads[win]:[];
+  if(segFilter&&segFilter!=="ALL")ads=ads.filter(a=>a.seg===segFilter);
+  if(canalFilter&&canalFilter!=="all")ads=ads.filter(a=>a.canal===canalFilter);
+  const out={};NREG_ORDER.forEach(r=>out[r]={spend:0,res:0,leads:0,conv:0,form:{spend:0,res:0,leads:0,conv:0},wa:{spend:0,res:0,leads:0,conv:0},outros:{spend:0,res:0}});
+  let total=0;
+  ads.forEach(a=>{const r=_regBucket(a.reg),o=out[r];const b=a.bruto||0,res=a.res||0,le=a.leads||0,cv=a.conv||0;o.spend+=b;o.res+=res;o.leads+=le;o.conv+=cv;total+=b;
+    if(a.canal==="Form"){o.form.spend+=b;o.form.res+=res;o.form.leads+=le;o.form.conv+=cv;}
+    else if(a.canal==="WhatsApp"){o.wa.spend+=b;o.wa.res+=res;o.wa.leads+=le;o.wa.conv+=cv;}
+    else{o.outros.spend+=b;o.outros.res+=res;}});
+  out._total=total;out._days=(win==="30d"?30:((D.pacing&&D.pacing.elapsed)||29));
+  NREG_ORDER.forEach(r=>{const o=out[r];o.cpr=o.res>0?o.spend/o.res:0;o.form.cpr=o.form.res>0?o.form.spend/o.form.res:0;o.wa.cpr=o.wa.res>0?o.wa.spend/o.wa.res:0;o.pctVerba=total>0?o.spend/total*100:0;o.rr=o.spend/(out._days||1);});
+  return out;
+}
+// _momDelta , mesma logica/visual do dash (seta + cor + % vs mes anterior)
+function _momDelta(cur,prev,higherBetter){
+  if(prev==null||prev<=0||cur==null) return "";
+  const d=(cur-prev)/prev*100, ad=Math.abs(d);
+  if(ad<0.5) return ' <span style="color:#8b8b93;font-weight:700">~ '+VS_MOM+'</span>';
+  const good = higherBetter ? d>0 : d<0;
+  const col = good?"#34d399":"#f87171", arrow=d>0?"▲":"▼";
+  return ' <span style="color:'+col+';font-weight:700">'+arrow+' '+ad.toFixed(0)+'% '+VS_MOM+'</span>';
+}
+// FAROL (mesma referencia do dash) , usado pelo engine e pelos top/piores criativos
+function farolRef(win){
+  const arr=(D.ads&&D.ads[win])?D.ads[win]:[];
+  const ativos=arr.filter(a=>a.st==="ACTIVE");
+  const cprComRes=ativos.filter(a=>a.res>0&&a.cpr>0).map(a=>a.cpr);
+  const gastos=ativos.map(a=>a.bruto||0);
+  return {ref:_median(cprComRes),medSpend:_median(gastos)};
+}
+let FAROL_REF=farolRef(WIN);
+/*__ENGINE_INJECT__*/
+function _insightBullet(it){
+  const map={ok:"#34d399",warn:"#fbbf24",bad:"#f87171"};
+  const ico={ok:"●",warn:"▲",bad:"■"};
+  const c=map[it.tone]||"#a1a1aa";
+  return '<li class="insbullet"><span class="insdot" style="color:'+c+'">'+(ico[it.tone]||"•")+'</span><span class="instxt">'+it.txt+'</span></li>';
+}
+// ============================ RENDER (retrato fixo) ============================
+function renderResumo(){
+  FAROL_REF=farolRef(WIN);
+  // cabecalho
+  document.getElementById("rlogo").textContent=(BRANDNM||"·").slice(0,1).toUpperCase();
+  document.getElementById("rbrand").innerHTML=BRANDNM+' <b>·</b> Resumo executivo';
+  document.getElementById("rsub").textContent=(CFG.subtitle||"Acompanhamento Comercial");
+  const per=D.parcial?"":"";
+  const asof=(D.pacing&&D.pacing.asof)?D.pacing.asof:"";
+  document.getElementById("rpill").innerHTML='Período: <b>'+MESNM+' (parcial)</b>'+(asof?' · até '+asof:'')+(BUDGET?'<br>Orçamento: <b>'+brl(BUDGET)+'</b>':'');
+  // big numbers + comparativo vs mes anterior
+  const k=kpiFor("ALL",WIN), res=(k.leads||0)+(k.conv||0), cpl=res?k.bruto/res:0;
+  const M=hasMaioConst?ND_MAIO.total:null;
+  const dInv = M?_momDelta(k.bruto,M.bruto,false):""; // investimento: nao ha "melhor", so direcao (parcial vs fechado)
+  const dLeads=M?_momDelta(k.leads,M.leads,true):"";
+  const dConv =M?_momDelta(k.conv,M.conv,true):"";
+  const dCusto=M?_momDelta(cpl,M.cpl,false):"";
+  const bn=[
+    {l:"Investimento · "+MESNM_LC,v:brl(k.bruto),s:"bruto, c/ imposto"+(M?dInv:""),gold:true},
+    {l:"Leads (formulário)",v:nfmt(k.leads),s:MESNM_LC+" parcial"+(M?dLeads:"")},
+    {l:"Conversas (WhatsApp)",v:nfmt(k.conv),s:"mensagens iniciadas"+(M?dConv:"")},
+    {l:"Custo / resultado",v:res?brl2(cpl):"-",s:nfmt(res)+" resultados"+(M?dCusto:"")}
+  ];
+  document.getElementById("bignums").innerHTML=bn.map(x=>'<div class="bn"><div class="l">'+x.l+'</div><div class="v'+(x.gold?" gold":"")+'">'+x.v+'</div><div class="s">'+x.s+'</div></div>').join("");
+  // linha de pacing
+  const P=D.pacing;
+  if(P&&BUDGET>0){
+    const consumed=D.kpi.jun.ALL.bruto, daily=consumed/P.elapsed, future=P.days-P.elapsed, proj=consumed+daily*future;
+    const items=[
+      {l:"Consumido",v:brl(consumed)+" ("+(consumed/BUDGET*100).toFixed(0)+"%)"},
+      {l:"Projeção fim do mês",v:brl(proj)+" ("+(proj/BUDGET*100).toFixed(0)+"%)"},
+      {l:"Meta",v:brl(BUDGET)},
+      {l:"Ritmo atual",v:brl(daily)+"/dia"},
+      {l:"Dias",v:P.elapsed+" de "+P.days}
+    ];
+    document.getElementById("pacingline").innerHTML=items.map(x=>'<div class="pl-it"><span class="pl-l">'+x.l+'</span><span class="pl-v">'+x.v+'</span></div>').join("");
+  } else { document.getElementById("pacingline").style.display="none"; }
+  // engine
+  const o=insights(WIN);
+  document.getElementById("resumoList").innerHTML=o.resumo.map(_insightBullet).join("")||'<li class="insbullet"><span class="instxt" style="color:#8b8b93">Sem dados suficientes.</span></li>';
+  document.getElementById("melhoriasList").innerHTML=o.melhorias.map(_insightBullet).join("")||'<li class="insbullet"><span class="instxt" style="color:#8b8b93">Nada crítico apontado.</span></li>';
+  // top 3 e piores (compacto) , da base D.ads[WIN]
+  const ads=(D.ads&&D.ads[WIN])?D.ads[WIN].slice():[];
+  const top=ads.filter(a=>a.res>0&&a.cpr>0).sort((a,b)=>a.cpr-b.cpr).slice(0,3);
+  const piores=ads.filter(a=>a.st==="ACTIVE"&&a.res===0&&(a.bruto||0)>0).sort((a,b)=>b.bruto-a.bruto).slice(0,3);
+  function nm(a){return (a.nome||"").replace(/^[0-9]+[-_]?/,"").slice(0,46);}
+  let cr="";
+  if(top.length){
+    cr+='<div class="cbox"><h4>▲ Top 3 criativos (menor custo)</h4>'+top.map(a=>'<div class="crow"><span class="cn" title="'+(a.nome||"")+'">'+nm(a)+'</span><span class="cv" style="color:#34d399">'+brl2(a.cpr)+'/res · '+brl(a.bruto)+'</span></div>').join("")+'</div>';
+  }
+  if(piores.length){
+    cr+='<div class="cbox"><h4>■ Piores ativos (gasto sem resultado)</h4>'+piores.map(a=>'<div class="crow"><span class="cn" title="'+(a.nome||"")+'">'+nm(a)+'</span><span class="cv" style="color:#f87171">'+brl(a.bruto)+' · 0 res</span></div>').join("")+'</div>';
+  }
+  const cw=document.getElementById("creatives");
+  if(cr){cw.innerHTML=cr;}else{cw.style.display="none";}
+  // rodape
+  const ger=D.gerado?(" · gerado "+D.gerado):"";
+  document.getElementById("rfoot").innerHTML="Valores BRUTO (gross-up 12,15%). Retrato de "+MESNM_LC+" (parcial)"+(hasMaioConst?(", comparativos "+VS_MOM+" fechado"):"")+". Fonte: API Meta Ads"+ger+".";
+}
+if(typeof document!=="undefined"&&document.getElementById){renderResumo();}
+</script>
+</body></html>

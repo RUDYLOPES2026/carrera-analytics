@@ -1,0 +1,433 @@
+{
+  "fonte": "ORÇAMENTO CARRERA 2026.xlsx / ORÇAMENTO MÍDIA 2026 (META + GOOGLE).xlsx",
+  "atualizado": "2026-07-05",
+  "observacao": "Orçamento de mídia APROVADO por marca/mês. Dashboards de pacing usam META. Valores são o orçamento planejado (líquido de veículo, sem gross-up). Meses: jan..jul 2026.",
+  "mapa_marca_dash": {
+    "BAJAJ": "Bajaj",
+    "NISSAN": "Nissan",
+    "GM/ADELCO": "Chevrolet SP",
+    "GM BSB": "Chevrolet BSB",
+    "VW": "VW",
+    "GWM": "GWM",
+    "GAC": "GAC",
+    "OMODA": "Omoda",
+    "ZEEKR": "ZEEKR",
+    "BLC": "BLC Blindados",
+    "SEMINOVOS SP": "Carrera Veículos (Seminovos SP)",
+    "SEMINOVOS BSB": "Seminovos BSB",
+    "ÁGIL": "Ágil",
+    "PREVENT": "Prevent",
+    "FROTAS": "Frotas"
+  },
+  "meta": {
+    "ÁGIL": {
+      "jan": 135000,
+      "fev": 120000,
+      "mar": 60000,
+      "abr": 80000,
+      "mai": 70000,
+      "jun": 100000,
+      "jul": 80000
+    },
+    "BAJAJ": {
+      "jan": 45000,
+      "fev": 46000,
+      "mar": 40000,
+      "abr": 35000,
+      "mai": 40000,
+      "jun": 40000,
+      "jul": 41000
+    },
+    "BLC": {
+      "jan": 3500,
+      "fev": 3500,
+      "mar": 4500,
+      "abr": 5000,
+      "mai": 4500,
+      "jun": 3500,
+      "jul": 3500
+    },
+    "GAC": {
+      "jan": 100000,
+      "fev": 80000,
+      "mar": 45000,
+      "abr": 70000,
+      "mai": 73000,
+      "jun": 60000,
+      "jul": 55000
+    },
+    "GM/ADELCO": {
+      "jan": 105000,
+      "fev": 130000,
+      "mar": 94000,
+      "abr": 90000,
+      "mai": 85000,
+      "jun": 90000,
+      "jul": 80000
+    },
+    "GM BSB": {
+      "jan": 29000,
+      "fev": 32200,
+      "mar": 35000,
+      "abr": 41000,
+      "mai": 30000,
+      "jun": 16700,
+      "jul": 17700
+    },
+    "FROTAS": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": 0
+    },
+    "GWM": {
+      "jan": 120000,
+      "fev": 110000,
+      "mar": 110000,
+      "abr": 110000,
+      "mai": 110000,
+      "jun": 105000,
+      "jul": 105000
+    },
+    "NISSAN": {
+      "jan": 100000,
+      "fev": 80000,
+      "mar": 105000,
+      "abr": 85000,
+      "mai": 80000,
+      "jun": 80000,
+      "jul": 75000
+    },
+    "OMODA": {
+      "jan": 75000,
+      "fev": 70000,
+      "mar": 68000,
+      "abr": 65000,
+      "mai": 65000,
+      "jun": 60000,
+      "jul": 100000
+    },
+    "PREVENT": {
+      "jan": 3500,
+      "fev": 3500,
+      "mar": 3500,
+      "abr": 1800,
+      "mai": 0,
+      "jun": 3000,
+      "jul": 3000
+    },
+    "SEMINOVOS BSB": {
+      "jan": 8000,
+      "fev": 8050,
+      "mar": 7700,
+      "abr": 7500,
+      "mai": 0,
+      "jun": null,
+      "jul": null
+    },
+    "SEMINOVOS SP": {
+      "jan": 6000,
+      "fev": 6000,
+      "mar": 8000,
+      "abr": 6500,
+      "mai": 4000,
+      "jun": 3000,
+      "jul": 3000
+    },
+    "VW": {
+      "jan": 71250,
+      "fev": 70000,
+      "mar": 60000,
+      "abr": 65000,
+      "mai": 70000,
+      "jun": 70000,
+      "jul": 70000
+    },
+    "ZEEKR": {
+      "jan": 65000,
+      "fev": 59000,
+      "mar": 31000,
+      "abr": 35000,
+      "mai": 50000,
+      "jun": 40000,
+      "jul": 30000
+    }
+  },
+  "google": {
+    "ÁGIL": {
+      "jan": 30000,
+      "fev": 23000,
+      "mar": 20000,
+      "abr": 20000,
+      "mai": 35000,
+      "jun": 65000,
+      "jul": 62364.25
+    },
+    "BAJAJ": {
+      "jan": 16750,
+      "fev": 17250,
+      "mar": 10000,
+      "abr": 5500,
+      "mai": 10000,
+      "jun": 15000,
+      "jul": 15000
+    },
+    "BLC": {
+      "jan": 1500,
+      "fev": 1750,
+      "mar": 2500,
+      "abr": 3500,
+      "mai": 2000,
+      "jun": 2000,
+      "jul": 2000
+    },
+    "GAC": {
+      "jan": 50000,
+      "fev": 40000,
+      "mar": 15000,
+      "abr": 40000,
+      "mai": 40000,
+      "jun": 26500,
+      "jul": 25000
+    },
+    "GM/ADELCO": {
+      "jan": 50000,
+      "fev": 60000,
+      "mar": 40000,
+      "abr": 30000,
+      "mai": 40000,
+      "jun": 45000,
+      "jul": 40000
+    },
+    "GM BSB": {
+      "jan": 3250,
+      "fev": 3450,
+      "mar": 4000,
+      "abr": 10000,
+      "mai": 5000,
+      "jun": 7000,
+      "jul": 7000
+    },
+    "FROTAS": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": 5000
+    },
+    "GWM": {
+      "jan": 55000,
+      "fev": 45000,
+      "mar": 45000,
+      "abr": 45000,
+      "mai": 45000,
+      "jun": 45000,
+      "jul": 45000
+    },
+    "NISSAN": {
+      "jan": 50000,
+      "fev": 45000,
+      "mar": 50000,
+      "abr": 45000,
+      "mai": 40000,
+      "jun": 45000,
+      "jul": 35000
+    },
+    "OMODA": {
+      "jan": 38000,
+      "fev": 30000,
+      "mar": 25000,
+      "abr": 30000,
+      "mai": 30000,
+      "jun": 30000,
+      "jul": 40000
+    },
+    "PREVENT": {
+      "jan": 1500,
+      "fev": 1150,
+      "mar": 1500,
+      "abr": 1500,
+      "mai": 1000,
+      "jun": 1350,
+      "jul": 1350
+    },
+    "SEMINOVOS BSB": {
+      "jan": 2000,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "SEMINOVOS SP": {
+      "jan": 2000,
+      "fev": 2000,
+      "mar": 2000,
+      "abr": 3000,
+      "mai": 1000,
+      "jun": 0,
+      "jul": 0
+    },
+    "VW": {
+      "jan": 30000,
+      "fev": 25000,
+      "mar": 25000,
+      "abr": 15000,
+      "mai": 35000,
+      "jun": 40000,
+      "jul": 40000
+    },
+    "ZEEKR": {
+      "jan": 29550,
+      "fev": 28000,
+      "mar": 18000,
+      "abr": 15000,
+      "mai": 18000,
+      "jun": 30000,
+      "jul": 30000
+    }
+  },
+  "linkedin": {
+    "ÁGIL": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "BAJAJ": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "BLC": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "GAC": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "GM/ADELCO": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "GM BSB": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "FROTAS": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": 8000
+    },
+    "GWM": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "NISSAN": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "OMODA": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "PREVENT": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "SEMINOVOS BSB": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "SEMINOVOS SP": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "VW": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    },
+    "ZEEKR": {
+      "jan": null,
+      "fev": null,
+      "mar": null,
+      "abr": null,
+      "mai": null,
+      "jun": null,
+      "jul": null
+    }
+  }
+}

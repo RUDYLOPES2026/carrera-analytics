@@ -1,0 +1,68 @@
+{
+  "brand": "Bajaj",
+  "subtitle": "Acompanhamento Comercial",
+  "account_id": "act_595755266003929",
+  "data_file": "data/bajaj_D.json",
+  "segments": [
+    "NV"
+  ],
+  "segnome": {
+    "NV": "Novos"
+  },
+  "segshort": {
+    "NV": "Novos"
+  },
+  "segsub": {
+    "NV": "0km"
+  },
+  "segcol": {
+    "NV": "#f59e0b"
+  },
+  "hasRegion": true,
+  "regions": [
+    "SP",
+    "BSB"
+  ],
+  "regnome": {
+    "SP": "São Paulo",
+    "BSB": "Brasília",
+    "G": "Geral"
+  },
+  "regsub": {
+    "SP": "capital",
+    "BSB": "DF"
+  },
+  "regcol": {
+    "SP": "#f59e0b",
+    "BSB": "#60a5fa",
+    "G": "#71717a"
+  },
+  "lojas": {
+    "SP": [
+      "BUT",
+      "OSA"
+    ],
+    "BSB": [
+      "TAG",
+      "SIA"
+    ]
+  },
+  "channels": [
+    "Form",
+    "WhatsApp"
+  ],
+  "channome": {
+    "Form": "Formulário",
+    "WhatsApp": "WhatsApp",
+    "PV-Mensagem": "PV, Mensagem",
+    "Engaj": "Engajamento"
+  },
+  "budget": 45981.5,
+  "gross_up": 1.1215,
+  "exceptions": {
+    "pvForaDoTotal": true,
+    "geralLabel": "campanhas de evento/sem região no nome"
+  },
+  "orcamento_key": "BAJAJ",
+  "orcamento_mes": "jul"
+}

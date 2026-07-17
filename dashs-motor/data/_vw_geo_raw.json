@@ -1,0 +1,1143 @@
+{
+  "adsets": {
+    "120251540625600415": {
+      "name": "CJ | ABERTO | REGIONAL V2 |",
+      "camp": "120213700289490415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120251377690200415": {
+      "name": "CJ | ABERTO | REGIONAL | Funcionário BB",
+      "camp": "120251377690210415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "103569696456043",
+          "name": "Tatuapé",
+          "distance_unit": "mile",
+          "latitude": -23.535430692855,
+          "longitude": -46.577854691264,
+          "radius": 1,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        },
+        {
+          "key": "304143716658375",
+          "name": "Cidade São Mateus",
+          "distance_unit": "mile",
+          "latitude": -23.611890625423,
+          "longitude": -46.475644111633,
+          "radius": 1,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120249402095390415": {
+      "name": "[ENTRADA] ALP_VW-NV-ABERTA V02",
+      "camp": "120240099407180415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "2111 Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120249397213440415": {
+      "name": "[ENTRADA] VLO_VW-NV-ABERTA-GERAL - V02",
+      "camp": "120240099578910415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 30,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120248181437880415": {
+      "name": "[RMKT] Público amplo - SP - Advantage - NIVUS",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [],
+      "places": []
+    },
+    "120248181306820415": {
+      "name": "[RMKT] Público amplo - SP - Advantage - POLO",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [],
+      "places": []
+    },
+    "120248127997240415": {
+      "name": "[RMKT] Público amplo - SP - Advantage - TERA",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [],
+      "places": []
+    },
+    "120248109276020415": {
+      "name": "OSA_VW-NV-ABERTA-GERAL",
+      "camp": "120248107634950415",
+      "loja": "OSA",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 30,
+          "name": "1117 Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120248109118440415": {
+      "name": "SUM_VW-NV-ABERTA-GERAL",
+      "camp": "120248107634950415",
+      "loja": "SUM",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 30,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120248108327730415": {
+      "name": "ALP_VW-NV-ABERTA-GERAL",
+      "camp": "120248107634950415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "Alameda Araguaia, 2111, Barueri, SP, Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120248107634970415": {
+      "name": "VLO_VW-NV-ABERTA-GERAL",
+      "camp": "120248107634950415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54007,
+          "longitude": -46.73012,
+          "radius": 30,
+          "name": "Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120248054971990415": {
+      "name": "CJ | INTERESSES | REGIONAL | MODELOS",
+      "camp": "120213700289490415",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": []
+    },
+    "120247367439420415": {
+      "name": "[CAROS] OSA_VW-NV-ABERTA-GERAL",
+      "camp": "120240099022780415",
+      "loja": "OSA",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 30,
+          "name": "1117 Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247366322670415": {
+      "name": "[ENTRADA] OSA_VW-NV-ABERTA-GERAL",
+      "camp": "120240099022780415",
+      "loja": "OSA",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 30,
+          "name": "1117 Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247366185760415": {
+      "name": "[TAOS] OSA_VW-NV-ABERTA-GERAL",
+      "camp": "120240099022780415",
+      "loja": "OSA",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 30,
+          "name": "1117 Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247366013410415": {
+      "name": "[TIGUAN] OSA_VW-NV-ABERTA-GERAL",
+      "camp": "120240099022780415",
+      "loja": "OSA",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 30,
+          "name": "1117 Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247365886790415": {
+      "name": "[TERA] OSA_VW-NV-ABERTA-GERAL",
+      "camp": "120240099022780415",
+      "loja": "OSA",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 30,
+          "name": "1117 Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247365726690415": {
+      "name": "[NIVUS] OSA_VW-NV-ABERTA-GERAL",
+      "camp": "120240099022780415",
+      "loja": "OSA",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 30,
+          "name": "1117 Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247365641910415": {
+      "name": "[T-Cross] OSA_VW-NV-ABERTA-GERAL",
+      "camp": "120240099022780415",
+      "loja": "OSA",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 30,
+          "name": "1117 Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247365386900415": {
+      "name": "[POLO] OSA_VW-NV-ABERTA-GERAL",
+      "camp": "120240099022780415",
+      "loja": "OSA",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 30,
+          "name": "1117 Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247364865290415": {
+      "name": "[CAROS] SUM_VW-NV-ABERTA-GERAL",
+      "camp": "120240099259050415",
+      "loja": "SUM",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 30,
+          "name": "1100 Avenida Sumaré, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247364751630415": {
+      "name": "[ENTRADA] SUM_VW-NV-ABERTA-GERAL",
+      "camp": "120240099259050415",
+      "loja": "SUM",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 30,
+          "name": "1100 Avenida Sumaré, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247364627310415": {
+      "name": "[TAOS] SUM_VW-NV-ABERTA-GERAL",
+      "camp": "120240099259050415",
+      "loja": "SUM",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 30,
+          "name": "1100 Avenida Sumaré, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247364522580415": {
+      "name": "[TIGUAN] SUM_VW-NV-ABERTA-GERAL",
+      "camp": "120240099259050415",
+      "loja": "SUM",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 30,
+          "name": "1100 Avenida Sumaré, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247364389830415": {
+      "name": "[TERA] SUM_VW-NV-ABERTA-GERAL",
+      "camp": "120240099259050415",
+      "loja": "SUM",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 30,
+          "name": "1100 Avenida Sumaré, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247364222600415": {
+      "name": "[NIVUS] SUM_VW-NV-ABERTA-GERAL",
+      "camp": "120240099259050415",
+      "loja": "SUM",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 30,
+          "name": "1100 Avenida Sumaré, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247364007260415": {
+      "name": "[T-CROSS] SUM_VW-NV-ABERTA-GERAL",
+      "camp": "120240099259050415",
+      "loja": "SUM",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 30,
+          "name": "1100 Avenida Sumaré, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247363937460415": {
+      "name": "[POLO] SUM_VW-NV-ABERTA-GERAL",
+      "camp": "120240099259050415",
+      "loja": "SUM",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 30,
+          "name": "1100 Avenida Sumaré, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247363485710415": {
+      "name": "[CAROS] VLO_VW-NV-ABERTA-GERAL",
+      "camp": "120240099578910415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 30,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247363331540415": {
+      "name": "[ENTRADA] VLO_VW-NV-ABERTA-GERAL-ETERNA",
+      "camp": "120240099578910415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 30,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247363253080415": {
+      "name": "[TAOS] VLO_VW-NV-ABERTA-GERAL",
+      "camp": "120240099578910415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 30,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247363158980415": {
+      "name": "[TIGUAN] VLO_VW-NV-ABERTA-GERAL",
+      "camp": "120240099578910415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 30,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247363056880415": {
+      "name": "[TERA] VLO_VW-NV-ABERTA-GERAL",
+      "camp": "120240099578910415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 30,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247362968390415": {
+      "name": "[NIVUS] VLO_VW-NV-ABERTA-GERAL",
+      "camp": "120240099578910415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 30,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247362884830415": {
+      "name": "[T-CROSS] VLO_VW-NV-ABERTA-GERAL",
+      "camp": "120240099578910415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 30,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247362844660415": {
+      "name": "[POLO] VLO_VW-NV-ABERTA-GERAL",
+      "camp": "120240099578910415",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 30,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247362030890415": {
+      "name": "[CAROS] ALP_VW-NV-ABERTA",
+      "camp": "120240099407180415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "2111 Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247361900960415": {
+      "name": "[ENTRADA] ALP_VW-NV-ABERTA [ETERNA]",
+      "camp": "120240099407180415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "2111 Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247361797160415": {
+      "name": "[TAOS] ALP_VW-NV-ABERTA",
+      "camp": "120240099407180415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "2111 Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247361532740415": {
+      "name": "[TIGUAN] ALP_VW-NV-ABERTA",
+      "camp": "120240099407180415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "2111 Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247361382810415": {
+      "name": "[TERA] ALP_VW-NV-ABERTA",
+      "camp": "120240099407180415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "2111 Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247361232200415": {
+      "name": "[NIVUS] ALP_VW-NV-ABERTA",
+      "camp": "120240099407180415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "2111 Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247360922140415": {
+      "name": "[T-CROSS] ALP_VW-NV-ABERTA",
+      "camp": "120240099407180415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "2111 Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247360577900415": {
+      "name": "[POLO] ALP_VW-NV-ABERTA",
+      "camp": "120240099407180415",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50048,
+          "longitude": -46.84062,
+          "radius": 20,
+          "name": "2111 Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        }
+      ],
+      "places": []
+    },
+    "120247357073370415": {
+      "name": "[ENTRADA] Público amplo - SP - Advantage",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120247356575470415": {
+      "name": "[TOP DE LINHA] Público amplo - SP - Advantage",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120247355646910415": {
+      "name": "[TIGUAN] Público amplo - SP - Advantage",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120247354559840415": {
+      "name": "[TERA] Público amplo - SP - Advantage",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120247354326910415": {
+      "name": "[NIVUS] Público amplo - SP - Advantage",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120244405816560415": {
+      "name": "[T-CROSS] Público amplo - SP - Advantage",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120229185753390415": {
+      "name": "[1] [REMARKETING] Público amplo - SP - Advantage",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.459461,
+          "longitude": -46.595268,
+          "radius": 6,
+          "name": null
+        },
+        {
+          "latitude": -23.478044,
+          "longitude": -46.540069,
+          "radius": 5,
+          "name": null
+        },
+        {
+          "latitude": -23.5036,
+          "longitude": -46.63225,
+          "radius": 1,
+          "name": "Avenida Braz Leme, 2885, São Paulo, SP, Brasil"
+        },
+        {
+          "latitude": -23.510094,
+          "longitude": -46.628417,
+          "radius": 5,
+          "name": null
+        },
+        {
+          "latitude": -23.515503,
+          "longitude": -46.843337,
+          "radius": 8,
+          "name": null
+        },
+        {
+          "latitude": -23.521801,
+          "longitude": -46.706532,
+          "radius": 6,
+          "name": null
+        },
+        {
+          "latitude": -23.539033,
+          "longitude": -46.783485,
+          "radius": 5,
+          "name": null
+        },
+        {
+          "latitude": -23.54076,
+          "longitude": -46.73011,
+          "radius": 1,
+          "name": "Rua Henri Bouchard, 77, São Paulo, SP, Brasil"
+        },
+        {
+          "latitude": -23.54316,
+          "longitude": -46.76499,
+          "radius": 1,
+          "name": "Avenida dos Autonomistas, 1117, Osasco, SP, Brasil"
+        },
+        {
+          "latitude": -23.562606,
+          "longitude": -46.687107,
+          "radius": 4,
+          "name": null
+        },
+        {
+          "latitude": -23.571222,
+          "longitude": -46.627979,
+          "radius": 8,
+          "name": null
+        },
+        {
+          "latitude": -23.61034,
+          "longitude": -46.62848,
+          "radius": 1,
+          "name": "Avenida Professor Abraão de Morais, 900, São Paulo, SP, Brasil"
+        },
+        {
+          "latitude": -23.943879,
+          "longitude": -46.338481,
+          "radius": 4,
+          "name": null
+        },
+        {
+          "latitude": -23.960665,
+          "longitude": -46.389808,
+          "radius": 5,
+          "name": null
+        },
+        {
+          "latitude": -23.988093,
+          "longitude": -46.264532,
+          "radius": 6,
+          "name": null
+        },
+        {
+          "latitude": -24.004995,
+          "longitude": -46.427267,
+          "radius": 2,
+          "name": null
+        }
+      ],
+      "places": []
+    },
+    "120227892667050415": {
+      "name": "[POLO-JUNHO] Público amplo - SP - Advantage",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120226414601210415": {
+      "name": "[TAOS-JUNHO] Público amplo - SP - Advantage",
+      "camp": "120213700044960415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120214351874490415": {
+      "name": "CJ | ABERTO | REGIONAL |",
+      "camp": "120213700289490415",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.49893,
+          "longitude": -46.85179,
+          "radius": 40,
+          "name": "Alameda Araguaia, Barueri, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54017,
+          "longitude": -46.7302,
+          "radius": 40,
+          "name": "127 Rua Henri Bouchard, São Paulo, São Paulo (state), Brasil"
+        },
+        {
+          "latitude": -23.54531,
+          "longitude": -46.76254,
+          "radius": 40,
+          "name": "Avenida dos Autonomistas, Osasco, São Paulo (state), Brasil"
+        }
+      ],
+      "places": [
+        {
+          "key": "1892296327736358",
+          "name": "Avenida Sumaré 1100",
+          "distance_unit": "kilometer",
+          "latitude": -23.539,
+          "longitude": -46.67512,
+          "radius": 40,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    }
+  }
+}

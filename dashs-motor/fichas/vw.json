@@ -1,0 +1,59 @@
+{
+  "brand": "VW",
+  "subtitle": "Novos & Seminovos · Acompanhamento Comercial",
+  "account_id": "act_1579684322929898",
+  "data_file": "data/vw_D.json",
+
+  "segments": ["NV", "SN"],
+  "segnome": {
+    "NV": "Novos / 0km",
+    "SN": "Seminovos",
+    "OUT": "Outros"
+  },
+  "segshort": {
+    "NV": "Novos",
+    "SN": "Seminovos",
+    "OUT": "Outros"
+  },
+  "segsub": {
+    "NV": "0km (Polo, Nivus, T-Cross, Tera, Taos)",
+    "SN": "usados"
+  },
+  "segcol": {
+    "NV": "#f59e0b",
+    "SN": "#34d399",
+    "OUT": "#a1a1aa"
+  },
+
+  "hasRegion": false,
+  "regions": [],
+  "regnome": {},
+  "regsub": {},
+  "regcol": {},
+  "lojas": {},
+
+  "lojanome": {
+    "ALP": "Alphaville",
+    "OSA": "Osasco",
+    "SUM": "Sumaré",
+    "VLO": "Villa Lobos"
+  },
+
+  "channels": ["Form", "WhatsApp"],
+  "channome": {
+    "Form": "Formulário",
+    "WhatsApp": "WhatsApp",
+    "Trafego": "Tráfego",
+    "Awareness": "Awareness",
+    "Engaj": "Engajamento"
+  },
+
+  "budget": 70000,
+  "orcamento_key": "VW",
+  "orcamento_mes": "jul",
+  "gross_up": 1.1215,
+
+  "exceptions": {
+    "geralLabel": "campanhas auxiliares (reconhecimento, tráfego)"
+  }
+}

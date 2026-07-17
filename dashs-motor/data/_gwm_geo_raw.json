@@ -1,0 +1,977 @@
+{
+  "adsets": {
+    "120248569841130261": {
+      "name": "CJ | ABERTO | 0 | J-BRIGATO-H6-PHEV19",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 25,
+          "distance_unit": "mile"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120248211152560261": {
+      "name": "CJ | ABERTO | 0 | J-BRIGATO-ORA5",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 25,
+          "distance_unit": "mile"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120248207474050261": {
+      "name": "CJ | ABERTO | 0 | LANCAMENTO_ORA5",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 28,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120247618306930261": {
+      "name": "CJ | INTERESSES | ELD | VD",
+      "loja": "ELD",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120247618278370261": {
+      "name": "CJ | INTERESSES | EUR | VD",
+      "loja": "EUR",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.5004,
+          "longitude": -46.84031,
+          "radius": 40,
+          "name": null
+        }
+      ],
+      "places": null
+    },
+    "120247609684640261": {
+      "name": "CJ | ABERTO | REGIONAL |",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "Barueri",
+          "radius": 80,
+          "distance_unit": "kilometer"
+        },
+        {
+          "name": "São Paulo",
+          "radius": 80,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120245794608660261": {
+      "name": "CJ | ABERTO | REGIONAL |",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 28,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120243709676980261": {
+      "name": "CJ | ABERTO | VLO | H9",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120243709479540261": {
+      "name": "CJ | ABERTO | VLO |  ORA",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120243709275050261": {
+      "name": "CJ | ABERTO | VLO | POER",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120243707665780261": {
+      "name": "CJ | ABERTO | VLO | H6",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120243707384170261": {
+      "name": "CJ | ABERTO | VLO | TANK",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120243438460970261": {
+      "name": "CJ | ABERTO | VLO | WEY",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120243021465420261": {
+      "name": "CJ | ABERTO | ELD | ORA",
+      "loja": "ELD",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "1391978987602414",
+          "name": "Shopping el Dourado",
+          "distance_unit": "kilometer",
+          "latitude": -23.57153,
+          "longitude": -46.63003,
+          "radius": 6,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120243021465400261": {
+      "name": "CJ_ELD_SP-AMPLO_MODELOS",
+      "loja": "ELD",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "109029815794587",
+          "name": "Shopping Eldorado",
+          "distance_unit": "kilometer",
+          "latitude": -23.572842850638,
+          "longitude": -46.696432170105,
+          "radius": 6,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120243021465370261": {
+      "name": "CJ | ABERTO | ELD | H6",
+      "loja": "ELD",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "109029815794587",
+          "name": "Shopping Eldorado",
+          "distance_unit": "kilometer",
+          "latitude": -23.572842850638,
+          "longitude": -46.696432170105,
+          "radius": 6,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120243021465190261": {
+      "name": "CJ | ABERTO | ELD | TANK",
+      "loja": "ELD",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "109029815794587",
+          "name": "Shopping Eldorado",
+          "distance_unit": "kilometer",
+          "latitude": -23.572842850638,
+          "longitude": -46.696432170105,
+          "radius": 6,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120243021465090261": {
+      "name": "CJ | ABERTO | ELD | WEY",
+      "loja": "ELD",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "109029815794587",
+          "name": "Shopping Eldorado",
+          "distance_unit": "kilometer",
+          "latitude": -23.572842850638,
+          "longitude": -46.696432170105,
+          "radius": 6,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120243021465000261": {
+      "name": "CJ | ABERTO | ELD | H9",
+      "loja": "ELD",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "109029815794587",
+          "name": "Shopping Eldorado",
+          "distance_unit": "kilometer",
+          "latitude": -23.572842850638,
+          "longitude": -46.696432170105,
+          "radius": 6,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120243021464980261": {
+      "name": "CJ | ABERTO | ELD | POER",
+      "loja": "ELD",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "109029815794587",
+          "name": "Shopping Eldorado",
+          "distance_unit": "kilometer",
+          "latitude": -23.572842850638,
+          "longitude": -46.696432170105,
+          "radius": 6,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120242771731610261": {
+      "name": "GERAL-NV-ABERTA-GERAL_ALP",
+      "loja": "ALP",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120242771689100261": {
+      "name": "GERAL-NV-ABERTA-GERAL_VLO",
+      "loja": "VLO",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120242771663040261": {
+      "name": "GERAL-NV-ABERTA-GERAL_EUR",
+      "loja": "EUR",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120242771323790261": {
+      "name": "GERAL-NV-ABERTA-GERAL_FMO",
+      "loja": "FMO",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120241976546190261": {
+      "name": "GERAL-NV-ABERTA_CARRERA_DAYS",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120241958140610261": {
+      "name": "GERAL-NV-ABERTA_CARRERA_DAYS",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120241702575440261": {
+      "name": "GERAL-NV-ABERTA_CARRERA_DAY_22/03",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120241701012130261": {
+      "name": "GERAL-NV-ABERTA__Carrera_Day_22/03",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120241620827280261": {
+      "name": "GERAL-NV-INTERESSES-GERAL",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "Barueri",
+          "radius": 80,
+          "distance_unit": "kilometer"
+        },
+        {
+          "name": "São Paulo",
+          "radius": 80,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120240972119740261": {
+      "name": "GERAL-NV-ABERTA-GERAL_MODO_4X4_15.03",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 28,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120240349129900261": {
+      "name": "CJ | INTERESSES | VLO | VD",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.540323,
+          "longitude": -46.730222,
+          "radius": 40,
+          "name": null
+        }
+      ],
+      "places": null
+    },
+    "120240349129890261": {
+      "name": "CJ | INTERESSES | ALP | VD",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.5004,
+          "longitude": -46.84031,
+          "radius": 40,
+          "name": null
+        }
+      ],
+      "places": null
+    },
+    "120240349129800261": {
+      "name": "CJ | INTERESSES | FMO | VD",
+      "loja": "FMO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.60554,
+          "longitude": -46.746377,
+          "radius": 40,
+          "name": null
+        }
+      ],
+      "places": null
+    },
+    "120240243841680261": {
+      "name": "CJ | ABERTO | ALP | H9",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243841670261": {
+      "name": "CJ | ABERTO | ALP | H6",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243841660261": {
+      "name": "CJ | ABERTO | ALP | TANK",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243841640261": {
+      "name": "CJ | ABERTO | ALP | ORA",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243841630261": {
+      "name": "CJ | ABERTO | ALP | POER",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243841420261": {
+      "name": "CJ | ABERTO | ALP | WEY",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.50044,
+          "longitude": -46.84108,
+          "radius": 16,
+          "name": "Alameda Araguaia, 2081, Barueri, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243676990261": {
+      "name": "CJ | ABERTO | EUR | ORA",
+      "loja": "EUR",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.57254,
+          "longitude": -46.67555,
+          "radius": 16,
+          "name": "Avenida Europa, 68, São Paulo, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243676970261": {
+      "name": "CJ | ABERTO | EUR | POER",
+      "loja": "EUR",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.57254,
+          "longitude": -46.67555,
+          "radius": 16,
+          "name": "Avenida Europa, 68, São Paulo, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243676950261": {
+      "name": "CJ | ABERTO | EUR | WEY",
+      "loja": "EUR",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.57254,
+          "longitude": -46.67555,
+          "radius": 16,
+          "name": "Avenida Europa, 68, São Paulo, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243676940261": {
+      "name": "CJ | ABERTO | EUR | TANK",
+      "loja": "EUR",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.57254,
+          "longitude": -46.67555,
+          "radius": 16,
+          "name": "Avenida Europa, 68, São Paulo, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243676890261": {
+      "name": "CJ | ABERTO | EUR | H6",
+      "loja": "EUR",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.57254,
+          "longitude": -46.67555,
+          "radius": 16,
+          "name": "Avenida Europa, 68, São Paulo, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243676770261": {
+      "name": "CJ | ABERTO | EUR | H9",
+      "loja": "EUR",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.57254,
+          "longitude": -46.67555,
+          "radius": 16,
+          "name": "Avenida Europa, 68, São Paulo, SP, Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243593380261": {
+      "name": "CJ | ABERTO | FMO | POER",
+      "loja": "FMO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.60543,
+          "longitude": -46.7464,
+          "radius": 16,
+          "name": "5825 Avenida Professor Francisco Morato, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243532490261": {
+      "name": "CJ | ABERTO | FMO | TANK",
+      "loja": "FMO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.60543,
+          "longitude": -46.7464,
+          "radius": 16,
+          "name": "5825 Avenida Professor Francisco Morato, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243479900261": {
+      "name": "CJ | ABERTO | FMO | H9",
+      "loja": "FMO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.60543,
+          "longitude": -46.7464,
+          "radius": 16,
+          "name": "5825 Avenida Professor Francisco Morato, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243430090261": {
+      "name": "CJ | ABERTO | FMO | WEY",
+      "loja": "FMO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.60543,
+          "longitude": -46.7464,
+          "radius": 16,
+          "name": "5825 Avenida Professor Francisco Morato, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243400830261": {
+      "name": "CJ | ABERTO | FMO | ORA",
+      "loja": "FMO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.60543,
+          "longitude": -46.7464,
+          "radius": 16,
+          "name": "5825 Avenida Professor Francisco Morato, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120240243388860261": {
+      "name": "CJ | ABERTO | FMO | H6",
+      "loja": "FMO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.60543,
+          "longitude": -46.7464,
+          "radius": 16,
+          "name": "5825 Avenida Professor Francisco Morato, São Paulo, São Paulo (state), Brasil"
+        }
+      ],
+      "places": null
+    },
+    "120239978598240261": {
+      "name": "GERAL-ABERTA-GERAL",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "178856222133542",
+          "name": "Vila Lobos",
+          "distance_unit": "kilometer",
+          "latitude": -23.55173,
+          "longitude": -46.72261,
+          "radius": 7,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        },
+        {
+          "key": "338489412928896",
+          "name": "Alphavile",
+          "distance_unit": "kilometer",
+          "latitude": -23.493803781403,
+          "longitude": -46.848951828307,
+          "radius": 8,
+          "primary_city_id": 244379,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120239540027090261": {
+      "name": "GERAL-PCD-LAL-GERAL",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 17,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120239476697570261": {
+      "name": "GERAL-ABERTA-GERAL",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [],
+      "places": [
+        {
+          "key": "178856222133542",
+          "name": "Vila Lobos",
+          "distance_unit": "kilometer",
+          "latitude": -23.55173,
+          "longitude": -46.72261,
+          "radius": 8,
+          "primary_city_id": 269969,
+          "region_id": 460,
+          "country": "BR"
+        },
+        {
+          "key": "288594977883322",
+          "name": "Alphaville, São Paulo",
+          "distance_unit": "kilometer",
+          "latitude": -23.464335266533,
+          "longitude": -46.88310669595,
+          "radius": 8,
+          "primary_city_id": 268284,
+          "region_id": 460,
+          "country": "BR"
+        }
+      ]
+    },
+    "120239213031690261": {
+      "name": "CJ | ABERTO | REGIONAL | ORA",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120238976041020261": {
+      "name": "CJ | INTERESSES | REGIONAL | HAVAL H6",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "São Paulo",
+          "radius": 40,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120238934621810261": {
+      "name": "CJ | INTERESSES | ALP | PV",
+      "loja": "ALP",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.5004,
+          "longitude": -46.84031,
+          "radius": 40,
+          "name": null
+        }
+      ],
+      "places": null
+    },
+    "120238934618340261": {
+      "name": "CJ | INTERESSES | FMO | PV",
+      "loja": "FMO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.60554,
+          "longitude": -46.746377,
+          "radius": 40,
+          "name": null
+        }
+      ],
+      "places": null
+    },
+    "120238934610400261": {
+      "name": "CJ | INTERESSES | VLO | PV",
+      "loja": "VLO",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.540323,
+          "longitude": -46.730222,
+          "radius": 40,
+          "name": null
+        }
+      ],
+      "places": null
+    },
+    "120234250486180261": {
+      "name": "CJ | ABERTO | REGIONAL | WEY",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "Barueri",
+          "radius": 80,
+          "distance_unit": "kilometer"
+        },
+        {
+          "name": "São Paulo",
+          "radius": 80,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120232813647150261": {
+      "name": "CJ | ABERTO | REGIONAL | H9",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "Barueri",
+          "radius": 17,
+          "distance_unit": "kilometer"
+        },
+        {
+          "name": "São Paulo",
+          "radius": 45,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120232813479630261": {
+      "name": "CJ | ABERTO | REGIONAL | POER",
+      "loja": "REGIONAL",
+      "cities": [
+        {
+          "name": "Barueri",
+          "radius": 17,
+          "distance_unit": "kilometer"
+        },
+        {
+          "name": "São Paulo",
+          "radius": 45,
+          "distance_unit": "kilometer"
+        }
+      ],
+      "custom_locations": [],
+      "places": null
+    },
+    "120231873970380261": {
+      "name": "CJ | ABERTO | REGIONAL | TANK",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [
+        {
+          "latitude": -23.549353,
+          "longitude": -46.63353,
+          "radius": 45,
+          "name": null
+        }
+      ],
+      "places": null
+    },
+    "120229113614040261": {
+      "name": "Instagram Post",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [],
+      "places": null
+    },
+    "120221598252340261": {
+      "name": "Instagram Post",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [],
+      "places": null
+    },
+    "120218196098830261": {
+      "name": "Instagram Post",
+      "loja": "REGIONAL",
+      "cities": [],
+      "custom_locations": [],
+      "places": null
+    }
+  }
+}

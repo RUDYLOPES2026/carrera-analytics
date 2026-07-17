@@ -1,0 +1,50 @@
+{
+  "brand": "ZEEKR",
+  "subtitle": "Acompanhamento Comercial",
+  "account_id": "act_8702053599855731",
+  "data_file": "data/zeekr_D.json",
+
+  "segments": ["NV"],
+  "segnome": {
+    "NV": "Novos / 0km",
+    "OUT": "Outros"
+  },
+  "segshort": {
+    "NV": "Novos",
+    "OUT": "Outros"
+  },
+  "segsub": {
+    "NV": "0km (Zeekr, premium eletrico)"
+  },
+  "segcol": {
+    "NV": "#f59e0b",
+    "OUT": "#a1a1aa"
+  },
+
+  "hasRegion": false,
+  "regions": [],
+  "regnome": {},
+  "regsub": {},
+  "regcol": {},
+  "lojas": {},
+
+  "lojanome": {},
+
+  "channels": ["Form", "WhatsApp"],
+  "channome": {
+    "Form": "Formulário",
+    "WhatsApp": "WhatsApp",
+    "Trafego": "Tráfego",
+    "Awareness": "Awareness",
+    "Engaj": "Engajamento"
+  },
+
+  "budget": 30000,
+  "orcamento_key": "ZEEKR",
+  "orcamento_mes": "jul",
+  "gross_up": 1.1215,
+
+  "exceptions": {
+    "geralLabel": "campanhas auxiliares (engajamento, vídeo)"
+  }
+}

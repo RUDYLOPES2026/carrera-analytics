@@ -1,0 +1,76 @@
+{
+  "brand": "Carrera Veículos (Seminovos SP)",
+  "subtitle": "Acompanhamento Comercial",
+  "account_id": "act_8320926344651440",
+  "data_file": "data/seminovos_sp_D.json",
+
+  "segments": ["SN"],
+  "segnome": {
+    "SN": "Seminovos",
+    "OUT": "Outros"
+  },
+  "segshort": {
+    "SN": "Seminovos",
+    "OUT": "Outros"
+  },
+  "segsub": {
+    "SN": "usados"
+  },
+  "segcol": {
+    "SN": "#34d399",
+    "OUT": "#a1a1aa"
+  },
+
+  "hasRegion": false,
+  "regions": ["SP"],
+  "regnome": {
+    "SP": "Capital / Regional SP",
+    "BUT": "Butantã",
+    "REB": "Rebouças",
+    "FMO": "Francisco Morato",
+    "VLO": "Villa Lobos",
+    "G": "Geral"
+  },
+  "regsub": {
+    "SP": "capital",
+    "BUT": "loja",
+    "REB": "loja",
+    "FMO": "loja",
+    "VLO": "loja"
+  },
+  "regcol": {
+    "SP": "#f59e0b",
+    "BUT": "#60a5fa",
+    "REB": "#34d399",
+    "FMO": "#c084fc",
+    "VLO": "#f472b6",
+    "G": "#71717a"
+  },
+  "lojas": {
+    "SP": ["SP"],
+    "BUT": ["BUT"],
+    "REB": ["REB"],
+    "FMO": ["FMO"],
+    "VLO": ["VLO"]
+  },
+
+  "channels": ["Form", "WhatsApp"],
+  "channome": {
+    "Form": "Formulário",
+    "WhatsApp": "WhatsApp",
+    "Catalogo": "Catálogo",
+    "Engaj": "Engajamento",
+    "RMKT": "Remarketing",
+    "Trafego": "Tráfego",
+    "Awareness": "Awareness"
+  },
+
+  "budget": 3000,
+  "orcamento_key": "SEMINOVOS SP",
+  "orcamento_mes": "jul",
+  "gross_up": 1.1215,
+
+  "exceptions": {
+    "geralLabel": "campanhas sem praça de loja no nome (Capital / Regional SP)"
+  }
+}

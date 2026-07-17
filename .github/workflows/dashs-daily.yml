@@ -1,0 +1,67 @@
+name: Dashs Daily (Meta Ads)
+
+on:
+  schedule:
+    - cron: '0 8 * * *'   # 05:00 BRT
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# mesmo grupo do deploy-pages pra nunca ter dois deploys simultâneos,
+# mas sem cancelar um refresh em andamento
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  refresh-build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 1) harvest Meta + monta os 9 dashs + central + escreve client/public/
+      - name: run_daily (harvest + build + publish local)
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+        run: python3 dashs-motor/run_daily.py
+
+      # 2) commita o cofre de dados + site publicado (push do GITHUB_TOKEN não
+      #    redispara workflows, por isso o deploy acontece neste mesmo job)
+      - name: commit cofre + client/public
+        run: |
+          git config user.name "carrera-dashs-bot"
+          git config user.email "dashs@carrera.local"
+          git add dashs-motor/data client/public
+          if git diff --cached --quiet; then
+            echo "nada pra commitar"; exit 0
+          fi
+          git commit -m "dashs: refresh diário $(date -u +%F) [skip ci]"
+          for i in 1 2 3 4 5; do
+            git push origin main && break
+            git pull --rebase --autostash origin main
+          done
+
+      # 3) build do site (Vite copia client/public) + deploy Pages
+      - run: npm ci
+      - run: npm run build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4
