@@ -65,3 +65,16 @@ jobs:
           path: dist
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      # 4) só DEPOIS do deploy: marca o run como falho se alguma marca falhou
+      #    (falha parcial publica o que passou; o vermelho aqui é o alerta)
+      - name: flag falhas parciais
+        run: |
+          python3 - <<'EOF'
+          import json, sys
+          r = json.load(open('dashs-motor/data/_last_run.json'))
+          if r.get('fail'):
+              print('Marcas com falha neste run:', json.dumps(r['fail'], ensure_ascii=False, indent=1))
+              sys.exit(1)
+          print('todas as marcas ok:', r.get('ok'))
+          EOF

@@ -71,7 +71,15 @@ def main():
     print(f"\n== RESUMO: ok={ok} fail={sorted(fail)} ==")
     for slug, tb in fail.items():
         print(f"\n[X] {slug}:\n{tb}")
-    sys.exit(1 if fail else 0)
+    # registro do run (vai commitado no cofre; o workflow marca o run como falho
+    # DEPOIS do deploy se fail não estiver vazio)
+    import json, datetime
+    common.jdump("_last_run.json", {
+        "quando": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "ok": ok, "fail": {s: tb.splitlines()[-1] if tb else "" for s, tb in fail.items()},
+    }, indent=1)
+    # falha parcial ainda publica o que passou; só falha TOTAL derruba o job aqui
+    sys.exit(0 if ok else 1)
 
 
 if __name__ == "__main__":

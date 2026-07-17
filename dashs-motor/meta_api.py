@@ -46,8 +46,13 @@ def _get(path, params, tries=6):
             except Exception:
                 err = {"message": body[:200]}
             code = err.get("code")
-            # rate-limit / transient -> backoff e retry
-            if code in (4, 17, 32, 613, 80000, 80004) or e.code in (429, 500, 503):
+            # rate-limit / transient -> backoff e retry (1/2 = unknown/service unavailable,
+            # exceto o code 1 "reduce the amount of data", que é determinístico e o
+            # list_adsets resolve degradando o page size)
+            transient = code in (1, 2, 4, 17, 32, 613, 80000, 80004) or e.code in (429, 500, 503)
+            if code == 1 and "reduce the amount" in str(err.get("message", "")).lower():
+                transient = False
+            if transient:
                 last = err; time.sleep(min(60, 8 * (i + 1))); continue
             raise MetaError(f"Graph API erro {code}: {err.get('message')}")
         except (urllib.error.URLError, TimeoutError) as e:
