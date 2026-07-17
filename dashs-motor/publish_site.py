@@ -87,6 +87,11 @@ def write_hub(public_dir, published, has_central=False):
     dias = [dt for _, _, dt in published if dt]
     asof = max(dias) if dias else TODAY
     asof_br = datetime.date.fromisoformat(asof).strftime("%d/%m/%Y")
+    try:
+        from zoneinfo import ZoneInfo
+        asof_br += " às " + datetime.datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%H:%M")
+    except Exception:
+        asof_br += " às " + (datetime.datetime.utcnow() - datetime.timedelta(hours=3)).strftime("%H:%M")
     central_banner = ('''    <a class="central" href="../central/">
       <span class="ct">Central de Mídia , visão do grupo</span>
       <span class="cs">investimento, orçamento/atingimento, evolução diária e mês a mês das 9 marcas →</span>

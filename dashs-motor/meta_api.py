@@ -88,8 +88,18 @@ def get_insights(object_id, level="campaign", since=None, until=None,
         p["date_preset"] = date_preset
     if breakdowns:
         p["breakdowns"] = json.dumps(breakdowns) if not isinstance(breakdowns, str) else breakdowns
-    rows = _paged(f"{object_id}/insights", p)
-    return {"ok": True, "count": len(rows), "insights": rows}
+    # "reduce the amount of data" em conta grande (ex.: Nissan ad-level 30d):
+    # degrada o page size; a paginação junta tudo do mesmo jeito.
+    last = None
+    for lim in (500, 100, 25):
+        try:
+            rows = _paged(f"{object_id}/insights", dict(p), node_limit=lim)
+            return {"ok": True, "count": len(rows), "insights": rows}
+        except MetaError as e:
+            last = e
+            if "reduce the amount" not in str(e).lower():
+                raise
+    raise last
 
 def atividades_conta(account_id, limit=200, since=None, until=None):
     p = {"fields": "event_type,event_time,translated_event_type,actor_name,extra_data,object_name", "limit": limit}

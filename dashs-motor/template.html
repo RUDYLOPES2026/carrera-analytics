@@ -1719,7 +1719,7 @@ function buildFilters(){
   // rotulo dinamico do botao de mes corrente ("Julho"/"Junho"/...)
   const wmb=document.getElementById("winMesBtn"); if(wmb) wmb.textContent=MESNM;
   const pdsc=document.getElementById("periodoDesc"); if(pdsc) pdsc.textContent='"'+MESNM+'"';
-  const fat=document.getElementById("footAtual"); if(fat) fat.textContent=MESNM+" atualizado em "+((D.pacing&&D.pacing.asof)?D.pacing.asof:(D.gerado||""));
+  const fat=document.getElementById("footAtual"); if(fat) fat.textContent=MESNM+" atualizado em "+((D.pacing&&D.pacing.asof)?D.pacing.asof:(D.gerado||""))+(D.gerado_hora?(" às "+D.gerado_hora):"");
   // grafico diario (N_DAILY) segue o filtro de janela (WIN); titulo/subtitulo setados no _renderNDaily
   if(typeof _renderNDaily==="function"){ try{ _renderNDaily(); }catch(e){} }
   // cabecalho da marca
@@ -1732,7 +1732,7 @@ function buildFilters(){
     const g=(D.gerado||"").split("-");
     const gtxt=(g.length===3)?`${g[2]}/${MES[+g[1]-1]}/${g[0]}`:(D.gerado||"");
     const ate=(D.pacing&&D.pacing.asof)?D.pacing.asof:"";
-    dp.textContent="Carrera · dados reais Meta Ads · atualizado "+gtxt+(ate?" · dados até "+ate:"");
+    dp.textContent="Carrera · dados reais Meta Ads · atualizado "+gtxt+(D.gerado_hora?(" às "+D.gerado_hora):"")+(ate?" · dados até "+ate:"");
   }
   var wm=document.getElementById("winMesBtn"); if(wm) wm.textContent=MESNM;
 }

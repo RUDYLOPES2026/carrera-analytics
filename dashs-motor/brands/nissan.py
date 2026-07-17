@@ -344,7 +344,7 @@ def refresh(api, ctx):
 
     # harvest: adset+ad em 2 janelas, dias repuxados, atividades (sem list_adsets:
     # nd_verba/note_verba sao preservados do D, como no legado)
-    h = common.harvest_std(api, ACC, ctx, want_adsets=False)
+    h = common.harvest_std(api, ACC, ctx, want_adsets=True)
     ADSET_MTD = h["adset_mtd"]; ADSET_30D = h["adset_30d"]
     AD_MTD = h["ad_mtd"]; AD_30D = h["ad_30d"]
 
@@ -452,6 +452,35 @@ def refresh(api, ctx):
 
     # ---- edits / nd_changes / note_edits (log REAL, sem texto editorial) ----
     base["edits"], base["nd_changes"], base["note_edits"] = edits_block(h["activities"], ctx)
+
+    # ---- nd_verba VIVA (era preservada): adsets ativos + campanhas CBO.
+    # Necessária pra projeção por intenção da central (verba/dia configurada).
+    cmap = {r.get("campaign_id"): r.get("campaign_name", "")
+            for r in AD_30D + ADSET_30D}
+    verba = []
+    for a in h.get("adsets", []):
+        if a.get("effective_status") != "ACTIVE":
+            continue
+        db = a.get("daily_budget")
+        if db in (None, "", "0"):
+            continue
+        cn = cmap.get(a.get("campaign_id"), "")
+        _seg, canal, creg = camp_parse(cn)
+        verba.append({"nome": a["name"], "reg": adset_reg(a["name"], creg),
+                      "can": canal, "dailyLiq": round(int(db) / 100, 2),
+                      "status": "ACTIVE"})
+    try:
+        for c in api.list_campaigns(ACC)["campaigns"]:
+            if c.get("effective_status") == "ACTIVE" and c.get("daily_budget") not in (None, "", "0"):
+                _seg, canal, creg = camp_parse(c["name"])
+                verba.append({"nome": c["name"], "reg": creg, "can": canal,
+                              "dailyLiq": round(int(c["daily_budget"]) / 100, 2),
+                              "status": "ACTIVE"})
+    except Exception as e:
+        print("  [aviso] list_campaigns:", e)
+    if verba:
+        verba.sort(key=lambda x: -x["dailyLiq"])
+        base["nd_verba"] = verba
 
     # ---- grava (jdump ja troca em/en-dash) ----
     common.jdump(f"{SLUG}_D.json", base)

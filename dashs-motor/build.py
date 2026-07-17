@@ -296,6 +296,12 @@ def main():
 
     # --- injeta config da ficha em D.config ---
     D["config"] = build_config(ficha)
+    # carimbo de HORA da atualização (BRT) — o template mostra junto da data
+    try:
+        from zoneinfo import ZoneInfo
+        D["gerado_hora"] = datetime.datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%H:%M")
+    except Exception:
+        D["gerado_hora"] = (datetime.datetime.utcnow() - datetime.timedelta(hours=3)).strftime("%H:%M")
     # garante pacing.budget coerente com a ficha (sem inventar, so reflete o briefing)
     if ficha.get("budget") and isinstance(D.get("pacing"), dict):
         D["pacing"]["budget"] = ficha["budget"]

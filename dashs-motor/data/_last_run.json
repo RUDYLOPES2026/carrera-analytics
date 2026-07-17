@@ -1,16 +1,8 @@
 {
- "quando": "2026-07-17T12:57:38Z",
+ "quando": "2026-07-17T13:06:18Z",
  "ok": [
   "bajaj",
-  "chevrolet_sp",
-  "chevrolet_bsb",
-  "omoda",
-  "seminovos_sp",
-  "gac",
-  "gwm",
-  "vw"
+  "nissan"
  ],
- "fail": {
-  "nissan": "meta_api.MetaError: Graph API erro 1: Please reduce the amount of data you're asking for, then retry your request"
- }
+ "fail": {}
 }

@@ -261,8 +261,8 @@ def _nd_changes(activities):
 
 # ---------- refresh ----------
 def refresh(api, ctx):
-    h = common.harvest_std(api, ACC, ctx, want_adsets=False)
-    D = common.jload("bajaj_D.json")  # PATCH: preserva geo/nd_maio/nd_verba/notas
+    h = common.harvest_std(api, ACC, ctx, want_adsets=True)
+    D = common.jload("bajaj_D.json")  # PATCH: preserva geo/nd_maio/notas
 
     # agregados adset (fonte única do topo)
     agg = {MTD_KEY: _agg_rows(h["adset_mtd"]), "30d": _agg_rows(h["adset_30d"])}
@@ -315,6 +315,33 @@ def refresh(api, ctx):
                     % (D["mes_nome"], today.replace(day=1).strftime("%d/%m"),
                        today.strftime("%d/%m"), today.strftime("%d/%m/%Y")))
 
+    # nd_verba VIVA (era preservada do legado): adsets ativos + campanhas CBO.
+    # Necessária pra projeção por intenção da central (verba/dia configurada).
+    cmap = {r.get("campaign_id"): r.get("campaign_name", "")
+            for r in h["ad_30d"] + h["adset_30d"]}
+    verba = []
+    for a in h.get("adsets", []):
+        if a.get("effective_status") != "ACTIVE":
+            continue
+        db = a.get("daily_budget")
+        if db in (None, "", "0"):
+            continue
+        cn = cmap.get(a.get("campaign_id"), "")
+        verba.append({"nome": a["name"], "reg": reg_of(a["name"], cn),
+                      "can": canal_of(cn), "dailyLiq": round(int(db) / 100, 2),
+                      "status": "ACTIVE"})
+    try:
+        for c in api.list_campaigns(ACC)["campaigns"]:
+            if c.get("effective_status") == "ACTIVE" and c.get("daily_budget") not in (None, "", "0"):
+                verba.append({"nome": c["name"], "reg": reg_of("", c["name"]),
+                              "can": canal_of(c["name"]),
+                              "dailyLiq": round(int(c["daily_budget"]) / 100, 2),
+                              "status": "ACTIVE"})
+    except Exception as e:
+        print("  [aviso] list_campaigns:", e)
+    if verba:
+        verba.sort(key=lambda x: -x["dailyLiq"])
+        D["nd_verba"] = verba
     common.jdump("bajaj_D.json", D)
     kA = kpi[MTD_KEY]["ALL"]; k3 = kpi["30d"]["ALL"]
     print("  [%s] mtd bruto=%.2f leads=%d conv=%d | 30d bruto=%.2f leads=%d conv=%d | "

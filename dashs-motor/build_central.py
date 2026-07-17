@@ -93,8 +93,6 @@ def load_brand(fslug, kebab, nome, cor):
     spend_liq = round(spend_comm_liq + pv_liq, 2)  # LIQUIDO (o que a Meta cobrou de fato)
     res = leads + conv
     ideal_liq = budget_liq / days * elapsed        # ideal na Meta ate hoje (liquido)
-    proj_pay = spend_tot / elapsed * days           # projecao do que vai PAGAR (bruto)
-    proj_comm = spend_comm / elapsed * days
     # mes anterior (fechado)
     prev = D.get("nd_maio", {}).get("total", {})
     prev_bruto = float(prev.get("bruto", 0) or 0)
@@ -113,6 +111,29 @@ def load_brand(fslug, kebab, nome, cor):
         daily.append({"date": d["date"], "tot": t, "form": f, "wa": w,
                       "leads": lz, "conv": cz, "res": lz + cz,
                       "comm": round(t - pvs, 2)})
+    # ---- PROJEÇÃO POR INTENÇÃO (regra de 17/jul, decisão Rudy) ----
+    # ritmo futuro = verba diária CONFIGURADA nos conjuntos/campanhas ativos
+    # (nd_verba, líquido) -> reage no mesmo dia a ajuste de verba. Guarda-corpos:
+    #  - se a média dos últimos 3 dias fechados for MAIOR que a verba (verba
+    #    subcontada / CBO fora), usa a média (nunca projeta abaixo do realizado);
+    #  - sem verba legível -> média 3d; sem nada -> ritmo médio do mês.
+    # projeção líq = gasto fechado (até ontem) + ritmo × (dias restantes + hoje).
+    verba_liq = round(sum(float(v.get("dailyLiq", 0) or 0)
+                          for v in D.get("nd_verba", [])
+                          if (v.get("status") or "ACTIVE") == "ACTIVE"), 2)
+    closed = [x["tot"] for x in daily if x["date"] < TODAY_ISO]
+    media3d = round(sum(closed[-3:]) / len(closed[-3:]), 2) if closed[-3:] else 0.0
+    ritmo_liq = verba_liq if verba_liq > 0 else media3d
+    if media3d > ritmo_liq:
+        ritmo_liq = media3d
+    if ritmo_liq <= 0:
+        ritmo_liq = spend_liq / elapsed
+    entrega = round(media3d / verba_liq, 4) if (verba_liq > 0 and media3d > 0) else None
+    hoje_liq = next((x["tot"] for x in daily if x["date"] == TODAY_ISO), 0.0)
+    fechado_liq = max(0.0, spend_liq - hoje_liq)
+    proj_liq = fechado_liq + ritmo_liq * (days - elapsed + 1)
+    proj_pay = proj_liq * TAX
+    proj_comm = proj_pay * (spend_comm / spend_tot if spend_tot else 1.0)
     # mesmo periodo do mes anterior = mes anterior fechado (nd_maio) , o pedaco do mes
     # anterior que ainda aparece no n_daily (a janela de 30d deixa exatamente jun (D+1)..fim).
     cm, cy = TODAY.month, TODAY.year
@@ -132,6 +153,8 @@ def load_brand(fslug, kebab, nome, cor):
         "budget": round(budget, 2), "budget_liq": round(budget_liq, 2), "days": days, "elapsed": elapsed,
         "spend_comm": round(spend_comm, 2), "pv": round(pv, 2), "spend_tot": spend_tot,
         "spend_liq": spend_liq, "ideal_liq": round(ideal_liq, 2), "proj_pay": round(proj_pay, 2),
+        "verba_liq": verba_liq, "ritmo_liq": round(ritmo_liq, 2),
+        "media3d": media3d, "entrega": entrega,
         "leads": leads, "conv": conv, "res": res,
         "spend_comm_30d": round(spend_comm_30d, 2), "leads_30d": leads_30d, "conv_30d": conv_30d,
         "cpl": round(spend_comm / res, 2) if res else 0,
@@ -159,6 +182,7 @@ def main():
         "spend_liq": sum(b["spend_liq"] for b in brands),
         "ideal_liq": sum(b["ideal_liq"] for b in brands),
         "proj_pay": sum(b["proj_pay"] for b in brands),
+        "verba_liq": sum(b["verba_liq"] for b in brands),
         "spend_comm": sum(b["spend_comm"] for b in brands),
         "spend_comm_30d": sum(b["spend_comm_30d"] for b in brands),
         "leads_30d": sum(b["leads_30d"] for b in brands),
@@ -189,7 +213,13 @@ def main():
     MESES = ["", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
              "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
     pm = TODAY.month - 1 or 12
+    try:
+        from zoneinfo import ZoneInfo
+        _now_brt = datetime.datetime.now(ZoneInfo("America/Sao_Paulo"))
+    except Exception:
+        _now_brt = datetime.datetime.utcnow() - datetime.timedelta(hours=3)
     payload = {"gerado": TODAY_ISO, "asof": TODAY.strftime("%d/%m/%Y"),
+               "hora": _now_brt.strftime("%H:%M"),
                "elapsed": brands[0]["elapsed"] if brands else TODAY.day,
                "days": brands[0]["days"] if brands else 31,
                "mes_nome": MESES[TODAY.month], "mom_nome": MESES[pm],
@@ -277,8 +307,15 @@ TEMPLATE = r"""<!doctype html>
 
   <div class="kpis" id="kpis"></div>
 
-  <h2>Consolidado por marca <span class="h">mês corrente (MTD) · projeção de fim de mês · orçamento bruto</span></h2>
+  <h2>Consolidado por marca <span class="h">mês corrente (MTD) · projeção pela verba configurada · orçamento bruto</span></h2>
   <div class="card" style="overflow-x:auto"><table id="tbl"></table></div>
+  <div class="meta" style="margin-top:10px;line-height:1.6">
+    <b>Regra da projeção ("Vai pagar")</b>: gasto já realizado no mês + verba diária configurada agora
+    (conjuntos e campanhas ativos, coluna "Verba/dia") × dias restantes, convertido pra bruto (×1,1215).
+    Mede a <b>intenção</b>: mudou a verba pra bater a meta, a projeção reflete no mesmo refresh.
+    ⚠ = nos últimos 3 dias a Meta entregou menos de 85% da verba configurada (aprendizado/público/leilão),
+    a projeção pode estar otimista. Se a entrega recente supera a verba lida, projetamos pela entrega.
+  </div>
 
   <h2>Alertas de pacing <span class="h">projeção de fim de mês vs orçamento</span></h2>
   <div class="alerts" id="alerts"></div>
@@ -308,7 +345,7 @@ const PCT = v => (v*100).toFixed(0)+"%";
 const G = P.grupo;
 
 document.getElementById("sub").textContent =
-  "9 marcas · Meta Ads · dia "+P.elapsed+"/"+P.days+" · atualizado em "+P.asof;
+  "9 marcas · Meta Ads · dia "+P.elapsed+"/"+P.days+" · atualizado em "+P.asof+(P.hora?(" às "+P.hora):"");
 
 // ---- KPIs do grupo ----
 const momInv = G.prev_bruto ? (G.proj_comm/G.prev_bruto-1) : 0;
@@ -324,7 +361,7 @@ function cmpSP(cur, base, goodUp, fmt){
 }
 const kpis = [
   ["Gasto na Meta (mês)", BRL(G.spend_liq)+" líq", BRL(G.spend_tot)+" bruto · "+PCT(G.attain)+" do orçamento de "+BRL(G.budget), cmpSP(G.spend_comm, G.psp_spend, true, BRL)],
-  ["Vai pagar (fim do mês)", BRL(G.proj_pay), "bruto, com imposto · "+PCT(G.proj_attain)+" do orçamento", ""],
+  ["Vai pagar (fim do mês)", BRL(G.proj_pay), "bruto · projetado pela verba ativa de "+BRL(G.verba_liq)+"/dia líq · "+PCT(G.proj_attain)+" do orçamento", ""],
   ["Ideal na Meta hoje", BRL(G.ideal_liq)+" líq", "teto do mês "+BRL(G.budget_liq)+" líq ("+BRL(G.budget)+" bruto)", ""],
   ["Leads (mês)", G.leads.toLocaleString("pt-BR"), "formulário", cmpSP(G.leads, G.psp_leads, true, v=>v.toLocaleString("pt-BR"))],
   ["Conversas (mês)", G.conv.toLocaleString("pt-BR"), "WhatsApp", cmpSP(G.conv, G.psp_conv, true, v=>v.toLocaleString("pt-BR"))],
@@ -339,12 +376,14 @@ const rows = P.brands.slice().sort((a,b)=>b.spend_tot-a.spend_tot).map(b=>{
   const [cls,lab]=pace(b.proj_attain);
   const mom = b.prev_bruto ? (b.proj_comm/b.prev_bruto-1) : 0;
   const momc = mom>=0?"up":"down";
+  const lowdeliv = (b.entrega!==null && b.entrega<0.85);
   return `<tr>
     <td><span class="dot" style="background:${b.cor}"></span><a href="../${b.slug}/">${b.nome}</a></td>
     <td>${BRL(b.budget)}</td>
     <td>${BRL(b.spend_liq)}</td>
     <td>${BRL(b.spend_tot)}</td>
     <td class="mut">${BRL(b.ideal_liq)}</td>
+    <td class="mut">${b.verba_liq?BRL(b.verba_liq):","}${lowdeliv?" ⚠":""}</td>
     <td>${PCT(b.attain)}</td>
     <td>${BRL(b.proj_pay)}</td>
     <td><span class="pill ${cls}">${lab} · ${PCT(b.proj_attain)}</span></td>
@@ -355,7 +394,7 @@ const rows = P.brands.slice().sort((a,b)=>b.spend_tot-a.spend_tot).map(b=>{
   </tr>`;
 }).join("");
 document.getElementById("tbl").innerHTML =
-  `<thead><tr><th>Marca</th><th>Orçamento (bruto)</th><th>Gasto (líq)</th><th>Gasto (bruto)</th><th>Ideal hoje (líq)</th><th>Atingido</th>
+  `<thead><tr><th>Marca</th><th>Orçamento (bruto)</th><th>Gasto (líq)</th><th>Gasto (bruto)</th><th>Ideal hoje (líq)</th><th>Verba/dia (líq)</th><th>Atingido</th>
    <th>Vai pagar</th><th>Pacing</th><th>Leads</th><th>Conversas</th><th>CPL</th><th>vs mês ant.</th></tr></thead>
    <tbody>${rows}</tbody>`;
 
@@ -368,7 +407,7 @@ else{ alertsEl.innerHTML=al.map(({b,cls})=>{
   const over=b.proj_attain>1;
   const dif=BRL(Math.abs(b.proj_pay-b.budget));
   return `<div class="alert ${cls}"><div class="n">${b.nome} · ${PCT(b.proj_attain)} do orçamento</div>
-    <div class="d">Projeção a pagar ${BRL(b.proj_pay)} vs orçamento ${BRL(b.budget)}. ${over?"Tende a ESTOURAR em ~"+dif:"Tende a SOBRAR ~"+dif+" (subutilização)"}. Na Meta até hoje ${BRL(b.spend_liq)} líq (${BRL(b.spend_tot)} bruto), ideal ${BRL(b.ideal_liq)} líq.</div></div>`;
+    <div class="d">Projeção a pagar ${BRL(b.proj_pay)} vs orçamento ${BRL(b.budget)}. ${over?"Tende a ESTOURAR em ~"+dif:"Tende a SOBRAR ~"+dif+" (subutilização)"}. Na Meta até hoje ${BRL(b.spend_liq)} líq (${BRL(b.spend_tot)} bruto), ideal ${BRL(b.ideal_liq)} líq. Verba ativa ${BRL(b.verba_liq)}/dia líq${(b.entrega!==null&&b.entrega<0.85)?" (entrega recente "+PCT(b.entrega)+" da verba ⚠)":""}.</div></div>`;
 }).join(""); }
 
 // ---- Chart.js comum ----
@@ -436,7 +475,7 @@ document.getElementById("foot").innerHTML =
   "Documento interno · orçamento e projeção em BRUTO (com imposto, o que se paga) · gasto e ideal do dia em LÍQUIDO "+
   "(valor real que a Meta cobra; imposto de 12,15% entra só no fechamento) · bruto = líquido × 1,1215 · teto líquido na Meta = orçamento ÷ 1,1215 · "+
   "o gasto aqui inclui pós-venda (regra do pacing); os cards dos painéis de marca destacam só o comercial em bruto · "+
-  "pós-venda incluído no gasto/orçamento e fora do total comercial · projeção = ritmo do mês (gasto ÷ dia atual × dias) · "+
+  "pós-venda incluído no gasto/orçamento e fora do total comercial · projeção = gasto realizado + verba diária configurada × dias restantes (intenção; ⚠ quando a entrega recente fica abaixo de 85% da verba) · "+
   "comparativo dos big numbers = mesmo período do mês anterior ("+per+").";
 </script>
 </body>
