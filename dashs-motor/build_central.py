@@ -20,7 +20,9 @@ TODAY_ISO = TODAY.isoformat()
 # do DIA saem em LIQUIDO (valor real que a Meta cobra) e a PROJECAO de fim de mes sai em BRUTO
 # (o que vai pagar). Teto liquido de gasto na Meta = orçamento_bruto / TAX.
 TAX = 1.1215
-_ORC_PATH = os.path.join(os.path.dirname(HERE), "ORCAMENTO_MIDIA_CENTRAL.json")
+_ORC_PATH = os.path.join(HERE, "ORCAMENTO_MIDIA_CENTRAL.json")  # porte nuvem: mora no dashs-motor/
+if not os.path.exists(_ORC_PATH):
+    _ORC_PATH = os.path.join(os.path.dirname(HERE), "ORCAMENTO_MIDIA_CENTRAL.json")
 _ORC = (json.load(open(_ORC_PATH, encoding="utf-8")).get("meta", {})
         if os.path.exists(_ORC_PATH) else {})
 _MES = {1: "jan", 2: "fev", 3: "mar", 4: "abr", 5: "mai", 6: "jun",
@@ -281,18 +283,18 @@ TEMPLATE = r"""<!doctype html>
   <h2>Alertas de pacing <span class="h">projeção de fim de mês vs orçamento</span></h2>
   <div class="alerts" id="alerts"></div>
 
-  <h2>Evolução diária por marca <span class="h">investimento/dia, últimos 30 dias</span></h2>
+  <h2>Evolução diária por marca <span class="h">investimento/dia LÍQUIDO, últimos 30 dias</span></h2>
   <div class="chartbox"><canvas id="cDaily" height="150"></canvas></div>
 
   <h2>Evolução diária por marca <span class="h">resultados (leads + conversas)/dia, últimos 30 dias</span></h2>
   <div class="chartbox"><canvas id="cDailyRes" height="150"></canvas></div>
 
   <div class="grid2" style="margin-top:16px">
-    <div class="chartbox"><div class="t">Mês atual (projeção) x mês anterior , investimento</div><canvas id="cMoM" height="220"></canvas></div>
-    <div class="chartbox"><div class="t">Participação de cada marca no investimento do grupo</div><canvas id="cShare" height="220"></canvas></div>
+    <div class="chartbox"><div class="t">Mês atual (projeção) x mês anterior , investimento BRUTO</div><canvas id="cMoM" height="220"></canvas></div>
+    <div class="chartbox"><div class="t">Participação de cada marca no investimento do grupo (bruto)</div><canvas id="cShare" height="220"></canvas></div>
   </div>
 
-  <h2>Mix de canal , Formulário x WhatsApp <span class="h">investimento do mês, por marca</span></h2>
+  <h2>Mix de canal , Formulário x WhatsApp <span class="h">investimento BRUTO do mês, por marca</span></h2>
   <div class="chartbox"><canvas id="cMix" height="140"></canvas></div>
 
   <footer id="foot"></footer>
@@ -321,9 +323,9 @@ function cmpSP(cur, base, goodUp, fmt){
   return `<div class="c ${cls}">${arw} ${(d>=0?"+":"")+(d*100).toFixed(0)}% <span class="z">vs ${per} (${fmt(base)})</span></div>`;
 }
 const kpis = [
-  ["Investimento na Meta", BRL(G.spend_liq), "líquido · "+PCT(G.attain)+" do orçamento de "+BRL(G.budget), cmpSP(G.spend_comm, G.psp_spend, true, BRL)],
-  ["Vai pagar (fim do mês)", BRL(G.proj_pay), "com imposto · "+PCT(G.proj_attain)+" do orçamento", ""],
-  ["Ideal na Meta hoje", BRL(G.ideal_liq), "líquido · teto do mês "+BRL(G.budget_liq), ""],
+  ["Gasto na Meta (mês)", BRL(G.spend_liq)+" líq", BRL(G.spend_tot)+" bruto · "+PCT(G.attain)+" do orçamento de "+BRL(G.budget), cmpSP(G.spend_comm, G.psp_spend, true, BRL)],
+  ["Vai pagar (fim do mês)", BRL(G.proj_pay), "bruto, com imposto · "+PCT(G.proj_attain)+" do orçamento", ""],
+  ["Ideal na Meta hoje", BRL(G.ideal_liq)+" líq", "teto do mês "+BRL(G.budget_liq)+" líq ("+BRL(G.budget)+" bruto)", ""],
   ["Leads (mês)", G.leads.toLocaleString("pt-BR"), "formulário", cmpSP(G.leads, G.psp_leads, true, v=>v.toLocaleString("pt-BR"))],
   ["Conversas (mês)", G.conv.toLocaleString("pt-BR"), "WhatsApp", cmpSP(G.conv, G.psp_conv, true, v=>v.toLocaleString("pt-BR"))],
   ["Mês x anterior", (momInv>=0?"+":"")+PCT(momInv), "projeção do mês vs "+P.mom_nome+" inteiro ("+BRL(G.prev_bruto)+")", ""],
@@ -341,6 +343,7 @@ const rows = P.brands.slice().sort((a,b)=>b.spend_tot-a.spend_tot).map(b=>{
     <td><span class="dot" style="background:${b.cor}"></span><a href="../${b.slug}/">${b.nome}</a></td>
     <td>${BRL(b.budget)}</td>
     <td>${BRL(b.spend_liq)}</td>
+    <td>${BRL(b.spend_tot)}</td>
     <td class="mut">${BRL(b.ideal_liq)}</td>
     <td>${PCT(b.attain)}</td>
     <td>${BRL(b.proj_pay)}</td>
@@ -352,7 +355,7 @@ const rows = P.brands.slice().sort((a,b)=>b.spend_tot-a.spend_tot).map(b=>{
   </tr>`;
 }).join("");
 document.getElementById("tbl").innerHTML =
-  `<thead><tr><th>Marca</th><th>Orçamento</th><th>Gasto Meta (líq)</th><th>Ideal hoje (líq)</th><th>Atingido</th>
+  `<thead><tr><th>Marca</th><th>Orçamento (bruto)</th><th>Gasto (líq)</th><th>Gasto (bruto)</th><th>Ideal hoje (líq)</th><th>Atingido</th>
    <th>Vai pagar</th><th>Pacing</th><th>Leads</th><th>Conversas</th><th>CPL</th><th>vs mês ant.</th></tr></thead>
    <tbody>${rows}</tbody>`;
 
@@ -365,7 +368,7 @@ else{ alertsEl.innerHTML=al.map(({b,cls})=>{
   const over=b.proj_attain>1;
   const dif=BRL(Math.abs(b.proj_pay-b.budget));
   return `<div class="alert ${cls}"><div class="n">${b.nome} · ${PCT(b.proj_attain)} do orçamento</div>
-    <div class="d">Projeção a pagar ${BRL(b.proj_pay)} vs orçamento ${BRL(b.budget)}. ${over?"Tende a ESTOURAR em ~"+dif:"Tende a SOBRAR ~"+dif+" (subutilização)"}. Na Meta até hoje ${BRL(b.spend_liq)} (líq), ideal ${BRL(b.ideal_liq)}.</div></div>`;
+    <div class="d">Projeção a pagar ${BRL(b.proj_pay)} vs orçamento ${BRL(b.budget)}. ${over?"Tende a ESTOURAR em ~"+dif:"Tende a SOBRAR ~"+dif+" (subutilização)"}. Na Meta até hoje ${BRL(b.spend_liq)} líq (${BRL(b.spend_tot)} bruto), ideal ${BRL(b.ideal_liq)} líq.</div></div>`;
 }).join(""); }
 
 // ---- Chart.js comum ----
@@ -431,7 +434,8 @@ new Chart(document.getElementById("cMix"),{type:"bar",
 
 document.getElementById("foot").innerHTML =
   "Documento interno · orçamento e projeção em BRUTO (com imposto, o que se paga) · gasto e ideal do dia em LÍQUIDO "+
-  "(valor real que a Meta cobra; imposto de 12,15% entra só no fechamento) · teto líquido na Meta = orçamento ÷ 1,1215 · "+
+  "(valor real que a Meta cobra; imposto de 12,15% entra só no fechamento) · bruto = líquido × 1,1215 · teto líquido na Meta = orçamento ÷ 1,1215 · "+
+  "o gasto aqui inclui pós-venda (regra do pacing); os cards dos painéis de marca destacam só o comercial em bruto · "+
   "pós-venda incluído no gasto/orçamento e fora do total comercial · projeção = ritmo do mês (gasto ÷ dia atual × dias) · "+
   "comparativo dos big numbers = mesmo período do mês anterior ("+per+").";
 </script>

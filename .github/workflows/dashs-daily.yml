@@ -2,7 +2,9 @@ name: Dashs Daily (Meta Ads)
 
 on:
   schedule:
-    - cron: '0 8 * * *'   # 05:00 BRT
+    - cron: '0 11 * * *'  # 08:00 BRT (manhã)
+    - cron: '0 15 * * *'  # 12:00 BRT (meio-dia)
+    - cron: '0 22 * * *'  # 19:00 BRT
   workflow_dispatch:
 
 permissions:

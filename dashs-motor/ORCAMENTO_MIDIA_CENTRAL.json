@@ -1,6 +1,6 @@
 {
   "fonte": "ORÇAMENTO CARRERA 2026.xlsx / ORÇAMENTO MÍDIA 2026 (META + GOOGLE).xlsx",
-  "atualizado": "2026-07-05",
+  "atualizado": "2026-07-17",
   "observacao": "Orçamento de mídia APROVADO por marca/mês. Dashboards de pacing usam META. Valores são o orçamento planejado (líquido de veículo, sem gross-up). Meses: jan..jul 2026.",
   "mapa_marca_dash": {
     "BAJAJ": "Bajaj",
@@ -36,7 +36,7 @@
       "abr": 35000,
       "mai": 40000,
       "jun": 40000,
-      "jul": 41000
+      "jul": 57000
     },
     "BLC": {
       "jan": 3500,
@@ -135,7 +135,7 @@
       "abr": 6500,
       "mai": 4000,
       "jun": 3000,
-      "jul": 3000
+      "jul": 8000
     },
     "VW": {
       "jan": 71250,
