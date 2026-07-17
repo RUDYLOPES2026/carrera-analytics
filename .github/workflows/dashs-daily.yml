@@ -12,10 +12,11 @@ permissions:
   pages: write
   id-token: write
 
-# mesmo grupo do deploy-pages pra nunca ter dois deploys simultâneos,
-# mas sem cancelar um refresh em andamento
+# grupo PRÓPRIO: se compartilhasse o grupo "pages", o cancel-in-progress do
+# deploy-pages (disparado por qualquer push) matava o refresh no meio.
+# Corrida de deploy é resolvida na fila do environment github-pages.
 concurrency:
-  group: pages
+  group: dashs-daily
   cancel-in-progress: false
 
 jobs:
