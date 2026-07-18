@@ -48,19 +48,41 @@ def main():
     ctx = common.make_ctx()
     print(f"== run_daily {ctx['iso']} | mtd {ctx['mtd'][0]}..{ctx['mtd'][1]} | "
           f"30d {ctx['d30'][0]}..{ctx['d30'][1]} | repull {ctx['closed_days']} ==")
-    ok, fail = [], {}
-    for slug in slugs:
-        print(f"\n--- {slug} ---")
+    def process(slug):
         try:
             mod = importlib.import_module(f"brands.{slug}")
             mod.refresh(api, ctx)
             if getattr(mod, "GENERIC", slug in GENERIC_ASSEMBLE):
                 run([sys.executable, "_assemble_brand.py", slug])
             run([sys.executable, "build.py", f"fichas/{slug}.json"])
-            ok.append(slug)
+            return None
         except Exception:
-            fail[slug] = traceback.format_exc()[-1500:]
-            print(f"[X] {slug} FALHOU (dash do dia anterior é mantido)")
+            return traceback.format_exc()[-1500:]
+
+    ok, fail = [], {}
+    for slug in slugs:
+        print(f"\n--- {slug} ---")
+        tb = process(slug)
+        if tb is None:
+            ok.append(slug)
+        else:
+            fail[slug] = tb
+            print(f"[X] {slug} FALHOU (retry no fim do ciclo)")
+    # transientes da Meta (rate limit/5xx) costumam passar em minutos:
+    # segunda chance NO MESMO run pras marcas que falharam
+    if fail:
+        import time
+        print(f"\n== RETRY em 150s: {sorted(fail)} ==")
+        time.sleep(150)
+        for slug in sorted(fail):
+            print(f"\n--- retry {slug} ---")
+            tb = process(slug)
+            if tb is None:
+                ok.append(slug); fail.pop(slug)
+                print(f"[OK] {slug} recuperou no retry")
+            else:
+                fail[slug] = tb
+                print(f"[X] {slug} falhou de novo (dash anterior é mantido)")
     if ok:
         try:
             run([sys.executable, "build_central.py"])

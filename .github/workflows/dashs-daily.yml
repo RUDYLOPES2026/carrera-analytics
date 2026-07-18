@@ -6,11 +6,17 @@ on:
     - cron: '0 15 * * *'  # 12:00 BRT (meio-dia)
     - cron: '0 22 * * *'  # 19:00 BRT
   workflow_dispatch:
+    inputs:
+      retry:
+        description: 'true quando é o redisparo automático pós-falha (trava anti-loop)'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
   pages: write
   id-token: write
+  actions: write   # permite o auto-redisparo (workflow_dispatch é exceção à trava do GITHUB_TOKEN)
 
 # grupo PRÓPRIO: se compartilhasse o grupo "pages", o cancel-in-progress do
 # deploy-pages (disparado por qualquer push) matava o refresh no meio.
@@ -69,7 +75,22 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
-      # 4) só DEPOIS do deploy: marca o run como falho se alguma marca falhou
+      # 4) sobrou marca com falha (mesmo após o retry interno do run_daily)?
+      #    redispara UMA vez pra não deixar marca defasada até o próximo cron.
+      #    O run de retry não redispara de novo (trava anti-loop via input).
+      - name: redisparo automático se sobrou falha
+        if: ${{ github.event.inputs.retry != 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if python3 -c "import json,sys; sys.exit(0 if json.load(open('dashs-motor/data/_last_run.json')).get('fail') else 1)"; then
+            echo "marca(s) ainda com falha -> redisparando dashs-daily (retry=true)"
+            gh workflow run dashs-daily.yml -R "${{ github.repository }}" -f retry=true
+          else
+            echo "sem falhas remanescentes, sem redisparo"
+          fi
+
+      # 5) só DEPOIS do deploy: marca o run como falho se alguma marca falhou
       #    (falha parcial publica o que passou; o vermelho aqui é o alerta)
       - name: flag falhas parciais
         run: |
