@@ -68,14 +68,29 @@ def _paged(path, params, node_limit=500):
         nxt = (j.get("paging") or {}).get("next")
         if not nxt:
             break
-        # 'next' já vem com access_token e cursor; chamar direto
-        try:
-            with urllib.request.urlopen(nxt, timeout=90) as r:
-                j = json.loads(r.read().decode("utf-8"))
-        except Exception:
-            time.sleep(5)
-            with urllib.request.urlopen(nxt, timeout=90) as r:
-                j = json.loads(r.read().decode("utf-8"))
+        # 'next' já vem com access_token e cursor; chamar direto, com o MESMO
+        # tratamento de transientes do _get (403 de rate limit, 429, 5xx, rede).
+        # Antes era 1 retry ingênuo de 5s e o HTTPError cru vazava (falha da
+        # Nissan no cron de 18/07, 403 no meio da paginação).
+        last = None
+        for i in range(6):
+            try:
+                with urllib.request.urlopen(nxt, timeout=90) as r:
+                    j = json.loads(r.read().decode("utf-8"))
+                break
+            except urllib.error.HTTPError as e:
+                body = e.read().decode("utf-8", "replace")
+                try:
+                    err = json.loads(body).get("error", {})
+                except Exception:
+                    err = {"message": body[:200]}
+                if e.code in (403, 429, 500, 503) or err.get("code") in (1, 2, 4, 17, 32, 613, 80000, 80004):
+                    last = err; time.sleep(min(60, 8 * (i + 1))); continue
+                raise MetaError(f"Graph API erro {err.get('code')} na paginação: {err.get('message')}")
+            except (urllib.error.URLError, TimeoutError) as e:
+                last = e; time.sleep(min(60, 8 * (i + 1))); continue
+        else:
+            raise MetaError(f"Graph API paginação falhou após 6 tentativas: {last}")
     return out
 
 def get_insights(object_id, level="campaign", since=None, until=None,
