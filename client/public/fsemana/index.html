@@ -152,13 +152,14 @@
   <p class="sub">26 semanas reportadas por Giovanni Mirandola (29/dez a 12/jul), extraídas dos emails
   "CARRERA SP - PLANILHA FSEMANA 2026". Veículos novos por marca, Chevrolet SP na semana cheia,
   seminovos, Bajaj e a abertura por loja GM SP.</p>
-  <div class="metodo"><b>Como ler:</b> o grupo não abre todo domingo (normalmente só nos 2 últimos
-  domingos do mês), então em 13 das 25 semanas o domingo é zero. Para comparar qualquer fim de semana
-  com qualquer outro, as séries principais usam <b>sexta + sábado</b>; os fins de semana com domingo
-  aberto ganham uma seção própria logo abaixo. Não houve envio nos fins de semana de 27/fev a 01/mar
-  e de 22 a 24/mai.</div>
+  <div class="metodo"><b>Como ler:</b> os comparativos usam o <b>fim de semana completo</b> como
+  reportado (sexta a domingo). Como o grupo não abre todo domingo (normalmente só nos 2 últimos do
+  mês), o aviso abaixo destaca quando um dos lados da comparação teve domingo aberto; a base
+  sexta + sábado segue nos gráficos como apoio. Não houve envio nos fins de semana de 27/fev a
+  01/mar e de 22 a 24/mai.</div>
 
   <div class="kpis" id="kpis"></div>
+  <div class="metodo" id="aviso-dom"></div>
 
   <div class="card">
     <div class="card-head">
@@ -174,7 +175,7 @@
     <div class="card-head">
       <div>
         <h2>Novos do grupo por fim de semana</h2>
-        <p class="desc">Soma das 8 marcas. Sexta + sábado em azul; total reportado em cinza, como apoio.</p>
+        <p class="desc">Soma das 8 marcas. Total do fim de semana em azul (pontos claros = domingo aberto); base sexta + sábado em cinza, como apoio.</p>
       </div>
     </div>
     <div class="chart" id="ch-grupo"></div>
@@ -196,8 +197,8 @@
   <div class="card">
     <div class="card-head">
       <div>
-        <h2>Composição por marca (sexta + sábado)</h2>
-        <p class="desc">Quem está puxando o volume do grupo em cada fim de semana.</p>
+        <h2>Composição por marca (fim de semana completo)</h2>
+        <p class="desc">Quem está puxando o volume do grupo em cada fim de semana, incluindo domingo quando aberto.</p>
       </div>
       <div class="toggle" role="group" aria-label="Modo de exibição">
         <button id="bt-vol" class="on">Volume</button><button id="bt-pct">Participação</button>
@@ -211,7 +212,7 @@
     <div class="card-head">
       <div>
         <h2>Cada marca no seu ritmo</h2>
-        <p class="desc">Sexta + sábado por marca, escalas independentes. O número grande é o último fim de semana, comparado com o anterior; à direita, o acumulado do ano.</p>
+        <p class="desc">Fim de semana completo por marca (inclui domingo quando aberto), escalas independentes. O número grande é o último fds, comparado com o anterior; cada quadro indica se os dois lados tiveram domingo.</p>
       </div>
     </div>
     <div class="multi" id="ch-multi"></div>
@@ -261,7 +262,7 @@ const NOME = {'GWM':'GWM','GM SP':'GM SP','NISSAN':'Nissan','VW':'VW',
   'OMODA/JAECOO':'Omoda/Jaecoo','GM BSB':'GM BSB','GAC':'GAC','ZEEKER':'Zeekr'};
 const COR = {'GWM':'var(--s1)','GM SP':'var(--s2)','NISSAN':'var(--s3)','VW':'var(--s4)',
   'OMODA/JAECOO':'var(--s5)','GM BSB':'var(--s6)','GAC':'var(--s7)','ZEEKER':'var(--s8)'};
-const EVNOME = {'Pregao':'Pregão','Sonic':'Ação Sonic'};
+const EVNOME = {'Pregao':'Pregão','Sonic':'Ação Sonic','Feirao Carrera':'Feirão Carrera'};
 const LOJA_NOME = {'VILA LOBOS':'Vila Lobos','BUTANTA':'Butantã','SUMARE':'Sumaré','REBOUCAS':'Rebouças',
   'EDGAR FACO':'Edgar Facó','AV. BRASIL':'Av. Brasil','ALPHAVILLE':'Alphaville','OSASCO':'Osasco',
   'BARRA FUNDA':'Barra Funda','MESA':'Mesa (venda interna)'};
@@ -328,16 +329,17 @@ function tile(parent, lbl, val, deltaTxt, dir, vals){
 (function kpis(){
   const box = document.getElementById('kpis');
   const last = G[G.length-1], prev = G[G.length-2];
-  const vsPrev = 'vs fds ' + prev.label;
+  const st = w => w.gDom > 0 ? 'com dom.' : 'sem dom.';
+  const vsPrev = 'vs fds ' + prev.label + ' (' + st(prev) + ')';
   const dtx = (dv, base) => (dv>=0?'+':'') + fmt(dv) + (base > 0 ? ' (' + (dv>=0?'+':'') + pct(dv/base,1) + ')' : '');
-  const dG = last.gFS - prev.gFS;
-  tile(box, 'Novos do grupo · fds ' + last.label + ' (sex+sáb)', fmt(last.gFS),
-    {txt: dtx(dG, prev.gFS), ref:vsPrev}, Math.sign(dG), G.map(w=>w.gFS));
+  const dG = last.gTotal - prev.gTotal;
+  tile(box, 'Novos do grupo · fds ' + last.label + ' (' + st(last) + ')', fmt(last.gTotal),
+    {txt: dtx(dG, prev.gTotal), ref:vsPrev}, Math.sign(dG), G.map(w=>w.gTotal));
   const ytd = G.reduce((a,w)=>a+(w.gTotal||0),0);
   tile(box, 'Acumulado 2026 (novos, fds)', fmt(ytd), {txt:G.length + ' fins de semana', ref:''}, 0, null);
-  const dW = last.mkFS['GWM'] - prev.mkFS['GWM'];
-  tile(box, 'GWM no fds (sex+sáb)', fmt(last.mkFS['GWM']),
-    {txt:dtx(dW, prev.mkFS['GWM']), ref:vsPrev}, Math.sign(dW), G.map(w=>w.mkFS['GWM']));
+  const dW = last.mk['GWM'] - prev.mk['GWM'];
+  tile(box, 'GWM no fds', fmt(last.mk['GWM']),
+    {txt:dtx(dW, prev.mk['GWM']), ref:vsPrev}, Math.sign(dW), G.map(w=>w.mk['GWM']));
   const lc = DATA[DATA.length-1].chev;
   tile(box, 'Chevrolet SP na semana (N+S)', fmt(lc.total),
     {txt: pct(lc.var), ref:'vs semana de referência'}, Math.sign(lc.var), DATA.map(w=>w.chev.total));
@@ -347,6 +349,22 @@ function tile(parent, lbl, val, deltaTxt, dir, vals){
   tile(box, 'Motos Bajaj no fds', fmt(last.bajaj),
     {txt:dtx(last.bajaj-prev.bajaj, prev.bajaj), ref:vsPrev},
     Math.sign(last.bajaj-prev.bajaj), G.map(w=>w.bajaj));
+
+  const av = document.getElementById('aviso-dom');
+  av.textContent = '';
+  const bAv = document.createElement('b'); bAv.textContent = 'Domingo na comparação: ';
+  av.appendChild(bAv);
+  let txtAv = last.gDom > 0
+    ? 'o fds atual (' + last.label + ') teve domingo aberto, que somou +' + fmt(last.gDom) + ' novos no grupo. '
+    : 'o fds atual (' + last.label + ') não abriu domingo. ';
+  txtAv += prev.gDom > 0
+    ? 'O anterior (' + prev.label + ') também teve domingo (+' + fmt(prev.gDom) + ').'
+    : 'O anterior (' + prev.label + ') não abriu domingo.';
+  if ((last.gDom > 0) !== (prev.gDom > 0))
+    txtAv += ' Ou seja, parte da diferença vem do domingo: só em sexta + sábado foram ' +
+      fmt(last.gFS) + ' contra ' + fmt(prev.gFS) + ' (' +
+      (last.gFS-prev.gFS>=0?'+':'') + pct((last.gFS-prev.gFS)/prev.gFS,1) + ').';
+  av.append(txtAv);
 })();
 
 /* ---------- insights ---------- */
@@ -507,14 +525,16 @@ function chartGrupo(){
     S('path',{d:dP,fill:'none',stroke:color,'stroke-width':width,'stroke-linecap':'round','stroke-linejoin':'round', ...(dash?{'stroke-dasharray':dash}:{})},svg);
   };
   let dA = 'M' + x(0).toFixed(1) + ' ' + y(0).toFixed(1);
-  G.forEach((w,i) => dA += 'L' + x(i).toFixed(1) + ' ' + y(w.gFS).toFixed(1));
+  G.forEach((w,i) => dA += 'L' + x(i).toFixed(1) + ' ' + y(w.gTotal).toFixed(1));
   dA += 'L' + x(G.length-1).toFixed(1) + ' ' + y(0).toFixed(1) + 'Z';
   S('path',{d:dA,fill:'var(--wash1)'},svg);
-  mkPath(w => w.gTotal, 'var(--muted)', 1.8);
-  mkPath(w => w.gFS, 'var(--s1)', 2.4);
+  mkPath(w => w.gFS, 'var(--muted)', 1.8);
+  mkPath(w => w.gTotal, 'var(--s1)', 2.4);
+  G.forEach((w,i) => { if (w.gDom > 0)
+    S('circle',{cx:x(i),cy:y(w.gTotal),r:3.5,fill:DOM_COR,stroke:'var(--card)','stroke-width':1.5},svg); });
   const li = G.length-1;
-  S('circle',{cx:x(li),cy:y(G[li].gFS),r:4.5,fill:'var(--s1)',stroke:'var(--card)','stroke-width':2},svg);
-  S('text',{x:x(li)-8,y:y(G[li].gFS)-10,'text-anchor':'end',fill:'var(--ink)','font-size':12,'font-weight':650},svg).textContent = fmt(G[li].gFS);
+  S('circle',{cx:x(li),cy:y(G[li].gTotal),r:4.5,fill:'var(--s1)',stroke:'var(--card)','stroke-width':2},svg);
+  S('text',{x:x(li)-8,y:y(G[li].gTotal)-10,'text-anchor':'end',fill:'var(--ink)','font-size':12,'font-weight':650},svg).textContent = fmt(G[li].gTotal);
 
   const cross = S('line',{y1:mT,y2:mT+ih,stroke:'var(--axis)','stroke-width':1,visibility:'hidden'},svg);
   const tt = mkTT(box);
@@ -525,18 +545,21 @@ function chartGrupo(){
     cross.setAttribute('x1',x(i)); cross.setAttribute('x2',x(i)); cross.setAttribute('visibility','visible');
     const w = G[i];
     const rows = [
-      {name:'Sexta + sábado', color:'var(--s1)', val:fmt(w.gFS)},
-      {name:'Total reportado', color:'var(--muted)', val:fmt(w.gTotal)}
+      {name:'Total do fds', color:'var(--s1)', val:fmt(w.gTotal)},
+      {name:'Sexta + sábado', color:'var(--muted)', val:fmt(w.gFS)}
     ];
-    MARCAS.forEach(m => { if (w.mkFS[m] != null) rows.push({name:NOME[m], color:COR[m], val:fmt(w.mkFS[m])}); });
+    MARCAS.forEach(m => { if (w.mk[m] != null) rows.push({name:NOME[m], color:COR[m], val:fmt(w.mk[m])}); });
     ttRows(tt, 'Fds ' + w.label, rows, w.gDom ? 'Domingo aberto: +' + fmt(w.gDom) : 'Domingo fechado');
     moveTT(tt, box, x(i)*r.width/W, y(Math.max(w.gFS,w.gTotal||0))*r.height/H);
   });
   hit.addEventListener('pointerleave', () => { tt.style.display='none'; cross.setAttribute('visibility','hidden'); });
 
   const lg = document.getElementById('lg-grupo'); lg.textContent = '';
-  [['Sexta + sábado','var(--s1)'],['Total reportado (inclui domingo quando aberto)','var(--muted)']].forEach(([n,c]) => {
+  [['Total do fds (inclui domingo quando aberto)','var(--s1)'],['Base sexta + sábado','var(--muted)']].forEach(([n,c]) => {
     const it = el('span','it',lg); const k = el('span','ln',it); k.style.background = c; it.append(n); });
+  const itd = el('span','it',lg); const kd = el('span','sw',itd); kd.style.background = DOM_COR;
+  kd.style.borderRadius = '50%'; kd.style.width = '10px'; kd.style.height = '10px';
+  itd.append('fds com domingo aberto');
 }
 
 /* ---------- gráfico 2: barras empilhadas ---------- */
@@ -546,7 +569,7 @@ function chartStack(){
   const W = Math.max(box.clientWidth || 900, 620), H = 320, mL = 38, mR = 14, mT = 14, mB = 34;
   const iw = W - mL - mR, ih = H - mT - mB;
   const svg = S('svg',{viewBox:`0 0 ${W} ${H}`},box);
-  const totals = G.map(w => MARCAS.reduce((a,m)=>a+(w.mkFS[m]||0),0));
+  const totals = G.map(w => MARCAS.reduce((a,m)=>a+(w.mk[m]||0),0));
   const top = stackMode === 'pct' ? 1 : ticks(Math.max(...totals)).top;
   const tk = stackMode === 'pct' ? [0,.25,.5,.75,1] : ticks(Math.max(...totals)).out;
   const band = iw/G.length, bw = Math.min(24, band-6);
@@ -564,7 +587,7 @@ function chartStack(){
     let acc = 0;
     const gr = S('g',{},svg);
     MARCAS.forEach((m,mi) => {
-      const raw = w.mkFS[m] || 0; if (!raw) return;
+      const raw = w.mk[m] || 0; if (!raw) return;
       const v = stackMode==='pct' ? raw/tot : raw;
       const y1 = y(acc+v), y2 = y(acc);
       const isTop = (acc+v) >= (stackMode==='pct' ? 0.999 : tot-0.001);
@@ -578,9 +601,9 @@ function chartStack(){
       seg.addEventListener('pointermove', e => {
         seg.style.opacity = .82;
         const r2 = box.getBoundingClientRect();
-        const rows = MARCAS.filter(k => w.mkFS[k] != null).map(k => ({
+        const rows = MARCAS.filter(k => w.mk[k] != null).map(k => ({
           name:NOME[k], color:COR[k],
-          val: stackMode==='pct' ? pct((w.mkFS[k]||0)/tot,0) : fmt(w.mkFS[k]) }));
+          val: stackMode==='pct' ? pct((w.mk[k]||0)/tot,0) : fmt(w.mk[k]) }));
         ttRows(tt, 'Fds ' + w.label + ' · total ' + fmt(tot), rows);
         moveTT(tt, box, e.clientX-r2.left, e.clientY-r2.top);
       });
@@ -601,21 +624,22 @@ document.getElementById('bt-pct').addEventListener('click', () => { stackMode='p
 /* ---------- gráfico 3: small multiples ---------- */
 function chartMulti(){
   const box = document.getElementById('ch-multi'); box.textContent = '';
+  const lastW = G[G.length-1], prevW = G[G.length-2];
   MARCAS.forEach(m => {
-    const vals = G.map(w => w.mkFS[m] ?? 0);
+    const vals = G.map(w => w.mk[m] ?? 0);
     const ytd = G.reduce((a,w)=>a+(w.mk[m]||0),0);
     const card = el('div','mini',box);
     const nm = el('div','nm',card); const sw = el('span','sw',nm); sw.style.background = COR[m];
     nm.append(NOME[m]); el('span','ytd',nm, fmt(ytd) + ' no ano');
     const big = el('div','big',card, fmt(vals[vals.length-1]));
-    el('span','cur',big, 'fds ' + G[G.length-1].label);
+    el('span','cur',big, 'fds ' + lastW.label + (lastW.gDom > 0 ? ' · com dom.' : ' · sem dom.'));
     const prev = vals.length > 1 ? vals[vals.length-2] : null;
     const dv = prev == null ? null : vals[vals.length-1] - prev;
     const dl = el('div','dlt',card);
     if (dv != null){
       const ptxt = prev > 0 ? ' (' + (dv>0?'+':'') + pct(dv/prev,0) + ')' : '';
       el('span', dv>0?'up':dv<0?'down':'', dl, (dv>0?'▲ +':dv<0?'▼ ':'▬ ') + fmt(dv) + ptxt);
-      dl.append(' vs fds ' + G[G.length-2].label);
+      dl.append(' vs fds ' + prevW.label + ' (' + (prevW.gDom > 0 ? 'com' : 'sem') + ' dom.)');
     }
     const W = 240, H = 74, mX = 6, mY = 8;
     const svg = S('svg',{viewBox:`0 0 ${W} ${H}`},card);
