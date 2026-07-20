@@ -1209,7 +1209,19 @@ function pacingSection(){
     ? (`<div class="subttl" style="margin-top:24px">Consumo de ${MES_LBL} por segmento <span style="font-weight:600;text-transform:none;color:#71717a">· ${hSubHead}</span></div>${reglegend}${segs}${foraLine}`
        +`<div class="secsub" style="margin-top:12px">${hNote}</div>`)
     : "";
-  return kpis+bar+resumo+secaoH;
+  // BLOCO ORÇAMENTO (topo da seção): orçamento aprovado, já gasto (MTD bruto) e saldo disponível
+  const _gastoPct = budget>0?Math.min(consumed/budget*100,100):0;
+  const _falta = Math.max(0, budget-consumed);
+  const budgetBlock = `<div style="background:#0f0f12;border:1px solid #2b2b33;border-radius:12px;padding:16px 18px;margin-bottom:16px">
+    <div style="display:flex;gap:26px;flex-wrap:wrap;align-items:flex-end">
+      <div style="flex:1;min-width:140px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#8b8b93">Orçamento do mês</div><div style="font-size:24px;font-weight:800;letter-spacing:-.5px">${brl(budget)}</div></div>
+      <div style="flex:1;min-width:140px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#8b8b93">Já gasto no mês</div><div style="font-size:24px;font-weight:800;letter-spacing:-.5px">${brl(consumed)} <span style="font-size:14px;color:#8b8b93;font-weight:600">(${budget>0?(consumed/budget*100).toFixed(0):0}%)</span></div></div>
+      <div style="flex:1;min-width:140px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#8b8b93">Falta gastar</div><div style="font-size:24px;font-weight:800;letter-spacing:-.5px;color:#34d399">${brl(_falta)}</div></div>
+    </div>
+    <div style="height:12px;background:#1a1a1f;border-radius:7px;overflow:hidden;margin-top:14px"><div style="height:100%;width:${_gastoPct}%;background:linear-gradient(90deg,#2a78d6,#34d399);border-radius:7px"></div></div>
+    <div style="font-size:12px;color:#8b8b93;margin-top:9px;line-height:1.5">A barra mostra quanto do orçamento já foi gasto no mês (valores com imposto). <b style="color:#c9c9d1">Falta gastar</b> é a verba que ainda tem disponível até o fim do mês. Isso não é a projeção de fechamento nem a verba parada do dia.</div>
+  </div>`;
+  return budgetBlock+kpis+bar+resumo+secaoH;
 }
 // ===== MoM: Junho fechado (D.kpi.jun, consistente com KPIs do topo) vs Maio fechado (ND_MAIO) =====
 function _momCard(lbl,maiVal,junVal,fmt,lowerBetter){
