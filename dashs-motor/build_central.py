@@ -132,8 +132,13 @@ def load_brand(fslug, kebab, nome, cor):
     hoje_liq = next((x["tot"] for x in daily if x["date"] == TODAY_ISO), 0.0)
     fechado_liq = max(0.0, spend_liq - hoje_liq)
     proj_liq = fechado_liq + ritmo_liq * (days - elapsed + 1)
-    proj_pay = proj_liq * TAX
-    proj_comm = proj_pay * (spend_comm / spend_tot if spend_tot else 1.0)
+    proj_pay = proj_liq * TAX                     # TETO (verba cheia = intenção)
+    # TENDÊNCIA REAL: ritmo = entrega recente (média dos dias fechados); fallback verba, depois ritmo do mês.
+    ritmo_tend_liq = media3d if media3d > 0 else (verba_liq if verba_liq > 0 else (spend_liq / elapsed if elapsed else 0.0))
+    proj_tend_liq = fechado_liq + ritmo_tend_liq * (days - elapsed + 1)
+    proj_tend = proj_tend_liq * TAX               # TENDÊNCIA REAL (principal)
+    proj_gap = max(0.0, proj_pay - proj_tend)     # verba configurada que a Meta não vem entregando
+    proj_comm = proj_tend * (spend_comm / spend_tot if spend_tot else 1.0)
     # mesmo periodo do mes anterior = mes anterior fechado (nd_maio) , o pedaco do mes
     # anterior que ainda aparece no n_daily (a janela de 30d deixa exatamente jun (D+1)..fim).
     cm, cy = TODAY.month, TODAY.year
@@ -153,6 +158,8 @@ def load_brand(fslug, kebab, nome, cor):
         "budget": round(budget, 2), "budget_liq": round(budget_liq, 2), "days": days, "elapsed": elapsed,
         "spend_comm": round(spend_comm, 2), "pv": round(pv, 2), "spend_tot": spend_tot,
         "spend_liq": spend_liq, "ideal_liq": round(ideal_liq, 2), "proj_pay": round(proj_pay, 2),
+        "proj_tend": round(proj_tend, 2), "proj_tend_liq": round(proj_tend_liq, 2),
+        "ritmo_tend_liq": round(ritmo_tend_liq, 2), "proj_gap": round(proj_gap, 2),
         "verba_liq": verba_liq, "ritmo_liq": round(ritmo_liq, 2),
         "media3d": media3d, "entrega": entrega,
         "leads": leads, "conv": conv, "res": res,
@@ -160,7 +167,8 @@ def load_brand(fslug, kebab, nome, cor):
         "cpl": round(spend_comm / res, 2) if res else 0,
         "ideal": round(ideal_liq, 2), "proj_tot": round(proj_pay, 2), "proj_comm": round(proj_comm, 2),
         "attain": round(spend_tot / budget, 4) if budget else 0,
-        "proj_attain": round(proj_pay / budget, 4) if budget else 0,
+        "proj_attain": round(proj_tend / budget, 4) if budget else 0,          # PRINCIPAL = tendência real
+        "proj_teto_attain": round(proj_pay / budget, 4) if budget else 0,      # referência = teto (verba cheia)
         "prev_bruto": round(prev_bruto, 2), "prev_leads": prev_leads, "prev_conv": prev_conv,
         "prev_res": prev_leads + prev_conv,
         "psp_leads": psp_leads, "psp_conv": psp_conv, "psp_spend": psp_spend,
@@ -182,6 +190,8 @@ def main():
         "spend_liq": sum(b["spend_liq"] for b in brands),
         "ideal_liq": sum(b["ideal_liq"] for b in brands),
         "proj_pay": sum(b["proj_pay"] for b in brands),
+        "proj_tend": sum(b["proj_tend"] for b in brands),
+        "proj_gap": sum(b["proj_gap"] for b in brands),
         "verba_liq": sum(b["verba_liq"] for b in brands),
         "spend_comm": sum(b["spend_comm"] for b in brands),
         "spend_comm_30d": sum(b["spend_comm_30d"] for b in brands),
@@ -204,7 +214,8 @@ def main():
     }
     g["res"] = g["leads"] + g["conv"]
     g["attain"] = round(g["spend_tot"] / g["budget"], 4) if g["budget"] else 0
-    g["proj_attain"] = round(g["proj_tot"] / g["budget"], 4) if g["budget"] else 0
+    g["proj_attain"] = round(g["proj_tend"] / g["budget"], 4) if g["budget"] else 0        # PRINCIPAL = tendência
+    g["proj_teto_attain"] = round(g["proj_pay"] / g["budget"], 4) if g["budget"] else 0     # teto (verba cheia)
     # share
     for b in brands:
         b["share"] = round(b["spend_tot"] / g["spend_tot"], 4) if g["spend_tot"] else 0
@@ -230,8 +241,8 @@ def main():
     open(out, "w", encoding="utf-8").write(html)
     print(f"[OK] {out}")
     print(f"  grupo: orc R${g['budget']:,.0f} | gasto MTD R${g['spend_tot']:,.0f} "
-          f"({g['attain']*100:.0f}%) | projecao R${g['proj_tot']:,.0f} ({g['proj_attain']*100:.0f}%) "
-          f"| junho R${g['prev_bruto']:,.0f}")
+          f"({g['attain']*100:.0f}%) | tendencia R${g['proj_tend']:,.0f} ({g['proj_attain']*100:.0f}%) "
+          f"| teto R${g['proj_pay']:,.0f} ({g['proj_teto_attain']*100:.0f}%) | junho R${g['prev_bruto']:,.0f}")
 
 def render(P):
     data_json = json.dumps(P, ensure_ascii=False).replace("—", ", ").replace("</", "<\\/")
@@ -307,14 +318,15 @@ TEMPLATE = r"""<!doctype html>
 
   <div class="kpis" id="kpis"></div>
 
-  <h2>Consolidado por marca <span class="h">mês corrente (MTD) · projeção pela verba configurada · orçamento bruto</span></h2>
+  <h2>Consolidado por marca <span class="h">mês corrente (MTD) · projeção = tendência real (teto pela verba ao lado) · orçamento bruto</span></h2>
   <div class="card" style="overflow-x:auto"><table id="tbl"></table></div>
   <div class="meta" style="margin-top:10px;line-height:1.6">
-    <b>Regra da projeção ("Vai pagar")</b>: gasto já realizado no mês + verba diária configurada agora
-    (conjuntos e campanhas ativos, coluna "Verba/dia") × dias restantes, convertido pra bruto (×1,1215).
-    Mede a <b>intenção</b>: mudou a verba pra bater a meta, a projeção reflete no mesmo refresh.
-    ⚠ = nos últimos 3 dias a Meta entregou menos de 85% da verba configurada (aprendizado/público/leilão),
-    a projeção pode estar otimista. Se a entrega recente supera a verba lida, projetamos pela entrega.
+    <b>Os dois números do "Vai pagar" (em bruto, com imposto):</b>
+    <b>Tendência</b> = quanto o mês deve fechar se continuar no ritmo de entrega dos últimos dias.
+    É a estimativa mais realista e muda todo dia. É o número principal.
+    <b>Teto</b> = quanto fecharia se a Meta gastasse toda a verba que está configurada. É o máximo possível, serve de referência.
+    O <b>⚠</b> aparece quando a Meta está entregando menos de 85% da verba. A diferença entre o teto e a tendência é
+    <b>verba parada</b>: dinheiro disponível que não está sendo gasto, vale revisar público e criativo.
   </div>
 
   <h2>Alertas de pacing <span class="h">projeção de fim de mês vs orçamento</span></h2>
@@ -327,7 +339,7 @@ TEMPLATE = r"""<!doctype html>
   <div class="chartbox"><canvas id="cDailyRes" height="150"></canvas></div>
 
   <div class="grid2" style="margin-top:16px">
-    <div class="chartbox"><div class="t">Mês atual (projeção) x mês anterior , investimento BRUTO</div><canvas id="cMoM" height="220"></canvas></div>
+    <div class="chartbox"><div class="t">Mês atual (tendência) x mês anterior , investimento BRUTO</div><canvas id="cMoM" height="220"></canvas></div>
     <div class="chartbox"><div class="t">Participação de cada marca no investimento do grupo (bruto)</div><canvas id="cShare" height="220"></canvas></div>
   </div>
 
@@ -361,7 +373,7 @@ function cmpSP(cur, base, goodUp, fmt){
 }
 const kpis = [
   ["Gasto na Meta (mês)", BRL(G.spend_liq)+" líq", BRL(G.spend_tot)+" bruto · "+PCT(G.attain)+" do orçamento de "+BRL(G.budget), cmpSP(G.spend_comm, G.psp_spend, true, BRL)],
-  ["Vai pagar (fim do mês)", BRL(G.proj_pay), "bruto · projetado pela verba ativa de "+BRL(G.verba_liq)+"/dia líq · "+PCT(G.proj_attain)+" do orçamento", ""],
+  ["Vai pagar (ritmo de agora)", BRL(G.proj_tend)+(G.proj_gap>0?' ⚠':''), "No ritmo dos últimos dias o grupo fecha aqui ("+PCT(G.proj_attain)+" do orçamento). Teto se gastar toda a verba: "+BRL(G.proj_pay)+" ("+PCT(G.proj_teto_attain)+")."+(G.proj_gap>0?(" "+BRL(G.proj_gap)+" de verba parada, não está sendo entregue."):""), ""],
   ["Ideal na Meta hoje", BRL(G.ideal_liq)+" líq", "teto do mês "+BRL(G.budget_liq)+" líq ("+BRL(G.budget)+" bruto)", ""],
   ["Leads (mês)", G.leads.toLocaleString("pt-BR"), "formulário", cmpSP(G.leads, G.psp_leads, true, v=>v.toLocaleString("pt-BR"))],
   ["Conversas (mês)", G.conv.toLocaleString("pt-BR"), "WhatsApp", cmpSP(G.conv, G.psp_conv, true, v=>v.toLocaleString("pt-BR"))],
@@ -385,7 +397,7 @@ const rows = P.brands.slice().sort((a,b)=>b.spend_tot-a.spend_tot).map(b=>{
     <td class="mut">${BRL(b.ideal_liq)}</td>
     <td class="mut">${b.verba_liq?BRL(b.verba_liq):","}${lowdeliv?" ⚠":""}</td>
     <td>${PCT(b.attain)}</td>
-    <td>${BRL(b.proj_pay)}</td>
+    <td>${BRL(b.proj_tend)}${(b.proj_gap>0)?' ⚠':''}<div class="mut" style="font-size:11px">teto ${BRL(b.proj_pay)}</div></td>
     <td><span class="pill ${cls}">${lab} · ${PCT(b.proj_attain)}</span></td>
     <td>${b.leads.toLocaleString("pt-BR")}</td>
     <td>${b.conv.toLocaleString("pt-BR")}</td>
@@ -395,7 +407,7 @@ const rows = P.brands.slice().sort((a,b)=>b.spend_tot-a.spend_tot).map(b=>{
 }).join("");
 document.getElementById("tbl").innerHTML =
   `<thead><tr><th>Marca</th><th>Orçamento (bruto)</th><th>Gasto (líq)</th><th>Gasto (bruto)</th><th>Ideal hoje (líq)</th><th>Verba/dia (líq)</th><th>Atingido</th>
-   <th>Vai pagar</th><th>Pacing</th><th>Leads</th><th>Conversas</th><th>CPL</th><th>vs mês ant.</th></tr></thead>
+   <th title="Em cima: quanto o mês fecha no ritmo de agora (tendência real). Embaixo: teto, se gastar toda a verba configurada.">Vai pagar</th><th>Pacing</th><th>Leads</th><th>Conversas</th><th>CPL</th><th>vs mês ant.</th></tr></thead>
    <tbody>${rows}</tbody>`;
 
 // ---- alertas de pacing ----
@@ -405,9 +417,10 @@ const alertsEl=document.getElementById("alerts");
 if(!al.length){ alertsEl.innerHTML=`<div class="alert g"><div class="n">Tudo no ritmo</div><div class="d">As 9 marcas projetam fechar o mês entre 90% e 108% do orçamento.</div></div>`; }
 else{ alertsEl.innerHTML=al.map(({b,cls})=>{
   const over=b.proj_attain>1;
-  const dif=BRL(Math.abs(b.proj_pay-b.budget));
+  const dif=BRL(Math.abs(b.proj_tend-b.budget));
+  const lowdeliv=(b.entrega!==null&&b.entrega<0.85);
   return `<div class="alert ${cls}"><div class="n">${b.nome} · ${PCT(b.proj_attain)} do orçamento</div>
-    <div class="d">Projeção a pagar ${BRL(b.proj_pay)} vs orçamento ${BRL(b.budget)}. ${over?"Tende a ESTOURAR em ~"+dif:"Tende a SOBRAR ~"+dif+" (subutilização)"}. Na Meta até hoje ${BRL(b.spend_liq)} líq (${BRL(b.spend_tot)} bruto), ideal ${BRL(b.ideal_liq)} líq. Verba ativa ${BRL(b.verba_liq)}/dia líq${(b.entrega!==null&&b.entrega<0.85)?" (entrega recente "+PCT(b.entrega)+" da verba ⚠)":""}.</div></div>`;
+    <div class="d">No ritmo de agora o mês fecha em ${BRL(b.proj_tend)}, contra o orçamento de ${BRL(b.budget)}. ${over?"Tende a passar do orçamento em ~"+dif:"Tende a sobrar ~"+dif+" (verba subutilizada)"}. Se gastasse toda a verba fecharia em ${BRL(b.proj_pay)} (${PCT(b.proj_teto_attain)})${lowdeliv?", mas a Meta entrega só "+PCT(b.entrega)+" da verba, então "+BRL(b.proj_gap)+" ficam parados ⚠":""}. Já gastou ${BRL(b.spend_tot)} (bruto), o ideal para hoje seria ${BRL(b.ideal_liq)} líq.</div></div>`;
 }).join(""); }
 
 // ---- Chart.js comum ----
@@ -445,7 +458,7 @@ const bs=P.brands.slice().sort((a,b)=>b.proj_comm-a.proj_comm);
 new Chart(document.getElementById("cMoM"),{type:"bar",
   data:{labels:bs.map(b=>b.nome),datasets:[
     {label:"Mês anterior",data:bs.map(b=>b.prev_bruto),backgroundColor:"#33414f"},
-    {label:"Mês atual (projeção)",data:bs.map(b=>b.proj_comm),backgroundColor:"#f59e0b"}]},
+    {label:"Mês atual (tendência)",data:bs.map(b=>b.proj_comm),backgroundColor:"#f59e0b"}]},
   options:{indexAxis:"y",responsive:true,
     plugins:{legend:{position:"bottom",labels:{boxWidth:10,boxHeight:10}},
       tooltip:{callbacks:{label:c=>c.dataset.label+": "+BRL(c.parsed.x||0)}}},

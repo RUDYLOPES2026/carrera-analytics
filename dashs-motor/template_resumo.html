@@ -157,12 +157,16 @@ function renderResumo(){
   // linha de pacing
   const P=D.pacing;
   if(P&&BUDGET>0){
-    const consumed=D.kpi.jun.ALL.bruto, daily=consumed/P.elapsed, future=P.days-P.elapsed, proj=consumed+daily*future;
+    const _pj=(typeof projMes==='function')?projMes():null;
+    const consumed=D.kpi.jun.ALL.bruto, proj=_pj?_pj.projTend:consumed;
+    const projPct=_pj?_pj.projTendPct:0, projOtim=_pj?_pj.projOtim:false;
+    const projTeto=_pj?_pj.proj:0, projTetoPct=_pj?_pj.projPct:0;
+    const entregaPct=(_pj&&_pj.entrega!=null)?Math.round(_pj.entrega*100):null;
     const items=[
-      {l:"Consumido",v:brl(consumed)+" ("+(consumed/BUDGET*100).toFixed(0)+"%)"},
-      {l:"Projeção fim do mês",v:brl(proj)+" ("+(proj/BUDGET*100).toFixed(0)+"%)"},
-      {l:"Meta",v:brl(BUDGET)},
-      {l:"Ritmo atual",v:brl(daily)+"/dia"},
+      {l:"Já gastou",v:brl(consumed)+" ("+(consumed/BUDGET*100).toFixed(0)+"%)"},
+      {l:"Vai fechar (ritmo de agora)",v:brl(proj)+" ("+(projPct*100).toFixed(0)+"%)"+((projOtim&&entregaPct!=null)?" ⚠ entregando "+entregaPct+"%":"")},
+      {l:"Teto se gastar toda a verba",v:brl(projTeto)+" ("+(projTetoPct*100).toFixed(0)+"%)"},
+      {l:"Orçamento",v:brl(BUDGET)},
       {l:"Dias",v:P.elapsed+" de "+P.days}
     ];
     document.getElementById("pacingline").innerHTML=items.map(x=>'<div class="pl-it"><span class="pl-l">'+x.l+'</span><span class="pl-v">'+x.v+'</span></div>').join("");

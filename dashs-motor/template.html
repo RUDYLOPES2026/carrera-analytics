@@ -1103,7 +1103,14 @@ function pacingSection(){
   const ideal=budget*pctE, defas=consumed-ideal;
   const daily=consumed/P.elapsed, future=P.days-P.elapsed;
   const need=future>0?(budget-consumed)/future:0;
-  const proj=consumed+daily*future, projPct=proj/budget;
+  // projeção "Vai pagar" = DOIS números (regra ÚNICA projMes, idêntica ao central):
+  //  principal = TENDÊNCIA REAL (ritmo de entrega recente) · referência = TETO (verba configurada cheia)
+  const _PJ=projMes();
+  const proj=_PJ.projTend, projPct=_PJ.projTendPct;         // principal = tendência real
+  const projTeto=_PJ.proj, projTetoPct=_PJ.projPct;         // referência = teto (verba cheia)
+  const projOtim=_PJ.projOtim, verbaLiq=_PJ.verbaLiq;
+  const ritmoTendB=_PJ.ritmoTendBruto, gap=_PJ.gap;
+  const entregaPct=(_PJ.entrega!=null)?Math.round(_PJ.entrega*100):null;
   const desvio=ideal>0?(consumed/ideal-1):0;
   const yd=_ndYesterday();
   let diag,dc,dbg;
@@ -1112,14 +1119,14 @@ function pacingSection(){
   else if(desvio<-0.20){diag="🔴 Aumentar urgente";dc="#f87171";dbg="#2a1212";}
   else if(desvio<-0.10){diag="↑ Aumentar";dc="#fbbf24";dbg="#241f10";}
   else {diag="✓ No ritmo";dc="#34d399";dbg="#0f1a12";}
-  const fillW=Math.min(pctC*100,100), markL=Math.min(pctE*100,100), projL=Math.min(projPct*100,100);
+  const fillW=Math.min(pctC*100,100), markL=Math.min(pctE*100,100), projL=Math.min(projPct*100,100), projTetoL=Math.min(projTetoPct*100,100);
   const over=consumed>ideal;
   // QUADRINHOS no topo (estilo Bajaj)
   const ydDiff = yd? (yd.bruto/daily-1) : 0;
   const ydBox = yd? `<div class="pq"><div class="pql">Ontem · D-1 (${yd.date.slice(8)}/${_mmOf(yd.date)})</div><div class="pqv" style="color:${ydDiff>=0?'#34d399':'#fbbf24'}">${L(yd.bruto)}<span> /dia</span> <span style="font-size:14px">${ydDiff>=0?'▲':'▼'}</span></div><div class="pqs">líquido · ${ydDiff>=0?'+':'−'}${Math.abs(ydDiff*100).toFixed(0)}% vs a média diária do mês</div></div>` : '';
   const quad=`<div class="pquads">
     <div class="pq"><div class="pql">1. Já gastou na Meta (líquido)</div><div class="pqv">${L(consumed)}</div><div class="pqs">${(pctC*100).toFixed(1)}% do orçamento em ${(pctE*100).toFixed(0)}% do mês (${P.elapsed} de ${P.days} dias)</div></div>
-    <div class="pq"><div class="pql">2. Vai pagar (fim do mês)</div><div class="pqv" style="color:${projPct<0.9?'#fbbf24':(projPct>1.1?'#f87171':'#34d399')}">${brl(proj)}</div><div class="pqs">com imposto · ${(projPct*100).toFixed(0)}% do orçamento · ritmo atual</div></div>
+    <div class="pq"><div class="pql">2. Vai pagar (fim do mês)</div><div class="pqv" style="color:${projPct<0.9?'#fbbf24':(projPct>1.1?'#f87171':'#34d399')}" title="Estimativa realista de quanto o mês fecha se continuar no ritmo de entrega dos últimos dias. Muda todo dia.">${brl(proj)}${(projOtim&&entregaPct!=null)?` <span style="font-size:12px;color:#fbbf24" title="A Meta está entregando só ${entregaPct}% da verba configurada">⚠ entregando ${entregaPct}%</span>`:''} <span style="font-size:12px;color:#71717a;font-weight:600" title="Quanto o mês fecharia se a Meta gastasse toda a verba configurada. É o máximo possível.">teto ${brl(projTeto)}</span></div><div class="pqs"><b>Tendência:</b> no ritmo dos últimos dias, o mês fecha por aqui (${(projPct*100).toFixed(0)}% do orçamento). Muda a cada dia. <b>Teto</b> ${brl(projTeto)} (${(projTetoPct*100).toFixed(0)}%): se a Meta gastasse toda a verba.${projOtim?` A Meta está entregando só ${entregaPct}% da verba, então ${brl(gap)} estão parados, vale revisar público e criativo.`:''}</div></div>
     <div class="pq"><div class="pql">3. Ideal na Meta hoje (líquido)</div><div class="pqv" style="color:#34d399">${L(ideal)}</div><div class="pqs">ritmo ${L(budget/P.days)}/dia · teto do mês ${L(budget)} líq (${brl(budget)} c/ imposto)</div></div>
   </div>
   <div class="pquads two">
@@ -1132,13 +1139,20 @@ function pacingSection(){
   const bar=`<div class="pacing-barwrap">
     <div class="pacing-track"><div class="fill" style="width:${fillW}%"></div></div>
     <div class="pacing-mk ideal" style="left:${markL}%"><span class="lbl">ideal hoje</span></div>
-    <div class="pacing-mk proj" style="left:${projL}%"><span class="lbl">projeção</span></div>
+    <div class="pacing-mk proj" style="left:${projL}%"><span class="lbl">tendência</span></div>
+    ${projOtim?`<div class="pacing-mk proj" style="left:${projTetoL}%;opacity:.45"><span class="lbl" style="color:#71717a">teto</span></div>`:''}
   </div>
   <div class="pacing-legend" style="margin-top:14px">
     <span><i style="display:inline-block;width:16px;height:8px;background:#34d399;border-radius:2px;vertical-align:middle;margin-right:6px"></i>Na Meta até hoje (líq): <b>${L(consumed)}</b> (${(pctC*100).toFixed(1)}%)</span>
     <span><i style="display:inline-block;width:2px;height:12px;background:#fff;vertical-align:middle;margin-right:7px"></i>Ideal hoje (líq): <b>${L(ideal)}</b> (${(pctE*100).toFixed(0)}%)</span>
-    <span><i style="display:inline-block;width:14px;border-top:2px dashed #fbbf24;vertical-align:middle;margin-right:6px"></i>Vai pagar (fim do mês): <b>${brl(proj)}</b> (${desvio>=0?'+':''}${((projPct-1)*100).toFixed(1)}%)</span>
-    <span style="color:#888">Orçamento (c/ imposto): <b style="color:#aaa">${brl(budget)}</b></span>
+    <span><i style="display:inline-block;width:14px;border-top:2px dashed #fbbf24;vertical-align:middle;margin-right:6px"></i><b>Tendência</b> (ritmo de agora): <b>${brl(proj)}</b> (${projPct>=1?'+':''}${((projPct-1)*100).toFixed(1)}%)${(projOtim&&entregaPct!=null)?` <span style="color:#fbbf24" title="A Meta está entregando só ${entregaPct}% da verba configurada">⚠ entregando ${entregaPct}% da verba</span>`:''}</span>
+    <span style="color:#888"><b style="color:#aaa">Teto</b> (se gastar toda a verba): <b style="color:#aaa">${brl(projTeto)}</b> (${(projTetoPct*100).toFixed(0)}%)</span>
+    <span style="color:#888">Orçamento: <b style="color:#aaa">${brl(budget)}</b></span>
+  </div>
+  <div class="secsub" style="margin-top:10px;color:#8b8b93;line-height:1.55">
+    <b>Como ler:</b> a <b>Tendência</b> é quanto o mês deve fechar se continuar no ritmo dos últimos dias, é a estimativa mais realista e muda todo dia.
+    O <b>Teto</b> é quanto fecharia se a Meta gastasse toda a verba configurada, é o máximo possível.
+    ${projOtim?`Como a Meta está entregando só ${entregaPct}% da verba, a diferença de <b>${brl(gap)}</b> é verba parada, dinheiro disponível que não está sendo gasto.`:`A Meta está entregando perto de toda a verba configurada.`}
   </div>
   <div class="pacing-legend" style="margin-top:8px">
     <span>Restante do orçamento: <b>${brl(Math.max(0,budget-consumed))}</b></span>
@@ -1321,6 +1335,60 @@ function verbaSection(){
 // Regra: dado real ou nada. So inclui o bullet se o dado existir. Sem inventar.
 function _pct(cur,prev){ if(prev==null||prev<=0||cur==null) return null; return (cur-prev)/prev*100; }
 function _dir(p){ return p>0?"+":""; }
+// ===== PROJEÇÃO POR INTENÇÃO (regra ÚNICA, idêntica ao build_central.py, decisão Rudy 17/jul) =====
+// Fonte de verdade da projeção "Vai pagar" nos dashs individual, one-page e central.
+// ritmo futuro = verba diária CONFIGURADA nos conjuntos/campanhas ACTIVE (nd_verba, líquido);
+// guarda-corpos: nunca projeta abaixo da entrega recente (média dos 3 dias fechados);
+// sem verba legível -> média 3d; sem nada -> ritmo médio do mês.
+// projeção líq = gasto fechado (até ontem) + ritmo × (dias restantes + hoje); bruto = líq × TAX.
+// ⚠ projOtim = nos últimos 3 dias a Meta entregou < 85% da verba configurada (projeção pode estar otimista).
+function projMes(){
+  const TAX=(typeof CFG!=='undefined'&&CFG.gross_up)||1.1215;
+  const r2=x=>Math.round((+x||0)*100)/100;
+  const P=(D&&D.pacing)||{days:31,elapsed:1};
+  const days=+P.days||31, elapsed=Math.max(1,+P.elapsed||1);
+  const kJun=(D.kpi&&D.kpi.jun&&D.kpi.jun.ALL)?D.kpi.jun.ALL:{};
+  const foraBr=(typeof _foraBruto==='function')?_foraBruto('jun'):0;
+  const consumed=(+kJun.bruto||0)+foraBr;                 // BRUTO investido MTD (comercial + PV/fora)
+  const budget=(typeof BUDGET!=='undefined'&&BUDGET)?BUDGET:(+P.budget||0);
+  // gasto LÍQUIDO total = comercial (kpi.liq) + PV líq , idêntico ao spend_liq do central
+  const spendCommLiq=(kJun.liq!=null?+kJun.liq:(+kJun.bruto||0)/TAX);
+  const pvBruto=(D.nd_jun&&D.nd_jun.pv&&+D.nd_jun.pv.bruto)||0;
+  const spendLiq=spendCommLiq+pvBruto/TAX;
+  // verba diária CONFIGURADA (líq) dos adsets/campanhas ACTIVE
+  const ndv=(D&&Array.isArray(D.nd_verba))?D.nd_verba:[];
+  const verbaLiq=r2(ndv.reduce((s,v)=>((v.status||'ACTIVE')==='ACTIVE'?s+(+v.dailyLiq||0):s),0));
+  // série diária (líq): "hoje" = último dia do n_daily (parcial); fechados = anteriores
+  const nd=(D&&Array.isArray(D.n_daily))?D.n_daily:[];
+  const dayTot=d=>Object.keys(d).reduce((s,k)=>(k!=='date'&&d[k]&&typeof d[k]==='object'?s+(+d[k].spend||0):s),0);
+  const todayISO=nd.length?nd[nd.length-1].date:null;
+  const closed=nd.filter(d=>d.date!==todayISO).map(dayTot);
+  const last3=closed.slice(-3);
+  const media3d=last3.length?r2(last3.reduce((a,b)=>a+b,0)/last3.length):0;
+  let ritmoLiq=verbaLiq>0?verbaLiq:media3d;
+  if(media3d>ritmoLiq) ritmoLiq=media3d;                  // TETO: nunca abaixo da entrega recente
+  if(ritmoLiq<=0) ritmoLiq=elapsed>0?spendLiq/elapsed:0;
+  // ritmo da TENDÊNCIA REAL = entrega recente (média dos dias fechados); fallback: verba, depois ritmo médio
+  let ritmoTendLiq=media3d>0?media3d:(verbaLiq>0?verbaLiq:(elapsed>0?spendLiq/elapsed:0));
+  const hojeLiq=todayISO?dayTot(nd[nd.length-1]):0;
+  const fechadoLiq=Math.max(0,spendLiq-hojeLiq);
+  const projLiq=fechadoLiq+ritmoLiq*(days-elapsed+1);
+  const proj=projLiq*TAX;                                  // TETO (verba cheia = intenção)
+  const projPct=budget>0?proj/budget:0;
+  const projTendLiq=fechadoLiq+ritmoTendLiq*(days-elapsed+1);
+  const projTend=projTendLiq*TAX;                          // TENDÊNCIA REAL (principal)
+  const projTendPct=budget>0?projTend/budget:0;
+  const entrega=(verbaLiq>0&&media3d>0)?media3d/verbaLiq:null;
+  const projOtim=(entrega!==null&&entrega<0.85);           // gap = verba configurada não entregue pela Meta
+  const gap=Math.max(0,proj-projTend);
+  const future=days-elapsed;
+  const daily=elapsed>0?consumed/elapsed:0;               // média diária REALIZADA (bruto), informativo
+  const need=future>0?(budget-consumed)/future:0;
+  return {TAX,days,elapsed,consumed,budget,spendLiq,verbaLiq,media3d,ritmoLiq,
+          ritmoTendLiq,ritmoTendBruto:ritmoTendLiq*TAX,projTendLiq,projTend,projTendPct,gap,
+          ritmoBruto:ritmoLiq*TAX,hojeLiq,fechadoLiq,projLiq,proj,projPct,
+          entrega,projOtim,future,daily,need};
+}
 function insights(win){
   win=win||WIN;
   const resumo=[], melhorias=[];
@@ -1336,13 +1404,10 @@ function insights(win){
   const _investJun=(D.kpi&&D.kpi.jun&&D.kpi.jun.ALL?D.kpi.jun.ALL.bruto:0)+((typeof _foraBruto==="function")?_foraBruto("jun"):0);
   if(budget>0 && _investJun>0){
     const pctC=_investJun/budget*100;
-    let proj=null;
-    if(D.pacing && D.pacing.elapsed>0 && D.pacing.days>0){
-      const daily=_investJun/D.pacing.elapsed;
-      proj=_investJun+daily*(D.pacing.days-D.pacing.elapsed);
-    }
-    const projTxt=proj!=null?`, projeção de fechar em ${brl(proj)} (${(proj/budget*100).toFixed(0)}% da meta)`:"";
-    const tone = (proj!=null && (proj/budget>1.1 || proj/budget<0.9)) ? "warn" : "ok";
+    const _pj=projMes();
+    const proj=_pj.projTend;
+    const projTxt=proj>0?`, tendência de fechar em ${brl(proj)} (${(_pj.projTendPct*100).toFixed(0)}% da meta; teto pela verba cheia ${brl(_pj.proj)}${_pj.projOtim?', Meta entregando < 85% da verba ⚠':''})`:"";
+    const tone = (proj>0 && (_pj.projTendPct>1.1 || _pj.projTendPct<0.9)) ? "warn" : "ok";
     resumo.push({tone, txt:`Investiu ${brl(_investJun)} de ${brl(budget)} (${pctC.toFixed(0)}% do orçamento)${projTxt}.`});
   }
   // 2) vs mes anterior (ND_MAIO): leads, conversas, custo
@@ -1457,19 +1522,15 @@ function insights(win){
   }
   // 5) Pacing: ajuste de ritmo se projecao estoura ou sobra muito (so quando ainda da pra agir, future>=3 dias)
   if(budget>0 && D.pacing && D.pacing.elapsed>0 && D.pacing.days>0){
-    const consumed=(D.kpi.jun.ALL.bruto)+((typeof _foraBruto==="function")?_foraBruto("jun"):0);
-    const daily=consumed/D.pacing.elapsed;
-    const future=D.pacing.days-D.pacing.elapsed;
-    const proj=consumed+daily*future;
-    if(future>=3 && proj/budget>1.1){
-      const need=(budget-consumed)/future;
-      melhorias.push({tone:"warn", txt:`No ritmo de ${brl(daily)}/dia a projeção estoura a meta (${brl(proj)}). Segurar para ~${brl(need)}/dia nos ${future} dias restantes.`});
-    } else if(future>=3 && proj/budget<0.9){
-      const need=(budget-consumed)/future;
-      melhorias.push({tone:"warn", txt:`Projeção fecha em ${brl(proj)}, ${(100-proj/budget*100).toFixed(0)}% abaixo da meta. Há espaço para subir o ritmo de ${brl(daily)} para ${brl(need)}/dia e escalar o que performa.`});
+    const _pj=projMes();
+    const consumed=_pj.consumed, future=_pj.future, proj=_pj.projTend, need=_pj.need, ritmoB=_pj.ritmoTendBruto;
+    if(future>=3 && _pj.projTendPct>1.1){
+      melhorias.push({tone:"warn", txt:`No ritmo de entrega recente (${brl(ritmoB)}/dia bruto) a tendência estoura a meta (${brl(proj)}). Segurar a verba para ~${brl(need)}/dia nos ${future} dias restantes.`});
+    } else if(future>=3 && _pj.projTendPct<0.9){
+      melhorias.push({tone:"warn", txt:`Tendência fecha em ${brl(proj)}, ${(100-_pj.projTendPct*100).toFixed(0)}% abaixo da meta${_pj.projOtim?' , a verba configurada projetaria '+brl(_pj.proj)+' mas a Meta entrega < 85% dela (gap +'+brl(_pj.gap)+' de verba parada ⚠)':''}. Espaço para escalar o que performa e destravar a entrega (para fechar, ~${brl(need)}/dia).`});
     } else if(future>0 && future<3){
       const restante=Math.max(0,budget-consumed);
-      melhorias.push({tone:"ok", txt:`Mês quase fechado: ${future} dia${future>1?"s":""} restante${future>1?"s":""}, ${brl(restante)} de orçamento livre. Projeção ${brl(proj)}, dentro da meta sem ajuste de ritmo.`});
+      melhorias.push({tone:"ok", txt:`Mês quase fechado: ${future} dia${future>1?"s":""} restante${future>1?"s":""}, ${brl(restante)} de orçamento livre. Tendência ${brl(proj)}, dentro da meta.`});
     }
   }
   return {resumo, melhorias};
@@ -1492,10 +1553,10 @@ function insightsSection(){
 // ===== Conclusao / Direcao do mes (gerada dos numeros reais) =====
 function concSection(){
   const J=D.kpi.jun, R=(ND_JUN&&ND_JUN.regioes)||[];
-  const P=D.pacing, consumed=J.ALL.bruto+((typeof _foraBruto==="function")?_foraBruto("jun"):0), daily=consumed/P.elapsed, proj=consumed+daily*(P.days-P.elapsed);
+  const P=D.pacing, _pj=projMes(), consumed=_pj.consumed, proj=_pj.projTend;
   const lis=[];
-  // 1) Pacing (sempre)
-  lis.push(`<b>Pacing.</b> ${MESNM} consumiu ${brl(consumed)} dos ${brl(P.budget)} em ${P.elapsed} de ${P.days} dias. No ritmo de ${brl(daily)}/dia a projeção fecha em <b>${brl(proj)}</b> (${((proj/P.budget-1)*100).toFixed(0)}% vs orçamento).`);
+  // 1) Pacing (sempre) , tendência real (ritmo de entrega recente) + teto pela verba cheia, igual ao central
+  lis.push(`<b>Pacing.</b> ${MESNM} consumiu ${brl(consumed)} dos ${brl(_pj.budget)} em ${P.elapsed} de ${P.days} dias. Pelo ritmo de entrega recente (${brl(_pj.ritmoTendBruto)}/dia bruto) a tendência fecha em <b>${brl(proj)}</b> (${((_pj.projTendPct-1)*100).toFixed(0)}% vs orçamento); teto pela verba cheia ${brl(_pj.proj)}${_pj.projOtim?' , gap +'+brl(_pj.gap)+' de verba não entregue ⚠':''}.`);
   // 2) Segmentos: melhor e maior verba (genérico, só os que existem)
   const segList=(typeof SEG_TOTAL!=="undefined"?SEG_TOTAL:[]).map(sg=>{const k=J[sg];if(!k)return null;const res=(k.leads||0)+(k.conv||0);return{sg,bruto:k.bruto||0,res,cpl:res?k.bruto/res:0};}).filter(Boolean);
   if(segList.length>1){
