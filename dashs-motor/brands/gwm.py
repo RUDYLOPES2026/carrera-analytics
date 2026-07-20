@@ -119,6 +119,8 @@ def _verba(api, adsets):
     for c in camps:
         if c.get("effective_status") != "ACTIVE":
             continue
+        if common.entrega_encerrada(c):      # ignora campanha CBO já encerrada (stop_time no passado)
+            continue
         db = c.get("daily_budget")
         if db in (None, "", "0"):
             continue

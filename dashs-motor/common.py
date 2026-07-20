@@ -118,11 +118,40 @@ def merge_daily(fname, new_entries, keep=30):
     return daily
 
 
+# ---------- elegibilidade de entrega (verba "viva") ----------
+def entrega_encerrada(entity, now=None):
+    """True se a campanha/conjunto JÁ ENCERROU (tem stop_time/end_time no passado),
+    mesmo que a API devolva effective_status ACTIVE. Meta mantém agendamentos
+    vencidos como ACTIVE, mas eles gastam ZERO. Critério (decisão 20/07/2026):
+    só conta como verba configurada quem está elegível a entregar HOJE, ou seja
+    sem stop_time/end_time, ou com stop_time/end_time no futuro. Sem o campo
+    (não pedido/preenchido) = trata como vivo (não encerrado)."""
+    import datetime as _dt, re as _re
+    now = now or _dt.datetime.now(_dt.timezone.utc)
+    for k in ("stop_time", "end_time"):
+        v = entity.get(k)
+        if not v:
+            continue
+        try:
+            s = str(v).strip().replace("Z", "+00:00")
+            # Meta manda offset sem dois pontos (ex.: -0300); fromisoformat (py3.9) exige -03:00
+            s = _re.sub(r"([+-]\d{2})(\d{2})$", r"\1:\2", s)
+            t = _dt.datetime.fromisoformat(s)
+            if t.tzinfo is None:
+                t = t.replace(tzinfo=_dt.timezone.utc)
+            if t <= now:
+                return True
+        except Exception:
+            continue
+    return False
+
 # ---------- verba (adsets ativos com daily_budget) ----------
 def verba_from_adsets(adsets, canal_of, reg_of=None):
     out = []
     for a in adsets:
         if a.get("effective_status") != "ACTIVE":
+            continue
+        if entrega_encerrada(a):          # ignora agendamento vencido (stop_time no passado)
             continue
         db = a.get("daily_budget")
         if db in ("0", "", None):

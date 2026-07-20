@@ -126,7 +126,7 @@ def atividades_conta(account_id, limit=200, since=None, until=None):
 def list_adsets(account_id, limit=200):
     # `targeting` pesa: contas grandes estouram "reduce the amount of data".
     # Degrada o page size até passar (paginação junta tudo do mesmo jeito).
-    p = {"fields": "name,daily_budget,lifetime_budget,status,effective_status,campaign_id,targeting"}
+    p = {"fields": "name,daily_budget,lifetime_budget,status,effective_status,campaign_id,start_time,end_time,targeting"}
     last = None
     for lim in (limit, 50, 25, 10):
         try:
@@ -139,7 +139,7 @@ def list_adsets(account_id, limit=200):
     raise last
 
 def list_campaigns(account_id, limit=500):
-    p = {"fields": "name,daily_budget,lifetime_budget,status,effective_status", "limit": limit}
+    p = {"fields": "name,daily_budget,lifetime_budget,status,effective_status,start_time,stop_time", "limit": limit}
     rows = _paged(f"{account_id}/campaigns", p)
     return {"ok": True, "campaigns": rows}
 

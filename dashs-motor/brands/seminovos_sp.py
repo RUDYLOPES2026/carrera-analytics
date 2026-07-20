@@ -277,6 +277,8 @@ def refresh(api, ctx):
     for a in h["adsets"]:
         if a.get("effective_status") != "ACTIVE" or not a.get("daily_budget"):
             continue
+        if common.entrega_encerrada(a):      # ignora adset com agendamento vencido (stop_time no passado)
+            continue
         cn = campmap.get(a.get("campaign_id"), "")
         nd_verba.append({"nome": a.get("name", ""), "reg": loja_of(cn, a.get("name", "")),
                          "can": canal_of(cn),

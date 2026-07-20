@@ -323,6 +323,8 @@ def refresh(api, ctx):
     for a in h.get("adsets", []):
         if a.get("effective_status") != "ACTIVE":
             continue
+        if common.entrega_encerrada(a):        # ignora agendamento vencido (stop_time no passado)
+            continue
         db = a.get("daily_budget")
         if db in (None, "", "0"):
             continue
@@ -332,7 +334,8 @@ def refresh(api, ctx):
                       "status": "ACTIVE"})
     try:
         for c in api.list_campaigns(ACC)["campaigns"]:
-            if c.get("effective_status") == "ACTIVE" and c.get("daily_budget") not in (None, "", "0"):
+            if (c.get("effective_status") == "ACTIVE" and c.get("daily_budget") not in (None, "", "0")
+                    and not common.entrega_encerrada(c)):   # exclui campanhas CBO já encerradas (Carrera Night/BIO fantasma)
                 verba.append({"nome": c["name"], "reg": reg_of("", c["name"]),
                               "can": canal_of(c["name"]),
                               "dailyLiq": round(int(c["daily_budget"]) / 100, 2),

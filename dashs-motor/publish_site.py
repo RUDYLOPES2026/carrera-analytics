@@ -51,6 +51,16 @@ def latest_dist(prefix):
         m = re.search(r"_(\d{4}-\d{2}-\d{2})\.html$", p); return m.group(1) if m else ""
     cands.sort(key=dk); p = cands[-1]; return p, dk(p)
 
+def latest_resumo(prefix):
+    """One-page executiva (arquivos <prefix>_resumo_AAAA-MM-DD.html)."""
+    pat = os.path.join(DIST, f"{prefix}_resumo_20*.html")
+    cands = glob.glob(pat)
+    if not cands:
+        return None, None
+    def dk(p):
+        m = re.search(r"_(\d{4}-\d{2}-\d{2})\.html$", p); return m.group(1) if m else ""
+    cands.sort(key=dk); p = cands[-1]; return p, dk(p)
+
 def inject_noindex(html):
     if "noindex" in html:
         return html
@@ -71,6 +81,15 @@ def build_into(public_dir):
         open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(html)
         published.append((slug, nome, dt))
         print(f"[OK] {slug}/ <- {os.path.basename(src)} ({dt})")
+        # one-page executiva na rota <slug>/resumo/ (dash completo continua em <slug>/)
+        rsrc, rdt = latest_resumo(prefix)
+        if rsrc:
+            rhtml = inject_noindex(open(rsrc, encoding="utf-8").read())
+            rd = os.path.join(d, "resumo"); os.makedirs(rd, exist_ok=True)
+            open(os.path.join(rd, "index.html"), "w", encoding="utf-8").write(rhtml)
+            print(f"[OK] {slug}/resumo/ <- {os.path.basename(rsrc)} ({rdt})")
+        else:
+            print(f"[!] {slug}/resumo/: nenhuma one-page em dist, pulando")
     # central executiva do grupo
     csrc, cdt = latest_dist("central")
     if csrc:

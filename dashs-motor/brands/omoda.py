@@ -397,6 +397,8 @@ def refresh(api, ctx):
     for a in h["adsets"]:
         if a.get("effective_status") != "ACTIVE" or not a.get("daily_budget"):
             continue
+        if common.entrega_encerrada(a):        # ignora agendamento vencido (stop_time no passado)
+            continue
         seg, canal, loja = classify(campmap.get(a.get("campaign_id"), ""), a.get("name", ""))
         if seg == "PV":
             continue
