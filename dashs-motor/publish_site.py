@@ -120,12 +120,16 @@ def write_hub(public_dir, published, has_central=False):
         if dt:
             sub = "atualizado " + datetime.date.fromisoformat(dt).strftime("%d/%m")
             href, cls = f"../{slug}/", ""
+            resumo = f'<a class="card-resumo" href="../{slug}/resumo/">resumo →</a>'
         else:
-            sub, href, cls = "indisponível", "#", " off"
-        cards.append(f'''      <a class="card{cls}" href="{href}">
-        <span class="nome">{nome}</span>
-        <span class="sub">{sub}</span>
-      </a>''')
+            sub, href, cls, resumo = "indisponível", "#", " off", ""
+        cards.append(f'''      <div class="card{cls}">
+        <a class="card-main" href="{href}">
+          <span class="nome">{nome}</span>
+          <span class="sub">{sub}</span>
+        </a>
+        {resumo}
+      </div>''')
     cards_html = "\n".join(cards)
     html = f'''<!doctype html>
 <html lang="pt-BR">
@@ -144,12 +148,17 @@ def write_hub(public_dir, published, has_central=False):
   h1 .b {{ color:var(--acc); }}
   .meta {{ color:var(--mut); font-size:14px; margin-bottom:26px; }}
   .grid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }}
-  .card {{ display:flex; flex-direction:column; gap:6px; text-decoration:none;
+  .card {{ display:flex; flex-direction:column; gap:6px;
           background:var(--card); border:1px solid var(--line); border-radius:14px;
-          padding:18px; color:var(--tx); transition:.15s border-color,.15s transform; }}
+          padding:18px; transition:.15s border-color,.15s transform; }}
   .card:hover {{ border-color:var(--acc); transform:translateY(-2px); }}
+  .card-main {{ display:flex; flex-direction:column; gap:6px; text-decoration:none; color:var(--tx); }}
   .card .nome {{ font-size:17px; font-weight:600; }}
   .card .sub {{ font-size:12.5px; color:var(--mut); }}
+  .card-resumo {{ align-self:flex-start; margin-top:11px; font-size:12px; color:var(--mut);
+          text-decoration:none; border:1px solid var(--line); border-radius:8px; padding:3px 10px;
+          transition:.15s border-color,.15s color; }}
+  .card-resumo:hover {{ color:var(--acc); border-color:var(--acc); }}
   .card.off {{ opacity:.45; pointer-events:none; }}
   .central {{ display:block; text-decoration:none; margin:0 0 18px; padding:18px 20px;
              background:linear-gradient(135deg,#1a2330,#141b24); border:1px solid var(--acc);
