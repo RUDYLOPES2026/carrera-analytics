@@ -197,6 +197,14 @@ def scrub(s):
     return re.sub(r"github_pat_[A-Za-z0-9_]+", "***", s or "")
 
 def push():
+    # GUARDA (21/07): a publicação oficial é o cron da nuvem (dashs-daily.yml).
+    # Um --push local com código defasado JÁ atropelou o hub (apagou os links de
+    # resumo). Só siga se souber exatamente o que está fazendo.
+    if os.environ.get("DASHS_FORCE_LOCAL_PUSH") != "1":
+        print("[X] --push local desativado: a nuvem publica sozinha (3x/dia).")
+        print("    Pra forçar um refresh agora: gh workflow run dashs-daily.yml -R RUDYLOPES2026/carrera-analytics")
+        print("    Pra forçar o push local mesmo assim: DASHS_FORCE_LOCAL_PUSH=1 python3 publish_site.py --push")
+        sys.exit(1)
     token = read_token()
     tmp = tempfile.mkdtemp(prefix="carrera_pub_")
     url = f"https://x-access-token:{token}@github.com/{REPO}.git"
