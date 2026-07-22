@@ -164,7 +164,9 @@ def load_brand(fslug, kebab, nome, cor):
         "media3d": media3d, "entrega": entrega,
         "leads": leads, "conv": conv, "res": res,
         "spend_comm_30d": round(spend_comm_30d, 2), "leads_30d": leads_30d, "conv_30d": conv_30d,
-        "cpl": round(spend_comm / res, 2) if res else 0,
+        # CPL em LIQUIDO (regra Rudy 22/jul): imposto nao compra midia, entao nao entra em custo
+        # por resultado. Mesma unidade do CPL dos dashs individuais.
+        "cpl": round(spend_comm_liq / res, 2) if res else 0,
         "ideal": round(ideal_liq, 2), "proj_tot": round(proj_pay, 2), "proj_comm": round(proj_comm, 2),
         "attain": round(spend_tot / budget, 4) if budget else 0,
         "proj_attain": round(proj_tend / budget, 4) if budget else 0,          # PRINCIPAL = tendência real

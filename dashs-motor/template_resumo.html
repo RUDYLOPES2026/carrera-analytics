@@ -60,6 +60,10 @@ body{background:#0a0a0a;color:#f4f4f5;font-family:-apple-system,BlinkMacSystemFo
 <script>
 const D=/*__D_INJECT__*/{};
 const CFG=(D&&D.config)?D.config:{};
+const GROSSUP=CFG.gross_up||1.1215;
+// mesma regra do dash completo: gasto realizado do D vira LÍQUIDO antes de qualquer render.
+// _liqD vem do bloco ENGINE injetado abaixo (funcao hoisted, fonte unica em template.html).
+_liqD(D, GROSSUP);
 const SEGMENTS=CFG.segments||["NV","SN","VD"];
 const MULTISEG=SEGMENTS.length>1;
 const HASREGION=CFG.hasRegion!==false;
@@ -78,6 +82,9 @@ const MOMNM_LC=MOMNM.toLowerCase();
 const VS_MOM="vs "+MOMNM_LC;
 // ND_MAIO injetado do template (mesma fonte). Marca sem ND_MAIO -> comparativos somem, nao quebra.
 /*__ND_INJECT__*/
+// ND_MAIO vem do D em DISCO (bruto), fora do _liqD(D) acima: converte aqui pra comparar com
+// o mes corrente na mesma unidade. _liqD e idempotente, entao nao ha risco de converter 2x.
+if(typeof ND_MAIO!=="undefined") _liqD(ND_MAIO, GROSSUP);
 const hasMaioConst=(typeof ND_MAIO!=="undefined")&&ND_MAIO&&ND_MAIO.total;
 // One-page e um RETRATO do mes: fixa na janela de junho.
 const WIN="jun";

@@ -395,8 +395,8 @@ a{color:inherit;text-decoration:none}
 <details class="geodet" style="margin-top:18px">
   <summary>📐 Regras e lógicas usadas neste dashboard</summary>
   <div style="font-size:13px;color:#a1a1aa;line-height:1.7;padding:6px 2px">
-   <b style="color:#f59e0b">Impostos (gross-up 12,15%)</b> , a API retorna o gasto líquido (só mídia); BRUTO = líquido × 1,1215 (PIS/Cofins 9,25% + ISS 2,9%), que é o número que bate com o orçamento da Carrera. Onde cada um aparece: <b>orçamento, teto e projeção de fim de mês em BRUTO</b> (é o que se paga); <b>gasto do dia, ideal do dia e a Evolução diária em LÍQUIDO</b> (é o que a Meta cobra e o que se coloca na conta), conforme o modelo definido em 16/jul.<br>
-   <b style="color:#f59e0b">Métricas</b> , Leads = formulários (lead_grouped); Conversas = conversas iniciadas no WhatsApp (7 dias); Resultado = leads + conversas. Custo/resultado = bruto ÷ resultado.<br>
+   <b style="color:#f59e0b">Impostos (gross-up 12,15%)</b> , a API retorna o gasto líquido (só mídia); BRUTO = líquido × 1,1215 (PIS/Cofins 9,25% + ISS 2,9%). Regra do dash: <b>gasto já realizado sempre em LÍQUIDO</b> (KPIs, tabelas de segmento, praça, campanha e criativo, ranking, CPL e a evolução diária), porque é o valor que a Meta cobra e o que se coloca na conta; <b>dinheiro que se paga em BRUTO</b> (orçamento do mês, falta gastar, teto e projeção de fim de mês), porque o orçamento da Carrera já embute o imposto. Resumindo: o que já foi gasto aparece como a Meta cobra, o que ainda se vai pagar aparece com imposto.<br>
+   <b style="color:#f59e0b">Métricas</b> , Leads = formulários (lead_grouped); Conversas = conversas iniciadas no WhatsApp (7 dias); Resultado = leads + conversas. Custo/resultado = gasto <b>líquido</b> ÷ resultado (imposto não compra mídia, então não entra no CPL).<br>
    <b style="color:#f59e0b">Segmento</b> , Novos / Seminovos / Venda Direta pela nomenclatura da campanha (_NV_ / _SN_ / _VD_). WhatsApp de modelos e campanhas institucionais entram em Novos. Pós-venda (PV) fica fora (serviço/oficina, não 0km).<br>
    <b style="color:#f59e0b">Região</b> , São Paulo / Vale / Interior pela nomenclatura da campanha ou do adset (_SP_ / _VL_ / _INT_). Os big numbers por região somam Formulário/Catálogo + WhatsApp daquela região e usam a janela de 30 dias.<br>
    <b style="color:#f59e0b">Geolocalização</b> , os pontos do mapa são as cidades e localizações reais (custom_locations) dos adsets ATIVOS da conta, com o raio configurado em cada um. Verificados ao vivo na API.<br>
@@ -426,6 +426,8 @@ const REGIONS  = CFG.regions || ["SP","VL","INT"];          // praças da marca
 const REG_ALL  = HASREGION ? REGIONS.concat(["G"]) : [];    // praças + Geral (reconcilia)
 const BUDGET   = CFG.budget || (D.pacing && D.pacing.budget) || 0;
 const GROSSUP  = CFG.gross_up || 1.1215;
+// gasto realizado do D (bruto) -> LÍQUIDO, uma vez só, antes de qualquer render. Ver _liqD() no ENGINE.
+_liqD(D, GROSSUP);
 const ACCT     = (CFG.account_id||"").replace("act_","");
 const BRANDNM  = CFG.brand || D.conta || "";
 const CHANNELS = CFG.channels || ["Form","WhatsApp"];
@@ -446,6 +448,7 @@ const ND_MAIO=(D && D.nd_maio) ? D.nd_maio : {total:{bruto:80179.94,leads:4202,c
        SN:{bruto:7346.43,leads:731,conv:93,res:824,cpl:8.92},
        VD:{bruto:8937.04,leads:757,conv:11,res:768,cpl:11.64}},
   pv:{bruto:10889.22,conv:730}};
+_liqD(ND_MAIO, GROSSUP);   // fallback literal do template vem em bruto; D.nd_maio ja veio convertido (idempotente)
 // Junho FECHADO nivel ad (2026-06-01 a 2026-06-30). bruto = liq x 1,1215. PV fora do total. Fonte unica: D.ads.jun.
 const ND_JUN=(D && D.nd_jun) ? D.nd_jun : {total:{bruto:72365.1,leads:5930,conv:1368,res:7298,cpl:9.92},
   regioes:[{reg:"SP",nome:"São Paulo",bruto:24772.38,res:3690,cpl:6.71,leads:2804,conv:886},
@@ -479,6 +482,7 @@ const ND_JUN=(D && D.nd_jun) ? D.nd_jun : {total:{bruto:72365.1,leads:5930,conv:
          {reg:"INT",nome:"Interior",sub:"ARQ · SCA · CAT · VOT",bruto:21445.74,res:1710,cpl:12.54},
          {reg:"G",nome:"Geral (sem praça)",sub:"catálogo SN · VD · RMKT · institucional",bruto:9230.65,res:867,cpl:10.65}],
   pv:{bruto:5355.10,conv:546,cpr:9.81}};
+_liqD(ND_JUN, GROSSUP);
 // Verba: campanhas ativas que expoem daily_budget no nivel campanha. Core usa CBO/adset (nao exposto).
 const ND_VERBA=(D && Array.isArray(D.nd_verba)) ? D.nd_verba : [
   {nome:"NV · ENG · SP (engajamento)",can:"Engaj",reg:"SP",dailyLiq:29.16,status:"ACTIVE"},
@@ -1079,7 +1083,7 @@ function _ndYesterday(){
     // media diaria do pacing (com que este numero se compara) tambem incluem PV (_foraBruto). Ate
     // 21/jul o PV ficava de fora aqui e a seta "vs media diaria" comparava bases diferentes.
     let liq=0; Object.keys(r).forEach(k=>{ if(k==="date") return; const v=r[k]; if(v&&typeof v==="object"&&typeof v.spend==="number") liq+=v.spend; });
-    return {date:r.date, bruto:liq*(typeof N_TAX!=="undefined"?N_TAX:1.1215)};
+    return {date:r.date, liq:liq};
   }catch(e){return null;}
 }
 const MES_LBL=(typeof MESNM!=="undefined"&&MESNM)?MESNM:((D.parcial&&/\b(jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)/i.test(D.parcial))?(D.parcial.match(/(janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)/i)||["o mês"])[0]:"o mês");
@@ -1096,16 +1100,17 @@ function pacingSection(){
   const P=D.pacing, k=D.kpi["jun"]["ALL"];
   // investido do pacing = gasto comercial (kpi.ALL) + segmentos fora do total (PV) que consomem a mesma verba.
   const foraBr=_foraBruto("jun");
-  const budget=P.budget, consumed=k.bruto+foraBr;
-  // MODELO imposto (Rudy 16/jul): orçamento e projecao = BRUTO (o que paga, com imposto);
-  // gasto/ideal/ritmo do DIA = LIQUIDO (valor real na Meta). Razoes (barra) nao mudam.
+  // MODELO imposto (Rudy 16/jul, estendido em 22/jul): GASTO REALIZADO = LIQUIDO (valor real na Meta);
+  // ORCAMENTO/TETO/PROJECAO = BRUTO (o que se paga). O D ja chega liquido (_liqD), entao 'consumed' e
+  // liquido e quem compara com o orcamento usa budgetLiq. Razoes (barra, %) nao mudam.
   const TAX=(typeof CFG!=='undefined'&&CFG.gross_up)||1.1215;
-  const L=v=>brl(v/TAX);          // formata em LIQUIDO
-  const budgetLiq=budget/TAX;
-  const pctC=consumed/budget, pctE=P.elapsed/P.days;
-  const ideal=budget*pctE, defas=consumed-ideal;
+  const budget=P.budget;                 // BRUTO (orcamento aprovado, o que se paga)
+  const budgetLiq=budget/TAX;            // teto de gasto na Meta
+  const consumed=k.bruto+foraBr;         // LIQUIDO (comercial + PV, mesma verba)
+  const pctC=consumed/budgetLiq, pctE=P.elapsed/P.days;
+  const ideal=budgetLiq*pctE, defas=consumed-ideal;
   const daily=consumed/P.elapsed, future=P.days-P.elapsed;
-  const need=future>0?(budget-consumed)/future:0;
+  const need=future>0?(budgetLiq-consumed)/future:0;
   // projeção "Vai pagar" = DOIS números (regra ÚNICA projMes, idêntica ao central):
   //  principal = TENDÊNCIA REAL (ritmo de entrega recente) · referência = TETO (verba configurada cheia)
   const _PJ=projMes();
@@ -1125,15 +1130,15 @@ function pacingSection(){
   const fillW=Math.min(pctC*100,100), markL=Math.min(pctE*100,100), projL=Math.min(projPct*100,100), projTetoL=Math.min(projTetoPct*100,100);
   const over=consumed>ideal;
   // QUADRINHOS no topo (estilo Bajaj)
-  const ydDiff = yd? (yd.bruto/daily-1) : 0;
-  const ydBox = yd? `<div class="pq"><div class="pql">Ontem · D-1 (${yd.date.slice(8)}/${_mmOf(yd.date)})</div><div class="pqv" style="color:${ydDiff>=0?'#34d399':'#fbbf24'}">${L(yd.bruto)}<span> /dia</span> <span style="font-size:14px">${ydDiff>=0?'▲':'▼'}</span></div><div class="pqs">líquido · ${ydDiff>=0?'+':'−'}${Math.abs(ydDiff*100).toFixed(0)}% vs a média diária do mês</div></div>` : '';
+  const ydDiff = yd? (yd.liq/daily-1) : 0;
+  const ydBox = yd? `<div class="pq"><div class="pql">Ontem · D-1 (${yd.date.slice(8)}/${_mmOf(yd.date)})</div><div class="pqv" style="color:${ydDiff>=0?'#34d399':'#fbbf24'}">${brl(yd.liq)}<span> /dia</span> <span style="font-size:14px">${ydDiff>=0?'▲':'▼'}</span></div><div class="pqs">líquido · ${ydDiff>=0?'+':'−'}${Math.abs(ydDiff*100).toFixed(0)}% vs a média diária do mês</div></div>` : '';
   const quad=`<div class="pquads">
-    <div class="pq"><div class="pql">1. Já gastou na Meta (líquido)</div><div class="pqv">${L(consumed)}</div><div class="pqs">${(pctC*100).toFixed(1)}% do orçamento em ${(pctE*100).toFixed(0)}% do mês (${P.elapsed} de ${P.days} dias)</div></div>
+    <div class="pq"><div class="pql">1. Já gastou na Meta (líquido)</div><div class="pqv">${brl(consumed)}</div><div class="pqs">${(pctC*100).toFixed(1)}% do orçamento em ${(pctE*100).toFixed(0)}% do mês (${P.elapsed} de ${P.days} dias)</div></div>
     <div class="pq"><div class="pql">2. Vai pagar (fim do mês)</div><div class="pqv" style="color:${projPct<0.9?'#fbbf24':(projPct>1.1?'#f87171':'#34d399')}" title="Estimativa realista de quanto o mês fecha se continuar no ritmo de entrega dos últimos dias. Muda todo dia.">${brl(proj)}${(projOtim&&entregaPct!=null)?` <span style="font-size:12px;color:#fbbf24" title="A Meta está entregando só ${entregaPct}% da verba configurada">⚠ entregando ${entregaPct}%</span>`:''} <span style="font-size:12px;color:#71717a;font-weight:600" title="Quanto o mês fecharia se a Meta gastasse toda a verba configurada. É o máximo possível.">teto ${brl(projTeto)}</span></div><div class="pqs"><b>Tendência:</b> no ritmo dos últimos dias, o mês fecha por aqui (${(projPct*100).toFixed(0)}% do orçamento). Muda a cada dia. <b>Teto</b> ${brl(projTeto)} (${(projTetoPct*100).toFixed(0)}%): se a Meta gastasse toda a verba.${projOtim?` A Meta está entregando só ${entregaPct}% da verba, então ${brl(gap)} estão parados, vale revisar público e criativo.`:''}</div></div>
-    <div class="pq"><div class="pql">3. Ideal na Meta hoje (líquido)</div><div class="pqv" style="color:#34d399">${L(ideal)}</div><div class="pqs">ritmo ${L(budget/P.days)}/dia · teto do mês ${L(budget)} líq (${brl(budget)} c/ imposto)</div></div>
+    <div class="pq"><div class="pql">3. Ideal na Meta hoje (líquido)</div><div class="pqv" style="color:#34d399">${brl(ideal)}</div><div class="pqs">ritmo ${brl(budgetLiq/P.days)}/dia · teto do mês ${brl(budgetLiq)} líq (${brl(budget)} c/ imposto)</div></div>
   </div>
   <div class="pquads two">
-    <div class="pq"><div class="pql">Média diária na Meta</div><div class="pqv">${L(daily)}<span> /dia</span></div><div class="pqs">${L(consumed)} ÷ ${P.elapsed} dias decorridos (líquido)</div></div>
+    <div class="pq"><div class="pql">Média diária na Meta</div><div class="pqv">${brl(daily)}<span> /dia</span></div><div class="pqs">${brl(consumed)} ÷ ${P.elapsed} dias decorridos (líquido)</div></div>
     ${ydBox}
   </div>`;
   const kpis=quad;
@@ -1146,8 +1151,8 @@ function pacingSection(){
     ${projOtim?`<div class="pacing-mk proj" style="left:${projTetoL}%;opacity:.45"><span class="lbl" style="color:#71717a">teto</span></div>`:''}
   </div>
   <div class="pacing-legend" style="margin-top:14px">
-    <span><i style="display:inline-block;width:16px;height:8px;background:#34d399;border-radius:2px;vertical-align:middle;margin-right:6px"></i>Na Meta até hoje (líq): <b>${L(consumed)}</b> (${(pctC*100).toFixed(1)}%)</span>
-    <span><i style="display:inline-block;width:2px;height:12px;background:#fff;vertical-align:middle;margin-right:7px"></i>Ideal hoje (líq): <b>${L(ideal)}</b> (${(pctE*100).toFixed(0)}%)</span>
+    <span><i style="display:inline-block;width:16px;height:8px;background:#34d399;border-radius:2px;vertical-align:middle;margin-right:6px"></i>Na Meta até hoje (líq): <b>${brl(consumed)}</b> (${(pctC*100).toFixed(1)}%)</span>
+    <span><i style="display:inline-block;width:2px;height:12px;background:#fff;vertical-align:middle;margin-right:7px"></i>Ideal hoje (líq): <b>${brl(ideal)}</b> (${(pctE*100).toFixed(0)}%)</span>
     <span><i style="display:inline-block;width:14px;border-top:2px dashed #fbbf24;vertical-align:middle;margin-right:6px"></i><b>Tendência</b> (ritmo de agora): <b>${brl(proj)}</b> (${projPct>=1?'+':''}${((projPct-1)*100).toFixed(1)}%)${(projOtim&&entregaPct!=null)?` <span style="color:#fbbf24" title="A Meta está entregando só ${entregaPct}% da verba configurada">⚠ entregando ${entregaPct}% da verba</span>`:''}</span>
     <span style="color:#888"><b style="color:#aaa">Teto</b> (se gastar toda a verba): <b style="color:#aaa">${brl(projTeto)}</b> (${(projTetoPct*100).toFixed(0)}%)</span>
     <span style="color:#888">Orçamento: <b style="color:#aaa">${brl(budget)}</b></span>
@@ -1158,18 +1163,18 @@ function pacingSection(){
     ${projOtim?`Como a Meta está entregando só ${entregaPct}% da verba, a diferença de <b>${brl(gap)}</b> é verba parada, dinheiro disponível que não está sendo gasto.`:`A Meta está entregando perto de toda a verba configurada.`}
   </div>
   <div class="pacing-legend" style="margin-top:8px">
-    <span>Restante do orçamento: <b>${brl(Math.max(0,budget-consumed))}</b></span>
+    <span>Restante do orçamento: <b>${brl(Math.max(0,budgetLiq-consumed))}</b> líq</span>
     <span>Dias restantes: <b>${future}</b></span>
-    <span>Ritmo atual na Meta: <b>${L(daily)}/dia</b></span>
-    <span>Pra fechar (líq/dia): <b>${need>0?L(need)+'/dia':'orçamento já atingido'}</b></span>
+    <span>Ritmo atual na Meta: <b>${brl(daily)}/dia</b></span>
+    <span>Pra fechar (líq/dia): <b>${need>0?brl(need)+'/dia':'orçamento já atingido'}</b></span>
   </div>`;
   const resumo=`<div class="secsub" style="margin-bottom:10px;margin-top:16px">
     <b>${P.elapsed} de ${P.days} dias</b> decorridos (${(pctE*100).toFixed(1)}%) · consumido <b>${(pctC*100).toFixed(1)}%</b> ·
-    defasagem <b style="color:${defas<0?'#fbbf24':'#f87171'}">${defas<0?'−':'+'}${L(Math.abs(defas))}</b> (líq) vs o ritmo ideal ·
+    defasagem <b style="color:${defas<0?'#fbbf24':'#f87171'}">${defas<0?'−':'+'}${brl(Math.abs(defas))}</b> (líq) vs o ritmo ideal ·
     desvio do pacing <b style="color:${dc}">${desvio>0?'+':''}${(desvio*100).toFixed(0)}%</b>
   </div>
   <span class="pdiag" style="color:${dc};background:${dbg};border:1px solid ${dc}55">${diag}</span>
-  ${need>0?`<span class="secsub" style="margin-left:10px">Para bater o orçamento, o ritmo na Meta precisa subir de <b>${L(daily)}</b> para <b>${L(need)}</b> por dia (líq, +${((need/daily-1)*100).toFixed(0)}%) nos ${future} dias que faltam.</span>`:``}`;
+  ${need>0?`<span class="secsub" style="margin-left:10px">Para bater o orçamento, o ritmo na Meta precisa subir de <b>${brl(daily)}</b> para <b>${brl(need)}</b> por dia (líq, +${((need/daily-1)*100).toFixed(0)}%) nos ${future} dias que faltam.</span>`:``}`;
   // por segmento (consumo de junho) , empilhado por região , FONTE UNICA (aggRegion).
   // Mesma funcao que alimenta os cards de praça da secao G: nada de kpifilter divergente.
   // Denominador do H = total COMERCIAL (kpi.ALL, sem PV) pra as barras dos segmentos fecharem ~100%.
@@ -1212,13 +1217,15 @@ function pacingSection(){
     ? (`<div class="subttl" style="margin-top:24px">Consumo de ${MES_LBL} por segmento <span style="font-weight:600;text-transform:none;color:#71717a">· ${hSubHead}</span></div>${reglegend}${segs}${foraLine}`
        +`<div class="secsub" style="margin-top:12px">${hNote}</div>`)
     : "";
-  // BLOCO ORÇAMENTO (topo da seção): orçamento aprovado, já gasto (MTD bruto) e saldo disponível
-  const _gastoPct = budget>0?Math.min(consumed/budget*100,100):0;
-  const _falta = Math.max(0, budget-consumed);
+  // BLOCO ORÇAMENTO (topo da seção): tudo aqui é BRUTO, é a visão de quanto se PAGA no mês.
+  // 'consumed' chega líquido (regra de 22/jul), então volta pra bruto (×TAX) só neste bloco.
+  const _consumedBruto = consumed*TAX;
+  const _gastoPct = budget>0?Math.min(_consumedBruto/budget*100,100):0;
+  const _falta = Math.max(0, budget-_consumedBruto);
   const budgetBlock = `<div style="background:#0f0f12;border:1px solid #2b2b33;border-radius:12px;padding:16px 18px;margin-bottom:16px">
     <div style="display:flex;gap:26px;flex-wrap:wrap;align-items:flex-end">
       <div style="flex:1;min-width:140px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#8b8b93">Orçamento do mês</div><div style="font-size:24px;font-weight:800;letter-spacing:-.5px">${brl(budget)}</div></div>
-      <div style="flex:1;min-width:140px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#8b8b93">Já gasto no mês</div><div style="font-size:24px;font-weight:800;letter-spacing:-.5px">${brl(consumed)} <span style="font-size:14px;color:#8b8b93;font-weight:600">(${budget>0?(consumed/budget*100).toFixed(0):0}%)</span></div></div>
+      <div style="flex:1;min-width:140px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#8b8b93">Já gasto no mês</div><div style="font-size:24px;font-weight:800;letter-spacing:-.5px">${brl(_consumedBruto)} <span style="font-size:14px;color:#8b8b93;font-weight:600">(${budget>0?(_consumedBruto/budget*100).toFixed(0):0}%)</span></div></div>
       <div style="flex:1;min-width:140px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#8b8b93">Falta gastar</div><div style="font-size:24px;font-weight:800;letter-spacing:-.5px;color:#34d399">${brl(_falta)}</div></div>
     </div>
     <div style="height:12px;background:#1a1a1f;border-radius:7px;overflow:hidden;margin-top:14px"><div style="height:100%;width:${_gastoPct}%;background:linear-gradient(90deg,#2a78d6,#34d399);border-radius:7px"></div></div>
@@ -1345,6 +1352,33 @@ function verbaSection(){
   return budgetBox+chgTable;
 }
 // /*__ENGINE_START__*/
+// ===== UNIDADE DO DINHEIRO (decisão Rudy 22/jul) =====
+// GASTO JÁ REALIZADO (kpi, tabelas de segmento/praça/campanha/criativo, ranking, CPL/CPR) = LÍQUIDO,
+//   o valor que a Meta cobra de fato. Imposto não compra mídia, então não entra em custo por resultado.
+// DINHEIRO QUE SE PAGA (orçamento, teto, falta gastar, tendência, projeção de fim de mês) = BRUTO (×1,1215).
+// Os builders das marcas gravam o gasto em BRUTO no D (campos bruto/cpl/cpr). A conversão para líquido
+// acontece AQUI, uma única vez, logo depois que o D é carregado e antes de qualquer render. Assim todo o
+// resto do dash já lê líquido e as tabelas fecham: investimento ÷ resultado = o CPL exibido.
+// Quem precisa de bruto multiplica de volta por GROSSUP no ponto de uso (pacing e projeção).
+// IDEMPOTENTE: marca cada objeto visitado com __liq (nao enumeravel, some do Object.keys/JSON),
+// entao chamar de novo no mesmo objeto nao converte duas vezes. Isso permite aplicar tanto no D
+// quanto no ND_MAIO da one-page, que e injetado como literal separado a partir do D em disco.
+function _liqD(o,tax){
+  tax=tax||1.1215;
+  if(!o||typeof o!=="object") return o;
+  if(Array.isArray(o)){ o.forEach(x=>_liqD(x,tax)); return o; }
+  if(o.__liq) return o;
+  try{ Object.defineProperty(o,"__liq",{value:true,enumerable:false}); }catch(e){ return o; }
+  Object.keys(o).forEach(k=>{
+    const v=o[k];
+    if(typeof v==="number"){
+      // 'bruto' = gasto realizado; 'cpl'/'cpr' = custo por resultado ja calculado pelo builder.
+      // NAO tocar: 'liq' e 'spend' (ja liquidos), 'dailyLiq' (verba liq), 'budget'/'orcamento_bruto' (intencao).
+      if(k==="bruto"||k==="cpl"||k==="cpr") o[k]=Math.round(v/tax*100)/100;
+    } else _liqD(v,tax);
+  });
+  return o;
+}
 // ===== ENGINE de apontamentos (data-driven) =====
 // insights(win) -> {resumo:[...], melhorias:[...]} , cada item {tone:'ok'|'warn'|'bad', txt:'...'}
 // Regra: dado real ou nada. So inclui o bullet se o dado existir. Sem inventar.
@@ -1364,12 +1398,16 @@ function projMes(){
   const days=+P.days||31, elapsed=Math.max(1,+P.elapsed||1);
   const kJun=(D.kpi&&D.kpi.jun&&D.kpi.jun.ALL)?D.kpi.jun.ALL:{};
   const foraBr=(typeof _foraBruto==='function')?_foraBruto('jun'):0;
-  const consumed=(+kJun.bruto||0)+foraBr;                 // BRUTO investido MTD (comercial + PV/fora)
-  const budget=(typeof BUDGET!=='undefined'&&BUDGET)?BUDGET:(+P.budget||0);
-  // gasto LÍQUIDO total = comercial (kpi.liq) + PV líq , idêntico ao spend_liq do central
-  const spendCommLiq=(kJun.liq!=null?+kJun.liq:(+kJun.bruto||0)/TAX);
-  const pvBruto=(D.nd_jun&&D.nd_jun.pv&&+D.nd_jun.pv.bruto)||0;
-  const spendLiq=spendCommLiq+pvBruto/TAX;
+  // regra de 22/jul: o D ja chega LIQUIDO (_liqD), entao kpi.bruto e nd_jun.pv.bruto sao liquidos.
+  const consumed=(+kJun.bruto||0)+foraBr;                 // LIQUIDO investido MTD (comercial + PV/fora)
+  const budget=(typeof BUDGET!=='undefined'&&BUDGET)?BUDGET:(+P.budget||0);   // BRUTO (o que se paga)
+  const budgetLiq=budget/TAX;                             // teto de gasto na Meta
+  // gasto LIQUIDO total = comercial (kpi) + PV (nd_jun.pv), identico ao spend_liq do central.
+  // NAO usar 'consumed' aqui: em algumas marcas (ex.: nissan) SEG_FORA e vazio e o PV so aparece
+  // em nd_jun.pv, entao consumed nao inclui PV e a projecao ficaria menor.
+  const spendCommLiq=(+kJun.bruto||0);
+  const pvLiq=(D.nd_jun&&D.nd_jun.pv&&+D.nd_jun.pv.bruto)||0;
+  const spendLiq=spendCommLiq+pvLiq;
   // verba diária CONFIGURADA (líq) dos adsets/campanhas ACTIVE
   const ndv=(D&&Array.isArray(D.nd_verba))?D.nd_verba:[];
   const verbaLiq=r2(ndv.reduce((s,v)=>((v.status||'ACTIVE')==='ACTIVE'?s+(+v.dailyLiq||0):s),0));
@@ -1397,9 +1435,9 @@ function projMes(){
   const projOtim=(entrega!==null&&entrega<0.85);           // gap = verba configurada não entregue pela Meta
   const gap=Math.max(0,proj-projTend);
   const future=days-elapsed;
-  const daily=elapsed>0?consumed/elapsed:0;               // média diária REALIZADA (bruto), informativo
-  const need=future>0?(budget-consumed)/future:0;
-  return {TAX,days,elapsed,consumed,budget,spendLiq,verbaLiq,media3d,ritmoLiq,
+  const daily=elapsed>0?consumed/elapsed:0;               // média diária REALIZADA (líquido), informativo
+  const need=future>0?(budgetLiq-consumed)/future:0;     // LIQUIDO/dia pra fechar o orcamento
+  return {TAX,days,elapsed,consumed,budget,budgetLiq,spendLiq,verbaLiq,media3d,ritmoLiq,
           ritmoTendLiq,ritmoTendBruto:ritmoTendLiq*TAX,projTendLiq,projTend,projTendPct,gap,
           ritmoBruto:ritmoLiq*TAX,hojeLiq,fechadoLiq,projLiq,proj,projPct,
           entrega,projOtim,future,daily,need};
@@ -1418,12 +1456,13 @@ function insights(win){
   // 1) Pacing , investido vs orcamento + projecao (investido = comercial + PV/segForaTotal, mesma verba)
   const _investJun=(D.kpi&&D.kpi.jun&&D.kpi.jun.ALL?D.kpi.jun.ALL.bruto:0)+((typeof _foraBruto==="function")?_foraBruto("jun"):0);
   if(budget>0 && _investJun>0){
-    const pctC=_investJun/budget*100;
+    const _TAXi=(typeof GROSSUP!=='undefined'?GROSSUP:1.1215);
+    const pctC=_investJun/(budget/_TAXi)*100;   // liquido vs teto liquido: mesma razao, sem misturar unidade
     const _pj=projMes();
     const proj=_pj.projTend;
     const projTxt=proj>0?`, tendência de fechar em ${brl(proj)} (${(_pj.projTendPct*100).toFixed(0)}% da meta; teto pela verba cheia ${brl(_pj.proj)}${_pj.projOtim?', Meta entregando < 85% da verba ⚠':''})`:"";
     const tone = (proj>0 && (_pj.projTendPct>1.1 || _pj.projTendPct<0.9)) ? "warn" : "ok";
-    resumo.push({tone, txt:`Investiu ${brl(_investJun)} de ${brl(budget)} (${pctC.toFixed(0)}% do orçamento)${projTxt}.`});
+    resumo.push({tone, txt:`Investiu ${brl(_investJun)} na Meta, ${pctC.toFixed(0)}% do orçamento de ${brl(budget)} (com imposto)${projTxt}.`});
   }
   // 2) vs mes anterior (ND_MAIO): leads, conversas, custo
   if(hasMaio){
