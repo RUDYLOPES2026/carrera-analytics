@@ -382,20 +382,20 @@ a{color:inherit;text-decoration:none}
     <div class="ndaily-chips" data-grp="ndreg" id="ndregChips">
       <button class="active" data-ndreg="all" onclick="setNDailyReg('all')">Todas regiões</button>
     </div>
-    <div class="ndaily-chips" data-grp="ndcan">
+    <div class="ndaily-chips" data-grp="ndcan" id="ndcanChips">
       <button class="active" data-ndcan="all" onclick="setNDailyCan('all')">Todos canais</button>
       <button data-ndcan="form" onclick="setNDailyCan('form')">📝 Form</button>
       <button data-ndcan="wa" onclick="setNDailyCan('wa')">💬 WhatsApp</button>
     </div>
   </div>
   <div class="ndaily-canvas-wrap"><canvas id="nDailyChart"></canvas></div>
-  <div class="ndaily-note">Barras: R$ investido bruto (esq.) e captação = leads + conversas (dir.). Linha verde: CPL/custo por resultado bruto do dia. "Todas regiões" soma SP + Vale + Interior + Geral (campanhas multi-praça, institucional e pós-venda). Uma região mostra só Formulário + WhatsApp daquela praça.</div>
+  <div class="ndaily-note">Linha laranja: R$ investido <b>líquido</b>, o valor real que a Meta cobra (o imposto de 12,15% entra só no orçamento e na projeção de fim de mês). Barras azuis: captação = leads + conversas. Linha verde: CPL/custo por resultado do dia, também líquido. "Todos canais" = <b>total da conta</b> (comercial + institucional + pós-venda), é o número que bate com o Gerenciador da Meta e com o quadro "Ontem" do bloco Orçado × Consumido. Para ver só o comercial, use os chips Form ou WhatsApp; o chip Pós-venda isola o gasto de oficina/serviço (não tem praça, ignora o filtro de região).</div>
 </section>
 <div id="body"></div>
 <details class="geodet" style="margin-top:18px">
   <summary>📐 Regras e lógicas usadas neste dashboard</summary>
   <div style="font-size:13px;color:#a1a1aa;line-height:1.7;padding:6px 2px">
-   <b style="color:#f59e0b">Impostos (gross-up 12,15%)</b> , a API retorna o gasto líquido (só mídia); todo R$ aqui é BRUTO = líquido × 1,1215 (PIS/Cofins 9,25% + ISS 2,9%). É o número que bate com o orçamento da Carrera.<br>
+   <b style="color:#f59e0b">Impostos (gross-up 12,15%)</b> , a API retorna o gasto líquido (só mídia); BRUTO = líquido × 1,1215 (PIS/Cofins 9,25% + ISS 2,9%), que é o número que bate com o orçamento da Carrera. Onde cada um aparece: <b>orçamento, teto e projeção de fim de mês em BRUTO</b> (é o que se paga); <b>gasto do dia, ideal do dia e a Evolução diária em LÍQUIDO</b> (é o que a Meta cobra e o que se coloca na conta), conforme o modelo definido em 16/jul.<br>
    <b style="color:#f59e0b">Métricas</b> , Leads = formulários (lead_grouped); Conversas = conversas iniciadas no WhatsApp (7 dias); Resultado = leads + conversas. Custo/resultado = bruto ÷ resultado.<br>
    <b style="color:#f59e0b">Segmento</b> , Novos / Seminovos / Venda Direta pela nomenclatura da campanha (_NV_ / _SN_ / _VD_). WhatsApp de modelos e campanhas institucionais entram em Novos. Pós-venda (PV) fica fora (serviço/oficina, não 0km).<br>
    <b style="color:#f59e0b">Região</b> , São Paulo / Vale / Interior pela nomenclatura da campanha ou do adset (_SP_ / _VL_ / _INT_). Os big numbers por região somam Formulário/Catálogo + WhatsApp daquela região e usam a janela de 30 dias.<br>
@@ -1068,14 +1068,17 @@ function actsSection(){
   return `<div class="acts">${list.map(a=>`<div class="act ${a[0]}"><div class="tag">${a[1]}</div><h4>${a[2]}</h4><p>${a[3]}</p><div class="do"><b>Sugestão:</b> ${a[4]}</div></div>`).join("")}</div>`;
 }
 
-// Ontem (D-1) real: ultimo dia FECHADO da serie N_DAILY (mes fechado, dia 30). Soma bruto de todos os buckets.
+// Ontem (D-1) real: ultimo dia FECHADO da serie N_DAILY. Soma TODOS os buckets (inclui PV, ver nota abaixo).
 function _ndYesterday(){
   try{
     if(typeof N_DAILY==="undefined"||!N_DAILY.length) return null;
     // ultimo dia fechado = penultimo registro (dia corrente ainda parcial)
     const r=N_DAILY[N_DAILY.length-2]; if(!r) return null;
-    // GENERICO: soma o spend de TODOS os buckets do dia (praça×canal OU form/wa/aux), menos PV (fora do total comercial).
-    let liq=0; Object.keys(r).forEach(k=>{ if(k==="date"||k==="pv") return; const v=r[k]; if(v&&typeof v==="object"&&typeof v.spend==="number") liq+=v.spend; });
+    // GENERICO: soma o spend de TODOS os buckets do dia (praça×canal OU form/wa/aux), INCLUSIVE PV.
+    // PV entra porque este quadro e de VERBA consumida, nao de resultado comercial: o 'consumed' e a
+    // media diaria do pacing (com que este numero se compara) tambem incluem PV (_foraBruto). Ate
+    // 21/jul o PV ficava de fora aqui e a seta "vs media diaria" comparava bases diferentes.
+    let liq=0; Object.keys(r).forEach(k=>{ if(k==="date") return; const v=r[k]; if(v&&typeof v==="object"&&typeof v.spend==="number") liq+=v.spend; });
     return {date:r.date, bruto:liq*(typeof N_TAX!=="undefined"?N_TAX:1.1215)};
   }catch(e){return null;}
 }
@@ -1815,19 +1818,30 @@ window.addEventListener("DOMContentLoaded",function(){buildFilters();render();})
 const N_DAILY=(D && Array.isArray(D.n_daily) && D.n_daily.length) ? D.n_daily : [];
 const N_TAX=1.1215;
 let N_DREG="all",N_DCAN="all";
-// soma os buckets ativos por dia, devolve {inv (bruto), capt, cpl}
+// soma os buckets ativos por dia, devolve {inv (LIQUIDO), invBruto, capt, cpl (liq)}
+// MODELO imposto (Rudy 16/jul): gasto do DIA = LIQUIDO (valor real na Meta). O bruto (x1,1215)
+// fica so no tooltip e na projecao/orcamento. Ate 21/jul essa serie saia em bruto (residuo da
+// conversao de 16/jul) e nao batia com o quadro "Ontem" do pacing nem com o Gerenciador.
 function _nPick(r){
-  // MODO SEM REGIÃO: buckets por canal no topo do registro (form/wa/aux). Sem praça.
+  // PV e um CANAL do filtro (chip "Pos-venda"), nao tem praça: ignora a regiao selecionada.
+  if(N_DCAN==="pv"){
+    const p=r.pv, spend=p?(p.spend||0):0, capt=p?((p.leads||0)+(p.conv||0)):0;
+    return {inv:Math.round(spend),invBruto:Math.round(spend*N_TAX),capt,cpl:capt?+(spend/capt).toFixed(2):0};
+  }
+  // MODO SEM REGIÃO: buckets por canal no topo do registro (form/wa/aux/pv). Sem praça.
   if(typeof HASREGION!=="undefined" && !HASREGION){
     const wantF=(N_DCAN==="all"||N_DCAN==="form"), wantW=(N_DCAN==="all"||N_DCAN==="wa");
     let parts=[];
     if(wantF&&r.form)parts.push(r.form);
     if(wantW&&r.wa)parts.push(r.wa);
-    if(N_DCAN==="all"&&r.aux)parts.push(r.aux); // auxiliares só no total de canais
+    // "Todos canais" = TOTAL DA CONTA (auxiliares/institucional + pos-venda), pra reconciliar
+    // com o Gerenciador da Meta e com o quadro "Ontem" do pacing. Comercial puro = chip Form ou WhatsApp.
+    if(N_DCAN==="all"&&r.aux)parts.push(r.aux);
+    if(N_DCAN==="all"&&r.pv)parts.push(r.pv);
     const spend=parts.reduce((a,p)=>a+(p?p.spend:0),0);
     const capt=parts.reduce((a,p)=>a+(p?((p.leads||0)+(p.conv||0)):0),0);
-    const inv=spend*N_TAX;
-    return {inv:Math.round(inv),capt,cpl:capt?+(inv/capt).toFixed(2):0};
+    const inv=spend;  // LIQUIDO
+    return {inv:Math.round(inv),invBruto:Math.round(inv*N_TAX),capt,cpl:capt?+(inv/capt).toFixed(2):0};
   }
   // buckets reais por regiao x canal + institucional/pos-venda (residual so no total).
   // Generico: le as regioes da marca (REG_ALL = praças + G). Bucket keys = <reg minuscula>_form / _wa.
@@ -1846,8 +1860,8 @@ function _nPick(r){
   if(N_DREG==="all"&&N_DCAN==="all"){if(r.inst)parts.push(r.inst);if(r.pv)parts.push(r.pv);}
   const spend=parts.reduce((a,p)=>a+(p?p.spend:0),0);
   const capt=parts.reduce((a,p)=>a+(p?(p.leads+p.conv):0),0);
-  const inv=spend*N_TAX;
-  return {inv:Math.round(inv),capt,cpl:capt?+(inv/capt).toFixed(2):0};
+  const inv=spend;  // LIQUIDO
+  return {inv:Math.round(inv),invBruto:Math.round(inv*N_TAX),capt,cpl:capt?+(inv/capt).toFixed(2):0};
 }
 let _nDailyChart=null;
 function _renderNDaily(){
@@ -1871,21 +1885,22 @@ function _renderNDaily(){
   const tEl=document.getElementById("ndailyTitle"); if(tEl) tEl.textContent="📈 Evolução diária · "+winTitle;
   const sEl=document.getElementById("ndailySub"); if(sEl){
     const janlbl=(curWin==="30d")?"Janela móvel dos últimos 30 dias corridos.":(MNM+(isMTD?" (parcial, MTD)":" (fechado)")+".");
-    sEl.textContent="Investimento (bruto) x captação (leads + conversas) por dia e a linha de custo por resultado (CPL). "+janlbl+" Segue o filtro de período (mês corrente ou 30 dias). Filtre por região e canal nos chips abaixo.";
+    sEl.textContent="Investimento (líquido, o valor real que a Meta cobra) x captação (leads + conversas) por dia e a linha de custo por resultado (CPL, líquido). "+janlbl+" O imposto de 12,15% entra só no orçamento e na projeção de fim de mês (blocos de pacing). Segue o filtro de período (mês corrente ou 30 dias). Filtre por região e canal nos chips abaixo.";
   }
   const labels=rows.map(x=>x.date.slice(8));
   const ser=rows.map(x=>_nPick(x));
   const data={labels,datasets:[
-    {type:"line",label:"Investimento (R$ bruto)",data:ser.map(x=>x.inv),borderColor:"#f59e0b",backgroundColor:"rgba(245,158,11,.13)",yAxisID:"yR",tension:0.3,borderWidth:2.5,pointRadius:2,fill:true,order:2},
+    {type:"line",label:"Investimento (R$ líquido na Meta)",data:ser.map(x=>x.inv),borderColor:"#f59e0b",backgroundColor:"rgba(245,158,11,.13)",yAxisID:"yR",tension:0.3,borderWidth:2.5,pointRadius:2,fill:true,order:2},
     {type:"bar",label:"Captação (leads + conversas)",data:ser.map(x=>x.capt),backgroundColor:"#3b82f6",yAxisID:"yC",order:3},
-    {type:"line",label:"CPL/custo por resultado (R$)",data:ser.map(x=>x.cpl),borderColor:"#10b981",backgroundColor:"#10b981",yAxisID:"yCpl",tension:0.3,borderWidth:2,pointRadius:3,order:1}
+    {type:"line",label:"CPL/custo por resultado (R$ líq)",data:ser.map(x=>x.cpl),borderColor:"#10b981",backgroundColor:"#10b981",yAxisID:"yCpl",tension:0.3,borderWidth:2,pointRadius:3,order:1}
   ]};
   const opts={responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
     plugins:{legend:{labels:{color:"#d4d4d8",font:{size:11}}},
       tooltip:{callbacks:{label:c=>{
-        if(c.dataset.yAxisID==="yR")return " Invest: R$ "+c.parsed.y.toLocaleString("pt-BR");
+        if(c.dataset.yAxisID==="yR"){const b=(ser[c.dataIndex]&&ser[c.dataIndex].invBruto)||0;
+          return " Invest: R$ "+c.parsed.y.toLocaleString("pt-BR")+" líq (R$ "+b.toLocaleString("pt-BR")+" c/ imposto)";}
         if(c.dataset.yAxisID==="yC")return " Captacao: "+c.parsed.y;
-        return " CPL: R$ "+c.parsed.y.toFixed(2).replace(".",",");}}}},
+        return " CPL: R$ "+c.parsed.y.toFixed(2).replace(".",",")+" líq";}}}},
     scales:{x:{ticks:{color:"#a1a1aa"},grid:{color:"#1a1a1a"}},
       yR:{position:"left",ticks:{color:"#f59e0b",callback:v=>"R$"+(v/1000).toFixed(1)+"k"},grid:{color:"#1a1a1a"}},
       yC:{position:"right",ticks:{color:"#3b82f6"},grid:{display:false}},
@@ -1904,9 +1919,19 @@ function _buildNDailyRegChips(){
   regs.forEach(rg=>{ const nm=nom[rg]||rg; html+='<button data-ndreg="'+rg+'" onclick="setNDailyReg(\''+rg+'\')">📍 '+nm+'</button>'; });
   wrap.innerHTML=html;
 }
+// chip de PV so aparece se a marca tem gasto de pos-venda na serie (nas outras nao polui o filtro)
+const HAS_PV_DAILY=N_DAILY.some(r=>r.pv&&(r.pv.spend||0)>0);
+function _buildNDailyCanChips(){
+  const wrap=document.getElementById("ndcanChips");
+  if(!wrap||!HAS_PV_DAILY)return;
+  wrap.innerHTML='<button class="active" data-ndcan="all" onclick="setNDailyCan(\'all\')">Todos canais</button>'
+    +'<button data-ndcan="form" onclick="setNDailyCan(\'form\')">📝 Form</button>'
+    +'<button data-ndcan="wa" onclick="setNDailyCan(\'wa\')">💬 WhatsApp</button>'
+    +'<button data-ndcan="pv" onclick="setNDailyCan(\'pv\')">🔧 Pós-venda</button>';
+}
 function setNDailyReg(r){N_DREG=r;document.querySelectorAll("[data-ndreg]").forEach(b=>b.classList.toggle("active",b.dataset.ndreg===r));_renderNDaily();}
 function setNDailyCan(c){N_DCAN=c;document.querySelectorAll("[data-ndcan]").forEach(b=>b.classList.toggle("active",b.dataset.ndcan===c));_renderNDaily();}
-function _initNDaily(){_buildNDailyRegChips();_renderNDaily();}
+function _initNDaily(){_buildNDailyRegChips();_buildNDailyCanChips();_renderNDaily();}
 if(document.readyState!=="loading")_initNDaily();else window.addEventListener("DOMContentLoaded",_initNDaily);
 </script>
 </body></html>
