@@ -48,9 +48,33 @@ def main():
     ctx = common.make_ctx()
     print(f"== run_daily {ctx['iso']} | mtd {ctx['mtd'][0]}..{ctx['mtd'][1]} | "
           f"30d {ctx['d30'][0]}..{ctx['d30'][1]} | repull {ctx['closed_days']} ==")
+    def poda_dias_futuros(slug):
+        """Remove da serie diaria do <slug>_D.json qualquer dia POSTERIOR a hoje.
+
+        Motivo (22/jul): ate 21/jul o job da nuvem rodava em UTC, entao os runs entre 21h e
+        meia-noite BRT gravavam uma linha com a data de amanha. Com o job em BRT o merge de
+        cada marca bate no assert 'n_daily tem que terminar hoje' e a marca falha. A poda
+        limpa o residuo e, de quebra, deixa o ciclo imune a qualquer descompasso de relogio.
+        """
+        p = os.path.join(HERE, "data", f"{slug}_D.json")
+        if not os.path.exists(p):
+            return
+        import json
+        D = json.load(open(p, encoding="utf-8"))
+        nd = D.get("n_daily")
+        if not isinstance(nd, list):
+            return
+        limpo = [r for r in nd if r.get("date", "") <= ctx["iso"]]
+        if len(limpo) != len(nd):
+            futuros = [r.get("date") for r in nd if r.get("date", "") > ctx["iso"]]
+            D["n_daily"] = limpo
+            json.dump(D, open(p, "w", encoding="utf-8"), ensure_ascii=False)
+            print(f"[poda] {slug}: removido(s) dia(s) no futuro {futuros} (hoje={ctx['iso']})")
+
     def process(slug):
         try:
             mod = importlib.import_module(f"brands.{slug}")
+            poda_dias_futuros(slug)
             mod.refresh(api, ctx)
             if getattr(mod, "GENERIC", slug in GENERIC_ASSEMBLE):
                 run([sys.executable, "_assemble_brand.py", slug])
