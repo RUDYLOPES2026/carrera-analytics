@@ -354,7 +354,7 @@ TEMPLATE = r"""<!doctype html>
     <div class="chartbox"><div class="t">Participação de cada marca no investimento do grupo (bruto)</div><canvas id="cShare" height="220"></canvas></div>
   </div>
 
-  <h2>Mix de canal , Formulário x WhatsApp <span class="h">investimento BRUTO do mês, por marca</span></h2>
+  <h2>Mix de canal , Formulário x WhatsApp <span class="h" id="mixh">investimento BRUTO do mês, por marca</span></h2>
   <div class="chartbox"><canvas id="cMix" height="140"></canvas></div>
 
   <footer id="foot"></footer>
@@ -484,15 +484,47 @@ new Chart(document.getElementById("cShare"),{type:"doughnut",
     plugins:{legend:{position:"right",labels:{boxWidth:10,boxHeight:10,padding:8}},
       tooltip:{callbacks:{label:c=>c.label+": "+BRL(c.parsed)+" ("+(c.parsed/G.spend_tot*100).toFixed(0)+"%)"}}}}});
 
-// mix Form x WhatsApp (stacked)
+// mix Form x WhatsApp (stacked) , com o % de cada canal dentro da barra
 const bm=P.brands.slice().sort((a,b)=>(b.form_b+b.wa_b)-(a.form_b+a.wa_b));
+const mixTot=(i)=>((bm[i]&&bm[i].form_b)||0)+((bm[i]&&bm[i].wa_b)||0);
+// subtitulo do bloco: mix do GRUPO inteiro
+(function(){
+  const t=(G.form_b||0)+(G.wa_b||0);
+  if(!t) return;
+  document.getElementById("mixh").textContent =
+    "investimento BRUTO do mês, por marca · no grupo: Formulário "
+    +Math.round(G.form_b/t*100)+"% ("+BRL(G.form_b)+") · WhatsApp "
+    +Math.round(G.wa_b/t*100)+"% ("+BRL(G.wa_b)+")";
+})();
+// plugin inline (sem dependencia externa): escreve o % dentro de cada pedaco.
+// Só desenha se o pedaço tiver altura pra caber o texto, senão fica ilegível.
+const mixPct={id:"mixPct",afterDatasetsDraw(ch){
+  const ctx=ch.ctx; ctx.save();
+  ctx.font='700 11px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif';
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ch.data.datasets.forEach((ds,di)=>{
+    ch.getDatasetMeta(di).data.forEach((el,i)=>{
+      const v=ds.data[i]||0, tot=mixTot(i);
+      if(!tot||v<=0) return;
+      const h=Math.abs((el.base!=null?el.base:el.y)-el.y);
+      if(h<15) return;
+      ctx.fillStyle="rgba(255,255,255,.95)";
+      ctx.fillText(Math.round(v/tot*100)+"%", el.x, (el.y+el.base)/2);
+    });
+  });
+  ctx.restore();
+}};
 new Chart(document.getElementById("cMix"),{type:"bar",
   data:{labels:bm.map(b=>b.nome),datasets:[
     {label:"Formulário",data:bm.map(b=>b.form_b),backgroundColor:"#2a78d6",stack:"s"},
     {label:"WhatsApp",data:bm.map(b=>b.wa_b),backgroundColor:"#1baf7a",stack:"s"}]},
+  plugins:[mixPct],
   options:{responsive:true,
     plugins:{legend:{position:"bottom",labels:{boxWidth:10,boxHeight:10}},
-      tooltip:{callbacks:{label:c=>c.dataset.label+": "+BRL(c.parsed.y||0)}}},
+      tooltip:{callbacks:{label:c=>{
+        const t=mixTot(c.dataIndex), v=c.parsed.y||0;
+        return c.dataset.label+": "+BRL(v)+(t?" ("+Math.round(v/t*100)+"% do mix da marca)":"");
+      }}}},
     scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:GRID,ticks:{callback:v=>"R$"+(v/1000)+"k"}}}}});
 
 document.getElementById("foot").innerHTML =
