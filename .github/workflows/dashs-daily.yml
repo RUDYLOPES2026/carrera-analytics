@@ -28,6 +28,11 @@ concurrency:
 jobs:
   refresh-build-deploy:
     runs-on: ubuntu-latest
+    # runner roda em UTC: entre 21h e meia-noite BRT o date.today() do Python (e o date do
+    # shell) ja virava o dia seguinte e o dash saia carimbado com a data de amanha. Fixar o
+    # fuso no job resolve de uma vez o carimbo, o nome do arquivo e a janela de datas do harvest.
+    env:
+      TZ: America/Sao_Paulo
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -57,10 +62,29 @@ jobs:
           if git diff --cached --quiet; then
             echo "nada pra commitar"; exit 0
           fi
-          git commit -m "dashs: refresh diário $(date -u +%F) [skip ci]"
+          MSG="dashs: refresh diário $(date +%F) [skip ci]"
+          BASE_SHA=$(git rev-parse HEAD)    # main de onde este run partiu (antes do nosso commit)
+          git commit -m "$MSG"
           for i in 1 2 3 4 5; do
             git push origin main && break
-            git pull --rebase --autostash origin main
+            # Alguem commitou enquanto o refresh rodava. NAO usar pull --rebase aqui: HTML
+            # gerado nunca mescla, da conflito em todo client/public e o job morre (foi o que
+            # derrubou o cron das 19h em 21/jul). Em vez disso: adota o main atual como base e
+            # mantem por cima SO o que acabamos de gerar. Quem chegou primeiro fica intacto.
+            echo "push rejeitado (tentativa $i), refazendo o commit sobre o main atual"
+            git fetch origin main
+            NOVA_BASE=$(git rev-parse FETCH_HEAD)
+            git reset --soft "$NOVA_BASE"
+            git restore --source="$NOVA_BASE" --staged --worktree -- . \
+              ':(exclude)dashs-motor/data' ':(exclude)client/public'
+            git add dashs-motor/data client/public
+            git commit -m "$MSG" || true
+            # o gerador mudou embaixo de nos? entao este build saiu do template antigo:
+            # marca rebuild pro passo de redisparo (senao o site fica 1 run defasado).
+            if git diff --name-only "$BASE_SHA" "$NOVA_BASE" -- dashs-motor ':(exclude)dashs-motor/data' | grep -q .; then
+              echo "gerador mudou no main durante o run -> vai precisar de rebuild"
+              echo "REBUILD_NEEDED=true" >> "$GITHUB_ENV"
+            fi
           done
 
       # 3) build do site (Vite copia client/public) + deploy Pages
@@ -85,6 +109,9 @@ jobs:
         run: |
           if python3 -c "import json,sys; sys.exit(0 if json.load(open('dashs-motor/data/_last_run.json')).get('fail') else 1)"; then
             echo "marca(s) ainda com falha -> redisparando dashs-daily (retry=true)"
+            gh workflow run dashs-daily.yml -R "${{ github.repository }}" -f retry=true
+          elif [ "${REBUILD_NEEDED:-}" = "true" ]; then
+            echo "gerador mudou durante o run -> redisparando pra reconstruir com o template novo"
             gh workflow run dashs-daily.yml -R "${{ github.repository }}" -f retry=true
           else
             echo "sem falhas remanescentes, sem redisparo"
