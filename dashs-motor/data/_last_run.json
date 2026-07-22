@@ -1,15 +1,16 @@
 {
- "quando": "2026-07-22T01:54:47Z",
+ "quando": "2026-07-22T02:28:32Z",
  "ok": [
-  "nissan",
   "bajaj",
-  "chevrolet_sp",
   "chevrolet_bsb",
-  "omoda",
-  "seminovos_sp",
   "gac",
   "gwm",
   "vw"
  ],
- "fail": {}
+ "fail": {
+  "nissan": "AssertionError: 2026-07-22",
+  "chevrolet_sp": "AssertionError: 2026-07-22",
+  "omoda": "AssertionError: n_daily deve terminar 2026-07-21, veio 2026-07-22",
+  "seminovos_sp": "AssertionError: n_daily precisa terminar em 2026-07-21, terminou em 2026-07-22"
+ }
 }
