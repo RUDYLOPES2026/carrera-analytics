@@ -391,6 +391,10 @@ def refresh(api, ctx):
     # nd_verba: adsets ATIVOS com daily_budget (mesma estrutura; note_verba preservada)
     base["nd_verba"] = _nd_verba(api, h["adsets"])
 
+    # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia), para o comparativo
+    # MoM nao misturar MTD com mes anterior inteiro
+    base["nd_mom_sp"] = common.mom_sp_block(build_agg(h["adset_mom_sp"]), COMM, ctx)
+
     common.jdump(f"{SLUG}_D.json", base)
 
     # ---------- prints de conferencia (mesmo espirito do legado) ----------

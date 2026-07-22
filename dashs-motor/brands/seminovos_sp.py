@@ -313,6 +313,9 @@ def refresh(api, ctx):
                     f"MTD 01-{today.day:02d}/{today.month:02d}). Catálogo, Remarketing e "
                     f"Engajamento como canais auxiliares. Dados de "
                     f"{today.day:02d}/{today.month:02d}/{today.year}.")
+    # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia). SN nao tem nd_maio
+    # (mes anterior inteiro), entao esse passa a ser o unico comparativo, e real.
+    D["nd_mom_sp"] = common.mom_sp_block(_agg_rows(h["adset_mom_sp"]), ("SN",), ctx)
     common.jdump(DFILE, D)  # jdump já remove em/en-dash
 
     # resumo + reconciliação com o gasto da conta (30d)

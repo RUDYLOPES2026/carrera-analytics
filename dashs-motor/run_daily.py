@@ -47,7 +47,9 @@ def main():
     slugs = args or BRANDS
     ctx = common.make_ctx()
     print(f"== run_daily {ctx['iso']} | mtd {ctx['mtd'][0]}..{ctx['mtd'][1]} | "
-          f"30d {ctx['d30'][0]}..{ctx['d30'][1]} | repull {ctx['closed_days']} ==")
+          f"30d {ctx['d30'][0]}..{ctx['d30'][1]} | "
+          f"mom mesmo periodo {ctx['mom_sp'][0]}..{ctx['mom_sp'][1]} ({ctx['mom_sp_dias']}d) | "
+          f"repull {ctx['closed_days']} ==")
     def poda_dias_futuros(slug):
         """Remove da serie diaria do <slug>_D.json qualquer dia POSTERIOR a hoje.
 

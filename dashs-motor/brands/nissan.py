@@ -485,6 +485,9 @@ def refresh(api, ctx):
         verba.sort(key=lambda x: -x["dailyLiq"])
         base["nd_verba"] = verba
 
+    # ---- nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia) ----
+    base["nd_mom_sp"] = common.mom_sp_block(build_agg(h["adset_mom_sp"]), COMM, ctx)
+
     # ---- grava (jdump ja troca em/en-dash) ----
     common.jdump(f"{SLUG}_D.json", base)
 

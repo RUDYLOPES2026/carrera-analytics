@@ -519,6 +519,23 @@ const MOMNM = (D && D.mom_nome) || "o mês anterior";        // ex.: "Junho"
 const MESNM_LC = MESNM.toLowerCase();                        // "julho"
 const MOMNM_LC = MOMNM.toLowerCase();                        // "junho"
 const VS_MOM = "vs "+MOMNM_LC;                              // "vs junho"
+// ===== BASE DE COMPARACAO MoM (decisao Rudy 22/07/2026) =====
+// So se compara janela do MESMO tamanho. O mes corrente e PARCIAL (ex.: 1 a 22),
+// entao nao pode ser confrontado com o mes anterior INTEIRO: a queda apareceria
+// so por causa dos dias que faltam.
+//   janela "mes corrente" (MTD, N dias) -> D.nd_mom_sp = os MESMOS N dias do mes anterior
+//   janela "30 dias"                    -> ND_MAIO     = mes anterior inteiro (~30 dias)
+// D.nd_mom_sp vem do refresh (common.mom_sp_block) e ja passou pelo _liqD(D).
+const ND_MOMSP = (D && D.nd_mom_sp && D.nd_mom_sp.total) ? D.nd_mom_sp : null;
+const MOMSP_PER = ND_MOMSP ? (ND_MOMSP.periodo||"") : "";   // ex.: "1 a 22 de junho"
+// ND_MAIO tem literal de fallback no template (retrocompat Nissan): marca sem nd_maio
+// no proprio D (ex.: Seminovos) NAO pode usar esse literal, senao compara com a Nissan.
+const HAS_MAIO = !!(D && D.nd_maio && D.nd_maio.total);
+const MAIO = HAS_MAIO ? ND_MAIO : null;
+function momBase(win){ return (win==="30d" || !ND_MOMSP) ? MAIO : ND_MOMSP; }
+function momLbl(win){
+  return (win==="30d" || !ND_MOMSP) ? MOMNM : MOMNM+" (1 a "+ND_MOMSP.dias+")";
+}
 // dia/mes final da janela do mes corrente (pra rotulos "/07" e "05/07"): le D.pacing.asof (dd/mm) ou D.gerado.
 const _MMDD=(function(){
   if(D && D.pacing && /^\d{2}\/\d{2}$/.test(D.pacing.asof||"")) return D.pacing.asof;
@@ -587,13 +604,14 @@ function kpiCanal(seg,reg,win,canal){
   list.forEach(a=>{bruto+=a.bruto||0;leads+=a.leads||0;conv+=a.conv||0;res+=a.res||0;});
   return {bruto,leads,conv,res,ads:list.length};
 }
-function _momDelta(cur,prev,higherBetter){
+function _momDelta(cur,prev,higherBetter,lbl){
   if(prev==null||prev<=0||cur==null) return "";
+  const vs = lbl || VS_MOM;   // ex.: "vs junho (1 a 22)" quando a base e o mesmo periodo
   const d=(cur-prev)/prev*100, ad=Math.abs(d);
-  if(ad<0.5) return ' <span style="color:#8b8b93;font-weight:700">~ '+VS_MOM+'</span>';
+  if(ad<0.5) return ' <span style="color:#8b8b93;font-weight:700">~ '+vs+'</span>';
   const good = higherBetter ? d>0 : d<0;
   const col = good?"#34d399":"#f87171", arrow=d>0?"▲":"▼";
-  return ' <span style="color:'+col+';font-weight:700">'+arrow+' '+ad.toFixed(0)+'% '+VS_MOM+'</span>';
+  return ' <span style="color:'+col+';font-weight:700">'+arrow+' '+ad.toFixed(0)+'% '+vs+'</span>';
 }
 function kpiCards(){
   // CANAL setado: KPIs do topo agregam D.ads filtrado por SEG+REG+CANAL (fonte unica)
@@ -637,12 +655,15 @@ function kpiCards(){
   const perlbl = WIN==="30d" ? "30 dias" : MESNM;
   const altlbl = WIN==="30d" ? MESNM_LC : "30 dias";
   const alt = kpiFor(SEG,WIN==="30d"?"jun":"30d");
-  // Comparativo vs mes anterior (maio): so na visao de Junho, sem filtro de regiao/canal (mes vs mes limpo)
-  const _M = (typeof ND_MAIO!=="undefined") ? (SEG==="ALL"?ND_MAIO.total:(ND_MAIO.seg&&ND_MAIO.seg[SEG])) : null;
+  // Comparativo vs mes anterior: sem filtro de regiao/canal (mes vs mes limpo) e
+  // sempre contra a janela do MESMO tamanho (momBase: MTD -> mesmo periodo; 30d -> mes inteiro)
+  const _MB = momBase(WIN);
+  const _M = _MB ? (SEG==="ALL"?_MB.total:(_MB.seg&&_MB.seg[SEG])) : null;
   const _cmp = _M && CANAL==="all" && REG==="ALL";
-  const _dLeads = _cmp?_momDelta(k.leads,_M.leads,true):"";
-  const _dConv  = _cmp?_momDelta(k.conv,_M.conv,true):"";
-  const _dCusto = _cmp?_momDelta(res?k.bruto/res:0,_M.cpl,false):"";
+  const _vsl = "vs "+momLbl(WIN).toLowerCase();
+  const _dLeads = _cmp?_momDelta(k.leads,_M.leads,true,_vsl):"";
+  const _dConv  = _cmp?_momDelta(k.conv,_M.conv,true,_vsl):"";
+  const _dCusto = _cmp?_momDelta(res?k.bruto/res:0,_M.cpl,false,_vsl):"";
   return `<div class="taxnote">💰 <b>Todos os valores em R$ já incluem impostos</b> , é o BRUTO (gasto de mídia + 12,15%: PIS/Cofins 9,25% + ISS 2,9%). É o número que bate com o orçamento da Carrera. Topo seguindo o filtro: <b>${perlbl}</b> · <b>${SEGN[SEG]}</b>.</div>
   <div class="kpis">
    <div class="kpi"><div class="l">Investimento · ${perlbl} <span class="taxtag">c/ imposto</span></div><div class="v gold">${brl(k.bruto)}</div><div class="s">bruto · ${SEGN[SEG]} · ${altlbl}: ${brl(alt.bruto)}</div></div>
@@ -1233,8 +1254,9 @@ function pacingSection(){
   </div>`;
   return budgetBlock+kpis+bar+resumo+secaoH;
 }
-// ===== MoM: Junho fechado (D.kpi.jun, consistente com KPIs do topo) vs Maio fechado (ND_MAIO) =====
-function _momCard(lbl,maiVal,junVal,fmt,lowerBetter){
+// ===== MoM: mes corrente MTD (D.kpi.jun, consistente com KPIs do topo) vs o MESMO
+// PERIODO do mes anterior (ND_MOMSP). Mes anterior inteiro fica so como referencia. =====
+function _momCard(lbl,maiVal,junVal,fmt,lowerBetter,maiLbl){
   const maiF=fmt(maiVal), junF=fmt(junVal);
   let dcls="neutral",arrow="•",word="estável",pct=0;
   if(maiVal>0){pct=(junVal/maiVal-1)*100;
@@ -1243,35 +1265,57 @@ function _momCard(lbl,maiVal,junVal,fmt,lowerBetter){
     else if(better){dcls="up";arrow=lowerBetter?"▼":"▲";word="melhorou";}
     else {dcls="down";arrow=lowerBetter?"▲":"▼";word="piorou";}
   }
+  // base zerada: nao existe % (dividir por zero). "novo" quando so o mes corrente tem numero.
+  const semBase = !(maiVal>0);
+  const deltaTxt = semBase
+    ? (junVal>0 ? "• novo em "+MESNM_LC : "• sem base")
+    : `${arrow} ${pct>0?'+':''}${pct.toFixed(1).replace(".",",")}% · ${word}`;
   return `<div class="mom-card"><div class="lbl">${lbl}</div>
-    <div class="row"><span class="mai-lbl">${MOMNM}</span><span class="mai-val">${maiF}</span></div>
-    <div class="row"><span class="jun-lbl">${MESNM}</span><span class="jun-val">${junF}</span></div>
-    <div class="delta ${dcls}">${arrow} ${pct>0?'+':''}${pct.toFixed(1)}% · ${word}</div></div>`;
+    <div class="row"><span class="mai-lbl">${maiLbl||MOMNM}</span><span class="mai-val">${maiF}</span></div>
+    <div class="row"><span class="jun-lbl">${_MOM_JLBL||MESNM}</span><span class="jun-val">${junF}</span></div>
+    <div class="delta ${dcls}">${deltaTxt}</div></div>`;
 }
+let _MOM_JLBL="";   // rotulo da linha do mes corrente dentro do _momCard
 function momSection(){
-  const J=D.kpi.jun, M=ND_MAIO;
+  // Base do comparativo = MESMO PERIODO do mes anterior (1 ao mesmo dia). O mes
+  // anterior INTEIRO entra so como linha de referencia no rodape de cada bloco.
+  const SP=!!ND_MOMSP;
+  const J=D.kpi.jun, M=SP?ND_MOMSP:MAIO;
+  if(!M) return `<div class="taxnote">Sem base do mês anterior para esta conta.</div>`;
+  const dias=SP?ND_MOMSP.dias:0;
+  const mLbl=SP?(MOMNM+" (1 a "+dias+")"):MOMNM;
+  _MOM_JLBL=SP?(MESNM+" (1 a "+dias+")"):MESNM;
   const jTot=J.ALL, jRes=jTot.leads+jTot.conv, jCpl=jRes?jTot.bruto/jRes:0;
   const mTot=M.total;
   const cards=[];
+  // rodape "mes anterior fechou em": so faz sentido quando a base e o periodo parcial
+  const _full=(f)=>{
+    if(!SP||!f||!f.bruto)return "";
+    const r=f.res!=null?f.res:(f.leads||0)+(f.conv||0);
+    return `<div style="font-size:12px;color:#8b8b93;margin-top:10px">Referência: ${MOMNM_LC} fechou o mês em ${brl(f.bruto)} · ${nfmt(r)} resultados${f.cpl?" · "+brl2(f.cpl)+"/resultado":""}.</div>`;
+  };
   const totLbl=SEG_TOTAL.join(" + ")+(SEG_FORA.length?" · "+SEG_FORA.map(s=>(SEGN[s]||s).toLowerCase()).join("/")+" fora":"");
   cards.push(`<div class="momblock"><div class="momttl">Total da conta (${totLbl})</div><div class="mom-grid">`
-    +_momCard("Investimento bruto",mTot.bruto,jTot.bruto,brl,false)
-    +_momCard("Resultado (leads+conv)",mTot.res,jRes,nfmt,false)
-    +_momCard("CPL / resultado",mTot.cpl,jCpl,brl2,true)
-    +_momCard("Leads (formulário)",mTot.leads,jTot.leads,nfmt,false)
-    +`</div></div>`);
+    +_momCard("Investimento bruto",mTot.bruto,jTot.bruto,brl,false,mLbl)
+    +_momCard("Resultado (leads+conv)",mTot.res,jRes,nfmt,false,mLbl)
+    +_momCard("CPL / resultado",mTot.cpl,jCpl,brl2,true,mLbl)
+    +_momCard("Leads (formulário)",mTot.leads,jTot.leads,nfmt,false,mLbl)
+    +`</div>${_full(MAIO&&MAIO.total)}</div>`);
   SEG_TOTAL.forEach(s=>{
     const j=J[s]||{bruto:0,leads:0,conv:0}, m=M.seg&&M.seg[s];
     if(!m)return;
     const jr=j.leads+j.conv, jc=jr?j.bruto/jr:0;
     cards.push(`<div class="momblock"><div class="momttl" style="color:${SEGCOL[s]}">${SEGN[s]}</div><div class="mom-grid">`
-      +_momCard("Investimento bruto",m.bruto,j.bruto,brl,false)
-      +_momCard("Resultado",m.res,jr,nfmt,false)
-      +_momCard("CPL / resultado",m.cpl,jc,brl2,true)
-      +_momCard("Conversas (WhatsApp)",m.conv,j.conv,nfmt,false)
-      +`</div></div>`);
+      +_momCard("Investimento bruto",m.bruto,j.bruto,brl,false,mLbl)
+      +_momCard("Resultado",m.res,jr,nfmt,false,mLbl)
+      +_momCard("CPL / resultado",m.cpl,jc,brl2,true,mLbl)
+      +_momCard("Conversas (WhatsApp)",m.conv,j.conv,nfmt,false,mLbl)
+      +`</div>${_full(MAIO&&MAIO.seg&&MAIO.seg[s])}</div>`);
   });
-  const note=`<div class="taxnote" style="margin-bottom:14px">💰 ${MESNM} vs ${MOMNM} <b>(mês anterior fechado)</b>. Valores BRUTO (gross-up 12,15%). Pós-venda fora do total. Nível ad.</div>`;
+  _MOM_JLBL="";
+  const note=SP
+    ? `<div class="taxnote" style="margin-bottom:14px">💰 <b>Mesmo período nos dois lados</b>: 1 a ${dias} de ${MESNM_LC} contra ${MOMSP_PER}. O mês corrente ainda está em curso, então comparar com ${MOMNM_LC} inteiro mostraria queda só pelos dias que faltam. Valores BRUTO (gross-up 12,15%). Pós-venda fora do total.</div>`
+    : `<div class="taxnote" style="margin-bottom:14px">💰 ${MESNM} vs ${MOMNM} <b>(mês anterior fechado)</b>. Valores BRUTO (gross-up 12,15%). Pós-venda fora do total. Nível ad.</div>`;
   return note+cards.join("");
 }
 // ===== Detalhe por loja/praça (ND_JUN.lojas) =====
@@ -1450,7 +1494,9 @@ function insights(win){
   const res=(all.leads||0)+(all.conv||0);
   const cpl=res?all.bruto/res:0;
   const budget=BUDGET||0;
-  const hasMaio=(typeof ND_MAIO!=="undefined") && ND_MAIO && ND_MAIO.total;
+  // base MoM da janela: MTD -> mesmo periodo do mes anterior; 30d -> mes anterior inteiro
+  const _MOMB=momBase(win), _MOMV=("vs "+momLbl(win).toLowerCase());
+  const hasMaio=!!(_MOMB && _MOMB.total);
 
   // ---------- RESUMO ----------
   // 1) Pacing , investido vs orcamento + projecao (investido = comercial + PV/segForaTotal, mesma verba)
@@ -1464,11 +1510,11 @@ function insights(win){
     const tone = (proj>0 && (_pj.projTendPct>1.1 || _pj.projTendPct<0.9)) ? "warn" : "ok";
     resumo.push({tone, txt:`Investiu ${brl(_investJun)} na Meta, ${pctC.toFixed(0)}% do orçamento de ${brl(budget)} (com imposto)${projTxt}.`});
   }
-  // 2) vs mes anterior (ND_MAIO): leads, conversas, custo
+  // 2) vs mes anterior (mesma janela, via momBase): leads, conversas, custo
   if(hasMaio){
-    const dLeads=_pct(all.leads,ND_MAIO.total.leads);
-    const dConv=_pct(all.conv,ND_MAIO.total.conv);
-    const dCusto=_pct(cpl,ND_MAIO.total.cpl);
+    const dLeads=_pct(all.leads,_MOMB.total.leads);
+    const dConv=_pct(all.conv,_MOMB.total.conv);
+    const dCusto=_pct(cpl,_MOMB.total.cpl);
     const parts=[];
     if(dLeads!=null) parts.push(`leads ${_dir(dLeads)}${dLeads.toFixed(0)}%`);
     if(dConv!=null) parts.push(`conversas ${_dir(dConv)}${dConv.toFixed(0)}%`);
@@ -1476,8 +1522,8 @@ function insights(win){
     if(parts.length){
       const efic = (dCusto!=null && dCusto<-2);
       const tone = (dCusto!=null) ? (dCusto<0?"ok":(dCusto>5?"warn":"ok")) : "ok";
-      const tail = efic ? (" Mês mais eficiente que "+MOMNM_LC+".") : (dCusto!=null && dCusto>5 ? (" Custo subiu "+VS_MOM+".") : "");
-      resumo.push({tone, txt:`${VS_MOM}: ${parts.join(", ")}.${tail}`});
+      const tail = efic ? (" Mês mais eficiente que "+MOMNM_LC+".") : (dCusto!=null && dCusto>5 ? (" Custo subiu "+_MOMV+".") : "");
+      resumo.push({tone, txt:`${_MOMV}: ${parts.join(", ")}.${tail}`});
     }
   }
   // 3) Segmento que mais pesa (maior bruto) + participacao
@@ -1567,11 +1613,11 @@ function insights(win){
       melhorias.push({tone:"warn", txt:`O desperdício é cauda longa, muitos de gasto baixo. Por canal: ${canalTxt}. Revisar em lote.`});
     }
   }
-  // 4) Custo subindo vs maio
+  // 4) Custo subindo vs mes anterior (mesma janela)
   if(hasMaio){
-    const dCusto=_pct(cpl,ND_MAIO.total.cpl);
+    const dCusto=_pct(cpl,_MOMB.total.cpl);
     if(dCusto!=null && dCusto>5){
-      melhorias.push({tone:"warn", txt:`Custo/resultado subiu ${dCusto.toFixed(0)}% ${VS_MOM} (de ${brl2(ND_MAIO.total.cpl)} para ${brl2(cpl)}). Atenção ao que encareceu antes de escalar verba.`});
+      melhorias.push({tone:"warn", txt:`Custo/resultado subiu ${dCusto.toFixed(0)}% ${_MOMV} (de ${brl2(_MOMB.total.cpl)} para ${brl2(cpl)}). Atenção ao que encareceu antes de escalar verba.`});
     }
   }
   // 5) Pacing: ajuste de ritmo se projecao estoura ou sobra muito (so quando ainda da pra agir, future>=3 dias)
@@ -1642,7 +1688,7 @@ function sectionBlock(id){
     top:["TOP 10 criativos + piores","Por resultado (lead no formulário, conversa no WhatsApp) · "+wl+". Acompanha o filtro de período."],
     geo:["Geolocalização","Onde os anúncios rodam , clique em cada raio para ver os adsets que o usam."],
     region:["Quadro por praça","Spend bruto, CPL/CPR e distribuição Formulário × WhatsApp de cada região ("+MESNM_LC+"). Geral fica fora."],
-    mom:["Comparativo "+MESNM+" vs "+MOMNM,"Mesmos KPIs de "+MESNM_LC+" contra "+MOMNM_LC+" (mês anterior fechado). Bruto, leads, conversas e CPL por segmento. Sempre mês corrente, independe do filtro."],
+    mom:["Comparativo "+MESNM+" vs "+MOMNM,"Mesmos KPIs de "+MESNM_LC+" contra "+(ND_MOMSP?("o MESMO PERÍODO de "+MOMNM_LC+" ("+MOMSP_PER+"), dia a dia equivalente"):(MOMNM_LC+" (mês anterior fechado)"))+". Bruto, leads, conversas e CPL por segmento. Sempre mês corrente, independe do filtro."],
     loja:(function(){var _fina=(typeof HASREGION!=="undefined"&&!HASREGION)||(Array.isArray(ND_JUN.lojas)&&ND_JUN.lojas.some(function(d){return (typeof REGIONS!=="undefined"?REGIONS.indexOf(d.reg):-1)<0 && d.reg!=="G";}));
       return _fina?["Detalhe por loja · "+MESNM,"Spend bruto, resultado e CPL/CPR de cada loja (as lojas de WhatsApp aparecem separadas dos conjuntos de captação). Nível campanha/adset, "+MESNM_LC+"."]
         :["Detalhe por praça · "+MESNM,"Spend bruto, resultado e CPL/CPR de cada praça e do Geral (multi-praça). Nível campanha, "+MESNM_LC+"."];})(),

@@ -430,6 +430,8 @@ def refresh(api, ctx):
                     "Morumbi e V. Leopoldina são lojas da capital (dentro de SP), detalhadas por loja. "
                     "Dados de %s." % (MESES[today.month - 1], today.strftime("%d/%m"),
                                       today.strftime("%d/%m/%Y")))
+    # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia), comparativo justo
+    D["nd_mom_sp"] = common.mom_sp_block(_load_agg(h["adset_mom_sp"])[0], ("NV",), ctx)
     common.jdump(D_FILE, D)
 
     # resumo + reconciliação com o gasto da conta (30d)

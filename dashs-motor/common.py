@@ -4,8 +4,9 @@
 com a regra dos 3 dias fechados, verba, links de preview e edits.
 
 Janelas (iguais às usadas nos dashs desde o início):
-  mtd = dia 01 do mês -> hoje        (chave 'jul' nos arquivos, legado)
-  d30 = hoje-29 -> hoje              (chave '30d')
+  mtd    = dia 01 do mês -> hoje                   (chave 'jul' nos arquivos, legado)
+  d30    = hoje-29 -> hoje                         (chave '30d')
+  mom_sp = dia 01 do mês ANTERIOR -> mesmo dia      (comparativo de MESMO PERÍODO)
 """
 import os, json, datetime
 
@@ -50,14 +51,31 @@ def leads_conv(row, canal):
 
 
 # ---------- contexto de datas ----------
+MESES_PT = ["", "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+            "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"]
+
+
+def mom_sp_range(today=None):
+    """MESMO PERÍODO do mês anterior (decisão Rudy 22/07/2026): dia 01 do mês
+    anterior até o MESMO dia do mês em que estamos. Ex.: hoje 22/07 -> 01/06 a
+    22/06. Se o mês anterior for mais curto, corta no último dia dele
+    (31/03 -> 01/02 a 28/02). Devolve (since, until, dias)."""
+    today = today or datetime.date.today()
+    last_prev = today.replace(day=1) - datetime.timedelta(days=1)   # último dia do mês anterior
+    until = last_prev.replace(day=min(today.day, last_prev.day))
+    return (last_prev.replace(day=1).isoformat(), until.isoformat(), until.day)
+
+
 def make_ctx(today=None, closed=3):
     today = today or datetime.date.today()
     iso = today.isoformat()
     mtd = (today.replace(day=1).isoformat(), iso)
     d30 = ((today - datetime.timedelta(days=29)).isoformat(), iso)
+    ms_since, ms_until, ms_dias = mom_sp_range(today)
     closed_days = [(today - datetime.timedelta(days=i)).isoformat()
                    for i in range(closed, 0, -1)]  # D-3, D-2, D-1
     return {"today": today, "iso": iso, "mtd": mtd, "d30": d30,
+            "mom_sp": (ms_since, ms_until), "mom_sp_dias": ms_dias,
             "closed_days": closed_days, "days_to_pull": closed_days + [iso]}
 
 
@@ -69,6 +87,8 @@ def harvest_std(api, acc, ctx, want_ads=True, want_days=True,
     h = {}
     h["adset_30d"] = api.get_insights(acc, level="adset", since=ctx["d30"][0], until=ctx["d30"][1])["insights"]
     h["adset_mtd"] = api.get_insights(acc, level="adset", since=ctx["mtd"][0], until=ctx["mtd"][1])["insights"]
+    # MESMO PERÍODO do mês anterior (01 -> mesmo dia), para o comparativo MoM justo
+    h["adset_mom_sp"] = api.get_insights(acc, level="adset", since=ctx["mom_sp"][0], until=ctx["mom_sp"][1])["insights"]
     if want_ads:
         h["ad_30d"] = api.get_insights(acc, level="ad", since=ctx["d30"][0], until=ctx["d30"][1])["insights"]
         h["ad_mtd"] = api.get_insights(acc, level="ad", since=ctx["mtd"][0], until=ctx["mtd"][1])["insights"]
@@ -85,6 +105,38 @@ def harvest_std(api, acc, ctx, want_ads=True, want_days=True,
             print("  [aviso] atividades_conta falhou:", e)
             h["activities"] = []
     return h
+
+
+# ---------- MoM de mesmo período ----------
+def mom_sp_block(rows, seg_total, ctx, tax=1.1215):
+    """Bloco `nd_mom_sp`: mesmo período do mês anterior, no formato do nd_maio
+    (total + seg, em BRUTO), para o comparativo do dash não misturar 22 dias do
+    mês corrente com 30 dias do mês anterior.
+
+    `rows` = as MESMAS linhas que a marca já monta para o mês corrente (agg do
+    adset), com seg + (bruto | spend) + leads + conv. `seg_total` = segmentos
+    que compõem o total comercial (PV e afins ficam de fora)."""
+    def _bruto(r):
+        if r.get("bruto") is not None:
+            return float(r["bruto"] or 0)
+        return round(float(r.get("spend", 0) or 0) * tax, 2)
+
+    def _tot(rs):
+        b = round(sum(_bruto(r) for r in rs), 2)
+        le = sum(int(r.get("leads", 0) or 0) for r in rs)
+        cv = sum(int(r.get("conv", 0) or 0) for r in rs)
+        res = le + cv
+        return {"bruto": b, "leads": le, "conv": cv, "res": res,
+                "cpl": round(b / res, 2) if res else 0}
+
+    seg_total = list(seg_total)
+    comm = [r for r in rows if r.get("seg") in seg_total]
+    since, until = ctx["mom_sp"]
+    d1, d2, mes = int(since[8:10]), int(until[8:10]), int(until[5:7])
+    return {"total": _tot(comm),
+            "seg": {s: _tot([r for r in comm if r.get("seg") == s]) for s in seg_total},
+            "desde": since, "ate": until, "dias": ctx["mom_sp_dias"],
+            "periodo": f"{d1} a {d2} de {MESES_PT[mes]}"}
 
 
 # ---------- série diária ----------

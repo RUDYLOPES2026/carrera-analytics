@@ -401,6 +401,9 @@ def refresh(api, ctx):
                      "cpr": r2(pv_bm / pv_cm) if pv_cm else 0}
     base["nd_jun"] = ndj
 
+    # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia), comparativo justo
+    base["nd_mom_sp"] = common.mom_sp_block(build_agg(h["adset_mom_sp"]), COMM, ctx)
+
     common.jdump(f"{SLUG}_D.json", base)
 
     # sanity prints (mesmos checks do legado)

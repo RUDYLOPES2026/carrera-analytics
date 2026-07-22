@@ -118,7 +118,9 @@ def refresh(api, ctx):
     rows = {"30d": _rows(h["adset_30d"]), "jul": _rows(h["adset_mtd"])}
     core = {"totais": {w: _tot(r) for w, r in rows.items()},
             "30d": rows["30d"], "jul": rows["jul"],
-            "edits": common.edits_from_activities(h["activities"])}
+            "edits": common.edits_from_activities(h["activities"]),
+            # MoM justo: mesmo período do mês anterior (01 -> mesmo dia)
+            "mom_sp": common.mom_sp_block(_rows(h["adset_mom_sp"]), ("NV", "SN"), ctx)}
     common.jdump(f"_{SLUG}_core.json", core, indent=1)
     # ADS (ad-level 2 janelas + links reusados/backfill)
     ads = _ads(h)

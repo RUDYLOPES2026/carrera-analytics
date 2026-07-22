@@ -110,6 +110,8 @@ def build(slug):
         tlq+=v['liq'];tll+=v['leads'];tcc+=v['conv']
     tbm=b(tlq);trm=tll+tcc
     D['nd_maio']={'total':{'bruto':tbm,'leads':tll,'conv':tcc,'res':trm,'cpl':round(tbm/trm,2) if trm else 0},'seg':sm}
+    # MoM de MESMO PERIODO (01 -> mesmo dia do mes anterior), vindo do refresh
+    if core.get('mom_sp'): D['nd_mom_sp']=core['mom_sp']
     ag={}
     def gadd(key,lat,lng,r,nome,loja):
         e=ag.setdefault((key,round(r)),{'lat':lat,'lng':lng,'r':round(r),'nome':nome,'lojas':set()});e['lojas'].add(loja)

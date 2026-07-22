@@ -152,8 +152,12 @@ def extract_nd_maio(tpl, D=None):
     """Retorna 'const ND_MAIO={...};' para injetar na one-page.
     Fonte unica: se o D da marca traz nd_maio, usa ele (por marca). Senao cai no
     literal do template (retrocompat Nissan). Marca sem nenhum dos dois -> ''."""
-    if D and isinstance(D.get("nd_maio"), dict):
-        return "const ND_MAIO=" + json.dumps(D["nd_maio"], ensure_ascii=False) + ";"
+    if D is not None:
+        # marca COM D manda: tem nd_maio -> usa; nao tem -> '' (comparativo de mes
+        # fechado some). Nunca cair no literal do template, que e da Nissan.
+        if isinstance(D.get("nd_maio"), dict) and D["nd_maio"].get("total"):
+            return "const ND_MAIO=" + json.dumps(D["nd_maio"], ensure_ascii=False) + ";"
+        return ""
     m = re.search(r"const\s+ND_MAIO\s*=\s*(?:\(.*?:\s*)?(\{.*?\})\s*;", tpl, re.S)
     if m:
         return "const ND_MAIO=" + m.group(1) + ";"

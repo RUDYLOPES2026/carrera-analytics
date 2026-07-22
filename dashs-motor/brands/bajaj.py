@@ -345,6 +345,10 @@ def refresh(api, ctx):
     if verba:
         verba.sort(key=lambda x: -x["dailyLiq"])
         D["nd_verba"] = verba
+
+    # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia), comparativo justo
+    D["nd_mom_sp"] = common.mom_sp_block(_agg_rows(h["adset_mom_sp"]), ("NV",), ctx)
+
     common.jdump("bajaj_D.json", D)
     kA = kpi[MTD_KEY]["ALL"]; k3 = kpi["30d"]["ALL"]
     print("  [%s] mtd bruto=%.2f leads=%d conv=%d | 30d bruto=%.2f leads=%d conv=%d | "

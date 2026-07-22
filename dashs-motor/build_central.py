@@ -153,6 +153,15 @@ def load_brand(fslug, kebab, nome, cor):
     psp_leads = max(0, pv_full_leads - jp_leads)
     psp_conv = max(0, pv_full_conv - jp_conv)
     psp_spend = max(0.0, round(pv_full_bruto - jp_comm, 2))
+    # Fonte boa: nd_mom_sp = harvest do MESMO PERIODO do mes anterior (01 -> mesmo dia),
+    # gravado pelo refresh da marca. A subtracao acima (mes inteiro , cauda dentro da
+    # janela de 30d) fica so como fallback: ela so fecha enquanto a janela de 30d ainda
+    # alcanca o dia 01 do mes anterior.
+    mspt = (D.get("nd_mom_sp") or {}).get("total") or {}
+    if mspt:
+        psp_leads = int(mspt.get("leads", 0) or 0)
+        psp_conv = int(mspt.get("conv", 0) or 0)
+        psp_spend = round(float(mspt.get("bruto", 0) or 0), 2)
     return {
         "slug": kebab, "nome": nome, "cor": cor,
         "budget": round(budget, 2), "budget_liq": round(budget_liq, 2), "days": days, "elapsed": elapsed,
