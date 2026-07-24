@@ -139,7 +139,9 @@ def refresh(api, ctx):
             "30d": rows["30d"], "jul": rows["jul"],
             "edits": common.edits_from_activities(h["activities"]),
             # MoM justo: mesmo período do mês anterior (01 -> mesmo dia)
-            "mom_sp": common.mom_sp_block(_rows(h["adset_mom_sp"]), COMM, ctx)}
+            "mom_sp": common.mom_sp_block(_rows(h["adset_mom_sp"]), COMM, ctx),
+            # mes anterior INTEIRO (celulas: comparativo filtrado da janela de 30 dias)
+            "mom_full": common.mom_full_block(_rows(h["adset_prev_full"]), COMM, ctx)}
     common.jdump(f"_{SLUG}_core.json", core, indent=1)
     # ADS (ad-level 2 janelas + links reusados/backfill)
     ads = _ads(h)
@@ -148,6 +150,9 @@ def refresh(api, ctx):
     # DAILY (repull 3 dias fechados + hoje; sem PV, bucket 'pv' fica zerado)
     entries = [common.day_entry(h["days"][d], classify, d, seg_filter=COMM)
                for d in ctx["days_to_pull"]]
+    cel = common.daily_cells(h, ctx, _rows)   # celulas seg x canal do dia (filtros do topo)
+    for e in entries:
+        e["c"] = cel[e["date"]]
     common.merge_daily(f"_{SLUG}_daily.json", entries)
     # VERBA (adsets ABO + campanhas CBO)
     verba = _verba(api, h["adsets"])

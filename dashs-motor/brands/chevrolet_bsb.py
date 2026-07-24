@@ -338,9 +338,11 @@ def refresh(api, ctx):
 
     # serie diaria: re-pull integral D-3..D-1 + hoje (regra dos 3 dias fechados)
     newdays = []
+    cel = common.daily_cells(h, ctx, build_agg)   # celulas seg x canal do dia (filtros do topo)
     for d in ctx["days_to_pull"]:
         row = {"date": d}
         row.update(daily_bucket(h["days"][d]))
+        row["c"] = cel[d]
         newdays.append(row)
     cutoff = ctx["days_to_pull"][0]
     nd = [x for x in cur["n_daily"] if x["date"] < cutoff] + newdays
@@ -403,6 +405,8 @@ def refresh(api, ctx):
 
     # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia), comparativo justo
     base["nd_mom_sp"] = common.mom_sp_block(build_agg(h["adset_mom_sp"]), COMM, ctx)
+    # mes anterior INTEIRO (celulas: comparativo filtrado da janela de 30 dias)
+    base["nd_mom_full"] = common.mom_full_block(build_agg(h["adset_prev_full"]), COMM, ctx)
 
     common.jdump(f"{SLUG}_D.json", base)
 

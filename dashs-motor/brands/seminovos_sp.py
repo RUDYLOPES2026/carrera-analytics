@@ -237,6 +237,9 @@ def refresh(api, ctx):
 
     # N_DAILY: repull D-3..D-1 + hoje (adset single-day), merge na série do D
     entries = [common.day_entry(h["days"][d], classify, d) for d in ctx["days_to_pull"]]
+    cel = common.daily_cells(h, ctx, _agg_rows)   # celulas loja x canal do dia (filtros do topo)
+    for e in entries:
+        e["c"] = cel[e["date"]]
     dates = {e["date"] for e in entries}
     nd = [r for r in CUR.get("n_daily", []) if r["date"] not in dates] + entries
     nd = sorted(nd, key=lambda r: r["date"])[-30:]
@@ -316,6 +319,8 @@ def refresh(api, ctx):
     # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia). SN nao tem nd_maio
     # (mes anterior inteiro), entao esse passa a ser o unico comparativo, e real.
     D["nd_mom_sp"] = common.mom_sp_block(_agg_rows(h["adset_mom_sp"]), ("SN",), ctx)
+    # mes anterior INTEIRO (celulas: comparativo filtrado da janela de 30 dias)
+    D["nd_mom_full"] = common.mom_full_block(_agg_rows(h["adset_prev_full"]), ("SN",), ctx)
     common.jdump(DFILE, D)  # jdump já remove em/en-dash
 
     # resumo + reconciliação com o gasto da conta (30d)

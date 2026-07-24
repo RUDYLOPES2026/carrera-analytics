@@ -336,8 +336,10 @@ def refresh(api, ctx):
     # n_daily: repuxa D-3..D-1 + hoje, mantem a cauda do D atual (30 dias)
     pulled = set(ctx["days_to_pull"])
     newdays = []
+    cel = common.daily_cells(h, ctx, build_agg)   # celulas seg x canal do dia (filtros do topo)
     for d in ctx["days_to_pull"]:
-        row = {"date": d}; row.update(daily_bucket(h["days"][d])); newdays.append(row)
+        row = {"date": d}; row.update(daily_bucket(h["days"][d]))
+        row["c"] = cel[d]; newdays.append(row)
     nd = [x for x in cur["n_daily"] if x["date"] not in pulled] + newdays
     nd = sorted(nd, key=lambda x: x["date"])[-30:]
     assert nd[-1]["date"] == iso, nd[-1]["date"]
@@ -394,6 +396,8 @@ def refresh(api, ctx):
     # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia), para o comparativo
     # MoM nao misturar MTD com mes anterior inteiro
     base["nd_mom_sp"] = common.mom_sp_block(build_agg(h["adset_mom_sp"]), COMM, ctx)
+    # mes anterior INTEIRO (celulas: comparativo filtrado da janela de 30 dias)
+    base["nd_mom_full"] = common.mom_full_block(build_agg(h["adset_prev_full"]), COMM, ctx)
 
     common.jdump(f"{SLUG}_D.json", base)
 

@@ -94,9 +94,15 @@ def _paged(path, params, node_limit=500):
     return out
 
 def get_insights(object_id, level="campaign", since=None, until=None,
-                 date_preset=None, breakdowns=None, fields=INSIGHT_FIELDS):
-    """Igual ao conector: métricas no nível pedido, janela por since/until ou date_preset."""
+                 date_preset=None, breakdowns=None, fields=INSIGHT_FIELDS,
+                 time_increment=None):
+    """Igual ao conector: métricas no nível pedido, janela por since/until ou date_preset.
+
+    time_increment=1 quebra a janela por DIA (cada linha traz date_start), o que evita
+    uma chamada por dia quando se precisa de série diária longa (usado no backfill)."""
     p = {"level": level, "fields": fields}
+    if time_increment:
+        p["time_increment"] = time_increment
     if since and until:
         p["time_range"] = json.dumps({"since": since, "until": until})
     elif date_preset:

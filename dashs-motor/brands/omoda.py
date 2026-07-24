@@ -346,9 +346,11 @@ def refresh(api, ctx):
 
     # n_daily: repuxa D-3..D-1 + hoje, preserva a cauda (30 dias)
     nd = [r for r in CUR["n_daily"] if r["date"] not in set(ctx["days_to_pull"])]
+    cel = common.daily_cells(h, ctx, lambda ins: _load_agg(ins)[0])   # celulas praça x canal do dia
     for d in ctx["days_to_pull"]:
         row = {"date": d}
         row.update(_bucket_day(h["days"][d]))
+        row["c"] = cel[d]
         nd.append(row)
     nd = sorted(nd, key=lambda r: r["date"])[-30:]
     assert nd[-1]["date"] == ctx["iso"], "n_daily deve terminar %s, veio %s" % (ctx["iso"], nd[-1]["date"])
@@ -432,6 +434,8 @@ def refresh(api, ctx):
                                       today.strftime("%d/%m/%Y")))
     # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia), comparativo justo
     D["nd_mom_sp"] = common.mom_sp_block(_load_agg(h["adset_mom_sp"])[0], ("NV",), ctx)
+    # mes anterior INTEIRO (celulas: comparativo filtrado da janela de 30 dias)
+    D["nd_mom_full"] = common.mom_full_block(_load_agg(h["adset_prev_full"])[0], ("NV",), ctx)
     common.jdump(D_FILE, D)
 
     # resumo + reconciliação com o gasto da conta (30d)

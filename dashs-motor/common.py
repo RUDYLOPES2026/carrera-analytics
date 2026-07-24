@@ -55,6 +55,14 @@ MESES_PT = ["", "janeiro", "fevereiro", "março", "abril", "maio", "junho",
             "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"]
 
 
+def prev_month_range(today=None):
+    """Mês anterior INTEIRO (01 -> último dia). É a base do comparativo quando a
+    janela do dash é "30 dias" (mês inteiro ≈ 30 dias)."""
+    today = today or datetime.date.today()
+    last_prev = today.replace(day=1) - datetime.timedelta(days=1)
+    return (last_prev.replace(day=1).isoformat(), last_prev.isoformat())
+
+
 def mom_sp_range(today=None):
     """MESMO PERÍODO do mês anterior (decisão Rudy 22/07/2026): dia 01 do mês
     anterior até o MESMO dia do mês em que estamos. Ex.: hoje 22/07 -> 01/06 a
@@ -76,6 +84,7 @@ def make_ctx(today=None, closed=3):
                    for i in range(closed, 0, -1)]  # D-3, D-2, D-1
     return {"today": today, "iso": iso, "mtd": mtd, "d30": d30,
             "mom_sp": (ms_since, ms_until), "mom_sp_dias": ms_dias,
+            "prev_full": prev_month_range(today),
             "closed_days": closed_days, "days_to_pull": closed_days + [iso]}
 
 
@@ -89,6 +98,11 @@ def harvest_std(api, acc, ctx, want_ads=True, want_days=True,
     h["adset_mtd"] = api.get_insights(acc, level="adset", since=ctx["mtd"][0], until=ctx["mtd"][1])["insights"]
     # MESMO PERÍODO do mês anterior (01 -> mesmo dia), para o comparativo MoM justo
     h["adset_mom_sp"] = api.get_insights(acc, level="adset", since=ctx["mom_sp"][0], until=ctx["mom_sp"][1])["insights"]
+    # Mês anterior INTEIRO: base do comparativo na janela de 30 dias. Só é usado para
+    # o comparativo FILTRADO (segmento/praça/canal); o número sem filtro continua vindo
+    # do nd_maio publicado, então esse pull não muda nada do que já está no ar.
+    pf = ctx.get("prev_full") or prev_month_range(ctx.get("today"))
+    h["adset_prev_full"] = api.get_insights(acc, level="adset", since=pf[0], until=pf[1])["insights"]
     if want_ads:
         h["ad_30d"] = api.get_insights(acc, level="ad", since=ctx["d30"][0], until=ctx["d30"][1])["insights"]
         h["ad_mtd"] = api.get_insights(acc, level="ad", since=ctx["mtd"][0], until=ctx["mtd"][1])["insights"]
@@ -107,7 +121,66 @@ def harvest_std(api, acc, ctx, want_ads=True, want_days=True,
     return h
 
 
+# ---------- células de filtro (segmento x praça x canal) ----------
+# Formato COMPACTO, porque o D inteiro vai injetado dentro do HTML e nome de campo
+# repetido milhares de vezes pesa:
+#     [seg, praça, canal, gasto LÍQUIDO, leads, conversas]
+# Gasto em LÍQUIDO de propósito: o _liqD do template converte só as chaves
+# 'bruto'/'cpl'/'cpr' de objeto e não enxerga número dentro de lista. Assim a célula
+# já nasce na mesma moeda que o resto do dash usa depois do _liqD (líquido).
+def cells_from_rows(rows, tax=1.1215):
+    """Agrega as linhas adset-level da marca (as MESMAS que alimentam kpi/agg, com
+    a regra de contagem dela) em células segmento x praça x canal. É o que faz os
+    filtros do topo valerem no gráfico diário e no comparativo com o mês anterior."""
+    agg = {}
+    for r in rows:
+        if r.get("spend") is not None:
+            liq = float(r.get("spend") or 0)
+        else:
+            liq = float(r.get("bruto") or 0) / tax
+        le = int(r.get("leads", 0) or 0)
+        cv = int(r.get("conv", 0) or 0)
+        if liq <= 0 and not le and not cv:
+            continue
+        k = (r.get("seg") or "", r.get("reg") or "", r.get("canal") or r.get("can") or "")
+        a = agg.setdefault(k, [0.0, 0, 0])
+        a[0] += liq; a[1] += le; a[2] += cv
+    return [[k[0], k[1], k[2], round(v[0], 2), v[1], v[2]] for k, v in sorted(agg.items())]
+
+
+def daily_cells(h, ctx, aggfn):
+    """Células por dia (chave 'c' de cada linha do n_daily), no mesmo pull que a
+    série diária já faz. `aggfn` = a função de linhas adset da marca."""
+    return {d: cells_from_rows(aggfn(h["days"][d])) for d in ctx["days_to_pull"]}
+
+
 # ---------- MoM de mesmo período ----------
+def _tot_rows(rs, tax=1.1215):
+    def _bruto(r):
+        if r.get("bruto") is not None:
+            return float(r["bruto"] or 0)
+        return round(float(r.get("spend", 0) or 0) * tax, 2)
+    b = round(sum(_bruto(r) for r in rs), 2)
+    le = sum(int(r.get("leads", 0) or 0) for r in rs)
+    cv = sum(int(r.get("conv", 0) or 0) for r in rs)
+    res = le + cv
+    return {"bruto": b, "leads": le, "conv": cv, "res": res,
+            "cpl": round(b / res, 2) if res else 0}
+
+
+def mom_full_block(rows, seg_total, ctx, tax=1.1215):
+    """Bloco `nd_mom_full`: mês anterior INTEIRO com as células de filtro. Serve só
+    para o comparativo FILTRADO na janela de 30 dias (o número sem filtro continua
+    saindo do nd_maio publicado, para não mexer no que já está no ar)."""
+    seg_total = list(seg_total)
+    comm = [r for r in rows if r.get("seg") in seg_total]
+    pf = ctx.get("prev_full") or prev_month_range(ctx.get("today"))
+    return {"total": _tot_rows(comm, tax),
+            "seg": {s: _tot_rows([r for r in comm if r.get("seg") == s], tax) for s in seg_total},
+            "cells": cells_from_rows(rows, tax),
+            "desde": pf[0], "ate": pf[1]}
+
+
 def mom_sp_block(rows, seg_total, ctx, tax=1.1215):
     """Bloco `nd_mom_sp`: mesmo período do mês anterior, no formato do nd_maio
     (total + seg, em BRUTO), para o comparativo do dash não misturar 22 dias do
@@ -135,6 +208,7 @@ def mom_sp_block(rows, seg_total, ctx, tax=1.1215):
     d1, d2, mes = int(since[8:10]), int(until[8:10]), int(until[5:7])
     return {"total": _tot(comm),
             "seg": {s: _tot([r for r in comm if r.get("seg") == s]) for s in seg_total},
+            "cells": cells_from_rows(rows, tax),   # comparativo com filtro de praça/canal
             "desde": since, "ate": until, "dias": ctx["mom_sp_dias"],
             "periodo": f"{d1} a {d2} de {MESES_PT[mes]}"}
 

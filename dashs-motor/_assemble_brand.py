@@ -79,6 +79,7 @@ def build(slug):
                             'pior':sorted([a for a in sa if a['res']==0],key=lambda x:-x['bruto'])[:5]}
     D['rank']=rank
     for r in daily:
+        r.setdefault('c',[])   # celulas seg x canal do dia (filtros do topo no grafico diario)
         for k in ('form','wa','aux','pv'):
             r.setdefault(k,{'spend':0,'leads':0,'conv':0})
             for f in ('spend','leads','conv'): r[k].setdefault(f,0)
@@ -112,6 +113,7 @@ def build(slug):
     D['nd_maio']={'total':{'bruto':tbm,'leads':tll,'conv':tcc,'res':trm,'cpl':round(tbm/trm,2) if trm else 0},'seg':sm}
     # MoM de MESMO PERIODO (01 -> mesmo dia do mes anterior), vindo do refresh
     if core.get('mom_sp'): D['nd_mom_sp']=core['mom_sp']
+    if core.get('mom_full'): D['nd_mom_full']=core['mom_full']
     ag={}
     def gadd(key,lat,lng,r,nome,loja):
         e=ag.setdefault((key,round(r)),{'lat':lat,'lng':lng,'r':round(r),'nome':nome,'lojas':set()});e['lojas'].add(loja)

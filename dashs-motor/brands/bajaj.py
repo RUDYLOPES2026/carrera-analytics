@@ -289,7 +289,9 @@ def refresh(api, ctx):
 
     # série diária: repuxa D-3..D-1 + hoje, mantém a cauda de 30 dias
     nd = [r for r in D.get("n_daily", []) if r["date"] not in set(ctx["days_to_pull"])]
-    nd += [_bucket_day(h["days"][d], d) for d in ctx["days_to_pull"]]
+    cel = common.daily_cells(h, ctx, _agg_rows)   # celulas praça x canal do dia (filtros do topo)
+    for d in ctx["days_to_pull"]:
+        row = _bucket_day(h["days"][d], d); row["c"] = cel[d]; nd.append(row)
     nd = sorted(nd, key=lambda r: r["date"])[-30:]
 
     today = ctx["today"]
@@ -348,6 +350,8 @@ def refresh(api, ctx):
 
     # nd_mom_sp: MESMO PERIODO do mes anterior (01 -> mesmo dia), comparativo justo
     D["nd_mom_sp"] = common.mom_sp_block(_agg_rows(h["adset_mom_sp"]), ("NV",), ctx)
+    # mes anterior INTEIRO (celulas: comparativo filtrado da janela de 30 dias)
+    D["nd_mom_full"] = common.mom_full_block(_agg_rows(h["adset_prev_full"]), ("NV",), ctx)
 
     common.jdump("bajaj_D.json", D)
     kA = kpi[MTD_KEY]["ALL"]; k3 = kpi["30d"]["ALL"]
