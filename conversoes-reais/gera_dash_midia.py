@@ -1,259 +1,422 @@
 #!/usr/bin/env python3
-"""Dash operacional de vendas por mídia: de onde saiu, como está agora, o que mudou."""
+"""Dash operacional de vendas por mídia, no padrão dos dashs de Meta do Carrera:
+header fixo com filtros, KPIs grandes, Chart.js e seções em card.
+
+O dataset inteiro vai embutido e o JavaScript refiltra tudo: sem isso o filtro
+do topo não valeria no gráfico nem nos rankings, que é o jeito que o Rudy usa.
+"""
 import json
 import os
-from html import escape
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 D = json.load(open(f"{BASE}/dados_midia.json", encoding="utf-8"))
-P, COB = D["pulso"], D["cobertura"]
-
-# Paleta validada na superficie #141b24. O cinza de "sem origem" reprova no piso
-# de croma de proposito: ausencia de informacao nao deve competir por identidade
-# com as series que carregam significado.
-C_CAPT, C_OUTRA, C_SEM = "#3987e5", "#199e70", "#5b6874"
-C_SOBE, C_CAI, C_ACC = "#4ade80", "#e66767", "#f59e0b"
 
 CSS = """
-*{box-sizing:border-box}
-body{margin:0;background:#0b0f14;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,
-"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
-.wrap{max-width:1120px;margin:0 auto;padding:44px 20px 72px}
-.eyebrow{color:#8b98a5;font-size:12px;letter-spacing:1.6px;text-transform:uppercase}
-h1{font-size:30px;margin:8px 0 6px;letter-spacing:.3px}
-h1 .b{color:var(--acc,#f59e0b)}
-.sub{color:#8b98a5;font-size:14.5px;max-width:780px}
-.stamp{color:#5f6b78;font-size:12px;margin:14px 0 30px}
-h2{font-size:19px;margin:46px 0 4px}
-.h2sub{color:#8b98a5;font-size:13.5px;margin-bottom:16px;max-width:780px}
-h3{font-size:15px;margin:26px 0 10px;color:#c3ccd6}
-.card{background:#141b24;border:1px solid #1f2a36;border-radius:16px;padding:22px 24px}
-.pulso{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.pulso .card .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
-margin-bottom:16px}
-.pulso .t{font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:#8b98a5;
-font-weight:600}
-.pulso .per{font-size:12px;color:#5f6b78}
-.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.met .k{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:#8b98a5}
-.met .v{font-size:30px;font-weight:700;letter-spacing:-1px;line-height:1.1;margin-top:5px;
-font-variant-numeric:tabular-nums}
-.met .d{font-size:12.5px;margin-top:4px;font-variant-numeric:tabular-nums}
-.cmp{color:#5f6b78;font-size:12px;margin-top:14px;padding-top:12px;border-top:1px solid #1f2a36}
-.up{color:#4ade80}.down{color:#e66767}.flat{color:#8b98a5}
-.legend{display:flex;gap:18px;margin:0 0 14px;font-size:12.5px;color:#8b98a5;flex-wrap:wrap}
-.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;
-vertical-align:-1px}
-table{width:100%;border-collapse:collapse;font-size:13.5px}
-.scroll{overflow-x:auto}
-th{text-align:right;color:#8b98a5;font-weight:600;font-size:11.5px;letter-spacing:.7px;
-text-transform:uppercase;padding:0 0 10px;border-bottom:1px solid #1f2a36;white-space:nowrap}
-th:first-child{text-align:left}
-td{padding:10px 0;border-bottom:1px solid #161f2a;text-align:right;
-font-variant-numeric:tabular-nums;white-space:nowrap}
-td:first-child{text-align:left;font-variant-numeric:normal;white-space:normal}
-tr:last-child td{border-bottom:0}
-td+td,th+th{padding-left:16px}
-.nome{font-weight:600}
-.tags{margin-top:3px}
-.tag{display:inline-block;font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;
-padding:1px 7px;border-radius:999px;background:#1f2a36;color:#8b98a5;margin-right:5px}
-.mov{display:flex;flex-direction:column;gap:0}
-.mov .l{display:grid;grid-template-columns:74px 1fr auto;gap:14px;align-items:baseline;
-padding:13px 0;border-bottom:1px solid #161f2a}
-.mov .l:last-child{border-bottom:0}
-.badge{font-size:10.5px;letter-spacing:.7px;text-transform:uppercase;font-weight:700;
-padding:2px 0;text-align:center;border-radius:6px}
-.b-sumiu{color:#e66767;background:rgba(230,103,103,.12)}
-.b-caiu{color:#e66767;background:rgba(230,103,103,.08)}
-.b-subiu{color:#4ade80;background:rgba(74,222,128,.10)}
-.b-novo{color:#f59e0b;background:rgba(245,158,11,.12)}
-.mov .n{font-size:13.5px}
-.mov .n span{color:#5f6b78;font-size:12px;display:block;margin-top:2px}
-.mov .v{font-size:12.5px;color:#8b98a5;white-space:nowrap;font-variant-numeric:tabular-nums}
-.nota{color:#5f6b78;font-size:12.5px;line-height:1.7;margin-top:14px}
-.aviso{background:#111820;border:1px solid #1f2a36;border-left:3px solid #c98500;
-border-radius:10px;padding:14px 18px;color:#8b98a5;font-size:13px;line-height:1.7;margin:16px 0}
-.aviso b{color:#c3ccd6}
-footer{margin-top:52px;padding-top:20px;border-top:1px solid #1f2a36;color:#5f6b78;
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
+Roboto,sans-serif;font-size:16px;line-height:1.45}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px 90px}
+.head{position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#0a0a0a 72%,
+rgba(10,10,10,0));padding:20px 0 14px;border-bottom:1px solid #1f1f1f;backdrop-filter:blur(7px)}
+.brandrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#f59e0b,#b45309);
+display:flex;align-items:center;justify-content:center;font-weight:800;color:#0a0a0a;font-size:20px}
+.h1{font-size:25px;font-weight:800;letter-spacing:-.5px}.h1 b{color:#f59e0b}
+.htag{font-size:13px;color:#a1a1aa}
+.pill{margin-left:auto;font-size:12px;color:#a1a1aa;border:1px solid #2a2a2a;border-radius:999px;
+padding:6px 13px}
+.filters{display:flex;gap:10px 18px;align-items:center;flex-wrap:wrap;margin-top:14px}
+/* rotulo e grupo andam juntos: soltos, o "Segmento" fica orfao numa linha e os
+   botoes dele na seguinte */
+.fgrp{display:inline-flex;align-items:center;gap:8px}
+.filterlbl{font-size:12px;color:#71717a;text-transform:uppercase;letter-spacing:.5px;
+white-space:nowrap}
+.segfilter{display:inline-flex;background:#141414;border:1px solid #242424;border-radius:13px;
+padding:5px;gap:3px;flex-wrap:wrap}
+.segbtn{padding:8px 15px;border:none;background:none;color:#a1a1aa;font-weight:700;font-size:13.5px;
+border-radius:9px;cursor:pointer;transition:.12s;display:flex;flex-direction:column;
+align-items:center;gap:1px;line-height:1.1}
+.segbtn small{font-size:10px;font-weight:600;opacity:.7}
+.segbtn:hover{color:#f4f4f5}
+.segbtn.on{background:#f59e0b;color:#0a0a0a}
+.segbtn.on small{opacity:.85}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0 0}
+.kpi{background:#141414;border:1px solid #222;border-radius:16px;padding:18px}
+.kpi .l{font-size:12px;color:#a1a1aa;text-transform:uppercase;letter-spacing:.6px}
+.kpi .v{font-size:29px;font-weight:800;margin-top:6px;letter-spacing:-1px}
+.kpi .v.gold{color:#f59e0b}
+.kpi .s{font-size:12px;color:#71717a;margin-top:4px}
+.kpi .s b.up{color:#4ade80}.kpi .s b.dn{color:#f87171}.kpi .s b.fl{color:#a1a1aa}
+.sec{margin-top:34px}
+.secttl{font-size:19px;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:3px}
+.secttl .dot{width:9px;height:9px;border-radius:50%;background:#f59e0b}
+.secsub{font-size:13px;color:#a1a1aa;margin-bottom:15px;max-width:900px}
+.panel{background:#141414;border:1px solid #222;border-radius:16px;padding:20px}
+.chartbox{height:300px}
+/* ranking em barra, no lugar de tabela */
+.rk{display:flex;flex-direction:column;gap:11px}
+.rkrow{display:grid;grid-template-columns:150px 1fr 128px;gap:14px;align-items:center}
+.rknome{font-size:13.5px;font-weight:600;text-align:right;line-height:1.25}
+.rknome span{display:block;font-size:10.5px;font-weight:600;color:#71717a;text-transform:uppercase;
+letter-spacing:.4px}
+.rkbar{height:26px;border-radius:0 7px 7px 0;min-width:3px;display:flex;align-items:center;
+justify-content:flex-end;padding-right:9px;font-size:12.5px;font-weight:800;color:#0a0a0a}
+.rkdelta{font-size:12.5px;color:#71717a;font-variant-numeric:tabular-nums}
+.rkdelta b{font-weight:800}
+.up{color:#4ade80}.dn{color:#f87171}.fl{color:#a1a1aa}
+/* cards de campanha e anuncio */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}
+.ccard{background:#141414;border:1px solid #222;border-radius:15px;padding:14px;
+border-top:3px solid #f59e0b;display:flex;flex-direction:column;gap:8px}
+/* st-* e nao up/dn: .up e classe global de cor e pintaria o card inteiro de verde */
+.ccard.st-dn{border-top-color:#f87171}.ccard.st-up{border-top-color:#4ade80}
+.ccard.st-nv{border-top-color:#38bdf8}
+.cname{font-size:12.5px;font-weight:700;line-height:1.32;min-height:50px;
+overflow-wrap:anywhere}
+.ctags{display:flex;gap:4px;flex-wrap:wrap}
+.ctag{font-size:9.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+background:#1e1e22;color:#a1a1aa;border-radius:6px;padding:2px 7px}
+.crow{display:flex;align-items:baseline;justify-content:space-between;
+border-top:1px solid #222;padding-top:9px}
+.cbig{font-size:23px;font-weight:800;letter-spacing:-.6px}
+.cbig small{font-size:11px;color:#71717a;font-weight:600;margin-left:3px}
+.cvar{font-size:12px;font-weight:800}
+/* movimentos */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px}
+.mv{background:#141414;border:1px solid #222;border-left:3px solid #3f3f46;border-radius:12px;
+padding:14px 16px}
+.mv.subiu{border-left-color:#4ade80}.mv.caiu{border-left-color:#f87171}
+.mv.novo{border-left-color:#38bdf8}.mv.sumiu{border-left-color:#71717a}
+.mvtop{font-size:10px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;
+color:#71717a;margin-bottom:5px}
+.mvn{font-size:13.5px;font-weight:700;line-height:1.3}
+.mvv{font-size:12.5px;color:#a1a1aa;margin-top:6px;font-variant-numeric:tabular-nums}
+.aviso{background:#12100a;border:1px solid #3a2f10;border-left:3px solid #f59e0b;
+border-radius:12px;padding:14px 18px;color:#a1a1aa;font-size:13px;line-height:1.65;margin:0 0 15px}
+.aviso b{color:#e4e4e7}
+.vazio{color:#71717a;font-size:13.5px;padding:26px 0;text-align:center}
+.conclusao{background:linear-gradient(135deg,#0d0a02 0%,#1a1404 100%);border:1px solid #f59e0b;
+border-radius:14px;padding:20px 22px;margin-top:34px}
+.conclusao h2{color:#f59e0b;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+margin-bottom:12px}
+.conclusao ul{list-style:none}
+.conclusao li{padding:8px 0 8px 24px;font-size:14px;color:#eee;line-height:1.6;position:relative}
+.conclusao li::before{content:'→';position:absolute;left:0;color:#f59e0b;font-weight:900}
+.conclusao li b{color:#f59e0b}
+footer{margin-top:40px;padding-top:18px;border-top:1px solid #1f1f1f;color:#52525b;
 font-size:12.5px;line-height:1.7}
-@media(max-width:820px){.pulso{grid-template-columns:1fr}.tri{grid-template-columns:1fr 1fr}
-.wrap{padding:30px 15px 50px}h1{font-size:24px}.mov .l{grid-template-columns:64px 1fr}
-.mov .v{grid-column:2}}
+@media(max-width:900px){.kpis{grid-template-columns:1fr 1fr}
+.rkrow{grid-template-columns:104px 1fr}.rkdelta{grid-column:2}}
+@media(max-width:560px){.kpis{grid-template-columns:1fr}.h1{font-size:20px}}
+"""
+
+JS = r"""
+const D = __DADOS__;
+const DIA = D.dims.dia, MARCA = D.dims.marca, SEG = D.dims.seg, ORIGEM = D.dims.origem;
+const CAMP = D.dims.campanha, AD = D.dims.anuncio, UTM = D.dims.utm;
+const CLS = ['captacao','outra_origem','sem_origem'];
+const CORCLS = ['#3b82f6','#22c55e','#52525b'];
+const CLSNOME = ['Mídia e portais','Outras origens','Sem origem'];
+// indice da linha: 0 dia,1 marca,2 seg,3 origem,4 classe,5 camp,6 ad,7 utm,8 loja,9 valor,10 capt
+const L = D.linhas;
+
+let F = {marca:'ALL', seg:'ALL', per:'mes'};
+
+const nf = n => n.toLocaleString('pt-BR');
+const dstr = i => DIA[i];
+
+function janelas(){
+  const ate = D.ate, ateD = new Date(ate+'T12:00:00');
+  let ini, iniAnt, fimAnt, label, labelAnt;
+  if(F.per==='mes'){
+    ini = ate.slice(0,8)+'01';
+    const nd = parseInt(ate.slice(8,10),10);
+    const pm = new Date(ateD); pm.setDate(1); pm.setDate(0);        // ultimo dia do mes anterior
+    const pIni = new Date(pm); pIni.setDate(1);
+    const pFim = new Date(pIni); pFim.setDate(Math.min(nd, pm.getDate()));
+    iniAnt = iso(pIni); fimAnt = iso(pFim);
+    label = 'mês corrente, '+nd+' dias'; labelAnt = 'mesmos '+nd+' dias do mês anterior';
+  } else {
+    const n = F.per==='30d'?30:90;
+    const i = new Date(ateD); i.setDate(i.getDate()-(n-1)); ini = iso(i);
+    const fa = new Date(i); fa.setDate(fa.getDate()-1); fimAnt = iso(fa);
+    const ia = new Date(fa); ia.setDate(ia.getDate()-(n-1)); iniAnt = iso(ia);
+    label = 'últimos '+n+' dias'; labelAnt = n+' dias anteriores';
+  }
+  return {ini, fim:ate, iniAnt, fimAnt, label, labelAnt};
+}
+function iso(d){return d.toISOString().slice(0,10);}
+
+function passa(r){
+  if(F.marca!=='ALL' && MARCA[r[1]]!==F.marca) return false;
+  if(F.seg!=='ALL' && SEG[r[2]]!==F.seg) return false;
+  return true;
+}
+function noPeriodo(ini,fim){
+  return L.filter(r=>{const d=DIA[r[0]]; return d>=ini && d<=fim && passa(r);});
+}
+
+function kpis(rs){
+  const v = rs.length;
+  const capt = rs.filter(r=>r[10]===1).length;
+  const orig = rs.filter(r=>r[4]!==2).length;
+  const valor = rs.reduce((a,r)=>a+r[9],0);
+  return {v, capt, orig, valor, pct: v? 100*capt/v : 0};
+}
+function delta(a,b){
+  if(!b) return {t:'—', c:'fl'};
+  const p = 100*(a-b)/b;
+  if(Math.abs(p)<1.5) return {t:'estável', c:'fl'};
+  return {t:(p>0?'▲ ':'▼ ')+Math.abs(p).toFixed(0)+'%', c:p>0?'up':'dn'};
+}
+
+function contar(rs, campo){
+  const m = new Map();
+  rs.forEach(r=>{const k=r[campo]; if(k>=0) m.set(k,(m.get(k)||0)+1);});
+  return m;
+}
+function ranking(a, p, campo, dim, minimo){
+  const ca=contar(a,campo), cp=contar(p,campo);
+  const ks = new Set([...ca.keys(),...cp.keys()]);
+  const out=[];
+  ks.forEach(k=>{
+    const x=ca.get(k)||0, y=cp.get(k)||0;
+    if(Math.max(x,y)<minimo) return;
+    out.push({k, nome:dim[k], a:x, p:y, var: y? 100*(x-y)/y : null});
+  });
+  out.sort((u,v)=>v.a-u.a || v.p-u.p);
+  return out;
+}
+
+/* ---------------- render ---------------- */
+let chart=null;
+function render(){
+  const w = janelas();
+  const atual = noPeriodo(w.ini, w.fim);
+  const ant   = noPeriodo(w.iniAnt, w.fimAnt);
+  const k = kpis(atual), ka = kpis(ant);
+
+  const dv=delta(k.v,ka.v), dc=delta(k.capt,ka.capt), dp=delta(k.pct,ka.pct);
+  const topO = ranking(atual, ant, 3, ORIGEM, 1).filter(o=>D.origem_classe[o.k]!==2)[0];
+  document.getElementById('kpis').innerHTML = `
+   <div class="kpi"><div class="l">Vendas · ${w.label}</div><div class="v">${nf(k.v)}</div>
+     <div class="s"><b class="${dv.c}">${dv.t}</b> vs ${nf(ka.v)} · ${w.labelAnt}</div></div>
+   <div class="kpi"><div class="l">Vieram de mídia</div><div class="v gold">${nf(k.capt)}</div>
+     <div class="s"><b class="${dc.c}">${dc.t}</b> vs ${nf(ka.capt)} no período anterior</div></div>
+   <div class="kpi"><div class="l">Peso da mídia</div><div class="v">${k.pct.toFixed(0)}%</div>
+     <div class="s"><b class="${dp.c}">${dp.t}</b> · ${nf(k.orig)} vendas com origem</div></div>
+   <div class="kpi"><div class="l">Mídia que mais vende</div>
+     <div class="v" style="font-size:23px">${topO?topO.nome:'—'}</div>
+     <div class="s">${topO?nf(topO.a)+' vendas no período':'sem venda de mídia no recorte'}</div></div>`;
+
+  desenhaGrafico(w);
+  desenhaOrigens(atual, ant, w);
+  desenhaMovimentos(atual, ant);
+  desenhaCards('camps', ranking(atual,ant,5,CAMP,1).slice(0,12), true);
+  desenhaCards('ads',   ranking(atual,ant,6,AD,1).slice(0,12), false);
+  desenhaCards('utms',  ranking(atual,ant,7,UTM,2).slice(0,12), false);
+  desenhaConclusao(atual, ant, w, k, ka, topO);
+  document.querySelectorAll('.perlbl').forEach(e=>e.textContent=w.label);
+}
+
+function desenhaGrafico(w){
+  // serie diaria dos ultimos 60 dias, sempre, para o grafico nao encolher
+  const ate = new Date(D.ate+'T12:00:00');
+  const dias=[]; for(let i=59;i>=0;i--){const d=new Date(ate); d.setDate(d.getDate()-i); dias.push(iso(d));}
+  const pos = new Map(dias.map((d,i)=>[d,i]));
+  const s = [0,1,2].map(()=>new Array(60).fill(0));
+  L.forEach(r=>{ if(!passa(r)) return; const i=pos.get(DIA[r[0]]); if(i===undefined) return; s[r[4]][i]++; });
+  const ds = [0,1,2].map(c=>({label:CLSNOME[c], data:s[c], backgroundColor:CORCLS[c],
+    borderRadius:{topLeft:3,topRight:3}, borderSkipped:false, stack:'v'}));
+  const labels = dias.map(d=>d.slice(8,10)+'/'+d.slice(5,7));
+  if(chart){ chart.data.labels=labels; chart.data.datasets.forEach((d,i)=>d.data=ds[i].data); chart.update(); return; }
+  chart = new Chart(document.getElementById('graf'), {
+    type:'bar', data:{labels, datasets:ds},
+    options:{responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},
+        tooltip:{backgroundColor:'#18181b',borderColor:'#3f3f46',borderWidth:1,padding:11,
+          titleColor:'#f4f4f5',bodyColor:'#d4d4d8',
+          callbacks:{footer:it=>'Total: '+it.reduce((a,x)=>a+x.parsed.y,0)+' vendas'}}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#52525b',font:{size:10},
+                 maxRotation:0,autoSkip:true,maxTicksLimit:12}},
+              y:{stacked:true,grid:{color:'#1c1c1f'},ticks:{color:'#52525b',font:{size:11},precision:0},
+                 border:{display:false}}}}});
+}
+
+function desenhaOrigens(a,p,w){
+  const r = ranking(a,p,3,ORIGEM,1);
+  const max = Math.max(...r.map(x=>x.a), 1);
+  document.getElementById('origens').innerHTML = r.length? r.map(o=>{
+    const c = D.origem_classe[o.k];
+    const d = o.var===null ? (o.a? '<b class="up">nova</b>' : '<b class="fl">—</b>')
+      : (Math.abs(o.var)<1.5 ? '<b class="fl">estável</b>'
+        : `<b class="${o.var>0?'up':'dn'}">${o.var>0?'▲':'▼'} ${Math.abs(o.var).toFixed(0)}%</b>`);
+    return `<div class="rkrow">
+      <div class="rknome">${o.nome}<span>${CLSNOME[c]}</span></div>
+      <div class="rkbar" style="width:${Math.max(3,100*o.a/max)}%;background:${CORCLS[c]}">${nf(o.a)}</div>
+      <div class="rkdelta">${d} <span style="color:#52525b">· antes ${nf(o.p)}</span></div></div>`;
+  }).join('') : '<div class="vazio">Nenhuma venda neste recorte.</div>';
+}
+
+function desenhaMovimentos(a,p){
+  const alvos=[[3,ORIGEM,'Origem',6,15],[5,CAMP,'Campanha',3,5],[6,AD,'Anúncio',3,5]];
+  let mv=[];
+  alvos.forEach(([campo,dim,nivel,pisoNovo,pisoVar])=>{
+    ranking(a,p,campo,dim,1).forEach(x=>{
+      if(x.p===0 && x.a>=pisoNovo) mv.push({t:'novo',nivel,nome:x.nome,txt:`0 para ${x.a} vendas`,peso:x.a});
+      else if(x.a===0 && x.p>=pisoNovo+1) mv.push({t:'sumiu',nivel,nome:x.nome,txt:`${x.p} para 0 vendas`,peso:x.p});
+      else if(x.var!==null && Math.abs(x.var)>=40 && Math.max(x.a,x.p)>=pisoVar)
+        mv.push({t:x.var>0?'subiu':'caiu',nivel,nome:x.nome,
+                 txt:`${x.p} para ${x.a} vendas (${x.var>0?'+':''}${x.var.toFixed(0)}%)`,peso:Math.max(x.a,x.p)});
+    });
+  });
+  const ord={sumiu:0,caiu:1,subiu:2,novo:3}, cap={};
+  mv.sort((u,v)=>ord[u.t]-ord[v.t] || v.peso-u.peso);
+  mv = mv.filter(m=>{cap[m.t]=(cap[m.t]||0)+1; return cap[m.t]<=3;});
+  const ROT={sumiu:'Zerou',caiu:'Caiu',subiu:'Subiu',novo:'Novo'};
+  document.getElementById('movs').innerHTML = mv.length? mv.map(m=>
+    `<div class="mv ${m.t}"><div class="mvtop">${ROT[m.t]} · ${m.nivel}</div>
+     <div class="mvn">${m.nome}</div><div class="mvv">${m.txt}</div></div>`).join('')
+    : '<div class="vazio">Nada se moveu o suficiente para virar alerta neste recorte.</div>';
+}
+
+function desenhaCards(id, itens, tags){
+  const el = document.getElementById(id);
+  if(!itens.length){ el.innerHTML='<div class="vazio">Sem dados identificados neste recorte.</div>'; return; }
+  el.innerHTML = itens.map(x=>{
+    let cls='', vtxt='<span class="cvar fl">—</span>';
+    if(x.var===null && x.a){ cls='st-nv'; vtxt='<span class="cvar" style="color:#38bdf8">nova</span>'; }
+    else if(x.var!==null && Math.abs(x.var)>=15){ cls=x.var>0?'st-up':'st-dn';
+      vtxt=`<span class="cvar ${x.var>0?'up':'dn'}">${x.var>0?'▲':'▼'} ${Math.abs(x.var).toFixed(0)}%</span>`; }
+    else if(x.var!==null) vtxt='<span class="cvar fl">estável</span>';
+    const t = (tags && D.camp_tags[x.k] && D.camp_tags[x.k].length)
+      ? `<div class="ctags">${D.camp_tags[x.k].map(g=>`<span class="ctag">${g}</span>`).join('')}</div>` : '';
+    return `<div class="ccard ${cls}"><div class="cname">${x.nome}</div>${t}
+      <div class="crow"><div class="cbig">${nf(x.a)}<small>vendas</small></div>${vtxt}</div>
+      <div style="font-size:11px;color:#52525b">período anterior: ${nf(x.p)}</div></div>`;
+  }).join('');
+}
+
+function desenhaConclusao(a,p,w,k,ka,topO){
+  const li=[];
+  const dv = ka.v? 100*(k.v-ka.v)/ka.v : 0;
+  const dpct = k.pct - ka.pct;
+  const alvo = (F.marca==='ALL'?'O grupo':F.marca) + (F.seg==='ALL'?'':' em '+F.seg.toLowerCase());
+  li.push(`${alvo} vendeu <b>${nf(k.v)}</b> no período, ${dv>=0?'alta':'queda'} de <b>${Math.abs(dv).toFixed(0)}%</b> contra ${w.labelAnt}.`);
+  if(k.v) li.push(`<b>${k.pct.toFixed(0)}%</b> das vendas vieram de mídia${Math.abs(dpct)>=1?`, ${dpct>0?'ganhando':'perdendo'} <b>${Math.abs(dpct).toFixed(0)} pontos</b> contra o período anterior`:', praticamente o mesmo peso do período anterior'}.`);
+  if(topO) li.push(`A mídia que mais vendeu foi <b>${topO.nome}</b>, com ${nf(topO.a)} vendas.`);
+  const sem = a.filter(r=>r[4]===2).length;
+  if(sem) li.push(`Ainda restam <b>${nf(sem)}</b> vendas sem origem identificada (${(100*sem/k.v).toFixed(0)}% do total). Elas não têm nenhum lead com origem nos 12 meses anteriores.`);
+  document.getElementById('conc').innerHTML = li.map(t=>`<li>${t}</li>`).join('');
+}
+
+/* ---------------- filtros ---------------- */
+function botoes(){
+  const mk=(grp,val,rot,sub)=>`<button class="segbtn${F[grp]===val?' on':''}" data-g="${grp}" data-v="${val}">${rot}${sub?`<small>${sub}</small>`:''}</button>`;
+  const marcas = [...MARCA].filter(m=>m!=='Outros').sort();
+  document.getElementById('fmarca').innerHTML =
+    mk('marca','ALL','Todas','') + marcas.map(m=>mk('marca',m,m,'')).join('');
+  const segs = ['Novos','Seminovos','Venda Direta'].filter(s=>SEG.includes(s));
+  document.getElementById('fseg').innerHTML =
+    mk('seg','ALL','Todos','') + segs.map(s=>mk('seg',s,s,'')).join('');
+  document.getElementById('fper').innerHTML =
+    mk('per','mes','Mês atual','') + mk('per','30d','30 dias','') + mk('per','90d','90 dias','');
+  document.querySelectorAll('.segbtn').forEach(b=>b.onclick=()=>{
+    F[b.dataset.g]=b.dataset.v; botoes(); render();
+  });
+}
+botoes(); render();
 """
 
 
-def n(x):
-    return f"{x:,}".replace(",", ".")
+def build():
+    dados = json.dumps(D, ensure_ascii=False, separators=(",", ":"))
+    js = JS.replace("__DADOS__", dados)
+    cob = D["cobertura"]
+    h = [f"""<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Vendas por Mídia · Grupo Carrera</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>{CSS}</style></head><body>
+<div class="head"><div class="wrap" style="padding-bottom:0">
+  <div class="brandrow"><div class="logo">C</div>
+    <div><div class="h1">Vendas por <b>Mídia</b></div>
+      <div class="htag">De onde a venda saiu de verdade, incluindo o que o Sales registrou como avulso</div></div>
+    <div class="pill">Até {D['ate'][8:10]}/{D['ate'][5:7]} · {D['gerado_em']}</div></div>
+  <div class="filters">
+    <div class="fgrp"><span class="filterlbl">Marca</span>
+      <div class="segfilter" id="fmarca"></div></div>
+    <div class="fgrp"><span class="filterlbl">Segmento</span>
+      <div class="segfilter" id="fseg"></div></div>
+    <div class="fgrp"><span class="filterlbl">Período</span>
+      <div class="segfilter" id="fper"></div></div>
+  </div>
+</div></div>
+<div class="wrap">
+  <div class="kpis" id="kpis"></div>
+
+  <div class="sec">
+    <div class="secttl"><span class="dot"></span>Vendas por dia</div>
+    <div class="secsub">Últimos 60 dias, sempre. A altura é o total do dia e a cor é a composição
+      por tipo de origem. Segue os filtros de marca e segmento do topo. O vale de fim de semana
+      é normal do negócio.</div>
+    <div class="panel"><div class="chartbox"><canvas id="graf"></canvas></div></div>
+  </div>
+
+  <div class="sec">
+    <div class="secttl"><span class="dot"></span>De onde saiu venda</div>
+    <div class="secsub">Cada origem no período escolhido, comparada com a janela anterior do
+      mesmo tamanho.</div>
+    <div class="panel"><div class="rk" id="origens"></div></div>
+  </div>
+
+  <div class="sec">
+    <div class="secttl"><span class="dot"></span>O que mudou</div>
+    <div class="secsub">Movimento de <b>venda</b>, não de veiculação: campanha desligada continua
+      vendendo por semanas, porque o lead leva 19 dias em mediana para comprar, e campanha
+      renomeada aparece como uma que zerou e outra que nasceu.</div>
+    <div class="mgrid" id="movs"></div>
+  </div>
+
+  <div class="sec">
+    <div class="secttl"><span class="dot"></span>Campanhas do Meta</div>
+    <div class="secsub">As campanhas que mais geraram venda no período.</div>
+    <div class="aviso"><b>Leia a cobertura antes do ranking.</b> Os campos de campanha e anúncio
+      só existem no Salesforce desde março de 2026 e só chegam em lead de formulário do Meta.
+      Nas vendas de Facebook dos últimos 90 dias, <b>{cob['fb90_camp']} de {cob['fb90_total']}
+      têm campanha identificada ({cob['fb90_pct']}%)</b>. No acumulado do ano cai para
+      {cob['capt_pct']}%, porque janeiro e fevereiro não têm o campo. O ranking é do que está
+      identificado, não do universo inteiro.</div>
+    <div class="cgrid" id="camps"></div>
+  </div>
+
+  <div class="sec">
+    <div class="secttl"><span class="dot"></span>Anúncios</div>
+    <div class="secsub">O criativo que puxou a venda, quando identificado.</div>
+    <div class="cgrid" id="ads"></div>
+  </div>
+
+  <div class="sec">
+    <div class="secttl"><span class="dot"></span>UTM Campaign</div>
+    <div class="secsub">Pega o que o campo de campanha não pega, principalmente WhatsApp e CRM.
+      <b>WA-FB-IA</b> é WhatsApp vindo de anúncio Meta; os <b>CRM-</b> são disparos, com marca e
+      data no próprio código.</div>
+    <div class="cgrid" id="utms"></div>
+  </div>
+
+  <div class="conclusao"><h2>Direção</h2><ul id="conc"></ul></div>
+
+  <footer>Documento interno do Grupo Carrera. Fonte: Salesforce Sales Cloud. A origem de cada
+    venda é reconstruída por cruzamento com a base de leads, por telefone e email, dentro dos 12
+    meses anteriores à venda; o crédito vai integral para a origem mais recente. Este painel não
+    altera nada no Salesforce.</footer>
+</div>
+<script>{js}</script></body></html>"""]
+    out = f"{BASE}/vendas-por-midia.html"
+    with open(out, "w", encoding="utf-8") as f:
+        f.write("".join(h))
+    print(f"HTML gerado: {out} ({os.path.getsize(out)/1024:.0f} KB)")
 
 
-def money(v):
-    if v >= 1_000_000_000:
-        return f"R$ {v/1_000_000_000:.2f} bi".replace(".", ",")
-    if v >= 1_000_000:
-        return f"R$ {v/1_000_000:.0f} mi"
-    return f"R$ {v/1000:.0f} mil"
-
-
-def seta(v, atual=None):
-    if v is None:
-        # sem base anterior: dizer "nova" informa, "sem base" so confunde
-        return ('<span style="color:#f59e0b">nova</span>' if atual
-                else '<span class="flat">–</span>')
-    if v > 1.5:
-        return f'<span class="up">▲ {v:.0f}%</span>'.replace(".0", "")
-    if v < -1.5:
-        return f'<span class="down">▼ {abs(v):.0f}%</span>'.replace(".0", "")
-    return '<span class="flat">estável</span>'
-
-
-def bloco_pulso(b):
-    a, p, v = b["atual"], b["anterior"], b["var"]
-    m = [f'<div class="card"><div class="top"><div class="t">{b["label"]}</div>'
-         f'<div class="per">vs {b["cmp_label"]}</div></div><div class="tri">']
-    for k, rot in (("vendas", "Vendas"), ("origem", "Com origem"), ("captacao", "De mídia")):
-        m.append(f'<div class="met"><div class="k">{rot}</div>'
-                 f'<div class="v">{n(a[k])}</div><div class="d">{seta(v[k])}</div></div>')
-    m.append('</div>')
-    m.append(f'<div class="cmp">No período comparado: {n(p["vendas"])} vendas, '
-             f'{n(p["origem"])} com origem, {n(p["captacao"])} de mídia. '
-             f'Valor negociado agora: {money(a["valor"])}.</div></div>')
-    return "".join(m)
-
-
-def grafico_serie(serie):
-    """Colunas empilhadas por dia: composicao e ritmo semanal na mesma leitura."""
-    W, H, PL, PR, PT, PB = 1060, 250, 34, 10, 14, 30
-    iw, ih = W - PL - PR, H - PT - PB
-    topo = max(max(s["total"] for s in serie), 1) * 1.12
-    bw = iw / len(serie)
-    g = [f'<svg viewBox="0 0 {W} {H}" style="width:100%;height:auto" role="img" '
-         f'aria-label="Vendas por dia nos ultimos 60 dias, por tipo de origem">']
-    for frac in (0, .5, 1):
-        yy = PT + ih - ih * frac
-        g.append(f'<line x1="{PL}" y1="{yy:.1f}" x2="{W-PR}" y2="{yy:.1f}" stroke="#1f2a36"/>')
-        g.append(f'<text x="{PL-7}" y="{yy+4:.1f}" fill="#5f6b78" font-size="10.5" '
-                 f'text-anchor="end">{topo*frac:.0f}</text>')
-    for i, s in enumerate(serie):
-        x = PL + i * bw
-        y = PT + ih
-        # 2px de respiro entre colunas e entre segmentos, para a pilha nao virar bloco
-        for chave, cor in (("captacao", C_CAPT), ("outra", C_OUTRA), ("sem", C_SEM)):
-            h = ih * s[chave] / topo
-            if h <= 0:
-                continue
-            y -= h
-            g.append(f'<rect x="{x+1:.1f}" y="{y:.1f}" width="{max(bw-2,1):.1f}" '
-                     f'height="{max(h-1,.8):.1f}" fill="{cor}"/>')
-        if s["dia"][8:10] in ("01", "15"):
-            g.append(f'<text x="{x+bw/2:.1f}" y="{H-10}" fill="#5f6b78" font-size="10.5" '
-                     f'text-anchor="middle">{s["dia"][8:10]}/{s["dia"][5:7]}</text>')
-    g.append("</svg>")
-    return "".join(g)
-
-
-CLS_ROT = {"captacao": "Mídia", "outra_origem": "Outra origem", "sem_origem": "Sem origem"}
-
-
-def tabela_rank(itens, titulo_col, tags=False, classes=False, limite=None):
-    m = ['<div class="card scroll"><table><tr>'
-         f'<th>{titulo_col}</th><th>Últimos 30d</th><th>30d anteriores</th><th>Variação</th></tr>']
-    for x in (itens[:limite] if limite else itens):
-        t = ""
-        if tags:
-            chips = [x.get(k) for k in ("marca", "segmento", "formato") if x.get(k)]
-            if chips:
-                t = '<div class="tags">' + "".join(
-                    f'<span class="tag">{escape(c)}</span>' for c in chips) + "</div>"
-        if classes:
-            # sem essa marcacao, Lead Avulso lidera a tabela e passa por midia
-            c = x.get("classe", "sem_origem")
-            cor = {"captacao": C_CAPT, "outra_origem": C_OUTRA}.get(c, C_SEM)
-            t = (f'<div class="tags"><span class="tag" style="color:{cor}">'
-                 f'{CLS_ROT[c]}</span></div>')
-        m.append(f'<tr><td><div class="nome">{escape(x["nome"])}</div>{t}</td>'
-                 f'<td>{n(x["atual"])}</td><td>{n(x["anterior"])}</td>'
-                 f'<td>{seta(x["var"], x["atual"])}</td></tr>')
-    m.append("</table></div>")
-    return "".join(m)
-
-
-p = [f'<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">'
-     f'<meta name="robots" content="noindex,nofollow">'
-     f'<meta name="viewport" content="width=device-width,initial-scale=1">'
-     f'<title>Vendas por Mídia · Grupo Carrera</title><style>{CSS}</style></head>'
-     f'<body><div class="wrap">']
-p.append('<div class="eyebrow">Grupo Carrera · Gestão de Marketing</div>')
-p.append('<h1>Vendas por <span class="b">Mídia</span></h1>')
-p.append('<div class="sub">De onde as vendas estão saindo agora. A origem de cada venda é '
-         'reconstruída por cruzamento com a base de leads, então inclui as vendas que o Sales '
-         'registrou como avulsas. Todo comparativo é contra a janela anterior do mesmo tamanho.'
-         '</div>')
-p.append(f'<div class="stamp">Vendas até {D["ate"][8:10]}/{D["ate"][5:7]}/{D["ate"][:4]} '
-         f'· atualizado em {D["gerado_em"]}</div>')
-
-p.append('<div class="pulso">' + bloco_pulso(P["mes"]) + bloco_pulso(P["d7"]) + '</div>')
-
-# ---- movimentos primeiro: e o que se le em 30 segundos
-if D["movimentos"]:
-    p.append('<h2>O que mudou</h2>')
-    p.append('<div class="h2sub">Comparando os últimos 30 dias com os 30 anteriores, no máximo '
-             'quatro de cada tipo. É movimento de <b>venda</b>, não de veiculação: campanha '
-             'desligada continua vendendo por semanas, porque o lead leva 19 dias em mediana '
-             'para comprar, e campanha renomeada aparece como uma que zerou e outra que '
-             'nasceu.</div>')
-    p.append('<div class="card"><div class="mov">')
-    ROT = {"sumiu": "Zerou", "caiu": "Caiu", "subiu": "Subiu", "novo": "Novo"}
-    for m in D["movimentos"]:
-        p.append(f'<div class="l"><div class="badge b-{m["tipo"]}">{ROT[m["tipo"]]}</div>'
-                 f'<div class="n">{escape(m["nome"])}<span>{m["nivel"]}</span></div>'
-                 f'<div class="v">{escape(m["txt"])}</div></div>')
-    p.append('</div></div>')
-
-p.append('<h2>Vendas por dia</h2>')
-p.append('<div class="h2sub">Últimos 60 dias. A altura é o total de vendas do dia e a cor é a '
-         'composição por tipo de origem. O vale de fim de semana é normal do negócio.</div>')
-p.append(f'<div class="legend"><span><i style="background:{C_CAPT}"></i>Mídia e portais</span>'
-         f'<span><i style="background:{C_OUTRA}"></i>Outras origens</span>'
-         f'<span><i style="background:{C_SEM}"></i>Sem origem</span></div>')
-p.append('<div class="card">' + grafico_serie(D["serie"]) + '</div>')
-
-p.append('<h2>De onde saiu venda</h2>')
-p.append('<div class="h2sub">Cada origem nos últimos 30 dias contra os 30 anteriores, ordenada '
-         'por volume.</div>')
-p.append(tabela_rank(D["rank_origem"], "Origem", classes=True))
-
-p.append('<h2>Meta em detalhe</h2>')
-fb = COB
-p.append(f'<div class="aviso"><b>Leia a cobertura antes do ranking.</b> Os campos de campanha, '
-         f'conjunto e anúncio só existem no Salesforce desde março de 2026, e só chegam em lead '
-         f'de formulário do Meta. Nas vendas atribuídas ao Facebook nos últimos 90 dias, '
-         f'<b>{fb["fb90_camp"]} de {fb["fb90_total"]} têm campanha identificada '
-         f'({fb["fb90_pct"]:.0f}%)</b>. No acumulado de 2026 a cobertura cai para '
-         f'{fb["capt_pct"]:.0f}% das vendas de mídia, porque janeiro e fevereiro não têm o campo. '
-         f'Os rankings abaixo são do que está identificado, não do universo inteiro.</div>'
-         .replace(".0%", "%"))
-
-p.append('<h3>Por campanha</h3>')
-p.append(tabela_rank(D["rank_campanha"], "Campanha", tags=True))
-p.append('<h3>Por anúncio</h3>')
-p.append(tabela_rank(D["rank_anuncio"], "Anúncio"))
-p.append('<h3>Por conjunto</h3>')
-p.append(tabela_rank(D["rank_adset"], "Conjunto de anúncios"))
-
-p.append('<h2>Por UTM Campaign</h2>')
-p.append(f'<div class="h2sub">Pega o que o campo de campanha não pega, principalmente WhatsApp '
-         f'e CRM. Presente em {COB["utm_pct"]:.0f}% das vendas de mídia. '
-         f'<b>WA-FB-IA</b> é WhatsApp vindo de anúncio Meta; os <b>CRM-</b> são disparos, com '
-         f'marca e data no próprio código.</div>'.replace(".0%", "%"))
-p.append(tabela_rank(D["rank_utm"], "UTM Campaign"))
-
-p.append('<footer>Documento interno do Grupo Carrera. Fonte: Salesforce Sales Cloud. A '
-         'atribuição segue a regra de Conversões Reais: origem do lead mais recente do cliente '
-         'nos 12 meses anteriores à venda, crédito integral para uma origem. Este painel não '
-         'altera nada no Salesforce.</footer>')
-p.append("</div></body></html>")
-
-with open(f"{BASE}/vendas-por-midia.html", "w", encoding="utf-8") as f:
-    f.write("".join(p))
-print("HTML gerado: vendas-por-midia.html")
+build()

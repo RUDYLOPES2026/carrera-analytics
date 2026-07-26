@@ -1,5 +1,5 @@
 {
- "gerado_em": "26/07/2026 12:25",
+ "gerado_em": "26/07/2026 12:39",
  "jornada": {
   "multitoque": 5319,
   "pct_multitoque": 27.9,
@@ -406,19 +406,19 @@
    "classe": "outra_origem"
   },
   {
-   "midia": "iCarros",
-   "declarado": 0,
-   "real": 1,
-   "delta": 1,
-   "valor_real": 117447,
-   "classe": "captacao"
-  },
-  {
    "midia": "Remarketing",
    "declarado": 0,
    "real": 1,
    "delta": 1,
    "valor_real": 169000,
+   "classe": "captacao"
+  },
+  {
+   "midia": "iCarros",
+   "declarado": 0,
+   "real": 1,
+   "delta": 1,
+   "valor_real": 117447,
    "classe": "captacao"
   }
  ],
