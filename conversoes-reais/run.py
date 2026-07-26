@@ -28,10 +28,12 @@ CAMPOS_VENDA = ("Id, DataAprovacaoVenda__c, Midias_Opp__c, Midia_LeadOPP__c, Int
 
 
 def monta_jobs(hoje):
-    """Um job de vendas do ano + um job de leads por mes ja iniciado.
+    """Um job de vendas do ano + um job de leads por mes.
 
-    Mes a mes porque uma unica query de 740 mil linhas fica exposta demais a
-    timeout: se um mes falhar, so ele precisa ser refeito.
+    Os leads comecam no ano ANTERIOR: a atribuicao usa janela de 12 meses moveis
+    antes de cada venda, entao uma venda de janeiro precisa enxergar leads de
+    janeiro do ano passado. Mes a mes porque uma unica query de 2 milhoes de
+    linhas fica exposta demais a timeout: se um mes falhar, so ele e refeito.
     """
     ano = hoje.year
     # limite superior = amanha as 00h BRT, para incluir o dia de hoje inteiro
@@ -42,11 +44,11 @@ def monta_jobs(hoje):
                   f"WHERE DataAprovacaoVenda__c >= {ano}-01-01T03:00:00Z "
                   f"AND DataAprovacaoVenda__c < {fim}"),
     }]
-    for m in range(1, hoje.month + 1):
-        ini = f"{ano}-{m:02d}-01T03:00:00Z"
-        prox = (f"{ano + 1}-01-01T03:00:00Z" if m == 12 else f"{ano}-{m + 1:02d}-01T03:00:00Z")
+    for a, m in [(ano - 1, m) for m in range(1, 13)] + [(ano, m) for m in range(1, hoje.month + 1)]:
+        ini = f"{a}-{m:02d}-01T03:00:00Z"
+        prox = (f"{a + 1}-01-01T03:00:00Z" if m == 12 else f"{a}-{m + 1:02d}-01T03:00:00Z")
         jobs.append({
-            "out": f"{DADOS}/leads_{ano}_{m:02d}.ndjson",
+            "out": f"{DADOS}/leads_{a}_{m:02d}.ndjson",
             "query": (f"SELECT {CAMPOS_LEAD} FROM Lead "
                       f"WHERE CreatedDate >= {ini} AND CreatedDate < {min(prox, fim)}"),
         })
