@@ -82,6 +82,16 @@ passo("cruzamento lead x venda", "cruzamento.py")
 passo("agregacao", "agrega.py")
 passo("geracao do HTML", "gera_dash.py")
 
+# Campanha/anuncio/UTM: so dos leads que atribuiram venda (uns 23 mil), nao dos
+# 1,9 milhao. Depende do cruzamento, que e quem diz quais leads sao esses.
+if not a.sem_extrair:
+    passo("campanha e anuncio dos leads atribuidores", "enriquece.py")
+if os.path.exists(f"{DADOS}/leads_enriq.ndjson"):
+    passo("agregacao do dash de midia", "agrega_midia.py")
+    passo("geracao do dash de midia", "gera_dash_midia.py")
+else:
+    print("\n[aviso] sem leads_enriq.ndjson: dash de midia nao foi gerado")
+
 if a.repo:
     destino = os.path.join(a.repo, "client", "public", "conversoes-reais")
     os.makedirs(os.path.join(destino, "resumo"), exist_ok=True)
@@ -91,5 +101,12 @@ if a.repo:
     # o JSON vai junto: e o cofre que permite refazer o dash sem reextrair
     shutil.copy(f"{BASE}/dados.json", os.path.join(destino, "dados.json"))
     print(f"\npublicado em {destino}")
+
+    if os.path.exists(f"{BASE}/vendas-por-midia.html"):
+        dm = os.path.join(a.repo, "client", "public", "vendas-por-midia")
+        os.makedirs(dm, exist_ok=True)
+        shutil.copy(f"{BASE}/vendas-por-midia.html", os.path.join(dm, "index.html"))
+        shutil.copy(f"{BASE}/dados_midia.json", os.path.join(dm, "dados.json"))
+        print(f"publicado em {dm}")
 
 print("\nOK")

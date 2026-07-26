@@ -1,0 +1,1370 @@
+{
+ "gerado_em": "26/07/2026 12:25",
+ "ate": "2026-07-26",
+ "janela_30d": {
+  "atual": [
+   "2026-06-27",
+   "2026-07-26"
+  ],
+  "anterior": [
+   "2026-05-28",
+   "2026-06-26"
+  ]
+ },
+ "pulso": {
+  "mes": {
+   "label": "julho, dias 1 a 26",
+   "cmp_label": "mesmos 26 dias de junho",
+   "atual": {
+    "vendas": 2766,
+    "origem": 1778,
+    "captacao": 1292,
+    "valor": 364271688
+   },
+   "anterior": {
+    "vendas": 2228,
+    "origem": 1480,
+    "captacao": 992,
+    "valor": 281882693
+   },
+   "var": {
+    "vendas": 24.1,
+    "origem": 20.1,
+    "captacao": 30.2
+   }
+  },
+  "d7": {
+   "label": "20/07 a 26/07",
+   "cmp_label": "7 dias anteriores",
+   "atual": {
+    "vendas": 894,
+    "origem": 571,
+    "captacao": 420,
+    "valor": 118731004
+   },
+   "anterior": {
+    "vendas": 824,
+    "origem": 544,
+    "captacao": 379,
+    "valor": 110241109
+   },
+   "var": {
+    "vendas": 8.5,
+    "origem": 5.0,
+    "captacao": 10.8
+   }
+  }
+ },
+ "serie": [
+  {
+   "dia": "2026-05-28",
+   "captacao": 54,
+   "outra": 34,
+   "sem": 40,
+   "total": 123
+  },
+  {
+   "dia": "2026-05-29",
+   "captacao": 81,
+   "outra": 36,
+   "sem": 89,
+   "total": 198
+  },
+  {
+   "dia": "2026-05-30",
+   "captacao": 76,
+   "outra": 26,
+   "sem": 76,
+   "total": 171
+  },
+  {
+   "dia": "2026-05-31",
+   "captacao": 55,
+   "outra": 27,
+   "sem": 49,
+   "total": 128
+  },
+  {
+   "dia": "2026-06-01",
+   "captacao": 42,
+   "outra": 38,
+   "sem": 22,
+   "total": 86
+  },
+  {
+   "dia": "2026-06-02",
+   "captacao": 28,
+   "outra": 15,
+   "sem": 24,
+   "total": 60
+  },
+  {
+   "dia": "2026-06-03",
+   "captacao": 29,
+   "outra": 9,
+   "sem": 17,
+   "total": 53
+  },
+  {
+   "dia": "2026-06-04",
+   "captacao": 25,
+   "outra": 4,
+   "sem": 25,
+   "total": 53
+  },
+  {
+   "dia": "2026-06-05",
+   "captacao": 35,
+   "outra": 23,
+   "sem": 43,
+   "total": 94
+  },
+  {
+   "dia": "2026-06-06",
+   "captacao": 42,
+   "outra": 20,
+   "sem": 33,
+   "total": 89
+  },
+  {
+   "dia": "2026-06-07",
+   "captacao": 0,
+   "outra": 0,
+   "sem": 0,
+   "total": 0
+  },
+  {
+   "dia": "2026-06-08",
+   "captacao": 30,
+   "outra": 21,
+   "sem": 28,
+   "total": 78
+  },
+  {
+   "dia": "2026-06-09",
+   "captacao": 27,
+   "outra": 43,
+   "sem": 31,
+   "total": 99
+  },
+  {
+   "dia": "2026-06-10",
+   "captacao": 24,
+   "outra": 23,
+   "sem": 31,
+   "total": 76
+  },
+  {
+   "dia": "2026-06-11",
+   "captacao": 40,
+   "outra": 61,
+   "sem": 29,
+   "total": 129
+  },
+  {
+   "dia": "2026-06-12",
+   "captacao": 27,
+   "outra": 17,
+   "sem": 23,
+   "total": 64
+  },
+  {
+   "dia": "2026-06-13",
+   "captacao": 50,
+   "outra": 13,
+   "sem": 39,
+   "total": 97
+  },
+  {
+   "dia": "2026-06-14",
+   "captacao": 0,
+   "outra": 0,
+   "sem": 0,
+   "total": 0
+  },
+  {
+   "dia": "2026-06-15",
+   "captacao": 33,
+   "outra": 26,
+   "sem": 22,
+   "total": 74
+  },
+  {
+   "dia": "2026-06-16",
+   "captacao": 36,
+   "outra": 28,
+   "sem": 23,
+   "total": 80
+  },
+  {
+   "dia": "2026-06-17",
+   "captacao": 41,
+   "outra": 33,
+   "sem": 37,
+   "total": 108
+  },
+  {
+   "dia": "2026-06-18",
+   "captacao": 33,
+   "outra": 17,
+   "sem": 25,
+   "total": 73
+  },
+  {
+   "dia": "2026-06-19",
+   "captacao": 56,
+   "outra": 34,
+   "sem": 41,
+   "total": 123
+  },
+  {
+   "dia": "2026-06-20",
+   "captacao": 86,
+   "outra": 16,
+   "sem": 55,
+   "total": 150
+  },
+  {
+   "dia": "2026-06-21",
+   "captacao": 20,
+   "outra": 9,
+   "sem": 16,
+   "total": 42
+  },
+  {
+   "dia": "2026-06-22",
+   "captacao": 50,
+   "outra": 27,
+   "sem": 28,
+   "total": 99
+  },
+  {
+   "dia": "2026-06-23",
+   "captacao": 61,
+   "outra": 23,
+   "sem": 37,
+   "total": 117
+  },
+  {
+   "dia": "2026-06-24",
+   "captacao": 38,
+   "outra": 59,
+   "sem": 34,
+   "total": 129
+  },
+  {
+   "dia": "2026-06-25",
+   "captacao": 56,
+   "outra": 19,
+   "sem": 33,
+   "total": 100
+  },
+  {
+   "dia": "2026-06-26",
+   "captacao": 83,
+   "outra": 41,
+   "sem": 52,
+   "total": 155
+  },
+  {
+   "dia": "2026-06-27",
+   "captacao": 81,
+   "outra": 19,
+   "sem": 83,
+   "total": 176
+  },
+  {
+   "dia": "2026-06-28",
+   "captacao": 23,
+   "outra": 9,
+   "sem": 41,
+   "total": 70
+  },
+  {
+   "dia": "2026-06-29",
+   "captacao": 60,
+   "outra": 42,
+   "sem": 42,
+   "total": 137
+  },
+  {
+   "dia": "2026-06-30",
+   "captacao": 101,
+   "outra": 50,
+   "sem": 73,
+   "total": 212
+  },
+  {
+   "dia": "2026-07-01",
+   "captacao": 43,
+   "outra": 16,
+   "sem": 40,
+   "total": 96
+  },
+  {
+   "dia": "2026-07-02",
+   "captacao": 34,
+   "outra": 26,
+   "sem": 37,
+   "total": 92
+  },
+  {
+   "dia": "2026-07-03",
+   "captacao": 42,
+   "outra": 18,
+   "sem": 30,
+   "total": 81
+  },
+  {
+   "dia": "2026-07-04",
+   "captacao": 68,
+   "outra": 9,
+   "sem": 50,
+   "total": 123
+  },
+  {
+   "dia": "2026-07-05",
+   "captacao": 0,
+   "outra": 1,
+   "sem": 0,
+   "total": 1
+  },
+  {
+   "dia": "2026-07-06",
+   "captacao": 50,
+   "outra": 21,
+   "sem": 41,
+   "total": 108
+  },
+  {
+   "dia": "2026-07-07",
+   "captacao": 48,
+   "outra": 39,
+   "sem": 25,
+   "total": 103
+  },
+  {
+   "dia": "2026-07-08",
+   "captacao": 42,
+   "outra": 25,
+   "sem": 37,
+   "total": 100
+  },
+  {
+   "dia": "2026-07-09",
+   "captacao": 39,
+   "outra": 17,
+   "sem": 24,
+   "total": 77
+  },
+  {
+   "dia": "2026-07-10",
+   "captacao": 65,
+   "outra": 50,
+   "sem": 44,
+   "total": 138
+  },
+  {
+   "dia": "2026-07-11",
+   "captacao": 58,
+   "outra": 12,
+   "sem": 56,
+   "total": 124
+  },
+  {
+   "dia": "2026-07-12",
+   "captacao": 4,
+   "outra": 0,
+   "sem": 1,
+   "total": 5
+  },
+  {
+   "dia": "2026-07-13",
+   "captacao": 51,
+   "outra": 52,
+   "sem": 36,
+   "total": 131
+  },
+  {
+   "dia": "2026-07-14",
+   "captacao": 49,
+   "outra": 30,
+   "sem": 38,
+   "total": 108
+  },
+  {
+   "dia": "2026-07-15",
+   "captacao": 46,
+   "outra": 30,
+   "sem": 36,
+   "total": 109
+  },
+  {
+   "dia": "2026-07-16",
+   "captacao": 69,
+   "outra": 28,
+   "sem": 32,
+   "total": 126
+  },
+  {
+   "dia": "2026-07-17",
+   "captacao": 81,
+   "outra": 67,
+   "sem": 52,
+   "total": 165
+  },
+  {
+   "dia": "2026-07-18",
+   "captacao": 66,
+   "outra": 21,
+   "sem": 69,
+   "total": 150
+  },
+  {
+   "dia": "2026-07-19",
+   "captacao": 17,
+   "outra": 3,
+   "sem": 17,
+   "total": 35
+  },
+  {
+   "dia": "2026-07-20",
+   "captacao": 55,
+   "outra": 38,
+   "sem": 43,
+   "total": 128
+  },
+  {
+   "dia": "2026-07-21",
+   "captacao": 74,
+   "outra": 53,
+   "sem": 41,
+   "total": 152
+  },
+  {
+   "dia": "2026-07-22",
+   "captacao": 56,
+   "outra": 32,
+   "sem": 43,
+   "total": 121
+  },
+  {
+   "dia": "2026-07-23",
+   "captacao": 71,
+   "outra": 30,
+   "sem": 45,
+   "total": 129
+  },
+  {
+   "dia": "2026-07-24",
+   "captacao": 60,
+   "outra": 30,
+   "sem": 49,
+   "total": 129
+  },
+  {
+   "dia": "2026-07-25",
+   "captacao": 103,
+   "outra": 36,
+   "sem": 102,
+   "total": 234
+  },
+  {
+   "dia": "2026-07-26",
+   "captacao": 1,
+   "outra": 0,
+   "sem": 0,
+   "total": 1
+  }
+ ],
+ "rank_origem": [
+  {
+   "nome": "Lead Avulso",
+   "atual": 1121,
+   "anterior": 897,
+   "delta": 224,
+   "var": 25.0,
+   "classe": "sem_origem"
+  },
+  {
+   "nome": "WhatsApp",
+   "atual": 488,
+   "anterior": 377,
+   "delta": 111,
+   "var": 29.4,
+   "classe": "captacao"
+  },
+  {
+   "nome": "Lead Revenda",
+   "atual": 309,
+   "anterior": 378,
+   "delta": -69,
+   "var": -18.3,
+   "classe": "outra_origem"
+  },
+  {
+   "nome": "Facebook",
+   "atual": 252,
+   "anterior": 246,
+   "delta": 6,
+   "var": 2.4,
+   "classe": "captacao"
+  },
+  {
+   "nome": "URA",
+   "atual": 226,
+   "anterior": 185,
+   "delta": 41,
+   "var": 22.2,
+   "classe": "outra_origem"
+  },
+  {
+   "nome": "VD Corporate",
+   "atual": 192,
+   "anterior": 94,
+   "delta": 98,
+   "var": 104.3,
+   "classe": "outra_origem"
+  },
+  {
+   "nome": "Mercado Livre",
+   "atual": 170,
+   "anterior": 103,
+   "delta": 67,
+   "var": 65.0,
+   "classe": "captacao"
+  },
+  {
+   "nome": "Lead Montadora",
+   "atual": 135,
+   "anterior": 91,
+   "delta": 44,
+   "var": 48.4,
+   "classe": "captacao"
+  },
+  {
+   "nome": "OPV Montadora",
+   "atual": 116,
+   "anterior": 97,
+   "delta": 19,
+   "var": 19.6,
+   "classe": "captacao"
+  },
+  {
+   "nome": "AutoAtendimento",
+   "atual": 93,
+   "anterior": 85,
+   "delta": 8,
+   "var": 9.4,
+   "classe": "sem_origem"
+  },
+  {
+   "nome": "Site Carrera",
+   "atual": 85,
+   "anterior": 91,
+   "delta": -6,
+   "var": -6.6,
+   "classe": "captacao"
+  },
+  {
+   "nome": "Webmotors",
+   "atual": 76,
+   "anterior": 85,
+   "delta": -9,
+   "var": -10.6,
+   "classe": "captacao"
+  },
+  {
+   "nome": "Passagem Oficina",
+   "atual": 49,
+   "anterior": 45,
+   "delta": 4,
+   "var": 8.9,
+   "classe": "outra_origem"
+  },
+  {
+   "nome": "Seguro",
+   "atual": 17,
+   "anterior": 29,
+   "delta": -12,
+   "var": -41.4,
+   "classe": "outra_origem"
+  },
+  {
+   "nome": "Outros",
+   "atual": 13,
+   "anterior": 20,
+   "delta": -7,
+   "var": -35.0,
+   "classe": "sem_origem"
+  },
+  {
+   "nome": "OLX",
+   "atual": 7,
+   "anterior": 13,
+   "delta": -6,
+   "var": -46.2,
+   "classe": "captacao"
+  },
+  {
+   "nome": "Evento Dealer",
+   "atual": 6,
+   "anterior": 9,
+   "delta": -3,
+   "var": -33.3,
+   "classe": "outra_origem"
+  },
+  {
+   "nome": "Indicação Portal",
+   "atual": 5,
+   "anterior": 1,
+   "delta": 4,
+   "var": 400.0,
+   "classe": "outra_origem"
+  },
+  {
+   "nome": "MobiAuto",
+   "atual": 1,
+   "anterior": 0,
+   "delta": 1,
+   "var": null,
+   "classe": "captacao"
+  },
+  {
+   "nome": "iCarros",
+   "atual": 0,
+   "anterior": 1,
+   "delta": -1,
+   "var": -100.0,
+   "classe": "captacao"
+  },
+  {
+   "nome": "LM Mobilidade",
+   "atual": 0,
+   "anterior": 1,
+   "delta": -1,
+   "var": -100.0,
+   "classe": "outra_origem"
+  }
+ ],
+ "rank_campanha": [
+  {
+   "nome": "🟩 CA_GWM_NV_FORMULARIO_NOVOS_ORIGINAL",
+   "atual": 23,
+   "anterior": 17,
+   "delta": 6,
+   "var": 35.3,
+   "segmento": "Novos",
+   "marca": "GWM",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 DSPA | GM | NV | FORM | MODELOS |",
+   "atual": 13,
+   "anterior": 7,
+   "delta": 6,
+   "var": 85.7,
+   "segmento": "Novos",
+   "marca": "Chevrolet",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 DSPA | BJC | NV | FORM | SP | BUT",
+   "atual": 12,
+   "anterior": 0,
+   "delta": 12,
+   "var": null,
+   "segmento": "Novos",
+   "marca": "Bajaj",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 DSPA | NI | NV | FORM | SP |",
+   "atual": 12,
+   "anterior": 0,
+   "delta": 12,
+   "var": null,
+   "segmento": "Novos",
+   "marca": "Nissan",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟦 DSPA | GM | VD | FORM | SP |",
+   "atual": 11,
+   "anterior": 2,
+   "delta": 9,
+   "var": 450.0,
+   "segmento": "Venda Direta",
+   "marca": "Chevrolet",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 DSPA | VW | NV | FORM | SP |",
+   "atual": 10,
+   "anterior": 0,
+   "delta": 10,
+   "var": null,
+   "segmento": "Novos",
+   "marca": "Volkswagen",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟧 DSPA | NI | SN | FORM | SP/INT/VALE | CATALOGO",
+   "atual": 9,
+   "anterior": 0,
+   "delta": 9,
+   "var": null,
+   "segmento": "Seminovos",
+   "marca": "Nissan",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 DSPA | OJC | NV | FORM | SP |",
+   "atual": 7,
+   "anterior": 0,
+   "delta": 7,
+   "var": null,
+   "segmento": "Novos",
+   "marca": "Omoda Jaecoo",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟦 DSPA | NI | VD | FORM | SP/INT/VALE |",
+   "atual": 6,
+   "anterior": 0,
+   "delta": 6,
+   "var": null,
+   "segmento": "Venda Direta",
+   "marca": "Nissan",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟦 CA_NI_G_VD_FORMULARIO_VENDA-DIRETA",
+   "atual": 5,
+   "anterior": 7,
+   "delta": -2,
+   "var": -28.6,
+   "segmento": "Venda Direta",
+   "marca": "Nissan",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 CA_OJ_SP_NV_FORMULARIO_NOVOS_ORIGINAL",
+   "atual": 5,
+   "anterior": 3,
+   "delta": 2,
+   "var": 66.7,
+   "segmento": "Novos",
+   "marca": "Omoda Jaecoo",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟧 DSPA | NI | SN | FORM | SP/INT/VALE |",
+   "atual": 4,
+   "anterior": 0,
+   "delta": 4,
+   "var": null,
+   "segmento": "Seminovos",
+   "marca": "Nissan",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 CA_ZK_SP_NV_FORMULARIO_NOVOS_COM_PERGUNTAS",
+   "atual": 4,
+   "anterior": 0,
+   "delta": 4,
+   "var": null,
+   "segmento": "Novos",
+   "marca": "Zeekr",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 DSPA | NI | NV | FORM | INT |",
+   "atual": 3,
+   "anterior": 0,
+   "delta": 3,
+   "var": null,
+   "segmento": "Novos",
+   "marca": "Nissan",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 V4_CA_NI_SP_NV_FORMULARIO_NOVOS_ORIGINAL",
+   "atual": 3,
+   "anterior": 4,
+   "delta": -1,
+   "var": -25.0,
+   "segmento": "Novos",
+   "marca": "Nissan",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟦 CA_VW_VD_FORMULARIO_VENDA-DIRETA",
+   "atual": 3,
+   "anterior": 8,
+   "delta": -5,
+   "var": -62.5,
+   "segmento": "Venda Direta",
+   "marca": "Volkswagen",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 DSPA | GM | NV | FORM | SP | MOVE-BRASIL |",
+   "atual": 3,
+   "anterior": 0,
+   "delta": 3,
+   "var": null,
+   "segmento": "Novos",
+   "marca": "Chevrolet",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟧 DSPA | VW | SN | FORM | SP |",
+   "atual": 3,
+   "anterior": 0,
+   "delta": 3,
+   "var": null,
+   "segmento": "Seminovos",
+   "marca": "Volkswagen",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟦  V4_CA_VW_VD_FORMULARIO_VENDA-DIRETA",
+   "atual": 3,
+   "anterior": 1,
+   "delta": 2,
+   "var": 200.0,
+   "segmento": "Venda Direta",
+   "marca": "Volkswagen",
+   "formato": "Formulário"
+  },
+  {
+   "nome": "🟩 CA_OJ_SJRP_NV_FORMULARIO_NOVOS_ORIGINAL",
+   "atual": 3,
+   "anterior": 5,
+   "delta": -2,
+   "var": -40.0,
+   "segmento": "Novos",
+   "marca": "Omoda Jaecoo",
+   "formato": "Formulário"
+  }
+ ],
+ "rank_adset": [
+  {
+   "nome": "CJ | ABERTO | REGIONAL | SP",
+   "atual": 16,
+   "anterior": 0,
+   "delta": 16,
+   "var": null
+  },
+  {
+   "nome": "CJ | ABERTO | BUT |  V4",
+   "atual": 12,
+   "anterior": 0,
+   "delta": 12,
+   "var": null
+  },
+  {
+   "nome": "CJ | ABERTO | REGIONAL | INT",
+   "atual": 7,
+   "anterior": 0,
+   "delta": 7,
+   "var": null
+  },
+  {
+   "nome": "CJ | ABERTO | REGIONAL | ORA",
+   "atual": 7,
+   "anterior": 0,
+   "delta": 7,
+   "var": null
+  },
+  {
+   "nome": "SP-NV-ABERTA-GERAL",
+   "atual": 6,
+   "anterior": 11,
+   "delta": -5,
+   "var": -45.5
+  },
+  {
+   "nome": "CJ | ABERTO | REGIONAL |",
+   "atual": 5,
+   "anterior": 1,
+   "delta": 4,
+   "var": 400.0
+  },
+  {
+   "nome": "[NIVUS] Público amplo - SP - Advantage",
+   "atual": 5,
+   "anterior": 0,
+   "delta": 5,
+   "var": null
+  },
+  {
+   "nome": "[HAVAL H6] GERAL-NV-PUB-ALVO-HAVAL_H6",
+   "atual": 5,
+   "anterior": 8,
+   "delta": -3,
+   "var": -37.5
+  },
+  {
+   "nome": "[Ora] Público amplo - São Paulo - Advantage",
+   "atual": 5,
+   "anterior": 2,
+   "delta": 3,
+   "var": 150.0
+  },
+  {
+   "nome": "CJ | ABERTO | REGIONAL |  SP",
+   "atual": 4,
+   "anterior": 0,
+   "delta": 4,
+   "var": null
+  },
+  {
+   "nome": "CJ | ABERTO | SP | OMODA",
+   "atual": 4,
+   "anterior": 0,
+   "delta": 4,
+   "var": null
+  },
+  {
+   "nome": "CJ | INTERESSES | REGIONAL | HAVAL H6",
+   "atual": 4,
+   "anterior": 0,
+   "delta": 4,
+   "var": null
+  },
+  {
+   "nome": "CJ | SP | ABERTO | REGIONAL |  MODELOS  [nova página]",
+   "atual": 4,
+   "anterior": 0,
+   "delta": 4,
+   "var": null
+  },
+  {
+   "nome": "V4_CJ_VD_LAL_SAO-PAULO_PCD",
+   "atual": 4,
+   "anterior": 1,
+   "delta": 3,
+   "var": 300.0
+  },
+  {
+   "nome": "CJ | SP | ABERTO | REGIONAL |  ONIX  [nova página]",
+   "atual": 4,
+   "anterior": 0,
+   "delta": 4,
+   "var": null
+  }
+ ],
+ "rank_anuncio": [
+  {
+   "nome": "20250825_VIDEO_PULSAR-150-SEM-ENTRADA_AGO",
+   "atual": 8,
+   "anterior": 6,
+   "delta": 2,
+   "var": 33.3
+  },
+  {
+   "nome": "202663-KAIT SENSE-LOTE RESERVADO",
+   "atual": 7,
+   "anterior": 6,
+   "delta": 1,
+   "var": 16.7
+  },
+  {
+   "nome": "20260625 | ORA_05 | PRE-VENDA | KV-MONTADORA  |",
+   "atual": 6,
+   "anterior": 0,
+   "delta": 6,
+   "var": null
+  },
+  {
+   "nome": "20260707 | MODELOS | OFERTA | KV-MES  | LIMPA-ESTOQUE_JUL |",
+   "atual": 6,
+   "anterior": 0,
+   "delta": 6,
+   "var": null
+  },
+  {
+   "nome": "2026528-VIDEO_MOVE-BRASIL_MAIO",
+   "atual": 5,
+   "anterior": 4,
+   "delta": 1,
+   "var": 25.0
+  },
+  {
+   "nome": "19052026_____Seminovos_catologo_maio_Carrossel",
+   "atual": 5,
+   "anterior": 0,
+   "delta": 5,
+   "var": null
+  },
+  {
+   "nome": "2026611-JAECOO_7-OFERTA_COOPERADA_V1_jun",
+   "atual": 5,
+   "anterior": 0,
+   "delta": 5,
+   "var": null
+  },
+  {
+   "nome": "EternoVD_3_VIDEO_ONIX-PCD",
+   "atual": 4,
+   "anterior": 1,
+   "delta": 3,
+   "var": 300.0
+  },
+  {
+   "nome": "202661-HAVAL_H6&H9-OPERAÇÃO_HAVAL",
+   "atual": 4,
+   "anterior": 2,
+   "delta": 2,
+   "var": 100.0
+  },
+  {
+   "nome": "20260615 | ONIX | OFERTA | KV-MES  | OFERTA JUNHO",
+   "atual": 3,
+   "anterior": 0,
+   "delta": 3,
+   "var": null
+  },
+  {
+   "nome": "20250910_VIDEO_AMANDA-MODELOS-01_SET",
+   "atual": 3,
+   "anterior": 0,
+   "delta": 3,
+   "var": null
+  },
+  {
+   "nome": "202663-VENDA DIRETA-MOVE BRASIL",
+   "atual": 3,
+   "anterior": 2,
+   "delta": 1,
+   "var": 50.0
+  },
+  {
+   "nome": "2026514-MODELOS-CATALOGO-ÚNICA",
+   "atual": 3,
+   "anterior": 0,
+   "delta": 3,
+   "var": null
+  },
+  {
+   "nome": "20260706 | PULSAR_N150 | PEÇAS | KV-MES | AMANDA- MOVE BAJAJ",
+   "atual": 3,
+   "anterior": 0,
+   "delta": 3,
+   "var": null
+  },
+  {
+   "nome": "20260618 | ORA_05 | EVENTO | PRE_LANCAMENTO  |",
+   "atual": 3,
+   "anterior": 0,
+   "delta": 3,
+   "var": null
+  },
+  {
+   "nome": "20260619 | ONIX | ETERNO |",
+   "atual": 3,
+   "anterior": 0,
+   "delta": 3,
+   "var": null
+  },
+  {
+   "nome": "19052026_____Seminovos_catologo_maio_UNICO",
+   "atual": 2,
+   "anterior": 0,
+   "delta": 2,
+   "var": null
+  },
+  {
+   "nome": "20260617 | KICKS | OFERTA | UBER | KV-MONTADORA  | MOVE_BRASIL |",
+   "atual": 2,
+   "anterior": 1,
+   "delta": 1,
+   "var": 100.0
+  },
+  {
+   "nome": "20260613 | TERA | OFERTA | MOTORISTAS | KV-MES  | VIDEO_MOVE_BRASIL |",
+   "atual": 2,
+   "anterior": 4,
+   "delta": -2,
+   "var": -50.0
+  },
+  {
+   "nome": "2026611-GERAL-VIDEO_PCD_DAY_JUN-20/06/2026",
+   "atual": 2,
+   "anterior": 1,
+   "delta": 1,
+   "var": 100.0
+  }
+ ],
+ "rank_utm": [
+  {
+   "nome": "WA-FB-IA",
+   "atual": 57,
+   "anterior": 58,
+   "delta": -1,
+   "var": -1.7
+  },
+  {
+   "nome": "BF25",
+   "atual": 16,
+   "anterior": 15,
+   "delta": 1,
+   "var": 6.7
+  },
+  {
+   "nome": "DSPA-BJC--N-20260702-MT-FM-",
+   "atual": 15,
+   "anterior": 0,
+   "delta": 15,
+   "var": null
+  },
+  {
+   "nome": "2026212-gwm-meta-paid_social-mensagem-sp-geral-nv-aberta-phev35-explode_promocao_cooperada",
+   "atual": 10,
+   "anterior": 17,
+   "delta": -7,
+   "var": -41.2
+  },
+  {
+   "nome": "(V4-VW-G-VD-20251125-FB-FM-NOV04)",
+   "atual": 9,
+   "anterior": 9,
+   "delta": 0,
+   "var": 0.0
+  },
+  {
+   "nome": "DSPA-NI-SEMINOVOS-S-20260624-MT-FM-",
+   "atual": 9,
+   "anterior": 0,
+   "delta": 9,
+   "var": null
+  },
+  {
+   "nome": "(V4-OJ-G-E5-20250825-FB-FM-NOVOS-AGO05)",
+   "atual": 9,
+   "anterior": 8,
+   "delta": 1,
+   "var": 12.5
+  },
+  {
+   "nome": "ST-WPP",
+   "atual": 9,
+   "anterior": 4,
+   "delta": 5,
+   "var": 125.0
+  },
+  {
+   "nome": "DSPA-VW-ORA_05-N-20260617-MT-WA-PRE_LANCAMENTO",
+   "atual": 8,
+   "anterior": 0,
+   "delta": 8,
+   "var": null
+  },
+  {
+   "nome": "2026527-ni-meta-paid_social-form-sp-geral-vd-aberta",
+   "atual": 7,
+   "anterior": 6,
+   "delta": 1,
+   "var": 16.7
+  },
+  {
+   "nome": "DSPA-GM-ONIX-V-20260619-MT-FM-KV-MES",
+   "atual": 7,
+   "anterior": 0,
+   "delta": 7,
+   "var": null
+  },
+  {
+   "nome": "(V4-OJ-SP-OMODA5-20251003-FB-FM-NOVOS-OUT01)",
+   "atual": 5,
+   "anterior": 4,
+   "delta": 1,
+   "var": 25.0
+  },
+  {
+   "nome": "MONT-TAOS-CAPES",
+   "atual": 5,
+   "anterior": 6,
+   "delta": -1,
+   "var": -16.7
+  },
+  {
+   "nome": "2026527-ni-meta-paid_social-form-sp-geral-nv-aberta-kait",
+   "atual": 5,
+   "anterior": 5,
+   "delta": 0,
+   "var": 0.0
+  },
+  {
+   "nome": "(AE-VW-G-N-29072025-FB-FM-NOVOS)",
+   "atual": 4,
+   "anterior": 4,
+   "delta": 0,
+   "var": 0.0
+  },
+  {
+   "nome": "(AE-NI-G-KAIT-20251203-FB-FM-DEZ01)",
+   "atual": 4,
+   "anterior": 6,
+   "delta": -2,
+   "var": -33.3
+  },
+  {
+   "nome": "2026527-ni-meta-paid_social-form-sp-geral-nv-aberta-versa",
+   "atual": 4,
+   "anterior": 0,
+   "delta": 4,
+   "var": null
+  },
+  {
+   "nome": "CA_GM_SP_NV_SEARCH_NOVOS_ONIX_ORIIGINAL",
+   "atual": 4,
+   "anterior": 2,
+   "delta": 2,
+   "var": 100.0
+  },
+  {
+   "nome": "2026527-gm-meta-paid_social-form-sp-geral-vd-aberta-onix",
+   "atual": 4,
+   "anterior": 1,
+   "delta": 3,
+   "var": 300.0
+  },
+  {
+   "nome": "ST-GT-LJ",
+   "atual": 4,
+   "anterior": 7,
+   "delta": -3,
+   "var": -42.9
+  }
+ ],
+ "movimentos": [
+  {
+   "tipo": "sumiu",
+   "nivel": "Campanha",
+   "nome": "🟩 CA_GM-SP_NV_FORMULARIO_OFERTAS-MES_ORIGINAL",
+   "atual": 0,
+   "anterior": 7,
+   "txt": "7 para 0 vendas"
+  },
+  {
+   "tipo": "caiu",
+   "nivel": "Origem",
+   "nome": "Seguro",
+   "atual": 17,
+   "anterior": 29,
+   "var": -41.4,
+   "txt": "29 para 17 vendas (-41%)"
+  },
+  {
+   "tipo": "caiu",
+   "nivel": "Campanha",
+   "nome": "🟩 CA_BAJ_NV_OSA_FORMULARIO",
+   "atual": 1,
+   "anterior": 12,
+   "var": -91.7,
+   "txt": "12 para 1 vendas (-92%)"
+  },
+  {
+   "tipo": "caiu",
+   "nivel": "Campanha",
+   "nome": "🟩 CA_VW_NV_FORMULARIO_NOVOS_ORIGINAL",
+   "atual": 3,
+   "anterior": 9,
+   "var": -66.7,
+   "txt": "9 para 3 vendas (-67%)"
+  },
+  {
+   "tipo": "caiu",
+   "nivel": "Anúncio",
+   "nome": "20251002_IMG_DOMINAR-200-PARC_OUT",
+   "atual": 2,
+   "anterior": 9,
+   "var": -77.8,
+   "txt": "9 para 2 vendas (-78%)"
+  },
+  {
+   "tipo": "subiu",
+   "nivel": "Origem",
+   "nome": "VD Corporate",
+   "atual": 192,
+   "anterior": 94,
+   "var": 104.3,
+   "txt": "94 para 192 vendas (+104%)"
+  },
+  {
+   "tipo": "subiu",
+   "nivel": "Origem",
+   "nome": "Mercado Livre",
+   "atual": 170,
+   "anterior": 103,
+   "var": 65.0,
+   "txt": "103 para 170 vendas (+65%)"
+  },
+  {
+   "tipo": "subiu",
+   "nivel": "Origem",
+   "nome": "Lead Montadora",
+   "atual": 135,
+   "anterior": 91,
+   "var": 48.4,
+   "txt": "91 para 135 vendas (+48%)"
+  },
+  {
+   "tipo": "subiu",
+   "nivel": "Campanha",
+   "nome": "🟩 DSPA | GM | NV | FORM | MODELOS |",
+   "atual": 13,
+   "anterior": 7,
+   "var": 85.7,
+   "txt": "7 para 13 vendas (+86%)"
+  },
+  {
+   "tipo": "novo",
+   "nivel": "Campanha",
+   "nome": "🟩 DSPA | BJC | NV | FORM | SP | BUT",
+   "atual": 12,
+   "anterior": 0,
+   "txt": "0 para 12 vendas"
+  },
+  {
+   "tipo": "novo",
+   "nivel": "Campanha",
+   "nome": "🟩 DSPA | NI | NV | FORM | SP |",
+   "atual": 12,
+   "anterior": 0,
+   "txt": "0 para 12 vendas"
+  },
+  {
+   "tipo": "novo",
+   "nivel": "Campanha",
+   "nome": "🟩 DSPA | VW | NV | FORM | SP |",
+   "atual": 10,
+   "anterior": 0,
+   "txt": "0 para 10 vendas"
+  },
+  {
+   "tipo": "novo",
+   "nivel": "Campanha",
+   "nome": "🟧 DSPA | NI | SN | FORM | SP/INT/VALE | CATALOGO",
+   "atual": 9,
+   "anterior": 0,
+   "txt": "0 para 9 vendas"
+  }
+ ],
+ "cobertura": {
+  "capt_total": 8573,
+  "capt_camp": 701,
+  "fb_total": 1557,
+  "fb_camp": 698,
+  "fb90_total": 788,
+  "fb90_camp": 574,
+  "utm": 3216,
+  "capt_pct": 8.2,
+  "fb_pct": 44.8,
+  "fb90_pct": 72.8,
+  "utm_pct": 37.5
+ }
+}

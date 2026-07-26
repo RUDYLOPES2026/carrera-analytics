@@ -148,7 +148,9 @@ lead_email = defaultdict(list)
 n_leads = 0
 email_freq = defaultdict(int)
 
-for path in sorted(glob(f"{BASE}/leads_*.ndjson")):
+# leads_20*, nao leads_*: o segundo casaria com leads_enriq.ndjson, que e a base
+# de campanha/anuncio e nao tem CreatedDate. Mesma armadilha do vendas_*.
+for path in sorted(glob(f"{BASE}/leads_20*.ndjson")):
     for line in open(path, encoding="utf-8"):
         r = json.loads(line)
         n_leads += 1
@@ -274,6 +276,9 @@ for v in vendas:
         # jornada
         "trouxe": rotulo(primeiro_orig[0][1]) if primeiro_orig else None,
         "fechou": rotulo(ultimo_orig[0][1]) if ultimo_orig else None,
+        # ids para ir buscar campanha/anuncio/UTM do lead que atribuiu a venda
+        "lead_id_capt": ultima_capt[0][3] if ultima_capt else None,
+        "lead_id_trouxe": primeiro_orig[0][3] if primeiro_orig else None,
         "trouxe_capt": rotulo(primeira_capt[0][1]) if primeira_capt else None,
         "jornada": seq,
         "n_toques": len(seq),
