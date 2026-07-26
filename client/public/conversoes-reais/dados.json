@@ -1,0 +1,3071 @@
+{
+ "gerado_em": "25/07/2026 23:05",
+ "cobertura": {
+  "de": "2026-01-02",
+  "ate": "2026-07-26"
+ },
+ "grupo": {
+  "vendas": 19089,
+  "valor": 2338930974,
+  "antes": 4387,
+  "depois": 7641,
+  "recuperadas": 3271,
+  "com_lead": 18801,
+  "avulso": 10002,
+  "pct_antes": 23.0,
+  "pct_depois": 40.0,
+  "pct_avulso": 52.4,
+  "fator": 1.74,
+  "lag_mediana": 1,
+  "lag_ate_30d": 92.0,
+  "lag_ate_90d": 98.3,
+  "aferic_base": 4370,
+  "aferic_pct": 87.9,
+  "sens": [
+   {
+    "janela": "sem limite",
+    "n": 7641,
+    "pct": 40.0
+   },
+   {
+    "janela": "até 90 dias",
+    "n": 7402,
+    "pct": 38.8
+   },
+   {
+    "janela": "até 30 dias",
+    "n": 6615,
+    "pct": 34.7
+   }
+  ],
+  "lag_mediana_rec": 10,
+  "lag_faixas": [
+   {
+    "faixa": "Mesmo dia",
+    "n": 294,
+    "pct": 9.0
+   },
+   {
+    "faixa": "1 a 2 dias",
+    "n": 525,
+    "pct": 16.1
+   },
+   {
+    "faixa": "3 a 7 dias",
+    "n": 631,
+    "pct": 19.3
+   },
+   {
+    "faixa": "8 a 30 dias",
+    "n": 778,
+    "pct": 23.8
+   },
+   {
+    "faixa": "31 a 90 dias",
+    "n": 787,
+    "pct": 24.1
+   },
+   {
+    "faixa": "Mais de 90 dias",
+    "n": 256,
+    "pct": 7.8
+   }
+  ]
+ },
+ "midias": [
+  {
+   "midia": "Lead Avulso",
+   "declarado": 10002,
+   "real": 7816,
+   "delta": -2186,
+   "valor_real": 995737664,
+   "rastreavel": false
+  },
+  {
+   "midia": "WhatsApp",
+   "declarado": 1425,
+   "real": 2961,
+   "delta": 1536,
+   "valor_real": 354107694,
+   "rastreavel": true
+  },
+  {
+   "midia": "Lead Revenda",
+   "declarado": 2121,
+   "real": 1943,
+   "delta": -178,
+   "valor_real": 129982786,
+   "rastreavel": false
+  },
+  {
+   "midia": "Facebook",
+   "declarado": 776,
+   "real": 1393,
+   "delta": 617,
+   "valor_real": 169557128,
+   "rastreavel": true
+  },
+  {
+   "midia": "OPV Montadora",
+   "declarado": 682,
+   "real": 741,
+   "delta": 59,
+   "valor_real": 101870355,
+   "rastreavel": true
+  },
+  {
+   "midia": "Webmotors",
+   "declarado": 386,
+   "real": 702,
+   "delta": 316,
+   "valor_real": 80699914,
+   "rastreavel": true
+  },
+  {
+   "midia": "AutoAtendimento",
+   "declarado": 879,
+   "real": 692,
+   "delta": -187,
+   "valor_real": 90050067,
+   "rastreavel": false
+  },
+  {
+   "midia": "Site Carrera",
+   "declarado": 445,
+   "real": 638,
+   "delta": 193,
+   "valor_real": 52877395,
+   "rastreavel": true
+  },
+  {
+   "midia": "Lead Montadora",
+   "declarado": 305,
+   "real": 569,
+   "delta": 264,
+   "valor_real": 98134747,
+   "rastreavel": true
+  },
+  {
+   "midia": "Mercado Livre",
+   "declarado": 318,
+   "real": 565,
+   "delta": 247,
+   "valor_real": 119868867,
+   "rastreavel": true
+  },
+  {
+   "midia": "VD Corporate",
+   "declarado": 991,
+   "real": 463,
+   "delta": -528,
+   "valor_real": 57364094,
+   "rastreavel": false
+  },
+  {
+   "midia": "URA",
+   "declarado": 673,
+   "real": 407,
+   "delta": -266,
+   "valor_real": 52032804,
+   "rastreavel": false
+  },
+  {
+   "midia": "Outros",
+   "declarado": 5,
+   "real": 101,
+   "delta": 96,
+   "valor_real": 24604238,
+   "rastreavel": false
+  },
+  {
+   "midia": "OLX",
+   "declarado": 46,
+   "real": 61,
+   "delta": 15,
+   "valor_real": 6871765,
+   "rastreavel": true
+  },
+  {
+   "midia": "MobiAuto",
+   "declarado": 4,
+   "real": 11,
+   "delta": 7,
+   "valor_real": 925660,
+   "rastreavel": true
+  },
+  {
+   "midia": "Passagem Oficina",
+   "declarado": 4,
+   "real": 10,
+   "delta": 6,
+   "valor_real": 1593180,
+   "rastreavel": false
+  },
+  {
+   "midia": "Indicacao Portal",
+   "declarado": 8,
+   "real": 7,
+   "delta": -1,
+   "valor_real": 938810,
+   "rastreavel": false
+  },
+  {
+   "midia": "Evento Dealer",
+   "declarado": 19,
+   "real": 7,
+   "delta": -12,
+   "valor_real": 1509002,
+   "rastreavel": false
+  },
+  {
+   "midia": "LM Mobilidade",
+   "declarado": 0,
+   "real": 2,
+   "delta": 2,
+   "valor_real": 204804,
+   "rastreavel": false
+  }
+ ],
+ "meses": [
+  {
+   "mes": "2026-01",
+   "vendas": 2623,
+   "valor": 315259410,
+   "antes": 668,
+   "depois": 934,
+   "recuperadas": 275,
+   "com_lead": 2451,
+   "avulso": 1395,
+   "pct_antes": 25.5,
+   "pct_depois": 35.6,
+   "pct_avulso": 53.2,
+   "fator": 1.4
+  },
+  {
+   "mes": "2026-02",
+   "vendas": 2338,
+   "valor": 267713570,
+   "antes": 541,
+   "depois": 868,
+   "recuperadas": 333,
+   "com_lead": 2285,
+   "avulso": 1217,
+   "pct_antes": 23.1,
+   "pct_depois": 37.1,
+   "pct_avulso": 52.1,
+   "fator": 1.6
+  },
+  {
+   "mes": "2026-03",
+   "vendas": 2980,
+   "valor": 358533188,
+   "antes": 651,
+   "depois": 1135,
+   "recuperadas": 486,
+   "com_lead": 2944,
+   "avulso": 1532,
+   "pct_antes": 21.8,
+   "pct_depois": 38.1,
+   "pct_avulso": 51.4,
+   "fator": 1.74
+  },
+  {
+   "mes": "2026-04",
+   "vendas": 2554,
+   "valor": 302496207,
+   "antes": 599,
+   "depois": 1127,
+   "recuperadas": 528,
+   "com_lead": 2539,
+   "avulso": 1309,
+   "pct_antes": 23.5,
+   "pct_depois": 44.1,
+   "pct_avulso": 51.3,
+   "fator": 1.88
+  },
+  {
+   "mes": "2026-05",
+   "vendas": 2984,
+   "valor": 373372534,
+   "antes": 604,
+   "depois": 1174,
+   "recuperadas": 570,
+   "com_lead": 2972,
+   "avulso": 1639,
+   "pct_antes": 20.2,
+   "pct_depois": 39.3,
+   "pct_avulso": 54.9,
+   "fator": 1.94
+  },
+  {
+   "mes": "2026-06",
+   "vendas": 2831,
+   "valor": 356867192,
+   "antes": 650,
+   "depois": 1163,
+   "recuperadas": 513,
+   "com_lead": 2831,
+   "avulso": 1476,
+   "pct_antes": 23.0,
+   "pct_depois": 41.1,
+   "pct_avulso": 52.1,
+   "fator": 1.79
+  },
+  {
+   "mes": "2026-07",
+   "vendas": 2779,
+   "valor": 364688874,
+   "antes": 674,
+   "depois": 1240,
+   "recuperadas": 566,
+   "com_lead": 2779,
+   "avulso": 1434,
+   "pct_antes": 24.3,
+   "pct_depois": 44.6,
+   "pct_avulso": 51.6,
+   "fator": 1.84
+  }
+ ],
+ "marcas": [
+  {
+   "vendas": 4588,
+   "valor": 485687272,
+   "antes": 872,
+   "depois": 1824,
+   "recuperadas": 954,
+   "com_lead": 4547,
+   "avulso": 2107,
+   "pct_antes": 19.0,
+   "pct_depois": 39.8,
+   "pct_avulso": 45.9,
+   "fator": 2.09,
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 1661
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 794
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 459
+    },
+    {
+     "midia": "Facebook",
+     "n": 328
+    },
+    {
+     "midia": "AutoAtendimento",
+     "n": 325
+    },
+    {
+     "midia": "VD Corporate",
+     "n": 217
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 794
+    },
+    {
+     "midia": "Facebook",
+     "n": 328
+    },
+    {
+     "midia": "Webmotors",
+     "n": 211
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 205
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 123
+    },
+    {
+     "midia": "OPV Montadora",
+     "n": 60
+    }
+   ],
+   "decl_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 2107
+    },
+    {
+     "midia": "VD Corporate",
+     "n": 526
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 503
+    },
+    {
+     "midia": "AutoAtendimento",
+     "n": 394
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 253
+    },
+    {
+     "midia": "URA",
+     "n": 181
+    }
+   ]
+  },
+  {
+   "vendas": 3825,
+   "valor": 444096343,
+   "antes": 657,
+   "depois": 1297,
+   "recuperadas": 640,
+   "com_lead": 3778,
+   "avulso": 2244,
+   "pct_antes": 17.2,
+   "pct_depois": 33.9,
+   "pct_avulso": 58.7,
+   "fator": 1.97,
+   "codigo": "VW",
+   "marca": "Volkswagen",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 1736
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 491
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 448
+    },
+    {
+     "midia": "Webmotors",
+     "n": 254
+    },
+    {
+     "midia": "Facebook",
+     "n": 240
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 148
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 491
+    },
+    {
+     "midia": "Webmotors",
+     "n": 254
+    },
+    {
+     "midia": "Facebook",
+     "n": 240
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 148
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 102
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 38
+    }
+   ],
+   "decl_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 2244
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 496
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 277
+    },
+    {
+     "midia": "URA",
+     "n": 177
+    },
+    {
+     "midia": "Webmotors",
+     "n": 142
+    },
+    {
+     "midia": "VD Corporate",
+     "n": 142
+    }
+   ]
+  },
+  {
+   "vendas": 3658,
+   "valor": 394557222,
+   "antes": 1100,
+   "depois": 1739,
+   "recuperadas": 643,
+   "com_lead": 3582,
+   "avulso": 1545,
+   "pct_antes": 30.1,
+   "pct_depois": 47.5,
+   "pct_avulso": 42.2,
+   "fator": 1.58,
+   "codigo": "NI",
+   "marca": "Nissan",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 1205
+    },
+    {
+     "midia": "OPV Montadora",
+     "n": 665
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 543
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 358
+    },
+    {
+     "midia": "Facebook",
+     "n": 282
+    },
+    {
+     "midia": "AutoAtendimento",
+     "n": 178
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "OPV Montadora",
+     "n": 665
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 543
+    },
+    {
+     "midia": "Facebook",
+     "n": 282
+    },
+    {
+     "midia": "Webmotors",
+     "n": 128
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 76
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 31
+    }
+   ],
+   "decl_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 1545
+    },
+    {
+     "midia": "OPV Montadora",
+     "n": 650
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 386
+    },
+    {
+     "midia": "VD Corporate",
+     "n": 240
+    },
+    {
+     "midia": "AutoAtendimento",
+     "n": 220
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 186
+    }
+   ]
+  },
+  {
+   "vendas": 2773,
+   "valor": 569232678,
+   "antes": 642,
+   "depois": 1114,
+   "recuperadas": 480,
+   "com_lead": 2734,
+   "avulso": 1511,
+   "pct_antes": 23.2,
+   "pct_depois": 40.2,
+   "pct_avulso": 54.5,
+   "fator": 1.74,
+   "codigo": "GWC",
+   "marca": "GWM",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 1095
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 407
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 393
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 306
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 202
+    },
+    {
+     "midia": "Facebook",
+     "n": 134
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "Mercado Livre",
+     "n": 407
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 306
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 202
+    },
+    {
+     "midia": "Facebook",
+     "n": 134
+    },
+    {
+     "midia": "Webmotors",
+     "n": 36
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 28
+    }
+   ],
+   "decl_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 1511
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 411
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 238
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 173
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 139
+    },
+    {
+     "midia": "AutoAtendimento",
+     "n": 88
+    }
+   ]
+  },
+  {
+   "vendas": 1824,
+   "valor": 291572490,
+   "antes": 305,
+   "depois": 492,
+   "recuperadas": 188,
+   "com_lead": 1781,
+   "avulso": 1241,
+   "pct_antes": 16.7,
+   "pct_depois": 27.0,
+   "pct_avulso": 68.0,
+   "fator": 1.61,
+   "codigo": "OJC",
+   "marca": "Omoda Jaecoo",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 1094
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 293
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 178
+    },
+    {
+     "midia": "Facebook",
+     "n": 110
+    },
+    {
+     "midia": "AutoAtendimento",
+     "n": 59
+    },
+    {
+     "midia": "Webmotors",
+     "n": 29
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 293
+    },
+    {
+     "midia": "Facebook",
+     "n": 110
+    },
+    {
+     "midia": "Webmotors",
+     "n": 29
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 27
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 24
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 5
+    }
+   ],
+   "decl_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 1241
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 203
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 172
+    },
+    {
+     "midia": "Facebook",
+     "n": 86
+    },
+    {
+     "midia": "AutoAtendimento",
+     "n": 73
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 17
+    }
+   ]
+  },
+  {
+   "vendas": 1598,
+   "valor": 34734860,
+   "antes": 670,
+   "depois": 868,
+   "recuperadas": 198,
+   "com_lead": 1576,
+   "avulso": 872,
+   "pct_antes": 41.9,
+   "pct_depois": 54.3,
+   "pct_avulso": 54.6,
+   "fator": 1.3,
+   "codigo": "BJC",
+   "marca": "Bajaj",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 691
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 424
+    },
+    {
+     "midia": "Facebook",
+     "n": 251
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 180
+    },
+    {
+     "midia": "URA",
+     "n": 34
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 11
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 424
+    },
+    {
+     "midia": "Facebook",
+     "n": 251
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 180
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 11
+    },
+    {
+     "midia": "Webmotors",
+     "n": 1
+    },
+    {
+     "midia": "OLX",
+     "n": 1
+    }
+   ],
+   "decl_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 872
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 307
+    },
+    {
+     "midia": "Facebook",
+     "n": 186
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 169
+    },
+    {
+     "midia": "URA",
+     "n": 50
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 8
+    }
+   ]
+  },
+  {
+   "vendas": 495,
+   "valor": 74485889,
+   "antes": 110,
+   "depois": 189,
+   "recuperadas": 80,
+   "com_lead": 491,
+   "avulso": 233,
+   "pct_antes": 22.2,
+   "pct_depois": 38.2,
+   "pct_avulso": 47.1,
+   "fator": 1.72,
+   "codigo": "GCC",
+   "marca": "GAC",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 171
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 69
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 69
+    },
+    {
+     "midia": "VD Corporate",
+     "n": 47
+    },
+    {
+     "midia": "Facebook",
+     "n": 35
+    },
+    {
+     "midia": "Webmotors",
+     "n": 35
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 69
+    },
+    {
+     "midia": "Facebook",
+     "n": 35
+    },
+    {
+     "midia": "Webmotors",
+     "n": 35
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 26
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 13
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 10
+    }
+   ],
+   "decl_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 233
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 75
+    },
+    {
+     "midia": "VD Corporate",
+     "n": 49
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 40
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 22
+    },
+    {
+     "midia": "Facebook",
+     "n": 18
+    }
+   ]
+  },
+  {
+   "vendas": 195,
+   "valor": 275000,
+   "antes": 1,
+   "depois": 62,
+   "recuperadas": 61,
+   "com_lead": 185,
+   "avulso": 193,
+   "pct_antes": 0.5,
+   "pct_depois": 31.8,
+   "pct_avulso": 99.0,
+   "fator": 62.0,
+   "codigo": "Outros",
+   "marca": "Outros",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 124
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 24
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 15
+    },
+    {
+     "midia": "Facebook",
+     "n": 7
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 6
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 5
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "Mercado Livre",
+     "n": 24
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 15
+    },
+    {
+     "midia": "Facebook",
+     "n": 7
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 6
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 5
+    },
+    {
+     "midia": "Webmotors",
+     "n": 4
+    }
+   ],
+   "decl_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 193
+    },
+    {
+     "midia": "Outros",
+     "n": 1
+    },
+    {
+     "midia": "Facebook",
+     "n": 1
+    }
+   ]
+  },
+  {
+   "vendas": 133,
+   "valor": 44289221,
+   "antes": 30,
+   "depois": 56,
+   "recuperadas": 27,
+   "com_lead": 127,
+   "avulso": 56,
+   "pct_antes": 22.6,
+   "pct_depois": 42.1,
+   "pct_avulso": 42.1,
+   "fator": 1.87,
+   "codigo": "ZK",
+   "marca": "Zeekr",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 39
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 33
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 26
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 15
+    },
+    {
+     "midia": "Facebook",
+     "n": 6
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 5
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 26
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 15
+    },
+    {
+     "midia": "Facebook",
+     "n": 6
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 5
+    },
+    {
+     "midia": "Webmotors",
+     "n": 4
+    }
+   ],
+   "decl_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 56
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 42
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 17
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 6
+    },
+    {
+     "midia": "Facebook",
+     "n": 5
+    },
+    {
+     "midia": "URA",
+     "n": 5
+    }
+   ]
+  }
+ ],
+ "lojas": [
+  {
+   "vendas": 1239,
+   "valor": 218814660,
+   "antes": 247,
+   "depois": 425,
+   "recuperadas": 179,
+   "com_lead": 1230,
+   "avulso": 524,
+   "pct_antes": 19.9,
+   "pct_depois": 34.3,
+   "pct_avulso": 42.3,
+   "fator": 1.72,
+   "loja": "VLO GWC",
+   "codigo": "GWC",
+   "marca": "GWM",
+   "patio": false
+  },
+  {
+   "vendas": 1068,
+   "valor": 114227912,
+   "antes": 85,
+   "depois": 481,
+   "recuperadas": 397,
+   "com_lead": 1062,
+   "avulso": 255,
+   "pct_antes": 8.0,
+   "pct_depois": 45.0,
+   "pct_avulso": 23.9,
+   "fator": 5.66,
+   "loja": "ALP GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 893,
+   "valor": 105905276,
+   "antes": 113,
+   "depois": 268,
+   "recuperadas": 155,
+   "com_lead": 880,
+   "avulso": 546,
+   "pct_antes": 12.7,
+   "pct_depois": 30.0,
+   "pct_avulso": 61.1,
+   "fator": 2.37,
+   "loja": "ALP VW",
+   "codigo": "VW",
+   "marca": "Volkswagen",
+   "patio": false
+  },
+  {
+   "vendas": 873,
+   "valor": 103635480,
+   "antes": 139,
+   "depois": 304,
+   "recuperadas": 165,
+   "com_lead": 859,
+   "avulso": 459,
+   "pct_antes": 15.9,
+   "pct_depois": 34.8,
+   "pct_avulso": 52.6,
+   "fator": 2.19,
+   "loja": "VLO VW",
+   "codigo": "VW",
+   "marca": "Volkswagen",
+   "patio": false
+  },
+  {
+   "vendas": 686,
+   "valor": 71410795,
+   "antes": 106,
+   "depois": 207,
+   "recuperadas": 101,
+   "com_lead": 676,
+   "avulso": 452,
+   "pct_antes": 15.5,
+   "pct_depois": 30.2,
+   "pct_avulso": 65.9,
+   "fator": 1.95,
+   "loja": "OSA VW",
+   "codigo": "VW",
+   "marca": "Volkswagen",
+   "patio": false
+  },
+  {
+   "vendas": 660,
+   "valor": 72182785,
+   "antes": 125,
+   "depois": 247,
+   "recuperadas": 122,
+   "com_lead": 655,
+   "avulso": 280,
+   "pct_antes": 18.9,
+   "pct_depois": 37.4,
+   "pct_avulso": 42.4,
+   "fator": 1.98,
+   "loja": "BUT GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 649,
+   "valor": 67797370,
+   "antes": 94,
+   "depois": 300,
+   "recuperadas": 207,
+   "com_lead": 645,
+   "avulso": 248,
+   "pct_antes": 14.5,
+   "pct_depois": 46.2,
+   "pct_avulso": 38.2,
+   "fator": 3.19,
+   "loja": "COT NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 618,
+   "valor": 68063923,
+   "antes": 187,
+   "depois": 266,
+   "recuperadas": 80,
+   "com_lead": 614,
+   "avulso": 282,
+   "pct_antes": 30.3,
+   "pct_depois": 43.0,
+   "pct_avulso": 45.6,
+   "fator": 1.42,
+   "loja": "ASN GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 591,
+   "valor": 64115664,
+   "antes": 86,
+   "depois": 179,
+   "recuperadas": 93,
+   "com_lead": 580,
+   "avulso": 291,
+   "pct_antes": 14.6,
+   "pct_depois": 30.3,
+   "pct_avulso": 49.2,
+   "fator": 2.08,
+   "loja": "VLO GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 531,
+   "valor": 80822453,
+   "antes": 79,
+   "depois": 140,
+   "recuperadas": 62,
+   "com_lead": 521,
+   "avulso": 382,
+   "pct_antes": 14.9,
+   "pct_depois": 26.4,
+   "pct_avulso": 71.9,
+   "fator": 1.77,
+   "loja": "VLO OJC",
+   "codigo": "OJC",
+   "marca": "Omoda Jaecoo",
+   "patio": false
+  },
+  {
+   "vendas": 522,
+   "valor": 51030862,
+   "antes": 150,
+   "depois": 221,
+   "recuperadas": 71,
+   "com_lead": 518,
+   "avulso": 216,
+   "pct_antes": 28.7,
+   "pct_depois": 42.3,
+   "pct_avulso": 41.4,
+   "fator": 1.47,
+   "loja": "OSA GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 511,
+   "valor": 115706901,
+   "antes": 134,
+   "depois": 231,
+   "recuperadas": 101,
+   "com_lead": 504,
+   "avulso": 342,
+   "pct_antes": 26.2,
+   "pct_depois": 45.2,
+   "pct_avulso": 66.9,
+   "fator": 1.72,
+   "loja": "ALP GWC",
+   "codigo": "GWC",
+   "marca": "GWM",
+   "patio": false
+  },
+  {
+   "vendas": 503,
+   "valor": 10930596,
+   "antes": 259,
+   "depois": 300,
+   "recuperadas": 41,
+   "com_lead": 497,
+   "avulso": 228,
+   "pct_antes": 51.5,
+   "pct_depois": 59.6,
+   "pct_avulso": 45.3,
+   "fator": 1.16,
+   "loja": "OSA BJC",
+   "codigo": "BJC",
+   "marca": "Bajaj",
+   "patio": false
+  },
+  {
+   "vendas": 485,
+   "valor": 10417675,
+   "antes": 211,
+   "depois": 248,
+   "recuperadas": 37,
+   "com_lead": 476,
+   "avulso": 256,
+   "pct_antes": 43.5,
+   "pct_depois": 51.1,
+   "pct_avulso": 52.8,
+   "fator": 1.18,
+   "loja": "BUT BJC",
+   "codigo": "BJC",
+   "marca": "Bajaj",
+   "patio": false
+  },
+  {
+   "vendas": 477,
+   "valor": 112603265,
+   "antes": 140,
+   "depois": 206,
+   "recuperadas": 67,
+   "com_lead": 471,
+   "avulso": 305,
+   "pct_antes": 29.4,
+   "pct_depois": 43.2,
+   "pct_avulso": 63.9,
+   "fator": 1.47,
+   "loja": "EUR GWC",
+   "codigo": "GWC",
+   "marca": "GWM",
+   "patio": false
+  },
+  {
+   "vendas": 468,
+   "valor": 78629499,
+   "antes": 87,
+   "depois": 128,
+   "recuperadas": 41,
+   "com_lead": 453,
+   "avulso": 259,
+   "pct_antes": 18.6,
+   "pct_depois": 27.4,
+   "pct_avulso": 55.3,
+   "fator": 1.47,
+   "loja": "SJP OJC",
+   "codigo": "OJC",
+   "marca": "Omoda Jaecoo",
+   "patio": false
+  },
+  {
+   "vendas": 421,
+   "valor": 44546565,
+   "antes": 144,
+   "depois": 212,
+   "recuperadas": 68,
+   "com_lead": 417,
+   "avulso": 147,
+   "pct_antes": 34.2,
+   "pct_depois": 50.4,
+   "pct_avulso": 34.9,
+   "fator": 1.47,
+   "loja": "MOR NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 409,
+   "valor": 66286008,
+   "antes": 61,
+   "depois": 88,
+   "recuperadas": 27,
+   "com_lead": 403,
+   "avulso": 293,
+   "pct_antes": 14.9,
+   "pct_depois": 21.5,
+   "pct_avulso": 71.6,
+   "fator": 1.44,
+   "loja": "SJC OJC",
+   "codigo": "OJC",
+   "marca": "Omoda Jaecoo",
+   "patio": false
+  },
+  {
+   "vendas": 408,
+   "valor": 64631150,
+   "antes": 78,
+   "depois": 133,
+   "recuperadas": 55,
+   "com_lead": 397,
+   "avulso": 301,
+   "pct_antes": 19.1,
+   "pct_depois": 32.6,
+   "pct_avulso": 73.8,
+   "fator": 1.71,
+   "loja": "MOR OJC",
+   "codigo": "OJC",
+   "marca": "Omoda Jaecoo",
+   "patio": false
+  },
+  {
+   "vendas": 398,
+   "valor": 44746676,
+   "antes": 128,
+   "depois": 204,
+   "recuperadas": 78,
+   "com_lead": 379,
+   "avulso": 188,
+   "pct_antes": 32.2,
+   "pct_depois": 51.3,
+   "pct_avulso": 47.2,
+   "fator": 1.59,
+   "loja": "BUT NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 394,
+   "valor": 37959045,
+   "antes": 62,
+   "depois": 122,
+   "recuperadas": 60,
+   "com_lead": 391,
+   "avulso": 246,
+   "pct_antes": 15.7,
+   "pct_depois": 31.0,
+   "pct_avulso": 62.4,
+   "fator": 1.97,
+   "loja": "FAC GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 389,
+   "valor": 51245226,
+   "antes": 85,
+   "depois": 128,
+   "recuperadas": 43,
+   "com_lead": 385,
+   "avulso": 202,
+   "pct_antes": 21.9,
+   "pct_depois": 32.9,
+   "pct_avulso": 51.9,
+   "fator": 1.51,
+   "loja": "SUM VW",
+   "codigo": "VW",
+   "marca": "Volkswagen",
+   "patio": false
+  },
+  {
+   "vendas": 333,
+   "valor": 36425377,
+   "antes": 100,
+   "depois": 139,
+   "recuperadas": 39,
+   "com_lead": 327,
+   "avulso": 139,
+   "pct_antes": 30.0,
+   "pct_depois": 41.7,
+   "pct_avulso": 41.7,
+   "fator": 1.39,
+   "loja": "SJC NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 328,
+   "valor": 33869705,
+   "antes": 87,
+   "depois": 153,
+   "recuperadas": 66,
+   "com_lead": 324,
+   "avulso": 209,
+   "pct_antes": 26.5,
+   "pct_depois": 46.6,
+   "pct_avulso": 63.7,
+   "fator": 1.76,
+   "loja": "BFU GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 312,
+   "valor": 6934382,
+   "antes": 103,
+   "depois": 150,
+   "recuperadas": 47,
+   "com_lead": 309,
+   "avulso": 199,
+   "pct_antes": 33.0,
+   "pct_depois": 48.1,
+   "pct_avulso": 63.8,
+   "fator": 1.46,
+   "loja": "BSB BJC",
+   "codigo": "BJC",
+   "marca": "Bajaj",
+   "patio": false
+  },
+  {
+   "vendas": 311,
+   "valor": 71107615,
+   "antes": 79,
+   "depois": 127,
+   "recuperadas": 50,
+   "com_lead": 303,
+   "avulso": 205,
+   "pct_antes": 25.4,
+   "pct_depois": 40.8,
+   "pct_avulso": 65.9,
+   "fator": 1.61,
+   "loja": "FMO GWC",
+   "codigo": "GWC",
+   "marca": "GWM",
+   "patio": false
+  },
+  {
+   "vendas": 306,
+   "valor": 35024272,
+   "antes": 76,
+   "depois": 115,
+   "recuperadas": 40,
+   "com_lead": 300,
+   "avulso": 151,
+   "pct_antes": 24.8,
+   "pct_depois": 37.6,
+   "pct_avulso": 49.3,
+   "fator": 1.51,
+   "loja": "VOL NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 298,
+   "valor": 6452207,
+   "antes": 97,
+   "depois": 170,
+   "recuperadas": 73,
+   "com_lead": 294,
+   "avulso": 189,
+   "pct_antes": 32.6,
+   "pct_depois": 57.0,
+   "pct_avulso": 63.4,
+   "fator": 1.75,
+   "loja": "SIA BJC",
+   "codigo": "BJC",
+   "marca": "Bajaj",
+   "patio": false
+  },
+  {
+   "vendas": 247,
+   "valor": 26380207,
+   "antes": 58,
+   "depois": 106,
+   "recuperadas": 48,
+   "com_lead": 244,
+   "avulso": 130,
+   "pct_antes": 23.5,
+   "pct_depois": 42.9,
+   "pct_avulso": 52.6,
+   "fator": 1.83,
+   "loja": "FMO VW",
+   "codigo": "VW",
+   "marca": "Volkswagen",
+   "patio": false
+  },
+  {
+   "vendas": 245,
+   "valor": 27924947,
+   "antes": 116,
+   "depois": 139,
+   "recuperadas": 23,
+   "com_lead": 238,
+   "avulso": 111,
+   "pct_antes": 47.3,
+   "pct_depois": 56.7,
+   "pct_avulso": 45.3,
+   "fator": 1.2,
+   "loja": "SUM NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 244,
+   "valor": 27417859,
+   "antes": 68,
+   "depois": 113,
+   "recuperadas": 45,
+   "com_lead": 244,
+   "avulso": 107,
+   "pct_antes": 27.9,
+   "pct_depois": 46.3,
+   "pct_avulso": 43.9,
+   "fator": 1.66,
+   "loja": "REB VW",
+   "codigo": "VW",
+   "marca": "Volkswagen",
+   "patio": false
+  },
+  {
+   "vendas": 240,
+   "valor": 29327337,
+   "antes": 50,
+   "depois": 87,
+   "recuperadas": 38,
+   "com_lead": 238,
+   "avulso": 99,
+   "pct_antes": 20.8,
+   "pct_depois": 36.2,
+   "pct_avulso": 41.2,
+   "fator": 1.74,
+   "loja": "COT GCC",
+   "codigo": "GCC",
+   "marca": "GAC",
+   "patio": false
+  },
+  {
+   "vendas": 234,
+   "valor": 24805846,
+   "antes": 58,
+   "depois": 102,
+   "recuperadas": 44,
+   "com_lead": 232,
+   "avulso": 149,
+   "pct_antes": 24.8,
+   "pct_depois": 43.6,
+   "pct_avulso": 63.7,
+   "fator": 1.76,
+   "loja": "BFU NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 225,
+   "valor": 0,
+   "antes": 1,
+   "depois": 72,
+   "recuperadas": 71,
+   "com_lead": 211,
+   "avulso": 192,
+   "pct_antes": 0.4,
+   "pct_depois": 32.0,
+   "pct_avulso": 85.3,
+   "fator": 72.0,
+   "loja": "MTZ BL",
+   "codigo": "BL",
+   "marca": "Outros",
+   "patio": true
+  },
+  {
+   "vendas": 217,
+   "valor": 23477671,
+   "antes": 95,
+   "depois": 112,
+   "recuperadas": 17,
+   "com_lead": 214,
+   "avulso": 100,
+   "pct_antes": 43.8,
+   "pct_depois": 51.6,
+   "pct_avulso": 46.1,
+   "fator": 1.18,
+   "loja": "ARQ NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 215,
+   "valor": 22412890,
+   "antes": 51,
+   "depois": 89,
+   "recuperadas": 38,
+   "com_lead": 213,
+   "avulso": 124,
+   "pct_antes": 23.7,
+   "pct_depois": 41.4,
+   "pct_avulso": 57.7,
+   "fator": 1.75,
+   "loja": "SUM GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 210,
+   "valor": 21523788,
+   "antes": 65,
+   "depois": 117,
+   "recuperadas": 52,
+   "com_lead": 207,
+   "avulso": 98,
+   "pct_antes": 31.0,
+   "pct_depois": 55.7,
+   "pct_avulso": 46.7,
+   "fator": 1.8,
+   "loja": "BUT VW",
+   "codigo": "VW",
+   "marca": "Volkswagen",
+   "patio": false
+  },
+  {
+   "vendas": 186,
+   "valor": 26169570,
+   "antes": 0,
+   "depois": 7,
+   "recuperadas": 7,
+   "com_lead": 186,
+   "avulso": 186,
+   "pct_antes": 0.0,
+   "pct_depois": 3.8,
+   "pct_avulso": 100.0,
+   "fator": null,
+   "loja": "PAT VW ALPHAVILLE",
+   "codigo": "ALPHAVILLE",
+   "marca": "Outros",
+   "patio": true
+  },
+  {
+   "vendas": 182,
+   "valor": 45390250,
+   "antes": 42,
+   "depois": 103,
+   "recuperadas": 61,
+   "com_lead": 176,
+   "avulso": 139,
+   "pct_antes": 23.1,
+   "pct_depois": 56.6,
+   "pct_avulso": 76.4,
+   "fator": 2.45,
+   "loja": "ELD GWC",
+   "codigo": "GWC",
+   "marca": "GWM",
+   "patio": false
+  },
+  {
+   "vendas": 156,
+   "valor": 16252283,
+   "antes": 60,
+   "depois": 70,
+   "recuperadas": 10,
+   "com_lead": 152,
+   "avulso": 42,
+   "pct_antes": 38.5,
+   "pct_depois": 44.9,
+   "pct_avulso": 26.9,
+   "fator": 1.17,
+   "loja": "SCA NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 150,
+   "valor": 17321933,
+   "antes": 43,
+   "depois": 62,
+   "recuperadas": 19,
+   "com_lead": 142,
+   "avulso": 65,
+   "pct_antes": 28.7,
+   "pct_depois": 41.3,
+   "pct_avulso": 43.3,
+   "fator": 1.44,
+   "loja": "TBT NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 131,
+   "valor": 23830505,
+   "antes": 39,
+   "depois": 61,
+   "recuperadas": 22,
+   "com_lead": 130,
+   "avulso": 80,
+   "pct_antes": 29.8,
+   "pct_depois": 46.6,
+   "pct_avulso": 61.1,
+   "fator": 1.56,
+   "loja": "VLO GCC",
+   "codigo": "GCC",
+   "marca": "GAC",
+   "patio": false
+  },
+  {
+   "vendas": 131,
+   "valor": 12951694,
+   "antes": 25,
+   "depois": 79,
+   "recuperadas": 54,
+   "com_lead": 130,
+   "avulso": 29,
+   "pct_antes": 19.1,
+   "pct_depois": 60.3,
+   "pct_avulso": 22.1,
+   "fator": 3.16,
+   "loja": "PIN NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 130,
+   "valor": 42786221,
+   "antes": 29,
+   "depois": 57,
+   "recuperadas": 28,
+   "com_lead": 124,
+   "avulso": 54,
+   "pct_antes": 22.3,
+   "pct_depois": 43.8,
+   "pct_avulso": 41.5,
+   "fator": 1.97,
+   "loja": "EUR ZK",
+   "codigo": "ZK",
+   "marca": "Zeekr",
+   "patio": false
+  },
+  {
+   "vendas": 130,
+   "valor": 15075741,
+   "antes": 71,
+   "depois": 79,
+   "recuperadas": 8,
+   "com_lead": 127,
+   "avulso": 30,
+   "pct_antes": 54.6,
+   "pct_depois": 60.8,
+   "pct_avulso": 23.1,
+   "fator": 1.11,
+   "loja": "VOT NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 105,
+   "valor": 10063770,
+   "antes": 52,
+   "depois": 61,
+   "recuperadas": 9,
+   "com_lead": 99,
+   "avulso": 29,
+   "pct_antes": 49.5,
+   "pct_depois": 58.1,
+   "pct_avulso": 27.6,
+   "fator": 1.17,
+   "loja": "CAT NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 95,
+   "valor": 10279152,
+   "antes": 23,
+   "depois": 46,
+   "recuperadas": 23,
+   "com_lead": 95,
+   "avulso": 63,
+   "pct_antes": 24.2,
+   "pct_depois": 48.4,
+   "pct_avulso": 66.3,
+   "fator": 2.0,
+   "loja": "GAS VW",
+   "codigo": "VW",
+   "marca": "Volkswagen",
+   "patio": false
+  },
+  {
+   "vendas": 93,
+   "valor": 10713243,
+   "antes": 21,
+   "depois": 33,
+   "recuperadas": 12,
+   "com_lead": 91,
+   "avulso": 57,
+   "pct_antes": 22.6,
+   "pct_depois": 35.5,
+   "pct_avulso": 61.3,
+   "fator": 1.57,
+   "loja": "GUA NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 90,
+   "valor": 7429833,
+   "antes": 17,
+   "depois": 32,
+   "recuperadas": 15,
+   "com_lead": 89,
+   "avulso": 60,
+   "pct_antes": 18.9,
+   "pct_depois": 35.6,
+   "pct_avulso": 66.7,
+   "fator": 1.88,
+   "loja": "X.BFU NI",
+   "codigo": "NI",
+   "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 87,
+   "valor": 13124751,
+   "antes": 1,
+   "depois": 7,
+   "recuperadas": 6,
+   "com_lead": 87,
+   "avulso": 86,
+   "pct_antes": 1.1,
+   "pct_depois": 8.0,
+   "pct_avulso": 98.9,
+   "fator": 7.0,
+   "loja": "MAT GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": true
+  },
+  {
+   "vendas": 83,
+   "valor": 15637405,
+   "antes": 21,
+   "depois": 40,
+   "recuperadas": 19,
+   "com_lead": 82,
+   "avulso": 54,
+   "pct_antes": 25.3,
+   "pct_depois": 48.2,
+   "pct_avulso": 65.1,
+   "fator": 1.9,
+   "loja": "MOR GCC",
+   "codigo": "GCC",
+   "marca": "GAC",
+   "patio": false
+  },
+  {
+   "vendas": 70,
+   "valor": 7151638,
+   "antes": 12,
+   "depois": 27,
+   "recuperadas": 15,
+   "com_lead": 70,
+   "avulso": 48,
+   "pct_antes": 17.1,
+   "pct_depois": 38.6,
+   "pct_avulso": 68.6,
+   "fator": 2.25,
+   "loja": "REB GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 58,
+   "valor": 8462766,
+   "antes": 10,
+   "depois": 20,
+   "recuperadas": 10,
+   "com_lead": 57,
+   "avulso": 40,
+   "pct_antes": 17.2,
+   "pct_depois": 34.5,
+   "pct_avulso": 69.0,
+   "fator": 2.0,
+   "loja": "VL2 GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 39,
+   "valor": 3343361,
+   "antes": 15,
+   "depois": 20,
+   "recuperadas": 5,
+   "com_lead": 38,
+   "avulso": 24,
+   "pct_antes": 38.5,
+   "pct_depois": 51.3,
+   "pct_avulso": 61.5,
+   "fator": 1.33,
+   "loja": "SIA GM",
+   "codigo": "GM",
+   "marca": "Chevrolet",
+   "patio": false
+  },
+  {
+   "vendas": 6,
+   "valor": 1203380,
+   "antes": 0,
+   "depois": 3,
+   "recuperadas": 3,
+   "com_lead": 6,
+   "avulso": 6,
+   "pct_antes": 0.0,
+   "pct_depois": 50.0,
+   "pct_avulso": 100.0,
+   "fator": null,
+   "loja": "REB OJC",
+   "codigo": "OJC",
+   "marca": "Omoda Jaecoo",
+   "patio": false
+  },
+  {
+   "vendas": 4,
+   "valor": 1778000,
+   "antes": 1,
+   "depois": 0,
+   "recuperadas": 0,
+   "com_lead": 4,
+   "avulso": 3,
+   "pct_antes": 25.0,
+   "pct_depois": 0.0,
+   "pct_avulso": 75.0,
+   "fator": 0.0,
+   "loja": "CAM ZK",
+   "codigo": "ZK",
+   "marca": "Zeekr",
+   "patio": false
+  },
+  {
+   "vendas": 3,
+   "valor": 896120,
+   "antes": 1,
+   "depois": 3,
+   "recuperadas": 2,
+   "com_lead": 3,
+   "avulso": 1,
+   "pct_antes": 33.3,
+   "pct_depois": 100.0,
+   "pct_avulso": 33.3,
+   "fator": 3.0,
+   "loja": "BSB ZK",
+   "codigo": "ZK",
+   "marca": "Zeekr",
+   "patio": false
+  },
+  {
+   "vendas": 2,
+   "valor": 275467,
+   "antes": 0,
+   "depois": 2,
+   "recuperadas": 2,
+   "com_lead": 2,
+   "avulso": 2,
+   "pct_antes": 0.0,
+   "pct_depois": 100.0,
+   "pct_avulso": 100.0,
+   "fator": null,
+   "loja": "X.CARRERA PREVENT",
+   "codigo": "PREVENT",
+   "marca": "Outros",
+   "patio": false
+  }
+ ],
+ "interesses": [
+  {
+   "vendas": 9532,
+   "valor": 1444416089,
+   "antes": 3047,
+   "depois": 4392,
+   "recuperadas": 1360,
+   "com_lead": 9372,
+   "avulso": 5760,
+   "pct_antes": 32.0,
+   "pct_depois": 46.1,
+   "pct_avulso": 60.4,
+   "fator": 1.44,
+   "interesse": "Novo",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 4511
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 1531
+    },
+    {
+     "midia": "Facebook",
+     "n": 935
+    },
+    {
+     "midia": "OPV Montadora",
+     "n": 651
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 460
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 410
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 1531
+    },
+    {
+     "midia": "Facebook",
+     "n": 935
+    },
+    {
+     "midia": "OPV Montadora",
+     "n": 651
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 460
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 410
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 304
+    }
+   ]
+  },
+  {
+   "vendas": 6695,
+   "valor": 580305793,
+   "antes": 1118,
+   "depois": 2077,
+   "recuperadas": 961,
+   "com_lead": 6666,
+   "avulso": 3034,
+   "pct_antes": 16.7,
+   "pct_depois": 31.0,
+   "pct_avulso": 45.3,
+   "fator": 1.86,
+   "interesse": "Usado",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 2395
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 1943
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 694
+    },
+    {
+     "midia": "Webmotors",
+     "n": 597
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 297
+    },
+    {
+     "midia": "Facebook",
+     "n": 245
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 694
+    },
+    {
+     "midia": "Webmotors",
+     "n": 597
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 297
+    },
+    {
+     "midia": "Facebook",
+     "n": 245
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 116
+    },
+    {
+     "midia": "OLX",
+     "n": 55
+    }
+   ]
+  },
+  {
+   "vendas": 1642,
+   "valor": 197143617,
+   "antes": 221,
+   "depois": 576,
+   "recuperadas": 355,
+   "com_lead": 1557,
+   "avulso": 1016,
+   "pct_antes": 13.5,
+   "pct_depois": 35.1,
+   "pct_avulso": 61.9,
+   "fator": 2.61,
+   "interesse": "Venda Direta",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 770
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 211
+    },
+    {
+     "midia": "AutoAtendimento",
+     "n": 208
+    },
+    {
+     "midia": "Facebook",
+     "n": 193
+    },
+    {
+     "midia": "URA",
+     "n": 86
+    },
+    {
+     "midia": "OPV Montadora",
+     "n": 71
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 211
+    },
+    {
+     "midia": "Facebook",
+     "n": 193
+    },
+    {
+     "midia": "OPV Montadora",
+     "n": 71
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 54
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 32
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 8
+    }
+   ]
+  },
+  {
+   "vendas": 991,
+   "valor": 116388020,
+   "antes": 0,
+   "depois": 524,
+   "recuperadas": 524,
+   "com_lead": 991,
+   "avulso": 0,
+   "pct_antes": 0.0,
+   "pct_depois": 52.9,
+   "pct_avulso": 0.0,
+   "fator": null,
+   "interesse": "Corporate",
+   "real_top": [
+    {
+     "midia": "WhatsApp",
+     "n": 509
+    },
+    {
+     "midia": "VD Corporate",
+     "n": 463
+    },
+    {
+     "midia": "Facebook",
+     "n": 10
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 3
+    },
+    {
+     "midia": "Passagem Oficina",
+     "n": 3
+    },
+    {
+     "midia": "OPV Montadora",
+     "n": 2
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "WhatsApp",
+     "n": 509
+    },
+    {
+     "midia": "Facebook",
+     "n": 10
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 3
+    },
+    {
+     "midia": "OPV Montadora",
+     "n": 2
+    }
+   ]
+  },
+  {
+   "vendas": 225,
+   "valor": 0,
+   "antes": 1,
+   "depois": 72,
+   "recuperadas": 71,
+   "com_lead": 211,
+   "avulso": 192,
+   "pct_antes": 0.4,
+   "pct_depois": 32.0,
+   "pct_avulso": 85.3,
+   "fator": 72.0,
+   "interesse": "Blindagem",
+   "real_top": [
+    {
+     "midia": "Lead Avulso",
+     "n": 138
+    },
+    {
+     "midia": "Mercado Livre",
+     "n": 28
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 16
+    },
+    {
+     "midia": "Facebook",
+     "n": 10
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 9
+    },
+    {
+     "midia": "AutoAtendimento",
+     "n": 8
+    }
+   ],
+   "real_top_rastr": [
+    {
+     "midia": "Mercado Livre",
+     "n": 28
+    },
+    {
+     "midia": "WhatsApp",
+     "n": 16
+    },
+    {
+     "midia": "Facebook",
+     "n": 10
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 9
+    },
+    {
+     "midia": "Site Carrera",
+     "n": 5
+    },
+    {
+     "midia": "Webmotors",
+     "n": 3
+    }
+   ]
+  },
+  {
+   "vendas": 4,
+   "valor": 677454,
+   "antes": 0,
+   "depois": 0,
+   "recuperadas": 0,
+   "com_lead": 4,
+   "avulso": 0,
+   "pct_antes": 0.0,
+   "pct_depois": 0.0,
+   "pct_avulso": 0.0,
+   "fator": null,
+   "interesse": "Passagem Oficina",
+   "real_top": [
+    {
+     "midia": "Passagem Oficina",
+     "n": 3
+    },
+    {
+     "midia": "Lead Avulso",
+     "n": 1
+    }
+   ],
+   "real_top_rastr": []
+  }
+ ],
+ "marca_midia": [
+  {
+   "marca": "Nissan",
+   "midia": "Lead Avulso",
+   "n": 1205
+  },
+  {
+   "marca": "Nissan",
+   "midia": "OPV Montadora",
+   "n": 665
+  },
+  {
+   "marca": "Nissan",
+   "midia": "URA",
+   "n": 103
+  },
+  {
+   "marca": "Nissan",
+   "midia": "WhatsApp",
+   "n": 543
+  },
+  {
+   "marca": "Nissan",
+   "midia": "Lead Revenda",
+   "n": 358
+  },
+  {
+   "marca": "Nissan",
+   "midia": "Facebook",
+   "n": 282
+  },
+  {
+   "marca": "Nissan",
+   "midia": "AutoAtendimento",
+   "n": 178
+  },
+  {
+   "marca": "Nissan",
+   "midia": "VD Corporate",
+   "n": 68
+  },
+  {
+   "marca": "Nissan",
+   "midia": "Site Carrera",
+   "n": 76
+  },
+  {
+   "marca": "Nissan",
+   "midia": "Mercado Livre",
+   "n": 31
+  },
+  {
+   "marca": "Nissan",
+   "midia": "Webmotors",
+   "n": 128
+  },
+  {
+   "marca": "Nissan",
+   "midia": "Lead Montadora",
+   "n": 11
+  },
+  {
+   "marca": "Nissan",
+   "midia": "Passagem Oficina",
+   "n": 6
+  },
+  {
+   "marca": "Nissan",
+   "midia": "MobiAuto",
+   "n": 3
+  },
+  {
+   "marca": "Nissan",
+   "midia": "Evento Dealer",
+   "n": 1
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "Lead Avulso",
+   "n": 1661
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "Site Carrera",
+   "n": 205
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "Mercado Livre",
+   "n": 50
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "AutoAtendimento",
+   "n": 325
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "Facebook",
+   "n": 328
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "WhatsApp",
+   "n": 794
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "Lead Revenda",
+   "n": 459
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "Lead Montadora",
+   "n": 123
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "URA",
+   "n": 102
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "OPV Montadora",
+   "n": 60
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "Webmotors",
+   "n": 211
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "OLX",
+   "n": 53
+  },
+  {
+   "marca": "Chevrolet",
+   "midia": "VD Corporate",
+   "n": 217
+  },
+  {
+   "marca": "GWM",
+   "midia": "Lead Avulso",
+   "n": 1095
+  },
+  {
+   "marca": "GWM",
+   "midia": "Mercado Livre",
+   "n": 407
+  },
+  {
+   "marca": "GWM",
+   "midia": "Facebook",
+   "n": 134
+  },
+  {
+   "marca": "GWM",
+   "midia": "Webmotors",
+   "n": 36
+  },
+  {
+   "marca": "GWM",
+   "midia": "AutoAtendimento",
+   "n": 43
+  },
+  {
+   "marca": "GWM",
+   "midia": "WhatsApp",
+   "n": 306
+  },
+  {
+   "marca": "GWM",
+   "midia": "Lead Revenda",
+   "n": 393
+  },
+  {
+   "marca": "GWM",
+   "midia": "URA",
+   "n": 46
+  },
+  {
+   "marca": "GWM",
+   "midia": "Site Carrera",
+   "n": 28
+  },
+  {
+   "marca": "GWM",
+   "midia": "Lead Montadora",
+   "n": 202
+  },
+  {
+   "marca": "GWM",
+   "midia": "VD Corporate",
+   "n": 14
+  },
+  {
+   "marca": "GWM",
+   "midia": "Evento Dealer",
+   "n": 3
+  },
+  {
+   "marca": "GWM",
+   "midia": "Outros",
+   "n": 62
+  },
+  {
+   "marca": "GWM",
+   "midia": "Passagem Oficina",
+   "n": 3
+  },
+  {
+   "marca": "GWM",
+   "midia": "OPV Montadora",
+   "n": 1
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "WhatsApp",
+   "n": 491
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Lead Avulso",
+   "n": 1736
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "AutoAtendimento",
+   "n": 80
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Site Carrera",
+   "n": 102
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Webmotors",
+   "n": 254
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "URA",
+   "n": 103
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Lead Revenda",
+   "n": 448
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Mercado Livre",
+   "n": 38
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "VD Corporate",
+   "n": 117
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "OLX",
+   "n": 7
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Outros",
+   "n": 38
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "MobiAuto",
+   "n": 6
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Facebook",
+   "n": 240
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Lead Montadora",
+   "n": 148
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "LM Mobilidade",
+   "n": 2
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "OPV Montadora",
+   "n": 11
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Indicacao Portal",
+   "n": 3
+  },
+  {
+   "marca": "Volkswagen",
+   "midia": "Evento Dealer",
+   "n": 1
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "Lead Revenda",
+   "n": 178
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "Lead Avulso",
+   "n": 1094
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "WhatsApp",
+   "n": 293
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "AutoAtendimento",
+   "n": 59
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "Webmotors",
+   "n": 29
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "Facebook",
+   "n": 110
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "Site Carrera",
+   "n": 24
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "Mercado Livre",
+   "n": 5
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "Lead Montadora",
+   "n": 27
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "Evento Dealer",
+   "n": 1
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "OPV Montadora",
+   "n": 2
+  },
+  {
+   "marca": "Omoda Jaecoo",
+   "midia": "MobiAuto",
+   "n": 2
+  },
+  {
+   "marca": "Bajaj",
+   "midia": "Lead Avulso",
+   "n": 691
+  },
+  {
+   "marca": "Bajaj",
+   "midia": "WhatsApp",
+   "n": 424
+  },
+  {
+   "marca": "Bajaj",
+   "midia": "Site Carrera",
+   "n": 180
+  },
+  {
+   "marca": "Bajaj",
+   "midia": "Facebook",
+   "n": 251
+  },
+  {
+   "marca": "Bajaj",
+   "midia": "URA",
+   "n": 34
+  },
+  {
+   "marca": "Bajaj",
+   "midia": "Webmotors",
+   "n": 1
+  },
+  {
+   "marca": "Bajaj",
+   "midia": "Lead Montadora",
+   "n": 11
+  },
+  {
+   "marca": "Bajaj",
+   "midia": "Lead Revenda",
+   "n": 5
+  },
+  {
+   "marca": "Bajaj",
+   "midia": "OLX",
+   "n": 1
+  },
+  {
+   "marca": "Zeekr",
+   "midia": "WhatsApp",
+   "n": 26
+  },
+  {
+   "marca": "Zeekr",
+   "midia": "Lead Revenda",
+   "n": 33
+  },
+  {
+   "marca": "Zeekr",
+   "midia": "Lead Avulso",
+   "n": 39
+  },
+  {
+   "marca": "Zeekr",
+   "midia": "Facebook",
+   "n": 6
+  },
+  {
+   "marca": "Zeekr",
+   "midia": "Lead Montadora",
+   "n": 15
+  },
+  {
+   "marca": "Zeekr",
+   "midia": "Site Carrera",
+   "n": 5
+  },
+  {
+   "marca": "Zeekr",
+   "midia": "Webmotors",
+   "n": 4
+  },
+  {
+   "marca": "Zeekr",
+   "midia": "URA",
+   "n": 5
+  },
+  {
+   "marca": "GAC",
+   "midia": "Lead Avulso",
+   "n": 171
+  },
+  {
+   "marca": "GAC",
+   "midia": "Lead Revenda",
+   "n": 69
+  },
+  {
+   "marca": "GAC",
+   "midia": "Facebook",
+   "n": 35
+  },
+  {
+   "marca": "GAC",
+   "midia": "Site Carrera",
+   "n": 13
+  },
+  {
+   "marca": "GAC",
+   "midia": "OPV Montadora",
+   "n": 1
+  },
+  {
+   "marca": "GAC",
+   "midia": "WhatsApp",
+   "n": 69
+  },
+  {
+   "marca": "GAC",
+   "midia": "Mercado Livre",
+   "n": 10
+  },
+  {
+   "marca": "GAC",
+   "midia": "Webmotors",
+   "n": 35
+  },
+  {
+   "marca": "GAC",
+   "midia": "Lead Montadora",
+   "n": 26
+  },
+  {
+   "marca": "GAC",
+   "midia": "URA",
+   "n": 10
+  },
+  {
+   "marca": "GAC",
+   "midia": "Indicacao Portal",
+   "n": 4
+  },
+  {
+   "marca": "GAC",
+   "midia": "Evento Dealer",
+   "n": 1
+  },
+  {
+   "marca": "GAC",
+   "midia": "AutoAtendimento",
+   "n": 4
+  },
+  {
+   "marca": "GAC",
+   "midia": "VD Corporate",
+   "n": 47
+  },
+  {
+   "marca": "Outros",
+   "midia": "URA",
+   "n": 4
+  },
+  {
+   "marca": "Outros",
+   "midia": "Site Carrera",
+   "n": 5
+  },
+  {
+   "marca": "Outros",
+   "midia": "Lead Avulso",
+   "n": 124
+  },
+  {
+   "marca": "Outros",
+   "midia": "Webmotors",
+   "n": 4
+  },
+  {
+   "marca": "Outros",
+   "midia": "WhatsApp",
+   "n": 15
+  },
+  {
+   "marca": "Outros",
+   "midia": "Facebook",
+   "n": 7
+  },
+  {
+   "marca": "Outros",
+   "midia": "Mercado Livre",
+   "n": 24
+  },
+  {
+   "marca": "Outros",
+   "midia": "OPV Montadora",
+   "n": 1
+  },
+  {
+   "marca": "Outros",
+   "midia": "Lead Montadora",
+   "n": 6
+  },
+  {
+   "marca": "Outros",
+   "midia": "Outros",
+   "n": 1
+  },
+  {
+   "marca": "Outros",
+   "midia": "AutoAtendimento",
+   "n": 3
+  },
+  {
+   "marca": "Outros",
+   "midia": "Passagem Oficina",
+   "n": 1
+  }
+ ]
+}
