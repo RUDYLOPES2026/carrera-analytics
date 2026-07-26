@@ -43,6 +43,8 @@ CAPTACAO = {
     "mobiauto": "MobiAuto",
     "icarros": "iCarros",
     "uol": "UOL",
+    "carro taubaté": "Carro Taubaté",
+    "revo": "Revo",
     "site carrera": "Site Carrera",
     "lead montadora": "Lead Montadora",
     "lm gdmc": "Lead Montadora",
@@ -78,8 +80,9 @@ SEM_ORIGEM = {
     "outros": "Outros",
 }
 # Valores que existem no SF e ainda nao foram decididos. Ficam aqui EXPLICITOS
-# para nao se confundirem com valor novo que ninguem viu.
-A_DEFINIR = {"carro taubaté", "revo"}
+# para nao se confundirem com valor novo que ninguem viu. Vazio desde 26/07/2026:
+# os 37 valores da base estao todos classificados.
+A_DEFINIR = set()
 
 # Fases que contam como venda (decisao Rudy 26/07/2026: fora Início, Perdido,
 # Negociacao, Atendimento e OPV em espera, que nao sao venda).
