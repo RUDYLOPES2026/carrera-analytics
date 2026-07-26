@@ -16,7 +16,7 @@ import json
 import os
 import re
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from glob import glob
 
@@ -38,33 +38,57 @@ CAPTACAO = {
     "whatsapp": "WhatsApp",
     "webmotors": "Webmotors",
     "mercado livre": "Mercado Livre",
+    "mercado livre contato": "Mercado Livre",
     "olx": "OLX",
     "mobiauto": "MobiAuto",
+    "icarros": "iCarros",
+    "uol": "UOL",
     "site carrera": "Site Carrera",
     "lead montadora": "Lead Montadora",
+    "lm gdmc": "Lead Montadora",
     "opv montadora": "OPV Montadora",
+    "ecommerce montadora": "eCommerce Montadora",
+    "face + instagram": "Facebook",
+    "remarketing": "Remarketing",
+    "google form": "Google Form",
+    # CRM entra aqui por decisao do Rudy (26/07): sao leads que interagiram com o
+    # CRM e voltaram, e ele quer essa forca visivel ao lado das outras midias.
+    # Nao tem verba de veiculacao atras, entao em custo por venda ela nao divide.
+    "crm": "CRM",
 }
 OUTRAS_ORIGENS = {
     "ura": "URA",
     "passagem oficina": "Passagem Oficina",
     "eventodealer": "Evento Dealer",
+    "evento": "Evento",
+    "feirao": "Feirão",
     "indicacao portal carrera": "Indicação Portal",
     "vd corporate": "VD Corporate",
     "lead revenda": "Lead Revenda",
     "lm mobilidade": "LM Mobilidade",
     "seguro": "Seguro",
+    "avalie": "Avaliação de usado",
+    "troca carro": "Avaliação de usado",
+    "ficha de crédito": "Ficha de Crédito",
 }
 SEM_ORIGEM = {
     "lead avulso": "Lead Avulso",
+    "lead avulso frota": "Lead Avulso",
     "autoatendimento": "AutoAtendimento",
     "outros": "Outros",
 }
+# Valores que existem no SF e ainda nao foram decididos. Ficam aqui EXPLICITOS
+# para nao se confundirem com valor novo que ninguem viu.
+A_DEFINIR = {"carro taubaté", "revo"}
 
 # Fases que contam como venda (decisao Rudy 26/07/2026: fora Início, Perdido,
 # Negociacao, Atendimento e OPV em espera, que nao sao venda).
 FASES_VENDA = {"Entregue", "Faturado", "Vendido", "Pronto para Faturar", "Aguardando Pagamento"}
 
 JANELA_DIAS = 365  # 12 meses moveis antes de cada venda
+
+
+DESCONHECIDOS = Counter()  # valor que nao esta em nenhuma lista: precisa de decisao
 
 
 def classe(midia):
@@ -74,6 +98,10 @@ def classe(midia):
         return "captacao"
     if k in OUTRAS_ORIGENS:
         return "outra_origem"
+    if k and k not in SEM_ORIGEM and k not in A_DEFINIR:
+        # antes isso virava "sem origem" calado, e uma midia nova entrava muda no
+        # ar: foi assim que o iCarros ficou 14 mil leads fora da conta.
+        DESCONHECIDOS[midia] += 1
     return "sem_origem"
 
 
@@ -196,10 +224,22 @@ for v in vendas:
     cands = candidatos(v, dt_venda, dt_limite)
 
     ultimo = max(cands, key=lambda c: c[0][0]) if cands else None
-    com_orig = [c for c in cands if tem_origem(c[0][1])]
-    ultimo_orig = max(com_orig, key=lambda c: c[0][0]) if com_orig else None
-    capt = [c for c in cands if classe(c[0][1]) == "captacao"]
-    ultima_capt = max(capt, key=lambda c: c[0][0]) if capt else None
+    com_orig = sorted([c for c in cands if tem_origem(c[0][1])], key=lambda c: c[0][0])
+    ultimo_orig = com_orig[-1] if com_orig else None
+    primeiro_orig = com_orig[0] if com_orig else None
+    capt = sorted([c for c in cands if classe(c[0][1]) == "captacao"], key=lambda c: c[0][0])
+    ultima_capt = capt[-1] if capt else None
+    primeira_capt = capt[0] if capt else None
+
+    # Jornada: a sequencia de origens distintas que o cliente tocou, em ordem.
+    # "Trouxe" = primeiro toque, "fechou" = ultimo. Sem isso, uma midia que sempre
+    # abre a jornada e nunca fecha aparece como se nao vendesse nada.
+    seq, visto = [], set()
+    for c in com_orig:
+        lbl = rotulo(c[0][1])
+        if lbl not in visto:
+            visto.add(lbl)
+            seq.append(lbl)
 
     decl = v.get("Midias_Opp__c")
 
@@ -228,6 +268,13 @@ for v in vendas:
         "fonte_real": fonte_real,
         "captacao_declarada": rotulo(decl) if classe(decl) == "captacao" else None,
         "captacao_real": rotulo(capt_real) if capt_real else None,
+        # jornada
+        "trouxe": rotulo(primeiro_orig[0][1]) if primeiro_orig else None,
+        "fechou": rotulo(ultimo_orig[0][1]) if ultimo_orig else None,
+        "trouxe_capt": rotulo(primeira_capt[0][1]) if primeira_capt else None,
+        "jornada": seq,
+        "n_toques": len(seq),
+        "multitoque": len(seq) > 1,
         # recuperada = o Sales nao sabia a origem e o cruzamento achou
         "recuperada": not tem_origem(decl) and tem_origem(real),
         # idem, no recorte de midia paga
@@ -295,3 +342,31 @@ print(f"{'origem':<22}{'declarado':>11}{'real':>9}{'delta':>10}  classe")
 for m in todas:
     d, rr = decl_c[m], real_c[m]
     print(f"{m:<22}{d:>11,}{rr:>9,}{rr-d:>+10,}  {cls_de.get(m, '?')}")
+
+# ---------------------------------------------------------------- jornada
+multi = [r for r in out if r["multitoque"]]
+print(f"\n{'-'*62}\nJORNADA")
+print(f"Vendas com mais de uma origem: {len(multi):,} ({100*len(multi)/tot:.1f}%)")
+part, trouxe_c, fechou_c = Counter(), Counter(), Counter()
+for r in out:
+    for m in r["jornada"]:
+        part[m] += 1
+    if r["trouxe"]:
+        trouxe_c[r["trouxe"]] += 1
+    if r["fechou"]:
+        fechou_c[r["fechou"]] += 1
+print(f"\n{'origem':<22}{'participou':>12}{'trouxe':>9}{'fechou':>9}{'saldo':>8}")
+for m, _ in part.most_common(14):
+    print(f"{m:<22}{part[m]:>12,}{trouxe_c[m]:>9,}{fechou_c[m]:>9,}"
+          f"{trouxe_c[m]-fechou_c[m]:>+8,}")
+print("\nPares mais comuns (quem trouxe -> quem fechou):")
+pares = Counter((r["trouxe"], r["fechou"]) for r in multi if r["trouxe"] != r["fechou"])
+for (a, b), v in pares.most_common(10):
+    print(f"  {a} -> {b}: {v:,}")
+
+if DESCONHECIDOS:
+    print(f"\n{'!'*62}")
+    print("VALORES DE MIDIA SEM CLASSIFICACAO (viraram 'sem origem'):")
+    for m, v in DESCONHECIDOS.most_common():
+        print(f"  {m}: {v:,} ocorrencias")
+    print("Decidir a classe deles em CAPTACAO/OUTRAS_ORIGENS/SEM_ORIGEM.")

@@ -246,6 +246,43 @@ p.append(f'<div class="legend"><span><i style="background:{C_REAL}"></i>Com orig
          f'<span><i style="background:{C_OK}"></i>Mídia paga e portais</span></div>')
 p.append('<div class="card">' + linha_mensal(D["meses"]) + '</div>')
 
+J = D["jornada"]
+p.append('<h2>Quem trouxe e quem fechou</h2>')
+p.append(f'<div class="h2sub">Em <b>{n(J["multitoque"])} vendas ({pct(J["pct_multitoque"])} '
+         f'do total)</b> o cliente passou por mais de uma origem antes de comprar. O crédito do '
+         f'painel vai todo para quem fechou, então a mídia que sempre abre a jornada e nunca '
+         f'fecha parece vender menos do que vende. Esta tabela separa os dois papéis.</div>')
+p.append('<div class="card"><table><tr><th>Origem</th><th>Participou</th><th>Trouxe</th>'
+         '<th>Fechou</th><th>Saldo</th><th>Papel</th></tr>')
+for a in J["assist"]:
+    s = a["saldo"]
+    # abrir e fechar sao papeis, nao virtude: a cor fica so no saldo, e sinaliza
+    # onde o credito de ultimo toque subestima a origem
+    if abs(s) < max(30, 0.08 * a["participou"]):
+        papel, cls = "Equilibrada", ""
+    elif s > 0:
+        papel, cls = "Abre a jornada", "warn"
+    else:
+        papel, cls = "Fecha a venda", ""
+    p.append(f'<tr><td><b>{escape(a["midia"])}</b></td><td>{n(a["participou"])}</td>'
+             f'<td>{n(a["trouxe"])}</td><td>{n(a["fechou"])}</td>'
+             f'<td class="{cls}">{"+" if s > 0 else ""}{n(s)}</td>'
+             f'<td style="color:#8b98a5">{papel}</td></tr>')
+p.append("</table>")
+p.append('<div class="nota">Saldo positivo significa que a origem traz mais do que fecha, ou '
+         'seja, o crédito de último toque a subestima. Saldo negativo é o contrário.</div>')
+p.append("</div>")
+
+p.append('<h3 style="font-size:16px;margin:26px 0 4px">Os caminhos mais comuns</h3>')
+p.append('<div class="h2sub">Pares em que a origem que trouxe o cliente é diferente da que '
+         'fechou a venda.</div>')
+p.append('<div class="card"><table><tr><th>Trouxe o cliente</th><th>Fechou a venda</th>'
+         '<th>Vendas</th></tr>')
+for x in J["pares"]:
+    p.append(f'<tr><td><b>{escape(x["de"])}</b></td><td>{escape(x["para"])}</td>'
+             f'<td>{n(x["n"])}</td></tr>')
+p.append("</table></div>")
+
 p.append('<h2>Por marca</h2>')
 p.append('<div class="h2sub">Quanto cada marca perde de origem no registro e qual é a mídia que '
          'de fato mais vende nela.</div>')

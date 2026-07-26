@@ -1,5 +1,161 @@
 {
- "gerado_em": "26/07/2026 10:26",
+ "gerado_em": "26/07/2026 10:58",
+ "jornada": {
+  "multitoque": 5319,
+  "pct_multitoque": 27.9,
+  "assist": [
+   {
+    "midia": "WhatsApp",
+    "participou": 4245,
+    "trouxe": 2100,
+    "fechou": 2656,
+    "saldo": -556
+   },
+   {
+    "midia": "Facebook",
+    "participou": 2902,
+    "trouxe": 2238,
+    "fechou": 1408,
+    "saldo": 830
+   },
+   {
+    "midia": "Lead Revenda",
+    "participou": 2732,
+    "trouxe": 2370,
+    "fechou": 2607,
+    "saldo": -237
+   },
+   {
+    "midia": "URA",
+    "participou": 2239,
+    "trouxe": 1035,
+    "fechou": 1183,
+    "saldo": -148
+   },
+   {
+    "midia": "Passagem Oficina",
+    "participou": 1473,
+    "trouxe": 794,
+    "fechou": 228,
+    "saldo": 566
+   },
+   {
+    "midia": "Lead Montadora",
+    "participou": 1234,
+    "trouxe": 830,
+    "fechou": 601,
+    "saldo": 229
+   },
+   {
+    "midia": "Webmotors",
+    "participou": 1166,
+    "trouxe": 784,
+    "fechou": 659,
+    "saldo": 125
+   },
+   {
+    "midia": "Site Carrera",
+    "participou": 1119,
+    "trouxe": 520,
+    "fechou": 563,
+    "saldo": -43
+   },
+   {
+    "midia": "VD Corporate",
+    "participou": 1002,
+    "trouxe": 423,
+    "fechou": 969,
+    "saldo": -546
+   },
+   {
+    "midia": "OPV Montadora",
+    "participou": 927,
+    "trouxe": 536,
+    "fechou": 730,
+    "saldo": -194
+   },
+   {
+    "midia": "Mercado Livre",
+    "participou": 728,
+    "trouxe": 380,
+    "fechou": 534,
+    "saldo": -154
+   },
+   {
+    "midia": "Seguro",
+    "participou": 281,
+    "trouxe": 150,
+    "fechou": 120,
+    "saldo": 30
+   },
+   {
+    "midia": "Evento Dealer",
+    "participou": 253,
+    "trouxe": 70,
+    "fechou": 50,
+    "saldo": 20
+   },
+   {
+    "midia": "OLX",
+    "participou": 117,
+    "trouxe": 93,
+    "fechou": 49,
+    "saldo": 44
+   }
+  ],
+  "pares": [
+   {
+    "de": "Facebook",
+    "para": "WhatsApp",
+    "n": 547
+   },
+   {
+    "de": "Passagem Oficina",
+    "para": "VD Corporate",
+    "n": 335
+   },
+   {
+    "de": "WhatsApp",
+    "para": "VD Corporate",
+    "n": 191
+   },
+   {
+    "de": "Facebook",
+    "para": "URA",
+    "n": 142
+   },
+   {
+    "de": "Passagem Oficina",
+    "para": "Lead Revenda",
+    "n": 139
+   },
+   {
+    "de": "URA",
+    "para": "WhatsApp",
+    "n": 131
+   },
+   {
+    "de": "Lead Montadora",
+    "para": "WhatsApp",
+    "n": 123
+   },
+   {
+    "de": "Webmotors",
+    "para": "WhatsApp",
+    "n": 114
+   },
+   {
+    "de": "Facebook",
+    "para": "Site Carrera",
+    "n": 114
+   },
+   {
+    "de": "WhatsApp",
+    "para": "URA",
+    "n": 112
+   }
+  ]
+ },
  "cobertura": {
   "de": "2026-01-02",
   "ate": "2026-07-26",
@@ -13,27 +169,27 @@
   "pct_avulso": 52.4,
   "origem": {
    "antes": 8196,
-   "depois": 12389,
-   "recuperadas": 4193,
+   "depois": 12401,
+   "recuperadas": 4205,
    "pct_antes": 43.0,
-   "pct_depois": 65.0,
+   "pct_depois": 65.1,
    "fator": 1.51
   },
   "captacao": {
    "antes": 4383,
-   "depois": 8559,
-   "recuperadas": 4176,
+   "depois": 8573,
+   "recuperadas": 4190,
    "pct_antes": 23.0,
-   "pct_depois": 44.9,
-   "fator": 1.95
+   "pct_depois": 45.0,
+   "fator": 1.96
   },
   "aferic_base": 4383,
-  "aferic_pct": 87.4,
+  "aferic_pct": 87.1,
   "sens": [
    {
     "janela": "12 meses (a regra)",
-    "n": 12389,
-    "pct": 65.0
+    "n": 12401,
+    "pct": 65.1
    },
    {
     "janela": "até 90 dias",
@@ -51,12 +207,12 @@
    {
     "faixa": "Mesmo dia",
     "n": 351,
-    "pct": 8.4
+    "pct": 8.3
    },
    {
     "faixa": "1 a 2 dias",
     "n": 535,
-    "pct": 12.8
+    "pct": 12.7
    },
    {
     "faixa": "3 a 7 dias",
@@ -71,12 +227,12 @@
    {
     "faixa": "31 a 90 dias",
     "n": 754,
-    "pct": 18.0
+    "pct": 17.9
    },
    {
     "faixa": "Mais de 90 dias",
-    "n": 1030,
-    "pct": 24.6
+    "n": 1042,
+    "pct": 24.8
    }
   ]
  },
@@ -84,105 +240,105 @@
   {
    "midia": "Lead Avulso",
    "declarado": 9985,
-   "real": 6053,
-   "delta": -3932,
-   "valor_real": 791496164,
+   "real": 6043,
+   "delta": -3942,
+   "valor_real": 789872294,
    "classe": "sem_origem"
-  },
-  {
-   "midia": "Lead Revenda",
-   "declarado": 2119,
-   "real": 2634,
-   "delta": 515,
-   "valor_real": 181987217,
-   "classe": "outra_origem"
   },
   {
    "midia": "WhatsApp",
    "declarado": 1425,
-   "real": 2296,
-   "delta": 871,
-   "valor_real": 281413245,
+   "real": 2656,
+   "delta": 1231,
+   "valor_real": 322604067,
    "classe": "captacao"
+  },
+  {
+   "midia": "Lead Revenda",
+   "declarado": 2119,
+   "real": 2607,
+   "delta": 488,
+   "valor_real": 179726865,
+   "classe": "outra_origem"
   },
   {
    "midia": "Facebook",
    "declarado": 775,
-   "real": 1575,
-   "delta": 800,
-   "valor_real": 197586002,
+   "real": 1408,
+   "delta": 633,
+   "valor_real": 179435060,
    "classe": "captacao"
   },
   {
    "midia": "URA",
    "declarado": 673,
-   "real": 1238,
-   "delta": 565,
-   "valor_real": 161814581,
+   "real": 1183,
+   "delta": 510,
+   "valor_real": 156301902,
    "classe": "outra_origem"
   },
   {
    "midia": "VD Corporate",
    "declarado": 990,
-   "real": 937,
-   "delta": -53,
-   "valor_real": 110753431,
+   "real": 969,
+   "delta": -21,
+   "valor_real": 114311995,
    "classe": "outra_origem"
   },
   {
    "midia": "OPV Montadora",
    "declarado": 679,
-   "real": 725,
-   "delta": 46,
-   "valor_real": 99698435,
-   "classe": "captacao"
-  },
-  {
-   "midia": "Lead Montadora",
-   "declarado": 305,
-   "real": 654,
-   "delta": 349,
-   "valor_real": 110463025,
+   "real": 730,
+   "delta": 51,
+   "valor_real": 100259192,
    "classe": "captacao"
   },
   {
    "midia": "Webmotors",
    "declarado": 386,
-   "real": 651,
-   "delta": 265,
-   "valor_real": 76309200,
+   "real": 659,
+   "delta": 273,
+   "valor_real": 76815539,
+   "classe": "captacao"
+  },
+  {
+   "midia": "Lead Montadora",
+   "declarado": 305,
+   "real": 601,
+   "delta": 296,
+   "valor_real": 99762139,
    "classe": "captacao"
   },
   {
    "midia": "Site Carrera",
    "declarado": 445,
-   "real": 597,
-   "delta": 152,
-   "valor_real": 49863414,
+   "real": 563,
+   "delta": 118,
+   "valor_real": 46920600,
    "classe": "captacao"
   },
   {
    "midia": "AutoAtendimento",
    "declarado": 877,
-   "real": 553,
-   "delta": -324,
-   "valor_real": 72668175,
+   "real": 552,
+   "delta": -325,
+   "valor_real": 72550728,
    "classe": "sem_origem"
   },
   {
    "midia": "Mercado Livre",
    "declarado": 318,
-   "real": 550,
-   "delta": 232,
-   "valor_real": 117715335,
+   "real": 534,
+   "delta": 216,
+   "valor_real": 117594483,
    "classe": "captacao"
   },
   {
    "midia": "Passagem Oficina",
    "declarado": 4,
-   "real": 271,
-   "delta": 267,
-   "valor_real": 35245285,
+   "real": 228,
+   "delta": 224,
+   "valor_real": 30209415,
    "classe": "outra_origem"
   },
   {
@@ -196,26 +352,26 @@
   {
    "midia": "Outros",
    "declarado": 4,
-   "real": 67,
-   "delta": 63,
-   "valor_real": 15655859,
+   "real": 66,
+   "delta": 62,
+   "valor_real": 15358649,
    "classe": "sem_origem"
-  },
-  {
-   "midia": "OLX",
-   "declarado": 46,
-   "real": 65,
-   "delta": 19,
-   "valor_real": 7100488,
-   "classe": "captacao"
   },
   {
    "midia": "Evento Dealer",
    "declarado": 19,
-   "real": 46,
-   "delta": 27,
-   "valor_real": 7109793,
+   "real": 50,
+   "delta": 31,
+   "valor_real": 7525376,
    "classe": "outra_origem"
+  },
+  {
+   "midia": "OLX",
+   "declarado": 46,
+   "real": 49,
+   "delta": 3,
+   "valor_real": 5413818,
+   "classe": "captacao"
   },
   {
    "midia": "Indicação Portal",
@@ -226,11 +382,19 @@
    "classe": "outra_origem"
   },
   {
+   "midia": "CRM",
+   "declarado": 0,
+   "real": 11,
+   "delta": 11,
+   "valor_real": 1825870,
+   "classe": "captacao"
+  },
+  {
    "midia": "MobiAuto",
    "declarado": 4,
-   "real": 9,
-   "delta": 5,
-   "valor_real": 1024657,
+   "real": 10,
+   "delta": 6,
+   "valor_real": 1129867,
    "classe": "captacao"
   },
   {
@@ -240,6 +404,22 @@
    "delta": 8,
    "valor_real": 1625171,
    "classe": "outra_origem"
+  },
+  {
+   "midia": "iCarros",
+   "declarado": 0,
+   "real": 1,
+   "delta": 1,
+   "valor_real": 117447,
+   "classe": "captacao"
+  },
+  {
+   "midia": "Remarketing",
+   "declarado": 0,
+   "real": 1,
+   "delta": 1,
+   "valor_real": 169000,
+   "classe": "captacao"
   }
  ],
  "meses": [
@@ -252,19 +432,19 @@
    "pct_avulso": 53.2,
    "origem": {
     "antes": 1124,
-    "depois": 1711,
-    "recuperadas": 587,
+    "depois": 1713,
+    "recuperadas": 589,
     "pct_antes": 42.9,
     "pct_depois": 65.3,
     "fator": 1.52
    },
    "captacao": {
     "antes": 668,
-    "depois": 1170,
-    "recuperadas": 502,
+    "depois": 1173,
+    "recuperadas": 505,
     "pct_antes": 25.5,
-    "pct_depois": 44.6,
-    "fator": 1.75
+    "pct_depois": 44.7,
+    "fator": 1.76
    }
   },
   {
@@ -276,19 +456,19 @@
    "pct_avulso": 52.0,
    "origem": {
     "antes": 1011,
-    "depois": 1586,
-    "recuperadas": 575,
+    "depois": 1589,
+    "recuperadas": 578,
     "pct_antes": 43.3,
-    "pct_depois": 67.9,
+    "pct_depois": 68.0,
     "fator": 1.57
    },
    "captacao": {
     "antes": 541,
-    "depois": 1024,
-    "recuperadas": 483,
+    "depois": 1027,
+    "recuperadas": 486,
     "pct_antes": 23.1,
-    "pct_depois": 43.8,
-    "fator": 1.89
+    "pct_depois": 43.9,
+    "fator": 1.9
    }
   },
   {
@@ -348,19 +528,19 @@
    "pct_avulso": 54.9,
    "origem": {
     "antes": 1206,
-    "depois": 1846,
-    "recuperadas": 640,
+    "depois": 1852,
+    "recuperadas": 646,
     "pct_antes": 40.4,
-    "pct_depois": 61.9,
-    "fator": 1.53
+    "pct_depois": 62.1,
+    "fator": 1.54
    },
    "captacao": {
     "antes": 604,
-    "depois": 1282,
-    "recuperadas": 678,
+    "depois": 1289,
+    "recuperadas": 685,
     "pct_antes": 20.2,
-    "pct_depois": 43.0,
-    "fator": 2.12
+    "pct_depois": 43.2,
+    "fator": 2.13
    }
   },
   {
@@ -372,16 +552,16 @@
    "pct_avulso": 52.1,
    "origem": {
     "antes": 1197,
-    "depois": 1835,
-    "recuperadas": 638,
+    "depois": 1836,
+    "recuperadas": 639,
     "pct_antes": 42.4,
     "pct_depois": 65.0,
     "fator": 1.53
    },
    "captacao": {
     "antes": 648,
-    "depois": 1256,
-    "recuperadas": 608,
+    "depois": 1257,
+    "recuperadas": 609,
     "pct_antes": 23.0,
     "pct_depois": 44.5,
     "fator": 1.94
@@ -421,18 +601,18 @@
    "pct_avulso": 45.9,
    "origem": {
     "antes": 2086,
-    "depois": 3043,
-    "recuperadas": 957,
+    "depois": 3048,
+    "recuperadas": 962,
     "pct_antes": 45.5,
-    "pct_depois": 66.3,
+    "pct_depois": 66.4,
     "fator": 1.46
    },
    "captacao": {
     "antes": 872,
-    "depois": 2030,
-    "recuperadas": 1158,
+    "depois": 2035,
+    "recuperadas": 1163,
     "pct_antes": 19.0,
-    "pct_depois": 44.3,
+    "pct_depois": 44.4,
     "fator": 2.33
    },
    "codigo": "GM",
@@ -440,49 +620,49 @@
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 1298
+     "n": 1293
     },
     {
      "midia": "Lead Revenda",
-     "n": 591
-    },
-    {
-     "midia": "VD Corporate",
-     "n": 489
+     "n": 587
     },
     {
      "midia": "WhatsApp",
-     "n": 445
+     "n": 552
+    },
+    {
+     "midia": "VD Corporate",
+     "n": 516
     },
     {
      "midia": "Facebook",
-     "n": 368
+     "n": 336
     },
     {
      "midia": "URA",
-     "n": 318
+     "n": 294
     }
    ],
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 831
+     "n": 923
     },
     {
      "midia": "Facebook",
-     "n": 403
+     "n": 369
     },
     {
      "midia": "Webmotors",
-     "n": 235
+     "n": 231
     },
     {
      "midia": "Site Carrera",
-     "n": 219
+     "n": 208
     },
     {
      "midia": "Lead Montadora",
-     "n": 171
+     "n": 163
     },
     {
      "midia": "OPV Montadora",
@@ -498,72 +678,72 @@
    "pct_avulso": 58.7,
    "origem": {
     "antes": 1476,
-    "depois": 2280,
-    "recuperadas": 804,
+    "depois": 2285,
+    "recuperadas": 809,
     "pct_antes": 38.6,
-    "pct_depois": 59.6,
-    "fator": 1.54
+    "pct_depois": 59.8,
+    "fator": 1.55
    },
    "captacao": {
     "antes": 657,
-    "depois": 1526,
-    "recuperadas": 869,
+    "depois": 1532,
+    "recuperadas": 875,
     "pct_antes": 17.2,
-    "pct_depois": 39.9,
-    "fator": 2.32
+    "pct_depois": 40.1,
+    "fator": 2.33
    },
    "codigo": "VW",
    "marca": "Volkswagen",
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 1452
-    },
-    {
-     "midia": "Lead Revenda",
-     "n": 515
+     "n": 1448
     },
     {
      "midia": "WhatsApp",
-     "n": 443
+     "n": 512
+    },
+    {
+     "midia": "Lead Revenda",
+     "n": 512
     },
     {
      "midia": "URA",
-     "n": 289
+     "n": 277
     },
     {
      "midia": "Facebook",
-     "n": 272
+     "n": 237
     },
     {
      "midia": "Webmotors",
-     "n": 238
+     "n": 236
     }
    ],
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 550
+     "n": 604
     },
     {
      "midia": "Facebook",
-     "n": 318
+     "n": 284
     },
     {
      "midia": "Webmotors",
-     "n": 285
+     "n": 274
     },
     {
      "midia": "Lead Montadora",
-     "n": 188
+     "n": 185
     },
     {
      "midia": "Site Carrera",
-     "n": 117
+     "n": 113
     },
     {
      "midia": "Mercado Livre",
-     "n": 40
+     "n": 38
     }
    ]
   },
@@ -575,16 +755,16 @@
    "pct_avulso": 42.3,
    "origem": {
     "antes": 1889,
-    "depois": 2633,
-    "recuperadas": 744,
+    "depois": 2634,
+    "recuperadas": 745,
     "pct_antes": 51.7,
     "pct_depois": 72.1,
     "fator": 1.39
    },
    "captacao": {
     "antes": 1097,
-    "depois": 1874,
-    "recuperadas": 777,
+    "depois": 1876,
+    "recuperadas": 779,
     "pct_antes": 30.0,
     "pct_depois": 51.3,
     "fator": 1.71
@@ -598,49 +778,49 @@
     },
     {
      "midia": "OPV Montadora",
-     "n": 651
+     "n": 657
     },
     {
      "midia": "Lead Revenda",
-     "n": 495
+     "n": 483
     },
     {
      "midia": "WhatsApp",
-     "n": 330
-    },
-    {
-     "midia": "Facebook",
-     "n": 294
+     "n": 400
     },
     {
      "midia": "URA",
-     "n": 283
+     "n": 276
+    },
+    {
+     "midia": "Facebook",
+     "n": 263
     }
    ],
    "captacao_top": [
     {
      "midia": "OPV Montadora",
-     "n": 677
+     "n": 683
     },
     {
      "midia": "WhatsApp",
-     "n": 568
+     "n": 612
     },
     {
      "midia": "Facebook",
-     "n": 324
+     "n": 292
     },
     {
      "midia": "Webmotors",
-     "n": 153
+     "n": 150
     },
     {
      "midia": "Site Carrera",
-     "n": 81
+     "n": 76
     },
     {
-     "midia": "Mercado Livre",
-     "n": 32
+     "midia": "Lead Montadora",
+     "n": 29
     }
    ]
   },
@@ -652,64 +832,64 @@
    "pct_avulso": 54.5,
    "origem": {
     "antes": 1174,
-    "depois": 1903,
-    "recuperadas": 729,
+    "depois": 1904,
+    "recuperadas": 730,
     "pct_antes": 42.4,
-    "pct_depois": 68.7,
+    "pct_depois": 68.8,
     "fator": 1.62
    },
    "captacao": {
     "antes": 642,
-    "depois": 1267,
-    "recuperadas": 625,
+    "depois": 1268,
+    "recuperadas": 626,
     "pct_antes": 23.2,
     "pct_depois": 45.8,
-    "fator": 1.97
+    "fator": 1.98
    },
    "codigo": "GWC",
    "marca": "GWM",
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 788
+     "n": 787
     },
     {
      "midia": "Lead Revenda",
-     "n": 532
+     "n": 531
     },
     {
      "midia": "Mercado Livre",
-     "n": 403
+     "n": 415
     },
     {
      "midia": "WhatsApp",
-     "n": 272
+     "n": 304
     },
     {
      "midia": "Lead Montadora",
-     "n": 220
+     "n": 189
     },
     {
      "midia": "URA",
-     "n": 180
+     "n": 178
     }
    ],
    "captacao_top": [
     {
      "midia": "Mercado Livre",
-     "n": 411
+     "n": 432
     },
     {
      "midia": "WhatsApp",
-     "n": 325
+     "n": 350
     },
     {
      "midia": "Lead Montadora",
-     "n": 248
+     "n": 215
     },
     {
      "midia": "Facebook",
-     "n": 193
+     "n": 180
     },
     {
      "midia": "Webmotors",
@@ -717,7 +897,7 @@
     },
     {
      "midia": "Site Carrera",
-     "n": 31
+     "n": 30
     }
    ]
   },
@@ -752,15 +932,15 @@
     },
     {
      "midia": "Lead Revenda",
-     "n": 379
+     "n": 378
     },
     {
      "midia": "WhatsApp",
-     "n": 286
+     "n": 308
     },
     {
      "midia": "Facebook",
-     "n": 138
+     "n": 122
     },
     {
      "midia": "Passagem Oficina",
@@ -774,27 +954,27 @@
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 302
+     "n": 322
     },
     {
      "midia": "Facebook",
-     "n": 142
+     "n": 127
     },
     {
      "midia": "Webmotors",
-     "n": 49
+     "n": 47
     },
     {
      "midia": "Site Carrera",
-     "n": 43
+     "n": 41
     },
     {
      "midia": "Lead Montadora",
-     "n": 32
+     "n": 30
     },
     {
      "midia": "Mercado Livre",
-     "n": 6
+     "n": 7
     }
    ]
   },
@@ -829,41 +1009,41 @@
     },
     {
      "midia": "WhatsApp",
-     "n": 418
+     "n": 469
     },
     {
      "midia": "Facebook",
-     "n": 272
+     "n": 235
     },
     {
      "midia": "Site Carrera",
-     "n": 181
+     "n": 176
     },
     {
      "midia": "URA",
-     "n": 82
+     "n": 75
     },
     {
      "midia": "Lead Montadora",
-     "n": 17
+     "n": 16
     }
    ],
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 440
+     "n": 483
     },
     {
      "midia": "Facebook",
-     "n": 284
+     "n": 249
     },
     {
      "midia": "Site Carrera",
-     "n": 184
+     "n": 178
     },
     {
      "midia": "Lead Montadora",
-     "n": 17
+     "n": 16
     },
     {
      "midia": "Webmotors",
@@ -871,7 +1051,7 @@
     },
     {
      "midia": "OLX",
-     "n": 4
+     "n": 3
     }
    ]
   },
@@ -906,11 +1086,11 @@
     },
     {
      "midia": "Lead Revenda",
-     "n": 76
+     "n": 70
     },
     {
      "midia": "WhatsApp",
-     "n": 63
+     "n": 70
     },
     {
      "midia": "VD Corporate",
@@ -918,25 +1098,25 @@
     },
     {
      "midia": "Facebook",
-     "n": 41
+     "n": 35
     },
     {
-     "midia": "URA",
+     "midia": "Webmotors",
      "n": 32
     }
    ],
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 76
-    },
-    {
-     "midia": "Facebook",
-     "n": 43
+     "n": 84
     },
     {
      "midia": "Webmotors",
-     "n": 41
+     "n": 38
+    },
+    {
+     "midia": "Facebook",
+     "n": 37
     },
     {
      "midia": "Lead Montadora",
@@ -944,11 +1124,11 @@
     },
     {
      "midia": "Site Carrera",
-     "n": 13
+     "n": 15
     },
     {
      "midia": "Mercado Livre",
-     "n": 10
+     "n": 9
     }
    ]
   },
@@ -983,41 +1163,41 @@
     },
     {
      "midia": "Mercado Livre",
-     "n": 21
+     "n": 23
     },
     {
      "midia": "URA",
-     "n": 17
-    },
-    {
-     "midia": "Lead Montadora",
-     "n": 14
+     "n": 16
     },
     {
      "midia": "WhatsApp",
-     "n": 12
+     "n": 13
+    },
+    {
+     "midia": "Lead Montadora",
+     "n": 13
     },
     {
      "midia": "Facebook",
-     "n": 9
+     "n": 8
     }
    ],
    "captacao_top": [
     {
      "midia": "Mercado Livre",
-     "n": 21
-    },
-    {
-     "midia": "Lead Montadora",
-     "n": 16
+     "n": 24
     },
     {
      "midia": "WhatsApp",
      "n": 15
     },
     {
+     "midia": "Lead Montadora",
+     "n": 14
+    },
+    {
      "midia": "Facebook",
-     "n": 11
+     "n": 10
     },
     {
      "midia": "Webmotors",
@@ -1064,14 +1244,14 @@
     },
     {
      "midia": "WhatsApp",
-     "n": 27
-    },
-    {
-     "midia": "Lead Montadora",
-     "n": 10
+     "n": 28
     },
     {
      "midia": "URA",
+     "n": 9
+    },
+    {
+     "midia": "Lead Montadora",
      "n": 9
     },
     {
@@ -1082,14 +1262,14 @@
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 29
-    },
-    {
-     "midia": "Lead Montadora",
-     "n": 10
+     "n": 30
     },
     {
      "midia": "Facebook",
+     "n": 9
+    },
+    {
+     "midia": "Lead Montadora",
      "n": 9
     },
     {
@@ -1143,19 +1323,19 @@
    "pct_avulso": 23.9,
    "origem": {
     "antes": 715,
-    "depois": 849,
-    "recuperadas": 134,
+    "depois": 850,
+    "recuperadas": 135,
     "pct_antes": 66.9,
-    "pct_depois": 79.5,
+    "pct_depois": 79.6,
     "fator": 1.19
    },
    "captacao": {
     "antes": 85,
-    "depois": 523,
-    "recuperadas": 438,
+    "depois": 524,
+    "recuperadas": 439,
     "pct_antes": 8.0,
-    "pct_depois": 49.0,
-    "fator": 6.15
+    "pct_depois": 49.1,
+    "fator": 6.16
    },
    "loja": "ALP GM",
    "codigo": "GM",
@@ -1170,19 +1350,19 @@
    "pct_avulso": 61.1,
    "origem": {
     "antes": 326,
-    "depois": 546,
-    "recuperadas": 220,
+    "depois": 550,
+    "recuperadas": 224,
     "pct_antes": 36.5,
-    "pct_depois": 61.2,
-    "fator": 1.67
+    "pct_depois": 61.7,
+    "fator": 1.69
    },
    "captacao": {
     "antes": 113,
-    "depois": 347,
-    "recuperadas": 234,
+    "depois": 351,
+    "recuperadas": 238,
     "pct_antes": 12.7,
-    "pct_depois": 38.9,
-    "fator": 3.07
+    "pct_depois": 39.3,
+    "fator": 3.11
    },
    "loja": "ALP VW",
    "codigo": "VW",
@@ -1197,19 +1377,19 @@
    "pct_avulso": 52.6,
    "origem": {
     "antes": 359,
-    "depois": 537,
-    "recuperadas": 178,
+    "depois": 538,
+    "recuperadas": 179,
     "pct_antes": 41.1,
-    "pct_depois": 61.5,
+    "pct_depois": 61.6,
     "fator": 1.5
    },
    "captacao": {
     "antes": 139,
-    "depois": 350,
-    "recuperadas": 211,
+    "depois": 352,
+    "recuperadas": 213,
     "pct_antes": 15.9,
-    "pct_depois": 40.1,
-    "fator": 2.52
+    "pct_depois": 40.3,
+    "fator": 2.53
    },
    "loja": "VLO VW",
    "codigo": "VW",
@@ -1251,19 +1431,19 @@
    "pct_avulso": 42.4,
    "origem": {
     "antes": 272,
-    "depois": 457,
-    "recuperadas": 185,
+    "depois": 458,
+    "recuperadas": 186,
     "pct_antes": 41.2,
-    "pct_depois": 69.2,
+    "pct_depois": 69.4,
     "fator": 1.68
    },
    "captacao": {
     "antes": 125,
-    "depois": 286,
-    "recuperadas": 161,
+    "depois": 287,
+    "recuperadas": 162,
     "pct_antes": 18.9,
-    "pct_depois": 43.3,
-    "fator": 2.29
+    "pct_depois": 43.5,
+    "fator": 2.3
    },
    "loja": "BUT GM",
    "codigo": "GM",
@@ -1386,18 +1566,18 @@
    "pct_avulso": 41.5,
    "origem": {
     "antes": 259,
-    "depois": 370,
-    "recuperadas": 111,
+    "depois": 371,
+    "recuperadas": 112,
     "pct_antes": 49.7,
-    "pct_depois": 71.0,
+    "pct_depois": 71.2,
     "fator": 1.43
    },
    "captacao": {
     "antes": 150,
-    "depois": 253,
-    "recuperadas": 103,
+    "depois": 254,
+    "recuperadas": 104,
     "pct_antes": 28.8,
-    "pct_depois": 48.6,
+    "pct_depois": 48.8,
     "fator": 1.69
    },
    "loja": "OSA GM",
@@ -1413,19 +1593,19 @@
    "pct_avulso": 66.9,
    "origem": {
     "antes": 154,
-    "depois": 323,
-    "recuperadas": 169,
+    "depois": 324,
+    "recuperadas": 170,
     "pct_antes": 30.1,
-    "pct_depois": 63.2,
+    "pct_depois": 63.4,
     "fator": 2.1
    },
    "captacao": {
     "antes": 134,
-    "depois": 270,
-    "recuperadas": 136,
+    "depois": 271,
+    "recuperadas": 137,
     "pct_antes": 26.2,
-    "pct_depois": 52.8,
-    "fator": 2.01
+    "pct_depois": 53.0,
+    "fator": 2.02
    },
    "loja": "ALP GWC",
    "codigo": "GWC",
@@ -1629,19 +1809,19 @@
    "pct_avulso": 47.2,
    "origem": {
     "antes": 205,
-    "depois": 304,
-    "recuperadas": 99,
+    "depois": 305,
+    "recuperadas": 100,
     "pct_antes": 51.5,
-    "pct_depois": 76.4,
-    "fator": 1.48
+    "pct_depois": 76.6,
+    "fator": 1.49
    },
    "captacao": {
     "antes": 128,
-    "depois": 228,
-    "recuperadas": 100,
+    "depois": 229,
+    "recuperadas": 101,
     "pct_antes": 32.2,
-    "pct_depois": 57.3,
-    "fator": 1.78
+    "pct_depois": 57.5,
+    "fator": 1.79
    },
    "loja": "BUT NI",
    "codigo": "NI",
@@ -2177,11 +2357,11 @@
    },
    "captacao": {
     "antes": 60,
-    "depois": 73,
-    "recuperadas": 13,
+    "depois": 74,
+    "recuperadas": 14,
     "pct_antes": 38.5,
-    "pct_depois": 46.8,
-    "fator": 1.22
+    "pct_depois": 47.4,
+    "fator": 1.23
    },
    "loja": "SCA NI",
    "codigo": "NI",
@@ -2520,19 +2700,19 @@
    "pct_avulso": 69.0,
    "origem": {
     "antes": 10,
-    "depois": 32,
-    "recuperadas": 22,
+    "depois": 34,
+    "recuperadas": 24,
     "pct_antes": 17.2,
-    "pct_depois": 55.2,
-    "fator": 3.2
+    "pct_depois": 58.6,
+    "fator": 3.4
    },
    "captacao": {
     "antes": 10,
-    "depois": 24,
-    "recuperadas": 14,
+    "depois": 26,
+    "recuperadas": 16,
     "pct_antes": 17.2,
-    "pct_depois": 41.4,
-    "fator": 2.4
+    "pct_depois": 44.8,
+    "fator": 2.6
    },
    "loja": "VL2 GM",
    "codigo": "GM",
@@ -2684,71 +2864,71 @@
    "pct_avulso": 60.4,
    "origem": {
     "antes": 3359,
-    "depois": 5410,
-    "recuperadas": 2051,
+    "depois": 5420,
+    "recuperadas": 2061,
     "pct_antes": 35.3,
-    "pct_depois": 56.8,
+    "pct_depois": 56.9,
     "fator": 1.61
    },
    "captacao": {
     "antes": 3044,
-    "depois": 4834,
-    "recuperadas": 1790,
+    "depois": 4845,
+    "recuperadas": 1801,
     "pct_antes": 32.0,
-    "pct_depois": 50.7,
+    "pct_depois": 50.9,
     "fator": 1.59
    },
    "interesse": "Novo",
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 3779
+     "n": 3771
     },
     {
      "midia": "WhatsApp",
-     "n": 1490
+     "n": 1655
     },
     {
      "midia": "Facebook",
-     "n": 1069
+     "n": 956
     },
     {
      "midia": "OPV Montadora",
-     "n": 630
+     "n": 633
     },
     {
      "midia": "URA",
-     "n": 581
+     "n": 571
     },
     {
      "midia": "Lead Montadora",
-     "n": 505
+     "n": 462
     }
    ],
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 1608
+     "n": 1752
     },
     {
      "midia": "Facebook",
-     "n": 1139
+     "n": 1028
     },
     {
      "midia": "OPV Montadora",
-     "n": 650
+     "n": 653
     },
     {
      "midia": "Lead Montadora",
-     "n": 554
+     "n": 514
     },
     {
      "midia": "Mercado Livre",
-     "n": 416
+     "n": 433
     },
     {
      "midia": "Site Carrera",
-     "n": 331
+     "n": 321
     }
    ]
   },
@@ -2768,17 +2948,17 @@
    },
    "captacao": {
     "antes": 1118,
-    "depois": 2358,
-    "recuperadas": 1240,
+    "depois": 2359,
+    "recuperadas": 1241,
     "pct_antes": 16.7,
-    "pct_depois": 35.2,
+    "pct_depois": 35.3,
     "fator": 2.11
    },
    "interesse": "Usado",
    "origem_top": [
     {
      "midia": "Lead Revenda",
-     "n": 2556
+     "n": 2536
     },
     {
      "midia": "Lead Avulso",
@@ -2786,45 +2966,45 @@
     },
     {
      "midia": "WhatsApp",
-     "n": 595
+     "n": 736
     },
     {
      "midia": "Webmotors",
-     "n": 531
+     "n": 539
     },
     {
      "midia": "URA",
-     "n": 413
+     "n": 376
     },
     {
      "midia": "Facebook",
-     "n": 272
+     "n": 244
     }
    ],
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 742
+     "n": 859
     },
     {
      "midia": "Webmotors",
-     "n": 692
+     "n": 672
     },
     {
      "midia": "Site Carrera",
-     "n": 327
+     "n": 307
     },
     {
      "midia": "Facebook",
-     "n": 320
+     "n": 287
     },
     {
      "midia": "Mercado Livre",
-     "n": 121
+     "n": 96
     },
     {
-     "midia": "OLX",
-     "n": 64
+     "midia": "Lead Montadora",
+     "n": 52
     }
    ]
   },
@@ -2836,37 +3016,37 @@
    "pct_avulso": 61.9,
    "origem": {
     "antes": 353,
-    "depois": 912,
-    "recuperadas": 559,
+    "depois": 914,
+    "recuperadas": 561,
     "pct_antes": 21.5,
-    "pct_depois": 55.5,
-    "fator": 2.58
+    "pct_depois": 55.7,
+    "fator": 2.59
    },
    "captacao": {
     "antes": 221,
-    "depois": 722,
-    "recuperadas": 501,
+    "depois": 724,
+    "recuperadas": 503,
     "pct_antes": 13.5,
-    "pct_depois": 44.0,
-    "fator": 3.27
+    "pct_depois": 44.1,
+    "fator": 3.28
    },
    "interesse": "Venda Direta",
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 577
-    },
-    {
-     "midia": "URA",
-     "n": 227
-    },
-    {
-     "midia": "Facebook",
-     "n": 220
+     "n": 575
     },
     {
      "midia": "WhatsApp",
-     "n": 196
+     "n": 230
+    },
+    {
+     "midia": "URA",
+     "n": 220
+    },
+    {
+     "midia": "Facebook",
+     "n": 195
     },
     {
      "midia": "AutoAtendimento",
@@ -2874,33 +3054,33 @@
     },
     {
      "midia": "Lead Montadora",
-     "n": 85
+     "n": 83
     }
    ],
    "captacao_top": [
     {
-     "midia": "Facebook",
-     "n": 242
+     "midia": "WhatsApp",
+     "n": 260
     },
     {
-     "midia": "WhatsApp",
-     "n": 234
+     "midia": "Facebook",
+     "n": 217
     },
     {
      "midia": "Lead Montadora",
-     "n": 107
+     "n": 103
     },
     {
      "midia": "OPV Montadora",
-     "n": 82
+     "n": 84
     },
     {
      "midia": "Site Carrera",
-     "n": 34
+     "n": 37
     },
     {
      "midia": "Webmotors",
-     "n": 13
+     "n": 12
     }
    ]
   },
@@ -2930,19 +3110,15 @@
    "origem_top": [
     {
      "midia": "VD Corporate",
-     "n": 927
-    },
-    {
-     "midia": "Passagem Oficina",
-     "n": 54
-    },
-    {
-     "midia": "Lead Revenda",
-     "n": 7
+     "n": 959
     },
     {
      "midia": "WhatsApp",
-     "n": 2
+     "n": 21
+    },
+    {
+     "midia": "Passagem Oficina",
+     "n": 10
     }
    ],
    "captacao_top": [
@@ -2956,11 +3132,11 @@
     },
     {
      "midia": "Lead Montadora",
-     "n": 5
+     "n": 4
     },
     {
      "midia": "Mercado Livre",
-     "n": 3
+     "n": 4
     },
     {
      "midia": "OPV Montadora",
@@ -2998,41 +3174,41 @@
     },
     {
      "midia": "Mercado Livre",
-     "n": 25
+     "n": 27
     },
     {
      "midia": "Lead Montadora",
-     "n": 19
+     "n": 18
     },
     {
      "midia": "URA",
-     "n": 17
-    },
-    {
-     "midia": "Facebook",
-     "n": 14
+     "n": 16
     },
     {
      "midia": "WhatsApp",
+     "n": 14
+    },
+    {
+     "midia": "Facebook",
      "n": 13
     }
    ],
    "captacao_top": [
     {
      "midia": "Mercado Livre",
-     "n": 25
+     "n": 28
     },
     {
      "midia": "Lead Montadora",
-     "n": 21
-    },
-    {
-     "midia": "Facebook",
-     "n": 16
+     "n": 19
     },
     {
      "midia": "WhatsApp",
      "n": 16
+    },
+    {
+     "midia": "Facebook",
+     "n": 15
     },
     {
      "midia": "Site Carrera",

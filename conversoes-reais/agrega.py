@@ -152,8 +152,31 @@ for i, rs in sorted(por_int.items(), key=lambda kv: -len(kv[1])):
     b.update(interesse=i, origem_top=top(rs, "midia_real"), captacao_top=top(rs, "captacao_real"))
     interesses.append(b)
 
+# ---------------------------------------------------------------- jornada
+# Sob crédito de último toque, a mídia que sempre ABRE a jornada e nunca fecha
+# parece não vender. "Trouxe" e "fechou" separam os dois papéis.
+part, trouxe_c, fechou_c = Counter(), Counter(), Counter()
+for r in rows:
+    for m in r["jornada"]:
+        part[m] += 1
+    if r["trouxe"]:
+        trouxe_c[r["trouxe"]] += 1
+    if r["fechou"]:
+        fechou_c[r["fechou"]] += 1
+multi = [r for r in rows if r["multitoque"]]
+pares = Counter((r["trouxe"], r["fechou"]) for r in multi if r["trouxe"] != r["fechou"])
+jornada = {
+    "multitoque": len(multi),
+    "pct_multitoque": round(100 * len(multi) / len(rows), 1),
+    "assist": [{"midia": m, "participou": part[m], "trouxe": trouxe_c[m],
+                "fechou": fechou_c[m], "saldo": trouxe_c[m] - fechou_c[m]}
+               for m, _ in part.most_common(14)],
+    "pares": [{"de": a, "para": b, "n": v} for (a, b), v in pares.most_common(10)],
+}
+
 saida = {
     "gerado_em": datetime.now().strftime("%d/%m/%Y %H:%M"),
+    "jornada": jornada,
     "cobertura": {
         "de": min(r["dt_venda"] for r in rows),
         "ate": max(r["dt_venda"] for r in rows),
