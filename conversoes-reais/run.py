@@ -14,7 +14,7 @@ import os
 import shutil
 import subprocess
 import sys
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 DADOS = os.path.join(BASE, "dados")
@@ -68,7 +68,10 @@ a = ap.parse_args()
 os.makedirs(DADOS, exist_ok=True)
 
 if not a.sem_extrair:
-    hoje = date.today()
+    # o runner do Actions roda em UTC: depois das 21h BRT ele ja "virou o dia" e
+    # a janela sairia um dia maior que a pretendida. O negocio e BRT, entao a data
+    # de referencia tambem tem que ser.
+    hoje = (datetime.now(timezone.utc) - timedelta(hours=3)).date()
     with open(f"{DADOS}/jobs.json", "w", encoding="utf-8") as f:
         json.dump(monta_jobs(hoje), f, ensure_ascii=False, indent=1)
     passo("extracao do Salesforce", "extract_sf.py", f"{DADOS}/jobs.json")
