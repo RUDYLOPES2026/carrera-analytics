@@ -1,63 +1,63 @@
 {
- "gerado_em": "26/07/2026 12:39",
+ "gerado_em": "27/07/2026 12:42",
  "jornada": {
-  "multitoque": 5319,
+  "multitoque": 5336,
   "pct_multitoque": 27.9,
   "assist": [
    {
     "midia": "WhatsApp",
-    "participou": 4245,
-    "trouxe": 2100,
-    "fechou": 2656,
-    "saldo": -556
+    "participou": 4265,
+    "trouxe": 2110,
+    "fechou": 2670,
+    "saldo": -560
    },
    {
     "midia": "Facebook",
-    "participou": 2902,
-    "trouxe": 2238,
-    "fechou": 1408,
-    "saldo": 830
+    "participou": 2919,
+    "trouxe": 2251,
+    "fechou": 1415,
+    "saldo": 836
    },
    {
     "midia": "Lead Revenda",
-    "participou": 2732,
-    "trouxe": 2370,
-    "fechou": 2607,
+    "participou": 2735,
+    "trouxe": 2373,
+    "fechou": 2610,
     "saldo": -237
    },
    {
     "midia": "URA",
-    "participou": 2239,
-    "trouxe": 1035,
-    "fechou": 1183,
+    "participou": 2243,
+    "trouxe": 1038,
+    "fechou": 1186,
     "saldo": -148
    },
    {
     "midia": "Passagem Oficina",
-    "participou": 1473,
-    "trouxe": 794,
-    "fechou": 228,
-    "saldo": 566
+    "participou": 1476,
+    "trouxe": 795,
+    "fechou": 230,
+    "saldo": 565
    },
    {
     "midia": "Lead Montadora",
-    "participou": 1234,
-    "trouxe": 830,
-    "fechou": 601,
+    "participou": 1241,
+    "trouxe": 834,
+    "fechou": 605,
     "saldo": 229
    },
    {
     "midia": "Webmotors",
-    "participou": 1166,
-    "trouxe": 784,
-    "fechou": 659,
-    "saldo": 125
+    "participou": 1169,
+    "trouxe": 786,
+    "fechou": 660,
+    "saldo": 126
    },
    {
     "midia": "Site Carrera",
-    "participou": 1119,
-    "trouxe": 520,
-    "fechou": 563,
+    "participou": 1122,
+    "trouxe": 522,
+    "fechou": 565,
     "saldo": -43
    },
    {
@@ -69,35 +69,35 @@
    },
    {
     "midia": "OPV Montadora",
-    "participou": 927,
-    "trouxe": 536,
-    "fechou": 730,
-    "saldo": -194
+    "participou": 924,
+    "trouxe": 532,
+    "fechou": 728,
+    "saldo": -196
    },
    {
     "midia": "Mercado Livre",
-    "participou": 728,
-    "trouxe": 380,
-    "fechou": 534,
-    "saldo": -154
+    "participou": 733,
+    "trouxe": 383,
+    "fechou": 539,
+    "saldo": -156
    },
    {
     "midia": "Seguro",
-    "participou": 281,
-    "trouxe": 150,
-    "fechou": 120,
-    "saldo": 30
+    "participou": 283,
+    "trouxe": 152,
+    "fechou": 121,
+    "saldo": 31
    },
    {
     "midia": "Evento Dealer",
-    "participou": 253,
-    "trouxe": 70,
+    "participou": 254,
+    "trouxe": 71,
     "fechou": 50,
-    "saldo": 20
+    "saldo": 21
    },
    {
     "midia": "OLX",
-    "participou": 117,
+    "participou": 118,
     "trouxe": 93,
     "fechou": 49,
     "saldo": 44
@@ -107,7 +107,7 @@
    {
     "de": "Facebook",
     "para": "WhatsApp",
-    "n": 547
+    "n": 552
    },
    {
     "de": "Passagem Oficina",
@@ -122,7 +122,7 @@
    {
     "de": "Facebook",
     "para": "URA",
-    "n": 142
+    "n": 143
    },
    {
     "de": "Passagem Oficina",
@@ -132,7 +132,7 @@
    {
     "de": "URA",
     "para": "WhatsApp",
-    "n": 131
+    "n": 132
    },
    {
     "de": "Lead Montadora",
@@ -152,53 +152,53 @@
    {
     "de": "WhatsApp",
     "para": "URA",
-    "n": 112
+    "n": 111
    }
   ]
  },
  "cobertura": {
   "de": "2026-01-02",
-  "ate": "2026-07-26",
+  "ate": "2026-07-27",
   "janela_dias": 365
  },
  "grupo": {
-  "vendas": 19062,
-  "valor": 2337809992,
-  "com_lead": 19058,
-  "avulso": 9985,
+  "vendas": 19139,
+  "valor": 2350075938,
+  "com_lead": 19135,
+  "avulso": 10038,
   "pct_avulso": 52.4,
   "origem": {
-   "antes": 8196,
-   "depois": 12401,
-   "recuperadas": 4205,
-   "pct_antes": 43.0,
-   "pct_depois": 65.1,
+   "antes": 8218,
+   "depois": 12441,
+   "recuperadas": 4223,
+   "pct_antes": 42.9,
+   "pct_depois": 65.0,
    "fator": 1.51
   },
   "captacao": {
-   "antes": 4383,
-   "depois": 8573,
-   "recuperadas": 4190,
+   "antes": 4400,
+   "depois": 8607,
+   "recuperadas": 4207,
    "pct_antes": 23.0,
    "pct_depois": 45.0,
    "fator": 1.96
   },
-  "aferic_base": 4383,
+  "aferic_base": 4400,
   "aferic_pct": 87.1,
   "sens": [
    {
     "janela": "12 meses (a regra)",
-    "n": 12401,
-    "pct": 65.1
+    "n": 12441,
+    "pct": 65.0
    },
    {
     "janela": "até 90 dias",
-    "n": 11359,
-    "pct": 59.6
+    "n": 11396,
+    "pct": 59.5
    },
    {
     "janela": "até 30 dias",
-    "n": 10605,
+    "n": 10641,
     "pct": 55.6
    }
   ],
@@ -206,8 +206,8 @@
   "lag_faixas": [
    {
     "faixa": "Mesmo dia",
-    "n": 351,
-    "pct": 8.3
+    "n": 356,
+    "pct": 8.4
    },
    {
     "faixa": "1 a 2 dias",
@@ -216,65 +216,65 @@
    },
    {
     "faixa": "3 a 7 dias",
-    "n": 604,
+    "n": 610,
     "pct": 14.4
    },
    {
     "faixa": "8 a 30 dias",
-    "n": 919,
-    "pct": 21.9
+    "n": 922,
+    "pct": 21.8
    },
    {
     "faixa": "31 a 90 dias",
-    "n": 754,
+    "n": 755,
     "pct": 17.9
    },
    {
     "faixa": "Mais de 90 dias",
-    "n": 1042,
-    "pct": 24.8
+    "n": 1045,
+    "pct": 24.7
    }
   ]
  },
  "origens": [
   {
    "midia": "Lead Avulso",
-   "declarado": 9985,
-   "real": 6043,
-   "delta": -3942,
-   "valor_real": 789872294,
+   "declarado": 10038,
+   "real": 6077,
+   "delta": -3961,
+   "valor_real": 794806737,
    "classe": "sem_origem"
   },
   {
    "midia": "WhatsApp",
-   "declarado": 1425,
-   "real": 2656,
-   "delta": 1231,
-   "valor_real": 322604067,
+   "declarado": 1430,
+   "real": 2670,
+   "delta": 1240,
+   "valor_real": 324779328,
    "classe": "captacao"
   },
   {
    "midia": "Lead Revenda",
-   "declarado": 2119,
-   "real": 2607,
-   "delta": 488,
-   "valor_real": 179726865,
+   "declarado": 2121,
+   "real": 2610,
+   "delta": 489,
+   "valor_real": 179660325,
    "classe": "outra_origem"
   },
   {
    "midia": "Facebook",
-   "declarado": 775,
-   "real": 1408,
-   "delta": 633,
-   "valor_real": 179435060,
+   "declarado": 783,
+   "real": 1415,
+   "delta": 632,
+   "valor_real": 180722850,
    "classe": "captacao"
   },
   {
    "midia": "URA",
-   "declarado": 673,
-   "real": 1183,
+   "declarado": 676,
+   "real": 1186,
    "delta": 510,
-   "valor_real": 156301902,
+   "valor_real": 157247102,
    "classe": "outra_origem"
   },
   {
@@ -287,66 +287,66 @@
   },
   {
    "midia": "OPV Montadora",
-   "declarado": 679,
-   "real": 730,
+   "declarado": 677,
+   "real": 728,
    "delta": 51,
-   "valor_real": 100259192,
+   "valor_real": 99997305,
    "classe": "captacao"
   },
   {
    "midia": "Webmotors",
    "declarado": 386,
-   "real": 659,
-   "delta": 273,
-   "valor_real": 76815539,
+   "real": 660,
+   "delta": 274,
+   "valor_real": 76905529,
    "classe": "captacao"
   },
   {
    "midia": "Lead Montadora",
-   "declarado": 305,
-   "real": 601,
-   "delta": 296,
-   "valor_real": 99762139,
+   "declarado": 306,
+   "real": 605,
+   "delta": 299,
+   "valor_real": 100606108,
    "classe": "captacao"
   },
   {
    "midia": "Site Carrera",
    "declarado": 445,
-   "real": 563,
-   "delta": 118,
-   "valor_real": 46920600,
+   "real": 565,
+   "delta": 120,
+   "valor_real": 47173050,
    "classe": "captacao"
   },
   {
    "midia": "AutoAtendimento",
-   "declarado": 877,
-   "real": 552,
-   "delta": -325,
-   "valor_real": 72550728,
+   "declarado": 879,
+   "real": 555,
+   "delta": -324,
+   "valor_real": 72950398,
    "classe": "sem_origem"
   },
   {
    "midia": "Mercado Livre",
-   "declarado": 318,
-   "real": 534,
-   "delta": 216,
-   "valor_real": 117594483,
+   "declarado": 322,
+   "real": 539,
+   "delta": 217,
+   "valor_real": 118709573,
    "classe": "captacao"
   },
   {
    "midia": "Passagem Oficina",
    "declarado": 4,
-   "real": 228,
-   "delta": 224,
-   "valor_real": 30209415,
+   "real": 230,
+   "delta": 226,
+   "valor_real": 30460235,
    "classe": "outra_origem"
   },
   {
    "midia": "Seguro",
    "declarado": 0,
-   "real": 120,
-   "delta": 120,
-   "valor_real": 16086095,
+   "real": 121,
+   "delta": 121,
+   "valor_real": 16385785,
    "classe": "outra_origem"
   },
   {
@@ -367,9 +367,9 @@
   },
   {
    "midia": "OLX",
-   "declarado": 46,
+   "declarado": 47,
    "real": 49,
-   "delta": 3,
+   "delta": 2,
    "valor_real": 5413818,
    "classe": "captacao"
   },
@@ -545,17 +545,17 @@
   },
   {
    "mes": "2026-06",
-   "vendas": 2823,
-   "valor": 356725179,
-   "com_lead": 2823,
-   "avulso": 1471,
+   "vendas": 2821,
+   "valor": 356509549,
+   "com_lead": 2821,
+   "avulso": 1469,
    "pct_avulso": 52.1,
    "origem": {
     "antes": 1197,
     "depois": 1836,
     "recuperadas": 639,
     "pct_antes": 42.4,
-    "pct_depois": 65.0,
+    "pct_depois": 65.1,
     "fator": 1.53
    },
    "captacao": {
@@ -563,56 +563,56 @@
     "depois": 1257,
     "recuperadas": 609,
     "pct_antes": 23.0,
-    "pct_depois": 44.5,
+    "pct_depois": 44.6,
     "fator": 1.94
    }
   },
   {
    "mes": "2026-07",
-   "vendas": 2766,
-   "valor": 364271688,
-   "com_lead": 2766,
-   "avulso": 1425,
-   "pct_avulso": 51.5,
+   "vendas": 2845,
+   "valor": 376753264,
+   "com_lead": 2845,
+   "avulso": 1480,
+   "pct_avulso": 52.0,
    "origem": {
-    "antes": 1224,
-    "depois": 1778,
-    "recuperadas": 554,
-    "pct_antes": 44.3,
-    "pct_depois": 64.3,
-    "fator": 1.45
+    "antes": 1246,
+    "depois": 1818,
+    "recuperadas": 572,
+    "pct_antes": 43.8,
+    "pct_depois": 63.9,
+    "fator": 1.46
    },
    "captacao": {
-    "antes": 672,
-    "depois": 1292,
-    "recuperadas": 620,
-    "pct_antes": 24.3,
-    "pct_depois": 46.7,
+    "antes": 689,
+    "depois": 1326,
+    "recuperadas": 637,
+    "pct_antes": 24.2,
+    "pct_depois": 46.6,
     "fator": 1.92
    }
   }
  ],
  "marcas": [
   {
-   "vendas": 4587,
-   "valor": 485660672,
-   "com_lead": 4587,
-   "avulso": 2107,
-   "pct_avulso": 45.9,
+   "vendas": 4616,
+   "valor": 489263071,
+   "com_lead": 4616,
+   "avulso": 2129,
+   "pct_avulso": 46.1,
    "origem": {
-    "antes": 2086,
-    "depois": 3048,
-    "recuperadas": 962,
-    "pct_antes": 45.5,
-    "pct_depois": 66.4,
+    "antes": 2091,
+    "depois": 3058,
+    "recuperadas": 967,
+    "pct_antes": 45.3,
+    "pct_depois": 66.2,
     "fator": 1.46
    },
    "captacao": {
-    "antes": 872,
-    "depois": 2035,
-    "recuperadas": 1163,
+    "antes": 877,
+    "depois": 2044,
+    "recuperadas": 1167,
     "pct_antes": 19.0,
-    "pct_depois": 44.4,
+    "pct_depois": 44.3,
     "fator": 2.33
    },
    "codigo": "GM",
@@ -620,7 +620,7 @@
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 1293
+     "n": 1309
     },
     {
      "midia": "Lead Revenda",
@@ -628,7 +628,7 @@
     },
     {
      "midia": "WhatsApp",
-     "n": 552
+     "n": 556
     },
     {
      "midia": "VD Corporate",
@@ -640,13 +640,13 @@
     },
     {
      "midia": "URA",
-     "n": 294
+     "n": 295
     }
    ],
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 923
+     "n": 928
     },
     {
      "midia": "Facebook",
@@ -654,15 +654,15 @@
     },
     {
      "midia": "Webmotors",
-     "n": 231
+     "n": 232
     },
     {
      "midia": "Site Carrera",
-     "n": 208
+     "n": 209
     },
     {
      "midia": "Lead Montadora",
-     "n": 163
+     "n": 164
     },
     {
      "midia": "OPV Montadora",
@@ -671,49 +671,49 @@
    ]
   },
   {
-   "vendas": 3823,
-   "valor": 443964055,
-   "com_lead": 3823,
-   "avulso": 2243,
+   "vendas": 3835,
+   "valor": 445400025,
+   "com_lead": 3835,
+   "avulso": 2251,
    "pct_avulso": 58.7,
    "origem": {
-    "antes": 1476,
-    "depois": 2285,
-    "recuperadas": 809,
+    "antes": 1480,
+    "depois": 2294,
+    "recuperadas": 814,
     "pct_antes": 38.6,
     "pct_depois": 59.8,
     "fator": 1.55
    },
    "captacao": {
-    "antes": 657,
-    "depois": 1532,
-    "recuperadas": 875,
+    "antes": 658,
+    "depois": 1537,
+    "recuperadas": 879,
     "pct_antes": 17.2,
     "pct_depois": 40.1,
-    "fator": 2.33
+    "fator": 2.34
    },
    "codigo": "VW",
    "marca": "Volkswagen",
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 1448
+     "n": 1451
     },
     {
      "midia": "WhatsApp",
-     "n": 512
+     "n": 515
     },
     {
      "midia": "Lead Revenda",
-     "n": 512
+     "n": 515
     },
     {
      "midia": "URA",
-     "n": 277
+     "n": 276
     },
     {
      "midia": "Facebook",
-     "n": 237
+     "n": 239
     },
     {
      "midia": "Webmotors",
@@ -723,11 +723,11 @@
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 604
+     "n": 606
     },
     {
      "midia": "Facebook",
-     "n": 284
+     "n": 286
     },
     {
      "midia": "Webmotors",
@@ -739,7 +739,7 @@
     },
     {
      "midia": "Site Carrera",
-     "n": 113
+     "n": 114
     },
     {
      "midia": "Mercado Livre",
@@ -748,23 +748,23 @@
    ]
   },
   {
-   "vendas": 3654,
-   "valor": 394053123,
-   "com_lead": 3654,
-   "avulso": 1545,
+   "vendas": 3655,
+   "valor": 394285171,
+   "com_lead": 3655,
+   "avulso": 1547,
    "pct_avulso": 42.3,
    "origem": {
     "antes": 1889,
-    "depois": 2634,
-    "recuperadas": 745,
+    "depois": 2633,
+    "recuperadas": 744,
     "pct_antes": 51.7,
-    "pct_depois": 72.1,
+    "pct_depois": 72.0,
     "fator": 1.39
    },
    "captacao": {
     "antes": 1097,
-    "depois": 1876,
-    "recuperadas": 779,
+    "depois": 1875,
+    "recuperadas": 778,
     "pct_antes": 30.0,
     "pct_depois": 51.3,
     "fator": 1.71
@@ -774,11 +774,11 @@
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 875
+     "n": 878
     },
     {
      "midia": "OPV Montadora",
-     "n": 657
+     "n": 655
     },
     {
      "midia": "Lead Revenda",
@@ -786,7 +786,7 @@
     },
     {
      "midia": "WhatsApp",
-     "n": 400
+     "n": 401
     },
     {
      "midia": "URA",
@@ -794,21 +794,21 @@
     },
     {
      "midia": "Facebook",
-     "n": 263
+     "n": 262
     }
    ],
    "captacao_top": [
     {
      "midia": "OPV Montadora",
-     "n": 683
+     "n": 681
     },
     {
      "midia": "WhatsApp",
-     "n": 612
+     "n": 614
     },
     {
      "midia": "Facebook",
-     "n": 292
+     "n": 291
     },
     {
      "midia": "Webmotors",
@@ -825,33 +825,33 @@
    ]
   },
   {
-   "vendas": 2769,
-   "valor": 568774683,
-   "com_lead": 2769,
-   "avulso": 1509,
+   "vendas": 2788,
+   "valor": 573203397,
+   "com_lead": 2788,
+   "avulso": 1519,
    "pct_avulso": 54.5,
    "origem": {
-    "antes": 1174,
-    "depois": 1904,
-    "recuperadas": 730,
+    "antes": 1183,
+    "depois": 1917,
+    "recuperadas": 734,
     "pct_antes": 42.4,
     "pct_depois": 68.8,
     "fator": 1.62
    },
    "captacao": {
-    "antes": 642,
-    "depois": 1268,
-    "recuperadas": 626,
-    "pct_antes": 23.2,
-    "pct_depois": 45.8,
-    "fator": 1.98
+    "antes": 649,
+    "depois": 1280,
+    "recuperadas": 631,
+    "pct_antes": 23.3,
+    "pct_depois": 45.9,
+    "fator": 1.97
    },
    "codigo": "GWC",
    "marca": "GWM",
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 787
+     "n": 793
     },
     {
      "midia": "Lead Revenda",
@@ -859,37 +859,37 @@
     },
     {
      "midia": "Mercado Livre",
-     "n": 415
+     "n": 419
     },
     {
      "midia": "WhatsApp",
-     "n": 304
+     "n": 306
     },
     {
      "midia": "Lead Montadora",
-     "n": 189
+     "n": 190
     },
     {
      "midia": "URA",
-     "n": 178
+     "n": 181
     }
    ],
    "captacao_top": [
     {
      "midia": "Mercado Livre",
-     "n": 432
+     "n": 436
     },
     {
      "midia": "WhatsApp",
-     "n": 350
+     "n": 352
     },
     {
      "midia": "Lead Montadora",
-     "n": 215
+     "n": 217
     },
     {
      "midia": "Facebook",
-     "n": 180
+     "n": 184
     },
     {
      "midia": "Webmotors",
@@ -902,25 +902,25 @@
    ]
   },
   {
-   "vendas": 1824,
-   "valor": 291572490,
-   "com_lead": 1824,
-   "avulso": 1241,
+   "vendas": 1834,
+   "valor": 293406470,
+   "com_lead": 1834,
+   "avulso": 1247,
    "pct_avulso": 68.0,
    "origem": {
-    "antes": 510,
-    "depois": 1006,
-    "recuperadas": 496,
+    "antes": 513,
+    "depois": 1012,
+    "recuperadas": 499,
     "pct_antes": 28.0,
     "pct_depois": 55.2,
     "fator": 1.97
    },
    "captacao": {
-    "antes": 305,
-    "depois": 580,
-    "recuperadas": 275,
-    "pct_antes": 16.7,
-    "pct_depois": 31.8,
+    "antes": 308,
+    "depois": 586,
+    "recuperadas": 278,
+    "pct_antes": 16.8,
+    "pct_depois": 32.0,
     "fator": 1.9
    },
    "codigo": "OJC",
@@ -928,7 +928,7 @@
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 765
+     "n": 768
     },
     {
      "midia": "Lead Revenda",
@@ -936,11 +936,11 @@
     },
     {
      "midia": "WhatsApp",
-     "n": 308
+     "n": 311
     },
     {
      "midia": "Facebook",
-     "n": 122
+     "n": 123
     },
     {
      "midia": "Passagem Oficina",
@@ -948,17 +948,17 @@
     },
     {
      "midia": "AutoAtendimento",
-     "n": 53
+     "n": 54
     }
    ],
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 322
+     "n": 325
     },
     {
      "midia": "Facebook",
-     "n": 127
+     "n": 128
     },
     {
      "midia": "Webmotors",
@@ -970,7 +970,7 @@
     },
     {
      "midia": "Lead Montadora",
-     "n": 30
+     "n": 32
     },
     {
      "midia": "Mercado Livre",
@@ -979,25 +979,25 @@
    ]
   },
   {
-   "vendas": 1598,
-   "valor": 34734860,
-   "com_lead": 1598,
-   "avulso": 872,
-   "pct_avulso": 54.6,
+   "vendas": 1600,
+   "valor": 34777735,
+   "com_lead": 1600,
+   "avulso": 875,
+   "pct_avulso": 54.7,
    "origem": {
-    "antes": 725,
+    "antes": 724,
     "depois": 987,
-    "recuperadas": 262,
-    "pct_antes": 45.4,
-    "pct_depois": 61.8,
+    "recuperadas": 263,
+    "pct_antes": 45.2,
+    "pct_depois": 61.7,
     "fator": 1.36
    },
    "captacao": {
-    "antes": 670,
+    "antes": 669,
     "depois": 935,
-    "recuperadas": 265,
-    "pct_antes": 41.9,
-    "pct_depois": 58.5,
+    "recuperadas": 266,
+    "pct_antes": 41.8,
+    "pct_depois": 58.4,
     "fator": 1.4
    },
    "codigo": "BJC",
@@ -1005,7 +1005,7 @@
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 611
+     "n": 613
     },
     {
      "midia": "WhatsApp",
@@ -1056,25 +1056,25 @@
    ]
   },
   {
-   "vendas": 495,
-   "valor": 74485889,
-   "com_lead": 495,
-   "avulso": 233,
+   "vendas": 499,
+   "valor": 75175849,
+   "com_lead": 499,
+   "avulso": 235,
    "pct_avulso": 47.1,
    "origem": {
-    "antes": 259,
-    "depois": 346,
-    "recuperadas": 87,
+    "antes": 261,
+    "depois": 349,
+    "recuperadas": 88,
     "pct_antes": 52.3,
     "pct_depois": 69.9,
     "fator": 1.34
    },
    "captacao": {
-    "antes": 110,
-    "depois": 215,
-    "recuperadas": 105,
-    "pct_antes": 22.2,
-    "pct_depois": 43.4,
+    "antes": 112,
+    "depois": 218,
+    "recuperadas": 106,
+    "pct_antes": 22.4,
+    "pct_depois": 43.7,
     "fator": 1.95
    },
    "codigo": "GCC",
@@ -1082,14 +1082,14 @@
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 146
-    },
-    {
-     "midia": "Lead Revenda",
-     "n": 70
+     "n": 147
     },
     {
      "midia": "WhatsApp",
+     "n": 71
+    },
+    {
+     "midia": "Lead Revenda",
      "n": 70
     },
     {
@@ -1098,7 +1098,7 @@
     },
     {
      "midia": "Facebook",
-     "n": 35
+     "n": 37
     },
     {
      "midia": "Webmotors",
@@ -1108,15 +1108,15 @@
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 84
+     "n": 85
+    },
+    {
+     "midia": "Facebook",
+     "n": 39
     },
     {
      "midia": "Webmotors",
      "n": 38
-    },
-    {
-     "midia": "Facebook",
-     "n": 37
     },
     {
      "midia": "Lead Montadora",
@@ -1289,25 +1289,25 @@
  ],
  "lojas": [
   {
-   "vendas": 1239,
-   "valor": 218814660,
-   "com_lead": 1239,
-   "avulso": 524,
-   "pct_avulso": 42.3,
+   "vendas": 1249,
+   "valor": 221304460,
+   "com_lead": 1249,
+   "avulso": 530,
+   "pct_avulso": 42.4,
    "origem": {
-    "antes": 689,
-    "depois": 952,
-    "recuperadas": 263,
-    "pct_antes": 55.6,
+    "antes": 693,
+    "depois": 959,
+    "recuperadas": 266,
+    "pct_antes": 55.5,
     "pct_depois": 76.8,
     "fator": 1.38
    },
    "captacao": {
-    "antes": 247,
-    "depois": 474,
-    "recuperadas": 227,
-    "pct_antes": 19.9,
-    "pct_depois": 38.3,
+    "antes": 250,
+    "depois": 480,
+    "recuperadas": 230,
+    "pct_antes": 20.0,
+    "pct_depois": 38.4,
     "fator": 1.92
    },
    "loja": "VLO GWC",
@@ -1316,26 +1316,26 @@
    "patio": false
   },
   {
-   "vendas": 1068,
-   "valor": 114227912,
-   "com_lead": 1068,
-   "avulso": 255,
-   "pct_avulso": 23.9,
+   "vendas": 1079,
+   "valor": 115574542,
+   "com_lead": 1079,
+   "avulso": 266,
+   "pct_avulso": 24.7,
    "origem": {
-    "antes": 715,
+    "antes": 714,
     "depois": 850,
-    "recuperadas": 135,
-    "pct_antes": 66.9,
-    "pct_depois": 79.6,
+    "recuperadas": 136,
+    "pct_antes": 66.2,
+    "pct_depois": 78.8,
     "fator": 1.19
    },
    "captacao": {
     "antes": 85,
-    "depois": 524,
-    "recuperadas": 439,
-    "pct_antes": 8.0,
-    "pct_depois": 49.1,
-    "fator": 6.16
+    "depois": 525,
+    "recuperadas": 440,
+    "pct_antes": 7.9,
+    "pct_depois": 48.7,
+    "fator": 6.18
    },
    "loja": "ALP GM",
    "codigo": "GM",
@@ -1343,25 +1343,25 @@
    "patio": false
   },
   {
-   "vendas": 892,
-   "valor": 105807988,
-   "com_lead": 892,
-   "avulso": 545,
-   "pct_avulso": 61.1,
+   "vendas": 896,
+   "valor": 106518288,
+   "com_lead": 896,
+   "avulso": 548,
+   "pct_avulso": 61.2,
    "origem": {
-    "antes": 326,
-    "depois": 550,
-    "recuperadas": 224,
+    "antes": 327,
+    "depois": 552,
+    "recuperadas": 225,
     "pct_antes": 36.5,
-    "pct_depois": 61.7,
+    "pct_depois": 61.6,
     "fator": 1.69
    },
    "captacao": {
     "antes": 113,
     "depois": 351,
     "recuperadas": 238,
-    "pct_antes": 12.7,
-    "pct_depois": 39.3,
+    "pct_antes": 12.6,
+    "pct_depois": 39.2,
     "fator": 3.11
    },
    "loja": "ALP VW",
@@ -1370,10 +1370,10 @@
    "patio": false
   },
   {
-   "vendas": 873,
-   "valor": 103635480,
-   "com_lead": 873,
-   "avulso": 459,
+   "vendas": 874,
+   "valor": 103703420,
+   "com_lead": 874,
+   "avulso": 460,
    "pct_avulso": 52.6,
    "origem": {
     "antes": 359,
@@ -1397,25 +1397,25 @@
    "patio": false
   },
   {
-   "vendas": 685,
-   "valor": 71375795,
-   "com_lead": 685,
-   "avulso": 452,
-   "pct_avulso": 66.0,
+   "vendas": 691,
+   "valor": 71888775,
+   "com_lead": 691,
+   "avulso": 455,
+   "pct_avulso": 65.8,
    "origem": {
-    "antes": 224,
-    "depois": 370,
-    "recuperadas": 146,
-    "pct_antes": 32.7,
-    "pct_depois": 54.0,
+    "antes": 227,
+    "depois": 375,
+    "recuperadas": 148,
+    "pct_antes": 32.9,
+    "pct_depois": 54.3,
     "fator": 1.65
    },
    "captacao": {
-    "antes": 106,
-    "depois": 256,
-    "recuperadas": 150,
+    "antes": 107,
+    "depois": 259,
+    "recuperadas": 152,
     "pct_antes": 15.5,
-    "pct_depois": 37.4,
+    "pct_depois": 37.5,
     "fator": 2.42
    },
    "loja": "OSA VW",
@@ -1424,26 +1424,26 @@
    "patio": false
   },
   {
-   "vendas": 660,
-   "valor": 72182785,
-   "com_lead": 660,
-   "avulso": 280,
-   "pct_avulso": 42.4,
+   "vendas": 664,
+   "valor": 72618415,
+   "com_lead": 664,
+   "avulso": 282,
+   "pct_avulso": 42.5,
    "origem": {
-    "antes": 272,
-    "depois": 458,
-    "recuperadas": 186,
-    "pct_antes": 41.2,
+    "antes": 274,
+    "depois": 461,
+    "recuperadas": 187,
+    "pct_antes": 41.3,
     "pct_depois": 69.4,
     "fator": 1.68
    },
    "captacao": {
-    "antes": 125,
-    "depois": 287,
-    "recuperadas": 162,
-    "pct_antes": 18.9,
-    "pct_depois": 43.5,
-    "fator": 2.3
+    "antes": 127,
+    "depois": 290,
+    "recuperadas": 163,
+    "pct_antes": 19.1,
+    "pct_depois": 43.7,
+    "fator": 2.28
    },
    "loja": "BUT GM",
    "codigo": "GM",
@@ -1451,26 +1451,26 @@
    "patio": false
   },
   {
-   "vendas": 648,
-   "valor": 67682475,
-   "com_lead": 648,
-   "avulso": 248,
-   "pct_avulso": 38.3,
+   "vendas": 649,
+   "valor": 67797465,
+   "com_lead": 649,
+   "avulso": 249,
+   "pct_avulso": 38.4,
    "origem": {
-    "antes": 371,
-    "depois": 486,
+    "antes": 372,
+    "depois": 487,
     "recuperadas": 115,
     "pct_antes": 57.3,
     "pct_depois": 75.0,
     "fator": 1.31
    },
    "captacao": {
-    "antes": 94,
-    "depois": 324,
+    "antes": 95,
+    "depois": 325,
     "recuperadas": 230,
-    "pct_antes": 14.5,
-    "pct_depois": 50.0,
-    "fator": 3.45
+    "pct_antes": 14.6,
+    "pct_depois": 50.1,
+    "fator": 3.42
    },
    "loja": "COT NI",
    "codigo": "NI",
@@ -1478,25 +1478,25 @@
    "patio": false
   },
   {
-   "vendas": 618,
-   "valor": 68063923,
-   "com_lead": 618,
-   "avulso": 282,
+   "vendas": 621,
+   "valor": 68610593,
+   "com_lead": 621,
+   "avulso": 283,
    "pct_avulso": 45.6,
    "origem": {
-    "antes": 304,
-    "depois": 386,
+    "antes": 306,
+    "depois": 388,
     "recuperadas": 82,
-    "pct_antes": 49.2,
+    "pct_antes": 49.3,
     "pct_depois": 62.5,
     "fator": 1.27
    },
    "captacao": {
-    "antes": 187,
-    "depois": 277,
+    "antes": 189,
+    "depois": 279,
     "recuperadas": 90,
-    "pct_antes": 30.3,
-    "pct_depois": 44.8,
+    "pct_antes": 30.4,
+    "pct_depois": 44.9,
     "fator": 1.48
    },
    "loja": "ASN GM",
@@ -1505,25 +1505,25 @@
    "patio": false
   },
   {
-   "vendas": 591,
-   "valor": 64115664,
-   "com_lead": 591,
-   "avulso": 291,
-   "pct_avulso": 49.2,
+   "vendas": 593,
+   "valor": 64407894,
+   "com_lead": 593,
+   "avulso": 293,
+   "pct_avulso": 49.4,
    "origem": {
     "antes": 204,
     "depois": 345,
     "recuperadas": 141,
-    "pct_antes": 34.5,
-    "pct_depois": 58.4,
+    "pct_antes": 34.4,
+    "pct_depois": 58.2,
     "fator": 1.69
    },
    "captacao": {
     "antes": 86,
     "depois": 216,
     "recuperadas": 130,
-    "pct_antes": 14.6,
-    "pct_depois": 36.5,
+    "pct_antes": 14.5,
+    "pct_depois": 36.4,
     "fator": 2.51
    },
    "loja": "VLO GM",
@@ -1532,26 +1532,26 @@
    "patio": false
   },
   {
-   "vendas": 531,
-   "valor": 80822453,
-   "com_lead": 531,
-   "avulso": 382,
-   "pct_avulso": 71.9,
+   "vendas": 534,
+   "valor": 81382423,
+   "com_lead": 534,
+   "avulso": 383,
+   "pct_avulso": 71.7,
    "origem": {
-    "antes": 132,
-    "depois": 342,
+    "antes": 133,
+    "depois": 343,
     "recuperadas": 210,
     "pct_antes": 24.9,
-    "pct_depois": 64.4,
-    "fator": 2.59
+    "pct_depois": 64.2,
+    "fator": 2.58
    },
    "captacao": {
-    "antes": 79,
-    "depois": 173,
+    "antes": 80,
+    "depois": 174,
     "recuperadas": 94,
-    "pct_antes": 14.9,
+    "pct_antes": 15.0,
     "pct_depois": 32.6,
-    "fator": 2.19
+    "fator": 2.17
    },
    "loja": "VLO OJC",
    "codigo": "OJC",
@@ -1559,25 +1559,25 @@
    "patio": false
   },
   {
-   "vendas": 521,
-   "valor": 51004262,
-   "com_lead": 521,
-   "avulso": 216,
-   "pct_avulso": 41.5,
+   "vendas": 524,
+   "valor": 51370642,
+   "com_lead": 524,
+   "avulso": 217,
+   "pct_avulso": 41.4,
    "origem": {
-    "antes": 259,
-    "depois": 371,
+    "antes": 260,
+    "depois": 372,
     "recuperadas": 112,
-    "pct_antes": 49.7,
-    "pct_depois": 71.2,
+    "pct_antes": 49.6,
+    "pct_depois": 71.0,
     "fator": 1.43
    },
    "captacao": {
     "antes": 150,
     "depois": 254,
     "recuperadas": 104,
-    "pct_antes": 28.8,
-    "pct_depois": 48.8,
+    "pct_antes": 28.6,
+    "pct_depois": 48.5,
     "fator": 1.69
    },
    "loja": "OSA GM",
@@ -1586,26 +1586,26 @@
    "patio": false
   },
   {
-   "vendas": 511,
-   "valor": 115706901,
-   "com_lead": 511,
-   "avulso": 342,
-   "pct_avulso": 66.9,
+   "vendas": 515,
+   "valor": 116585915,
+   "com_lead": 515,
+   "avulso": 343,
+   "pct_avulso": 66.6,
    "origem": {
-    "antes": 154,
-    "depois": 324,
+    "antes": 157,
+    "depois": 327,
     "recuperadas": 170,
-    "pct_antes": 30.1,
-    "pct_depois": 63.4,
-    "fator": 2.1
+    "pct_antes": 30.5,
+    "pct_depois": 63.5,
+    "fator": 2.08
    },
    "captacao": {
-    "antes": 134,
-    "depois": 271,
+    "antes": 137,
+    "depois": 274,
     "recuperadas": 137,
-    "pct_antes": 26.2,
-    "pct_depois": 53.0,
-    "fator": 2.02
+    "pct_antes": 26.6,
+    "pct_depois": 53.2,
+    "fator": 2.0
    },
    "loja": "ALP GWC",
    "codigo": "GWC",
@@ -1614,7 +1614,7 @@
   },
   {
    "vendas": 503,
-   "valor": 10930596,
+   "valor": 10930016,
    "com_lead": 503,
    "avulso": 228,
    "pct_avulso": 45.3,
@@ -1695,25 +1695,25 @@
   },
   {
    "vendas": 468,
-   "valor": 78629499,
+   "valor": 78621579,
    "com_lead": 468,
    "avulso": 259,
    "pct_avulso": 55.3,
    "origem": {
     "antes": 171,
-    "depois": 232,
-    "recuperadas": 61,
+    "depois": 234,
+    "recuperadas": 63,
     "pct_antes": 36.5,
-    "pct_depois": 49.6,
-    "fator": 1.36
+    "pct_depois": 50.0,
+    "fator": 1.37
    },
    "captacao": {
     "antes": 87,
-    "depois": 146,
-    "recuperadas": 59,
+    "depois": 148,
+    "recuperadas": 61,
     "pct_antes": 18.6,
-    "pct_depois": 31.2,
-    "fator": 1.68
+    "pct_depois": 31.6,
+    "fator": 1.7
    },
    "loja": "SJP OJC",
    "codigo": "OJC",
@@ -1721,30 +1721,57 @@
    "patio": false
   },
   {
-   "vendas": 420,
-   "valor": 44404552,
-   "com_lead": 420,
+   "vendas": 421,
+   "valor": 44648452,
+   "com_lead": 421,
    "avulso": 147,
-   "pct_avulso": 35.0,
+   "pct_avulso": 34.9,
    "origem": {
-    "antes": 244,
+    "antes": 245,
     "depois": 313,
-    "recuperadas": 69,
-    "pct_antes": 58.1,
-    "pct_depois": 74.5,
+    "recuperadas": 68,
+    "pct_antes": 58.2,
+    "pct_depois": 74.3,
     "fator": 1.28
    },
    "captacao": {
-    "antes": 143,
+    "antes": 144,
     "depois": 217,
-    "recuperadas": 74,
-    "pct_antes": 34.0,
-    "pct_depois": 51.7,
-    "fator": 1.52
+    "recuperadas": 73,
+    "pct_antes": 34.2,
+    "pct_depois": 51.5,
+    "fator": 1.51
    },
    "loja": "MOR NI",
    "codigo": "NI",
    "marca": "Nissan",
+   "patio": false
+  },
+  {
+   "vendas": 415,
+   "valor": 65913080,
+   "com_lead": 415,
+   "avulso": 306,
+   "pct_avulso": 73.7,
+   "origem": {
+    "antes": 104,
+    "depois": 239,
+    "recuperadas": 135,
+    "pct_antes": 25.1,
+    "pct_depois": 57.6,
+    "fator": 2.3
+   },
+   "captacao": {
+    "antes": 80,
+    "depois": 161,
+    "recuperadas": 81,
+    "pct_antes": 19.3,
+    "pct_depois": 38.8,
+    "fator": 2.01
+   },
+   "loja": "MOR OJC",
+   "codigo": "OJC",
+   "marca": "Omoda Jaecoo",
    "patio": false
   },
   {
@@ -1775,53 +1802,26 @@
    "patio": false
   },
   {
-   "vendas": 408,
-   "valor": 64631150,
-   "com_lead": 408,
-   "avulso": 301,
-   "pct_avulso": 73.8,
+   "vendas": 401,
+   "valor": 45267146,
+   "com_lead": 401,
+   "avulso": 190,
+   "pct_avulso": 47.4,
    "origem": {
-    "antes": 102,
-    "depois": 236,
-    "recuperadas": 134,
-    "pct_antes": 25.0,
-    "pct_depois": 57.8,
-    "fator": 2.31
-   },
-   "captacao": {
-    "antes": 78,
-    "depois": 158,
-    "recuperadas": 80,
-    "pct_antes": 19.1,
-    "pct_depois": 38.7,
-    "fator": 2.03
-   },
-   "loja": "MOR OJC",
-   "codigo": "OJC",
-   "marca": "Omoda Jaecoo",
-   "patio": false
-  },
-  {
-   "vendas": 398,
-   "valor": 44746676,
-   "com_lead": 398,
-   "avulso": 188,
-   "pct_avulso": 47.2,
-   "origem": {
-    "antes": 205,
-    "depois": 305,
-    "recuperadas": 100,
-    "pct_antes": 51.5,
+    "antes": 206,
+    "depois": 307,
+    "recuperadas": 101,
+    "pct_antes": 51.4,
     "pct_depois": 76.6,
     "fator": 1.49
    },
    "captacao": {
-    "antes": 128,
-    "depois": 229,
+    "antes": 129,
+    "depois": 230,
     "recuperadas": 101,
     "pct_antes": 32.2,
-    "pct_depois": 57.5,
-    "fator": 1.79
+    "pct_depois": 57.4,
+    "fator": 1.78
    },
    "loja": "BUT NI",
    "codigo": "NI",
@@ -1829,26 +1829,26 @@
    "patio": false
   },
   {
-   "vendas": 394,
-   "valor": 37959045,
-   "com_lead": 394,
-   "avulso": 246,
-   "pct_avulso": 62.4,
+   "vendas": 399,
+   "valor": 38432414,
+   "com_lead": 399,
+   "avulso": 251,
+   "pct_avulso": 62.9,
    "origem": {
     "antes": 147,
-    "depois": 230,
-    "recuperadas": 83,
-    "pct_antes": 37.3,
-    "pct_depois": 58.4,
-    "fator": 1.56
+    "depois": 232,
+    "recuperadas": 85,
+    "pct_antes": 36.8,
+    "pct_depois": 58.1,
+    "fator": 1.58
    },
    "captacao": {
     "antes": 62,
-    "depois": 141,
-    "recuperadas": 79,
-    "pct_antes": 15.7,
-    "pct_depois": 35.8,
-    "fator": 2.27
+    "depois": 142,
+    "recuperadas": 80,
+    "pct_antes": 15.5,
+    "pct_depois": 35.6,
+    "fator": 2.29
    },
    "loja": "FAC GM",
    "codigo": "GM",
@@ -1856,26 +1856,26 @@
    "patio": false
   },
   {
-   "vendas": 389,
-   "valor": 51245226,
-   "com_lead": 389,
-   "avulso": 202,
-   "pct_avulso": 51.9,
+   "vendas": 390,
+   "valor": 51397976,
+   "com_lead": 390,
+   "avulso": 203,
+   "pct_avulso": 52.1,
    "origem": {
     "antes": 169,
-    "depois": 222,
-    "recuperadas": 53,
-    "pct_antes": 43.4,
-    "pct_depois": 57.1,
-    "fator": 1.31
+    "depois": 223,
+    "recuperadas": 54,
+    "pct_antes": 43.3,
+    "pct_depois": 57.2,
+    "fator": 1.32
    },
    "captacao": {
     "antes": 85,
-    "depois": 143,
-    "recuperadas": 58,
-    "pct_antes": 21.9,
-    "pct_depois": 36.8,
-    "fator": 1.68
+    "depois": 144,
+    "recuperadas": 59,
+    "pct_antes": 21.8,
+    "pct_depois": 36.9,
+    "fator": 1.69
    },
    "loja": "SUM VW",
    "codigo": "VW",
@@ -1883,24 +1883,24 @@
    "patio": false
   },
   {
-   "vendas": 332,
-   "valor": 36316186,
-   "com_lead": 332,
-   "avulso": 139,
-   "pct_avulso": 41.9,
+   "vendas": 330,
+   "valor": 36147296,
+   "com_lead": 330,
+   "avulso": 138,
+   "pct_avulso": 41.8,
    "origem": {
-    "antes": 160,
-    "depois": 221,
+    "antes": 159,
+    "depois": 220,
     "recuperadas": 61,
     "pct_antes": 48.2,
-    "pct_depois": 66.6,
+    "pct_depois": 66.7,
     "fator": 1.38
    },
    "captacao": {
-    "antes": 99,
-    "depois": 161,
+    "antes": 98,
+    "depois": 160,
     "recuperadas": 62,
-    "pct_antes": 29.8,
+    "pct_antes": 29.7,
     "pct_depois": 48.5,
     "fator": 1.63
    },
@@ -1910,26 +1910,26 @@
    "patio": false
   },
   {
-   "vendas": 328,
-   "valor": 33869705,
-   "com_lead": 328,
+   "vendas": 327,
+   "valor": 33726915,
+   "com_lead": 327,
    "avulso": 209,
-   "pct_avulso": 63.7,
+   "pct_avulso": 63.9,
    "origem": {
-    "antes": 119,
-    "depois": 209,
+    "antes": 118,
+    "depois": 208,
     "recuperadas": 90,
-    "pct_antes": 36.3,
-    "pct_depois": 63.7,
+    "pct_antes": 36.1,
+    "pct_depois": 63.6,
     "fator": 1.76
    },
    "captacao": {
-    "antes": 87,
-    "depois": 163,
+    "antes": 86,
+    "depois": 162,
     "recuperadas": 76,
-    "pct_antes": 26.5,
-    "pct_depois": 49.7,
-    "fator": 1.87
+    "pct_antes": 26.3,
+    "pct_depois": 49.5,
+    "fator": 1.88
    },
    "loja": "BFU GM",
    "codigo": "GM",
@@ -1937,53 +1937,26 @@
    "patio": false
   },
   {
-   "vendas": 312,
-   "valor": 6934382,
-   "com_lead": 312,
-   "avulso": 199,
-   "pct_avulso": 63.8,
-   "origem": {
-    "antes": 113,
-    "depois": 172,
-    "recuperadas": 59,
-    "pct_antes": 36.2,
-    "pct_depois": 55.1,
-    "fator": 1.52
-   },
-   "captacao": {
-    "antes": 103,
-    "depois": 165,
-    "recuperadas": 62,
-    "pct_antes": 33.0,
-    "pct_depois": 52.9,
-    "fator": 1.6
-   },
-   "loja": "BSB BJC",
-   "codigo": "BJC",
-   "marca": "Bajaj",
-   "patio": false
-  },
-  {
-   "vendas": 311,
-   "valor": 71107615,
-   "com_lead": 311,
-   "avulso": 205,
+   "vendas": 314,
+   "valor": 71782615,
+   "com_lead": 314,
+   "avulso": 207,
    "pct_avulso": 65.9,
    "origem": {
-    "antes": 98,
-    "depois": 183,
-    "recuperadas": 85,
+    "antes": 99,
+    "depois": 185,
+    "recuperadas": 86,
     "pct_antes": 31.5,
-    "pct_depois": 58.8,
+    "pct_depois": 58.9,
     "fator": 1.87
    },
    "captacao": {
     "antes": 79,
-    "depois": 147,
-    "recuperadas": 68,
-    "pct_antes": 25.4,
-    "pct_depois": 47.3,
-    "fator": 1.86
+    "depois": 149,
+    "recuperadas": 70,
+    "pct_antes": 25.2,
+    "pct_depois": 47.5,
+    "fator": 1.89
    },
    "loja": "FMO GWC",
    "codigo": "GWC",
@@ -1991,25 +1964,52 @@
    "patio": false
   },
   {
-   "vendas": 306,
-   "valor": 35024272,
-   "com_lead": 306,
-   "avulso": 151,
-   "pct_avulso": 49.3,
+   "vendas": 313,
+   "valor": 6948937,
+   "com_lead": 313,
+   "avulso": 201,
+   "pct_avulso": 64.2,
+   "origem": {
+    "antes": 112,
+    "depois": 171,
+    "recuperadas": 59,
+    "pct_antes": 35.8,
+    "pct_depois": 54.6,
+    "fator": 1.53
+   },
+   "captacao": {
+    "antes": 102,
+    "depois": 164,
+    "recuperadas": 62,
+    "pct_antes": 32.6,
+    "pct_depois": 52.4,
+    "fator": 1.61
+   },
+   "loja": "BSB BJC",
+   "codigo": "BJC",
+   "marca": "Bajaj",
+   "patio": false
+  },
+  {
+   "vendas": 308,
+   "valor": 35365502,
+   "com_lead": 308,
+   "avulso": 153,
+   "pct_avulso": 49.7,
    "origem": {
     "antes": 129,
     "depois": 209,
     "recuperadas": 80,
-    "pct_antes": 42.2,
-    "pct_depois": 68.3,
+    "pct_antes": 41.9,
+    "pct_depois": 67.9,
     "fator": 1.62
    },
    "captacao": {
     "antes": 76,
     "depois": 128,
     "recuperadas": 52,
-    "pct_antes": 24.8,
-    "pct_depois": 41.8,
+    "pct_antes": 24.7,
+    "pct_depois": 41.6,
     "fator": 1.68
    },
    "loja": "VOL NI",
@@ -2018,26 +2018,26 @@
    "patio": false
   },
   {
-   "vendas": 298,
-   "valor": 6452207,
-   "com_lead": 298,
-   "avulso": 189,
-   "pct_avulso": 63.4,
+   "vendas": 299,
+   "valor": 6481107,
+   "com_lead": 299,
+   "avulso": 190,
+   "pct_avulso": 63.5,
    "origem": {
     "antes": 109,
-    "depois": 201,
-    "recuperadas": 92,
-    "pct_antes": 36.6,
-    "pct_depois": 67.4,
-    "fator": 1.84
+    "depois": 202,
+    "recuperadas": 93,
+    "pct_antes": 36.5,
+    "pct_depois": 67.6,
+    "fator": 1.85
    },
    "captacao": {
     "antes": 97,
-    "depois": 188,
-    "recuperadas": 91,
-    "pct_antes": 32.6,
-    "pct_depois": 63.1,
-    "fator": 1.94
+    "depois": 189,
+    "recuperadas": 92,
+    "pct_antes": 32.4,
+    "pct_depois": 63.2,
+    "fator": 1.95
    },
    "loja": "SIA BJC",
    "codigo": "BJC",
@@ -2072,33 +2072,6 @@
    "patio": false
   },
   {
-   "vendas": 245,
-   "valor": 27924947,
-   "com_lead": 245,
-   "avulso": 111,
-   "pct_avulso": 45.3,
-   "origem": {
-    "antes": 127,
-    "depois": 189,
-    "recuperadas": 62,
-    "pct_antes": 51.8,
-    "pct_depois": 77.1,
-    "fator": 1.49
-   },
-   "captacao": {
-    "antes": 116,
-    "depois": 144,
-    "recuperadas": 28,
-    "pct_antes": 47.3,
-    "pct_depois": 58.8,
-    "fator": 1.24
-   },
-   "loja": "SUM NI",
-   "codigo": "NI",
-   "marca": "Nissan",
-   "patio": false
-  },
-  {
    "vendas": 244,
    "valor": 27417859,
    "com_lead": 244,
@@ -2123,6 +2096,33 @@
    "loja": "REB VW",
    "codigo": "VW",
    "marca": "Volkswagen",
+   "patio": false
+  },
+  {
+   "vendas": 242,
+   "valor": 27447497,
+   "com_lead": 242,
+   "avulso": 111,
+   "pct_avulso": 45.9,
+   "origem": {
+    "antes": 124,
+    "depois": 186,
+    "recuperadas": 62,
+    "pct_antes": 51.2,
+    "pct_depois": 76.9,
+    "fator": 1.5
+   },
+   "captacao": {
+    "antes": 113,
+    "depois": 141,
+    "recuperadas": 28,
+    "pct_antes": 46.7,
+    "pct_depois": 58.3,
+    "fator": 1.25
+   },
+   "loja": "SUM NI",
+   "codigo": "NI",
+   "marca": "Nissan",
    "patio": false
   },
   {
@@ -2153,26 +2153,26 @@
    "patio": false
   },
   {
-   "vendas": 234,
-   "valor": 24805846,
-   "com_lead": 234,
-   "avulso": 149,
-   "pct_avulso": 63.7,
+   "vendas": 236,
+   "valor": 24991557,
+   "com_lead": 236,
+   "avulso": 150,
+   "pct_avulso": 63.6,
    "origem": {
-    "antes": 78,
-    "depois": 147,
+    "antes": 79,
+    "depois": 148,
     "recuperadas": 69,
-    "pct_antes": 33.3,
-    "pct_depois": 62.8,
-    "fator": 1.88
+    "pct_antes": 33.5,
+    "pct_depois": 62.7,
+    "fator": 1.87
    },
    "captacao": {
-    "antes": 58,
-    "depois": 111,
+    "antes": 59,
+    "depois": 112,
     "recuperadas": 53,
-    "pct_antes": 24.8,
-    "pct_depois": 47.4,
-    "fator": 1.91
+    "pct_antes": 25.0,
+    "pct_depois": 47.5,
+    "fator": 1.9
    },
    "loja": "BFU NI",
    "codigo": "NI",
@@ -2207,26 +2207,26 @@
    "patio": false
   },
   {
-   "vendas": 215,
-   "valor": 22412890,
-   "com_lead": 215,
+   "vendas": 217,
+   "valor": 22697170,
+   "com_lead": 217,
    "avulso": 124,
-   "pct_avulso": 57.7,
+   "pct_avulso": 57.1,
    "origem": {
-    "antes": 91,
-    "depois": 144,
-    "recuperadas": 53,
-    "pct_antes": 42.3,
-    "pct_depois": 67.0,
+    "antes": 93,
+    "depois": 147,
+    "recuperadas": 54,
+    "pct_antes": 42.9,
+    "pct_depois": 67.7,
     "fator": 1.58
    },
    "captacao": {
-    "antes": 51,
-    "depois": 93,
-    "recuperadas": 42,
-    "pct_antes": 23.7,
-    "pct_depois": 43.3,
-    "fator": 1.82
+    "antes": 53,
+    "depois": 96,
+    "recuperadas": 43,
+    "pct_antes": 24.4,
+    "pct_depois": 44.2,
+    "fator": 1.81
    },
    "loja": "SUM GM",
    "codigo": "GM",
@@ -2234,26 +2234,26 @@
    "patio": false
   },
   {
-   "vendas": 210,
-   "valor": 21523788,
-   "com_lead": 210,
-   "avulso": 98,
-   "pct_avulso": 46.7,
+   "vendas": 211,
+   "valor": 21660778,
+   "com_lead": 211,
+   "avulso": 99,
+   "pct_avulso": 46.9,
    "origem": {
     "antes": 112,
-    "depois": 164,
-    "recuperadas": 52,
-    "pct_antes": 53.3,
-    "pct_depois": 78.1,
-    "fator": 1.46
+    "depois": 165,
+    "recuperadas": 53,
+    "pct_antes": 53.1,
+    "pct_depois": 78.2,
+    "fator": 1.47
    },
    "captacao": {
     "antes": 65,
-    "depois": 125,
-    "recuperadas": 60,
-    "pct_antes": 31.0,
-    "pct_depois": 59.5,
-    "fator": 1.92
+    "depois": 126,
+    "recuperadas": 61,
+    "pct_antes": 30.8,
+    "pct_depois": 59.7,
+    "fator": 1.94
    },
    "loja": "BUT VW",
    "codigo": "VW",
@@ -2315,26 +2315,26 @@
    "patio": true
   },
   {
-   "vendas": 182,
-   "valor": 45390250,
-   "com_lead": 182,
-   "avulso": 139,
-   "pct_avulso": 76.4,
+   "vendas": 184,
+   "valor": 45775150,
+   "com_lead": 184,
+   "avulso": 140,
+   "pct_avulso": 76.1,
    "origem": {
-    "antes": 42,
-    "depois": 123,
+    "antes": 43,
+    "depois": 124,
     "recuperadas": 81,
-    "pct_antes": 23.1,
-    "pct_depois": 67.6,
-    "fator": 2.93
+    "pct_antes": 23.4,
+    "pct_depois": 67.4,
+    "fator": 2.88
    },
    "captacao": {
-    "antes": 42,
-    "depois": 120,
+    "antes": 43,
+    "depois": 121,
     "recuperadas": 78,
-    "pct_antes": 23.1,
-    "pct_depois": 65.9,
-    "fator": 2.86
+    "pct_antes": 23.4,
+    "pct_depois": 65.8,
+    "fator": 2.81
    },
    "loja": "ELD GWC",
    "codigo": "GWC",
@@ -2342,25 +2342,25 @@
    "patio": false
   },
   {
-   "vendas": 156,
-   "valor": 16252283,
-   "com_lead": 156,
-   "avulso": 42,
-   "pct_avulso": 26.9,
+   "vendas": 155,
+   "valor": 16113293,
+   "com_lead": 155,
+   "avulso": 41,
+   "pct_avulso": 26.5,
    "origem": {
     "antes": 103,
     "depois": 117,
     "recuperadas": 14,
-    "pct_antes": 66.0,
-    "pct_depois": 75.0,
+    "pct_antes": 66.5,
+    "pct_depois": 75.5,
     "fator": 1.14
    },
    "captacao": {
     "antes": 60,
     "depois": 74,
     "recuperadas": 14,
-    "pct_antes": 38.5,
-    "pct_depois": 47.4,
+    "pct_antes": 38.7,
+    "pct_depois": 47.7,
     "fator": 1.23
    },
    "loja": "SCA NI",
@@ -2369,25 +2369,25 @@
    "patio": false
   },
   {
-   "vendas": 150,
-   "valor": 17321933,
-   "com_lead": 150,
-   "avulso": 65,
-   "pct_avulso": 43.3,
+   "vendas": 149,
+   "valor": 17119783,
+   "com_lead": 149,
+   "avulso": 64,
+   "pct_avulso": 43.0,
    "origem": {
     "antes": 71,
-    "depois": 97,
-    "recuperadas": 26,
-    "pct_antes": 47.3,
-    "pct_depois": 64.7,
-    "fator": 1.37
+    "depois": 96,
+    "recuperadas": 25,
+    "pct_antes": 47.7,
+    "pct_depois": 64.4,
+    "fator": 1.35
    },
    "captacao": {
     "antes": 43,
     "depois": 67,
     "recuperadas": 24,
-    "pct_antes": 28.7,
-    "pct_depois": 44.7,
+    "pct_antes": 28.9,
+    "pct_depois": 45.0,
     "fator": 1.56
    },
    "loja": "TBT NI",
@@ -2396,26 +2396,26 @@
    "patio": false
   },
   {
-   "vendas": 131,
-   "valor": 23830505,
-   "com_lead": 131,
-   "avulso": 80,
-   "pct_avulso": 61.1,
+   "vendas": 135,
+   "valor": 24520465,
+   "com_lead": 135,
+   "avulso": 82,
+   "pct_avulso": 60.7,
    "origem": {
-    "antes": 50,
-    "depois": 79,
-    "recuperadas": 29,
-    "pct_antes": 38.2,
-    "pct_depois": 60.3,
+    "antes": 52,
+    "depois": 82,
+    "recuperadas": 30,
+    "pct_antes": 38.5,
+    "pct_depois": 60.7,
     "fator": 1.58
    },
    "captacao": {
-    "antes": 39,
-    "depois": 66,
-    "recuperadas": 27,
-    "pct_antes": 29.8,
-    "pct_depois": 50.4,
-    "fator": 1.69
+    "antes": 41,
+    "depois": 69,
+    "recuperadas": 28,
+    "pct_antes": 30.4,
+    "pct_depois": 51.1,
+    "fator": 1.68
    },
    "loja": "VLO GCC",
    "codigo": "GCC",
@@ -2478,7 +2478,7 @@
   },
   {
    "vendas": 130,
-   "valor": 15075741,
+   "valor": 15073589,
    "com_lead": 130,
    "avulso": 30,
    "pct_avulso": 23.1,
@@ -2505,7 +2505,7 @@
   },
   {
    "vendas": 104,
-   "valor": 9925770,
+   "valor": 9923290,
    "com_lead": 104,
    "avulso": 29,
    "pct_avulso": 27.9,
@@ -2531,25 +2531,25 @@
    "patio": false
   },
   {
-   "vendas": 95,
-   "valor": 10279152,
-   "com_lead": 95,
-   "avulso": 63,
-   "pct_avulso": 66.3,
+   "vendas": 94,
+   "valor": 10134162,
+   "com_lead": 94,
+   "avulso": 62,
+   "pct_avulso": 66.0,
    "origem": {
     "antes": 32,
     "depois": 65,
     "recuperadas": 33,
-    "pct_antes": 33.7,
-    "pct_depois": 68.4,
+    "pct_antes": 34.0,
+    "pct_depois": 69.1,
     "fator": 2.03
    },
    "captacao": {
     "antes": 23,
     "depois": 48,
     "recuperadas": 25,
-    "pct_antes": 24.2,
-    "pct_depois": 50.5,
+    "pct_antes": 24.5,
+    "pct_depois": 51.1,
     "fator": 2.09
    },
    "loja": "GAS VW",
@@ -2558,25 +2558,25 @@
    "patio": false
   },
   {
-   "vendas": 93,
-   "valor": 10713243,
-   "com_lead": 93,
-   "avulso": 57,
-   "pct_avulso": 61.3,
+   "vendas": 92,
+   "valor": 10531103,
+   "com_lead": 92,
+   "avulso": 56,
+   "pct_avulso": 60.9,
    "origem": {
     "antes": 33,
     "depois": 60,
     "recuperadas": 27,
-    "pct_antes": 35.5,
-    "pct_depois": 64.5,
+    "pct_antes": 35.9,
+    "pct_depois": 65.2,
     "fator": 1.82
    },
    "captacao": {
     "antes": 21,
     "depois": 40,
     "recuperadas": 19,
-    "pct_antes": 22.6,
-    "pct_depois": 43.0,
+    "pct_antes": 22.8,
+    "pct_depois": 43.5,
     "fator": 1.9
    },
    "loja": "GUA NI",
@@ -2857,99 +2857,99 @@
  ],
  "interesses": [
   {
-   "vendas": 9527,
-   "valor": 1443568891,
-   "com_lead": 9527,
-   "avulso": 5758,
-   "pct_avulso": 60.4,
+   "vendas": 9586,
+   "valor": 1454010501,
+   "com_lead": 9586,
+   "avulso": 5801,
+   "pct_avulso": 60.5,
    "origem": {
-    "antes": 3359,
-    "depois": 5420,
-    "recuperadas": 2061,
-    "pct_antes": 35.3,
-    "pct_depois": 56.9,
+    "antes": 3373,
+    "depois": 5447,
+    "recuperadas": 2074,
+    "pct_antes": 35.2,
+    "pct_depois": 56.8,
     "fator": 1.61
    },
    "captacao": {
-    "antes": 3044,
-    "depois": 4845,
-    "recuperadas": 1801,
-    "pct_antes": 32.0,
-    "pct_depois": 50.9,
+    "antes": 3056,
+    "depois": 4870,
+    "recuperadas": 1814,
+    "pct_antes": 31.9,
+    "pct_depois": 50.8,
     "fator": 1.59
    },
    "interesse": "Novo",
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 3771
+     "n": 3800
     },
     {
      "midia": "WhatsApp",
-     "n": 1655
+     "n": 1663
     },
     {
      "midia": "Facebook",
-     "n": 956
+     "n": 963
     },
     {
      "midia": "OPV Montadora",
-     "n": 633
+     "n": 632
     },
     {
      "midia": "URA",
-     "n": 571
+     "n": 573
     },
     {
      "midia": "Lead Montadora",
-     "n": 462
+     "n": 465
     }
    ],
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 1752
+     "n": 1760
     },
     {
      "midia": "Facebook",
-     "n": 1028
+     "n": 1036
     },
     {
      "midia": "OPV Montadora",
-     "n": 653
+     "n": 652
     },
     {
      "midia": "Lead Montadora",
-     "n": 514
+     "n": 518
     },
     {
      "midia": "Mercado Livre",
-     "n": 433
+     "n": 437
     },
     {
      "midia": "Site Carrera",
-     "n": 321
+     "n": 323
     }
    ]
   },
   {
-   "vendas": 6692,
-   "valor": 580146905,
-   "com_lead": 6692,
-   "avulso": 3033,
+   "vendas": 6709,
+   "valor": 581863445,
+   "com_lead": 6709,
+   "avulso": 3042,
    "pct_avulso": 45.3,
    "origem": {
-    "antes": 3490,
-    "depois": 4971,
-    "recuperadas": 1481,
-    "pct_antes": 52.2,
+    "antes": 3498,
+    "depois": 4984,
+    "recuperadas": 1486,
+    "pct_antes": 52.1,
     "pct_depois": 74.3,
     "fator": 1.42
    },
    "captacao": {
-    "antes": 1118,
-    "depois": 2359,
-    "recuperadas": 1241,
+    "antes": 1123,
+    "depois": 2368,
+    "recuperadas": 1245,
     "pct_antes": 16.7,
     "pct_depois": 35.3,
     "fator": 2.11
@@ -2958,23 +2958,23 @@
    "origem_top": [
     {
      "midia": "Lead Revenda",
-     "n": 2536
+     "n": 2539
     },
     {
      "midia": "Lead Avulso",
-     "n": 1598
+     "n": 1602
     },
     {
      "midia": "WhatsApp",
-     "n": 736
+     "n": 742
     },
     {
      "midia": "Webmotors",
-     "n": 539
+     "n": 540
     },
     {
      "midia": "URA",
-     "n": 376
+     "n": 377
     },
     {
      "midia": "Facebook",
@@ -2984,11 +2984,11 @@
    "captacao_top": [
     {
      "midia": "WhatsApp",
-     "n": 859
+     "n": 866
     },
     {
      "midia": "Webmotors",
-     "n": 672
+     "n": 673
     },
     {
      "midia": "Site Carrera",
@@ -3000,26 +3000,26 @@
     },
     {
      "midia": "Mercado Livre",
-     "n": 96
+     "n": 97
     },
     {
      "midia": "Lead Montadora",
-     "n": 52
+     "n": 53
     }
    ]
   },
   {
-   "vendas": 1642,
-   "valor": 197143617,
-   "com_lead": 1642,
-   "avulso": 1016,
+   "vendas": 1643,
+   "valor": 197251414,
+   "com_lead": 1643,
+   "avulso": 1017,
    "pct_avulso": 61.9,
    "origem": {
     "antes": 353,
     "depois": 914,
     "recuperadas": 561,
     "pct_antes": 21.5,
-    "pct_depois": 55.7,
+    "pct_depois": 55.6,
     "fator": 2.59
    },
    "captacao": {
@@ -3034,7 +3034,7 @@
    "origem_top": [
     {
      "midia": "Lead Avulso",
-     "n": 575
+     "n": 576
     },
     {
      "midia": "WhatsApp",
