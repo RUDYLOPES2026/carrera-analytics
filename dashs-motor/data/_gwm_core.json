@@ -1,14 +1,14 @@
 {
  "totais": {
   "30d": {
-   "spend": 86895.34,
-   "leads": 1904,
-   "conv": 3118
+   "spend": 87516.72,
+   "leads": 1919,
+   "conv": 3139
   },
   "jul": {
-   "spend": 75123.83,
-   "leads": 1667,
-   "conv": 2728
+   "spend": 75745.21,
+   "leads": 1682,
+   "conv": 2749
   }
  },
  "30d": [
@@ -16,15 +16,15 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 6123.12,
-   "leads": 275,
+   "spend": 6154.05,
+   "leads": 277,
    "conv": 0
   },
   {
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 1848.93,
+   "spend": 1861.6,
    "leads": 55,
    "conv": 0
   },
@@ -32,7 +32,7 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 3053.59,
+   "spend": 3066.8,
    "leads": 209,
    "conv": 0
   },
@@ -40,31 +40,31 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 1861.93,
-   "leads": 72,
+   "spend": 1874.0,
+   "leads": 73,
    "conv": 0
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 1483.5,
+   "spend": 1492.0,
    "leads": 0,
-   "conv": 66
+   "conv": 67
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 1500.31,
+   "spend": 1518.99,
    "leads": 0,
-   "conv": 64
+   "conv": 65
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 1475.96,
+   "spend": 1486.49,
    "leads": 0,
    "conv": 38
   },
@@ -72,39 +72,39 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 13064.35,
-   "leads": 787,
+   "spend": 13141.16,
+   "leads": 795,
    "conv": 0
   },
   {
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 3044.71,
-   "leads": 497,
+   "spend": 3066.61,
+   "leads": 501,
    "conv": 0
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 4081.16,
+   "spend": 4115.52,
    "leads": 0,
-   "conv": 290
+   "conv": 293
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 972.31,
+   "spend": 985.93,
    "leads": 0,
-   "conv": 109
+   "conv": 111
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 674.26,
+   "spend": 681.3,
    "leads": 0,
    "conv": 35
   },
@@ -112,7 +112,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 1267.16,
+   "spend": 1277.76,
    "leads": 0,
    "conv": 79
   },
@@ -120,7 +120,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 1896.58,
+   "spend": 1912.38,
    "leads": 0,
    "conv": 104
   },
@@ -128,7 +128,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 693.85,
+   "spend": 698.57,
    "leads": 0,
    "conv": 50
   },
@@ -136,7 +136,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 1255.01,
+   "spend": 1262.82,
    "leads": 0,
    "conv": 93
   },
@@ -144,15 +144,15 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 4039.01,
+   "spend": 4070.87,
    "leads": 0,
-   "conv": 319
+   "conv": 321
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 1896.13,
+   "spend": 1911.97,
    "leads": 0,
    "conv": 115
   },
@@ -160,7 +160,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 681.55,
+   "spend": 685.53,
    "leads": 0,
    "conv": 36
   },
@@ -168,23 +168,23 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 689.71,
+   "spend": 696.0,
    "leads": 0,
-   "conv": 45
+   "conv": 48
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 963.7,
+   "spend": 969.72,
    "leads": 0,
-   "conv": 100
+   "conv": 101
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 621.03,
+   "spend": 623.6,
    "leads": 0,
    "conv": 37
   },
@@ -192,7 +192,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 602.91,
+   "spend": 608.63,
    "leads": 0,
    "conv": 39
   },
@@ -200,7 +200,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 980.7,
+   "spend": 990.55,
    "leads": 0,
    "conv": 74
   },
@@ -208,7 +208,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 1894.76,
+   "spend": 1911.57,
    "leads": 0,
    "conv": 100
   },
@@ -216,7 +216,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 4010.64,
+   "spend": 4040.77,
    "leads": 0,
    "conv": 175
   },
@@ -224,7 +224,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 1033.33,
+   "spend": 1037.45,
    "leads": 0,
    "conv": 61
   },
@@ -232,15 +232,15 @@
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 817.75,
+   "spend": 821.28,
    "leads": 0,
-   "conv": 87
+   "conv": 88
   },
   {
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 833.03,
+   "spend": 834.1,
    "leads": 0,
    "conv": 86
   },
@@ -248,15 +248,15 @@
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 834.06,
+   "spend": 848.32,
    "leads": 0,
-   "conv": 93
+   "conv": 94
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 581.82,
+   "spend": 588.35,
    "leads": 0,
    "conv": 17
   },
@@ -264,7 +264,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 980.59,
+   "spend": 980.74,
    "leads": 0,
    "conv": 38
   },
@@ -272,7 +272,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 686.71,
+   "spend": 693.5,
    "leads": 0,
    "conv": 29
   },
@@ -280,7 +280,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 1909.25,
+   "spend": 1919.04,
    "leads": 0,
    "conv": 70
   },
@@ -288,23 +288,23 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 4077.32,
+   "spend": 4097.36,
    "leads": 0,
-   "conv": 126
+   "conv": 127
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 972.67,
+   "spend": 980.29,
    "leads": 0,
-   "conv": 101
+   "conv": 102
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 670.31,
+   "spend": 675.47,
    "leads": 0,
    "conv": 19
   },
@@ -312,7 +312,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 1903.77,
+   "spend": 1913.63,
    "leads": 0,
    "conv": 72
   },
@@ -320,7 +320,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 3804.78,
+   "spend": 3843.32,
    "leads": 0,
    "conv": 91
   },
@@ -328,15 +328,15 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 681.1,
+   "spend": 686.44,
    "leads": 0,
-   "conv": 25
+   "conv": 26
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 957.47,
+   "spend": 967.18,
    "leads": 0,
    "conv": 28
   },
@@ -344,7 +344,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 1253.72,
+   "spend": 1263.43,
    "leads": 0,
    "conv": 54
   },
@@ -352,7 +352,7 @@
    "seg": "NV",
    "canal": "Engaj",
    "loja": "REGIONAL",
-   "spend": 583.27,
+   "spend": 584.93,
    "leads": 0,
    "conv": 0
   },
@@ -368,23 +368,23 @@
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 822.48,
+   "spend": 831.77,
    "leads": 0,
-   "conv": 45
+   "conv": 46
   },
   {
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 820.83,
+   "spend": 827.92,
    "leads": 0,
-   "conv": 108
+   "conv": 110
   },
   {
    "seg": "NV",
    "canal": "Engaj",
    "loja": "REGIONAL",
-   "spend": 581.92,
+   "spend": 583.66,
    "leads": 0,
    "conv": 0
   },
@@ -392,7 +392,7 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 392.57,
+   "spend": 395.25,
    "leads": 4,
    "conv": 0
   },
@@ -400,7 +400,7 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 406.2,
+   "spend": 408.66,
    "leads": 4,
    "conv": 0
   },
@@ -408,7 +408,7 @@
    "seg": "NV",
    "canal": "Engaj",
    "loja": "REGIONAL",
-   "spend": 598.97,
+   "spend": 614.89,
    "leads": 0,
    "conv": 0
   }
@@ -418,15 +418,15 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 5413.79,
-   "leads": 242,
+   "spend": 5444.72,
+   "leads": 244,
    "conv": 0
   },
   {
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 1613.06,
+   "spend": 1625.73,
    "leads": 51,
    "conv": 0
   },
@@ -434,7 +434,7 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 2669.21,
+   "spend": 2682.42,
    "leads": 185,
    "conv": 0
   },
@@ -442,31 +442,31 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 1618.56,
-   "leads": 62,
+   "spend": 1630.63,
+   "leads": 63,
    "conv": 0
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 1263.5,
+   "spend": 1272.0,
    "leads": 0,
-   "conv": 54
+   "conv": 55
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 1277.39,
+   "spend": 1296.07,
    "leads": 0,
-   "conv": 59
+   "conv": 60
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 1255.01,
+   "spend": 1265.54,
    "leads": 0,
    "conv": 32
   },
@@ -474,39 +474,39 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 11388.45,
-   "leads": 699,
+   "spend": 11465.26,
+   "leads": 707,
    "conv": 0
   },
   {
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 2645.79,
-   "leads": 420,
+   "spend": 2667.69,
+   "leads": 424,
    "conv": 0
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 3546.09,
+   "spend": 3580.45,
    "leads": 0,
-   "conv": 249
+   "conv": 252
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 829.51,
+   "spend": 843.13,
    "leads": 0,
-   "conv": 91
+   "conv": 93
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 585.08,
+   "spend": 592.12,
    "leads": 0,
    "conv": 31
   },
@@ -514,7 +514,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 1079.9,
+   "spend": 1090.5,
    "leads": 0,
    "conv": 65
   },
@@ -522,7 +522,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 1623.67,
+   "spend": 1639.47,
    "leads": 0,
    "conv": 92
   },
@@ -530,7 +530,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 594.81,
+   "spend": 599.53,
    "leads": 0,
    "conv": 46
   },
@@ -538,7 +538,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 1071.19,
+   "spend": 1079.0,
    "leads": 0,
    "conv": 79
   },
@@ -546,15 +546,15 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 3486.42,
+   "spend": 3518.28,
    "leads": 0,
-   "conv": 288
+   "conv": 290
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 1624.26,
+   "spend": 1640.1,
    "leads": 0,
    "conv": 103
   },
@@ -562,7 +562,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 590.05,
+   "spend": 594.03,
    "leads": 0,
    "conv": 32
   },
@@ -570,23 +570,23 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 585.04,
+   "spend": 591.33,
    "leads": 0,
-   "conv": 36
+   "conv": 39
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 814.91,
+   "spend": 820.93,
    "leads": 0,
-   "conv": 84
+   "conv": 85
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 525.35,
+   "spend": 527.92,
    "leads": 0,
    "conv": 34
   },
@@ -594,7 +594,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 508.16,
+   "spend": 513.88,
    "leads": 0,
    "conv": 32
   },
@@ -602,7 +602,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 836.0,
+   "spend": 845.85,
    "leads": 0,
    "conv": 70
   },
@@ -610,7 +610,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 1625.26,
+   "spend": 1642.07,
    "leads": 0,
    "conv": 82
   },
@@ -618,7 +618,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 3468.21,
+   "spend": 3498.34,
    "leads": 0,
    "conv": 154
   },
@@ -626,7 +626,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 845.93,
+   "spend": 850.05,
    "leads": 0,
    "conv": 52
   },
@@ -634,15 +634,15 @@
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "FMO",
-   "spend": 714.96,
+   "spend": 718.49,
    "leads": 0,
-   "conv": 79
+   "conv": 80
   },
   {
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "ALP",
-   "spend": 722.82,
+   "spend": 723.89,
    "leads": 0,
    "conv": 79
   },
@@ -650,15 +650,15 @@
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 735.57,
+   "spend": 749.83,
    "leads": 0,
-   "conv": 85
+   "conv": 86
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 499.05,
+   "spend": 505.58,
    "leads": 0,
    "conv": 15
   },
@@ -666,7 +666,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 832.7,
+   "spend": 832.85,
    "leads": 0,
    "conv": 32
   },
@@ -674,7 +674,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 589.69,
+   "spend": 596.48,
    "leads": 0,
    "conv": 27
   },
@@ -682,7 +682,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 1629.57,
+   "spend": 1639.36,
    "leads": 0,
    "conv": 61
   },
@@ -690,23 +690,23 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 3494.31,
+   "spend": 3514.35,
    "leads": 0,
-   "conv": 116
+   "conv": 117
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 832.06,
+   "spend": 839.68,
    "leads": 0,
-   "conv": 89
+   "conv": 90
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 567.8,
+   "spend": 572.96,
    "leads": 0,
    "conv": 18
   },
@@ -714,7 +714,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 1635.54,
+   "spend": 1645.4,
    "leads": 0,
    "conv": 59
   },
@@ -722,7 +722,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 3242.63,
+   "spend": 3281.17,
    "leads": 0,
    "conv": 74
   },
@@ -730,15 +730,15 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 585.65,
+   "spend": 590.99,
    "leads": 0,
-   "conv": 20
+   "conv": 21
   },
   {
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 817.28,
+   "spend": 826.99,
    "leads": 0,
    "conv": 25
   },
@@ -746,7 +746,7 @@
    "seg": "NV",
    "canal": "WhatsApp",
    "loja": "VLO",
-   "spend": 1070.71,
+   "spend": 1080.42,
    "leads": 0,
    "conv": 47
   },
@@ -754,7 +754,7 @@
    "seg": "NV",
    "canal": "Engaj",
    "loja": "REGIONAL",
-   "spend": 502.22,
+   "spend": 503.88,
    "leads": 0,
    "conv": 0
   },
@@ -762,23 +762,23 @@
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "EUR",
-   "spend": 698.44,
+   "spend": 707.73,
    "leads": 0,
-   "conv": 38
+   "conv": 39
   },
   {
    "seg": "VD",
    "canal": "WhatsApp",
    "loja": "ELD",
-   "spend": 719.0,
+   "spend": 726.09,
    "leads": 0,
-   "conv": 99
+   "conv": 101
   },
   {
    "seg": "NV",
    "canal": "Engaj",
    "loja": "REGIONAL",
-   "spend": 494.36,
+   "spend": 496.1,
    "leads": 0,
    "conv": 0
   },
@@ -786,7 +786,7 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 349.7,
+   "spend": 352.38,
    "leads": 4,
    "conv": 0
   },
@@ -794,7 +794,7 @@
    "seg": "NV",
    "canal": "Form",
    "loja": "REGIONAL",
-   "spend": 406.2,
+   "spend": 408.66,
    "leads": 4,
    "conv": 0
   },
@@ -802,22 +802,12 @@
    "seg": "NV",
    "canal": "Engaj",
    "loja": "REGIONAL",
-   "spend": 598.97,
+   "spend": 614.89,
    "leads": 0,
    "conv": 0
   }
  ],
  "edits": [
-  {
-   "quando": "24/07 11:56",
-   "quem": "Manu Miranda",
-   "o_que": "Status do anúncio atualizado , 2026611-haval-h6-hybrflex-09/06/2026"
-  },
-  {
-   "quando": "24/07 11:56",
-   "quem": "Manu Miranda",
-   "o_que": "Status do anúncio atualizado , 2026611-haval-h6-hybrflex-09/06/2026"
-  },
   {
    "quando": "23/07 15:50",
    "quem": "Meta",
@@ -836,17 +826,27 @@
   {
    "quando": "23/07 15:48",
    "quem": "Meta",
-   "o_que": "Status do anúncio atualizado , 20260723 | ORA | OFERTA | ALWAYS-ON  | REVISÃO  |"
-  },
-  {
-   "quando": "23/07 15:48",
-   "quem": "Meta",
    "o_que": "Status do anúncio atualizado , 20260723 | H9 | OFERTA | ALWAYS-ON  | REVISÃO  |"
   },
   {
    "quando": "23/07 15:48",
    "quem": "Meta",
    "o_que": "Status do anúncio atualizado , 20260723 | ORA | OFERTA | ALWAYS-ON  | REVISÃO  |"
+  },
+  {
+   "quando": "23/07 15:48",
+   "quem": "Meta",
+   "o_que": "Status do anúncio atualizado , 20260723 | ORA | OFERTA | ALWAYS-ON  | REVISÃO  |"
+  },
+  {
+   "quando": "23/07 15:48",
+   "quem": "Meta",
+   "o_que": "Status do anúncio atualizado , 20260723 | WEY_07 | OFERTA | ALWAYS-ON  | REVISÃO  |"
+  },
+  {
+   "quando": "23/07 15:48",
+   "quem": "Meta",
+   "o_que": "Status do anúncio atualizado , 20260723 | TANK | OFERTA | ALWAYS-ON  | REVISÃO  |"
   }
  ],
  "mom_sp": {
