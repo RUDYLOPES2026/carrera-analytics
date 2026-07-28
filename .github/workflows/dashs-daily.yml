@@ -2,7 +2,13 @@ name: Dashs Daily (Meta Ads)
 
 on:
   schedule:
-    - cron: '0 11 * * *'  # 08:00 BRT (manhã)
+    # o cron do GitHub e best-effort: entra numa fila global e sai quando tem
+    # capacidade. Medido neste repo, o run das 11:00 UTC saia entre 12:00 e 13:40
+    # UTC (1h a 2h40 de atraso), ou seja o dash da manha so ficava pronto depois
+    # das 9h BRT. Duas mudancas para ele estar no ar antes das 8h BRT:
+    #   - 07:20 UTC (04:20 BRT) da ~3h de folga ate o prazo mesmo no pior atraso;
+    #   - minuto quebrado e fora do pico dos EUA pegam fila mais curta que ':00'.
+    - cron: '20 7 * * *'  # 04:20 BRT (manhã) - alvo: publicado antes das 8h BRT
     - cron: '0 15 * * *'  # 12:00 BRT (meio-dia)
     - cron: '0 22 * * *'  # 19:00 BRT
   workflow_dispatch:
