@@ -358,12 +358,25 @@ def main():
         _now_brt = datetime.datetime.now(ZoneInfo("America/Sao_Paulo"))
     except Exception:
         _now_brt = datetime.datetime.utcnow() - datetime.timedelta(hours=3)
+    # ORÇAMENTO MÊS A MÊS (jan -> mês corrente). Sai direto do ORCAMENTO_MIDIA_CENTRAL,
+    # que é o plano aprovado; mês sem valor lançado vira null e a linha só pula o ponto.
+    orc_meses = [_MES[m] for m in range(1, TODAY.month + 1)]
+    orc_serie = []
+    for b in brands:
+        fslug = next((f for f, k, _n, _c in BRANDS if k == b["slug"]), None)
+        vals = []
+        for m in range(1, TODAY.month + 1):
+            v = approved_budget(fslug, 0, m) if fslug else 0
+            vals.append(round(v, 2) if v else None)
+        if any(v for v in vals):
+            orc_serie.append({"nome": b["nome"], "cor": b["cor"], "vals": vals})
     payload = {"gerado": TODAY_ISO, "asof": TODAY.strftime("%d/%m/%Y"),
                "hora": _now_brt.strftime("%H:%M"),
                "elapsed": brands[0]["elapsed"] if brands else TODAY.day,
                "days": brands[0]["days"] if brands else 31,
                "mes_nome": MESES[TODAY.month], "mom_nome": MESES[pm],
                "meses": meses, "grupo_views": gviews,
+               "orc_meses": orc_meses, "orc_serie": orc_serie,
                "brands": brands, "grupo": g, "dates": dates}
     html = render(payload)
     os.makedirs(DIST, exist_ok=True)
@@ -489,6 +502,10 @@ TEMPLATE = r"""<!doctype html>
     <div class="chartbox"><div class="t" id="momt">investimento BRUTO</div><canvas id="cMoM" height="220"></canvas></div>
     <div class="chartbox"><div class="t" id="sharet">Participação de cada marca no investimento do grupo (bruto)</div><canvas id="cShare" height="220"></canvas></div>
   </div>
+
+  <h2>Orçamento aprovado, mês a mês <span class="h" id="orch">bruto, por marca</span></h2>
+  <div class="chartbox"><canvas id="cOrc" height="150"></canvas></div>
+  <div class="card" style="overflow-x:auto;margin-top:12px"><table id="torc"></table></div>
 
   <div id="soAtual2">
     <h2>Mix de canal , Formulário x WhatsApp <span class="h" id="mixh">investimento BRUTO do mês, por marca</span></h2>
@@ -758,6 +775,43 @@ new Chart(document.getElementById("cMix"),{type:"bar",
       }}}},
     scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:GRID,ticks:{callback:v=>"R$"+(v/1000)+"k"}}}}});
 
+// ---- orçamento aprovado mês a mês (não depende do seletor: é o plano do ano) ----
+function renderOrc(){
+  const L = P.orc_meses, S = P.orc_serie||[];
+  if(!S.length) return;
+  new Chart(document.getElementById("cOrc"),{type:"line",
+    data:{labels:L.map(m=>m.charAt(0).toUpperCase()+m.slice(1)),
+      datasets:S.map(s=>({label:s.nome,data:s.vals,borderColor:s.cor,backgroundColor:s.cor,
+        borderWidth:1.8,tension:.25,pointRadius:2.5,spanGaps:true}))},
+    options:{responsive:true,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{position:"bottom",labels:{boxWidth:10,boxHeight:10,padding:10}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+": "+BRL(c.parsed.y||0)}}},
+      scales:{y:{grid:GRID,ticks:{callback:v=>"R$"+(v/1000)+"k"}},x:{grid:{display:false}}}}});
+  // tabela: valor do mês + variação contra o mês anterior, que é a leitura que interessa
+  const cel=(v,ant)=>{
+    if(v===null||v===undefined) return `<td class="mut">,</td>`;
+    let d="";
+    if(ant){
+      const r=v/ant-1;
+      d = Math.abs(r)<0.005 ? `<div class="cmp mut">= estável</div>`
+        : `<div class="cmp ${r>=0?"up":"down"}">${r>=0?"▲ +":"▼ "}${(r*100).toFixed(0)}%</div>`;
+    }
+    return `<td>${BRL(v)}${d}</td>`;
+  };
+  const linhas = S.map(s=>`<tr><td><span class="dot" style="background:${s.cor}"></span>${s.nome}</td>`
+    + s.vals.map((v,i)=>cel(v, i?s.vals[i-1]:null)).join("") + `</tr>`).join("");
+  const tot = L.map((_,i)=>S.reduce((a,s)=>a+(s.vals[i]||0),0));
+  const linhaTot = `<tr><td><b>Grupo</b></td>`
+    + tot.map((v,i)=>cel(v, i?tot[i-1]:null)).join("") + `</tr>`;
+  document.getElementById("torc").innerHTML =
+    `<thead><tr><th>Marca</th>${L.map((m,i)=>
+      `<th${i===L.length-1?' style="color:var(--acc)"':''}>${m}</th>`).join("")}</tr></thead>`
+    + `<tbody>${linhas}</tbody><tfoot>${linhaTot}</tfoot>`;
+  document.getElementById("orch").textContent =
+    "bruto, por marca · fonte: ORÇAMENTO MÍDIA (plano aprovado) · a seta compara com o mês anterior · "
+    + L[L.length-1] + " é o mês em curso";
+}
+
 // ---- troca de período: redesenha tudo que depende da visão ----
 function renderTudo(){
   renderKpis(); renderTabela(); renderMoM(); renderShare();
@@ -780,6 +834,7 @@ function renderTudo(){
       : ("comparativo = "+(GV().prev?GV().prev.periodo:"sem base")+", mês fechado contra mês fechado."));
 }
 renderTudo();
+renderOrc();
 </script>
 </body>
 </html>"""

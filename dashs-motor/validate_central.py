@@ -57,7 +57,8 @@ const SNAP = {};
 function snap(k){
   SNAP[k] = {kpis: CAP["kpis"]||"", tbl: CAP["tbl"]||"", segsub: CAP["segsub"]||"",
              tblh: CAP["tblh"]||"", nota: CAP["notaFechado"]||"",
-             momt: CAP["_t_momt"]||"", charts: CHARTS.length};
+             momt: CAP["_t_momt"]||"", charts: CHARTS.length,
+             torc: CAP["torc"]||"", graficos: CHARTS.map(c=>c.id).join(",")};
 }
 snap("atual");
 for(const m of (global.__MESES__||[])){
@@ -138,6 +139,16 @@ def main():
         limpo = "Vai pagar" not in f0.get("tbl", "") and "fechado" in f0.get("nota", "")
         print("[R6] mês fechado esconde projeção e explica o porquê:", "OK" if limpo else "FALHA")
         ok = ok and limpo
+    # orçamento mês a mês: tabela preenchida, gráfico criado e variação desenhada
+    orc = snap.get(fechados[-1] if fechados else "atual", {})
+    torc = orc.get("torc", "")
+    n_mes = torc.count("<th")
+    n_var = torc.count("▲") + torc.count("▼") + torc.count("estável")
+    tem_gr = "cOrc" in orc.get("graficos", "")
+    bad = (n_mes < 3) or (n_var < 5) or (not tem_gr)
+    print(f"[R7] orçamento mês a mês: colunas={n_mes} variações={n_var} gráfico={'sim' if tem_gr else 'NAO'}"
+          f" -> {'OK' if not bad else 'FALHA'}")
+    ok = ok and not bad
     print("=============== " + ("TUDO OK" if ok else "TEM FALHA") + " ===============")
     return 0 if ok else 1
 
