@@ -3,8 +3,9 @@
   "subtitle": "Acompanhamento Comercial",
   "account_id": "act_8702053599855731",
   "data_file": "data/zeekr_D.json",
-
-  "segments": ["NV"],
+  "segments": [
+    "NV"
+  ],
   "segnome": {
     "NV": "Novos / 0km",
     "OUT": "Outros"
@@ -20,17 +21,17 @@
     "NV": "#f59e0b",
     "OUT": "#a1a1aa"
   },
-
   "hasRegion": false,
   "regions": [],
   "regnome": {},
   "regsub": {},
   "regcol": {},
   "lojas": {},
-
   "lojanome": {},
-
-  "channels": ["Form", "WhatsApp"],
+  "channels": [
+    "Form",
+    "WhatsApp"
+  ],
   "channome": {
     "Form": "Formulário",
     "WhatsApp": "WhatsApp",
@@ -38,12 +39,10 @@
     "Awareness": "Awareness",
     "Engaj": "Engajamento"
   },
-
-  "budget": 30000,
+  "budget": 35000,
   "orcamento_key": "ZEEKR",
-  "orcamento_mes": "jul",
+  "orcamento_mes": "ago",
   "gross_up": 1.1215,
-
   "exceptions": {
     "geralLabel": "campanhas auxiliares (engajamento, vídeo)"
   }

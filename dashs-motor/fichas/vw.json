@@ -3,8 +3,10 @@
   "subtitle": "Novos & Seminovos · Acompanhamento Comercial",
   "account_id": "act_1579684322929898",
   "data_file": "data/vw_D.json",
-
-  "segments": ["NV", "SN"],
+  "segments": [
+    "NV",
+    "SN"
+  ],
   "segnome": {
     "NV": "Novos / 0km",
     "SN": "Seminovos",
@@ -24,22 +26,22 @@
     "SN": "#34d399",
     "OUT": "#a1a1aa"
   },
-
   "hasRegion": false,
   "regions": [],
   "regnome": {},
   "regsub": {},
   "regcol": {},
   "lojas": {},
-
   "lojanome": {
     "ALP": "Alphaville",
     "OSA": "Osasco",
     "SUM": "Sumaré",
     "VLO": "Villa Lobos"
   },
-
-  "channels": ["Form", "WhatsApp"],
+  "channels": [
+    "Form",
+    "WhatsApp"
+  ],
   "channome": {
     "Form": "Formulário",
     "WhatsApp": "WhatsApp",
@@ -47,12 +49,10 @@
     "Awareness": "Awareness",
     "Engaj": "Engajamento"
   },
-
-  "budget": 70000,
+  "budget": 75000,
   "orcamento_key": "VW",
-  "orcamento_mes": "jul",
+  "orcamento_mes": "ago",
   "gross_up": 1.1215,
-
   "exceptions": {
     "geralLabel": "campanhas auxiliares (reconhecimento, tráfego)"
   }

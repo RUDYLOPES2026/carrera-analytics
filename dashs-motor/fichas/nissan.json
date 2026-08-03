@@ -88,12 +88,12 @@
     "Awareness": "Awareness",
     "Trafego": "Tráfego"
   },
-  "budget": 84112.5,
+  "budget": 75000,
   "gross_up": 1.1215,
   "exceptions": {
     "pvForaDoTotal": true,
     "geralLabel": "campanhas sem região no nome"
   },
   "orcamento_key": "NISSAN",
-  "orcamento_mes": "jul"
+  "orcamento_mes": "ago"
 }

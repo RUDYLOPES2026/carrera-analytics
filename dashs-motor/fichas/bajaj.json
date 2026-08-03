@@ -57,12 +57,12 @@
     "PV-Mensagem": "PV, Mensagem",
     "Engaj": "Engajamento"
   },
-  "budget": 45981.5,
+  "budget": 38000,
   "gross_up": 1.1215,
   "exceptions": {
     "pvForaDoTotal": true,
     "geralLabel": "campanhas de evento/sem região no nome"
   },
   "orcamento_key": "BAJAJ",
-  "orcamento_mes": "jul"
+  "orcamento_mes": "ago"
 }

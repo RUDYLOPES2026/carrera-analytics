@@ -3,8 +3,9 @@
   "subtitle": "Acompanhamento Comercial",
   "account_id": "act_9053591018103176",
   "data_file": "data/omoda_D.json",
-
-  "segments": ["NV"],
+  "segments": [
+    "NV"
+  ],
   "segnome": {
     "NV": "Novos / 0km",
     "PV": "Pós-venda",
@@ -23,9 +24,12 @@
     "PV": "#c084fc",
     "OUT": "#a1a1aa"
   },
-
   "hasRegion": true,
-  "regions": ["SP", "SJC", "SJRP"],
+  "regions": [
+    "SP",
+    "SJC",
+    "SJRP"
+  ],
   "regnome": {
     "SP": "São Paulo (Capital)",
     "SJC": "São José dos Campos",
@@ -50,12 +54,22 @@
     "G": "#71717a"
   },
   "lojas": {
-    "SP": ["SP", "MOR", "VLO"],
-    "SJC": ["SJC"],
-    "SJRP": ["SJRP"]
+    "SP": [
+      "SP",
+      "MOR",
+      "VLO"
+    ],
+    "SJC": [
+      "SJC"
+    ],
+    "SJRP": [
+      "SJRP"
+    ]
   },
-
-  "channels": ["Form", "WhatsApp"],
+  "channels": [
+    "Form",
+    "WhatsApp"
+  ],
   "channome": {
     "Form": "Formulário",
     "WhatsApp": "WhatsApp",
@@ -63,15 +77,15 @@
     "Awareness": "Awareness",
     "Trafego": "Tráfego"
   },
-
-  "budget": 100000,
+  "budget": 90000,
   "orcamento_key": "OMODA",
-  "orcamento_mes": "jul",
+  "orcamento_mes": "ago",
   "gross_up": 1.1215,
-
   "exceptions": {
     "pvForaDoTotal": true,
-    "segForaTotal": ["PV"],
+    "segForaTotal": [
+      "PV"
+    ],
     "geralLabel": "campanhas sem praça no nome (institucional / múltiplas praças)"
   }
 }

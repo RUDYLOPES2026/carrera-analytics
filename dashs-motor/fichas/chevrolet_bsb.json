@@ -3,8 +3,12 @@
   "subtitle": "Acompanhamento Comercial",
   "account_id": "act_214293593818859",
   "data_file": "data/chevrolet_bsb_D.json",
-
-  "segments": ["NV", "SN", "VD", "PV"],
+  "segments": [
+    "NV",
+    "SN",
+    "VD",
+    "PV"
+  ],
   "segnome": {
     "NV": "Novos",
     "SN": "Seminovos",
@@ -32,15 +36,16 @@
     "PV": "#c084fc",
     "OUT": "#a1a1aa"
   },
-
   "hasRegion": false,
   "regions": [],
   "regnome": {},
   "regsub": {},
   "regcol": {},
   "lojas": {},
-
-  "channels": ["Form", "WhatsApp"],
+  "channels": [
+    "Form",
+    "WhatsApp"
+  ],
   "channome": {
     "Form": "Formulário",
     "WhatsApp": "WhatsApp",
@@ -50,15 +55,15 @@
     "RMKT": "Remarketing",
     "Engaj": "Engajamento"
   },
-
-  "budget": 19850.55,
+  "budget": 17700,
   "orcamento_key": "GM BSB",
-  "orcamento_mes": "jul",
+  "orcamento_mes": "ago",
   "gross_up": 1.1215,
-
   "exceptions": {
     "pvForaDoTotal": true,
-    "segForaTotal": ["PV"],
+    "segForaTotal": [
+      "PV"
+    ],
     "geralLabel": "campanhas auxiliares (alcance, remarketing, engajamento)"
   }
 }

@@ -3,8 +3,9 @@
   "subtitle": "Acompanhamento Comercial",
   "account_id": "act_8320926344651440",
   "data_file": "data/seminovos_sp_D.json",
-
-  "segments": ["SN"],
+  "segments": [
+    "SN"
+  ],
   "segnome": {
     "SN": "Seminovos",
     "OUT": "Outros"
@@ -20,9 +21,10 @@
     "SN": "#34d399",
     "OUT": "#a1a1aa"
   },
-
   "hasRegion": false,
-  "regions": ["SP"],
+  "regions": [
+    "SP"
+  ],
   "regnome": {
     "SP": "Capital / Regional SP",
     "BUT": "Butantã",
@@ -47,14 +49,26 @@
     "G": "#71717a"
   },
   "lojas": {
-    "SP": ["SP"],
-    "BUT": ["BUT"],
-    "REB": ["REB"],
-    "FMO": ["FMO"],
-    "VLO": ["VLO"]
+    "SP": [
+      "SP"
+    ],
+    "BUT": [
+      "BUT"
+    ],
+    "REB": [
+      "REB"
+    ],
+    "FMO": [
+      "FMO"
+    ],
+    "VLO": [
+      "VLO"
+    ]
   },
-
-  "channels": ["Form", "WhatsApp"],
+  "channels": [
+    "Form",
+    "WhatsApp"
+  ],
   "channome": {
     "Form": "Formulário",
     "WhatsApp": "WhatsApp",
@@ -64,12 +78,10 @@
     "Trafego": "Tráfego",
     "Awareness": "Awareness"
   },
-
-  "budget": 3000,
+  "budget": 6000,
   "orcamento_key": "SEMINOVOS SP",
-  "orcamento_mes": "jul",
+  "orcamento_mes": "ago",
   "gross_up": 1.1215,
-
   "exceptions": {
     "geralLabel": "campanhas sem praça de loja no nome (Capital / Regional SP)"
   }
