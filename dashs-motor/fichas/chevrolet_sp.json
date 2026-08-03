@@ -57,7 +57,6 @@
   },
   "budget": 90000,
   "orcamento_key": "GM/ADELCO",
-  "orcamento_mes": "ago",
   "gross_up": 1.1215,
   "exceptions": {
     "pvForaDoTotal": true,

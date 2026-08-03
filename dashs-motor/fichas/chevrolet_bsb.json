@@ -57,7 +57,6 @@
   },
   "budget": 17700,
   "orcamento_key": "GM BSB",
-  "orcamento_mes": "ago",
   "gross_up": 1.1215,
   "exceptions": {
     "pvForaDoTotal": true,

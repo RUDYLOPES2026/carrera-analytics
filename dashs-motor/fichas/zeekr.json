@@ -41,7 +41,6 @@
   },
   "budget": 35000,
   "orcamento_key": "ZEEKR",
-  "orcamento_mes": "ago",
   "gross_up": 1.1215,
   "exceptions": {
     "geralLabel": "campanhas auxiliares (engajamento, vídeo)"

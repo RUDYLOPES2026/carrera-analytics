@@ -53,7 +53,6 @@
   },
   "budget": 105000,
   "orcamento_key": "GWM",
-  "orcamento_mes": "ago",
   "gross_up": 1.1215,
   "exceptions": {
     "geralLabel": "campanhas auxiliares (engajamento, tráfego, alcance)"

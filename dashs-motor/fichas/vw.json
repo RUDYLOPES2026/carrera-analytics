@@ -51,7 +51,6 @@
   },
   "budget": 75000,
   "orcamento_key": "VW",
-  "orcamento_mes": "ago",
   "gross_up": 1.1215,
   "exceptions": {
     "geralLabel": "campanhas auxiliares (reconhecimento, tráfego)"
