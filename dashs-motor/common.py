@@ -213,6 +213,40 @@ def mom_sp_block(rows, seg_total, ctx, tax=1.1215):
             "periodo": f"{d1} a {d2} de {MESES_PT[mes]}"}
 
 
+def sync_nd_maio(slug):
+    """Faz o `nd_maio` do <slug>_D.json ser SEMPRE o mês anterior de verdade.
+
+    O nd_maio alimenta o comparativo de mês fechado do dash da marca (janela "30
+    dias" e a linha "Referência: <mês> fechou o mês em ..."). Os refresh bespoke
+    (nissan, bajaj, chevrolet_sp, chevrolet_bsb, omoda) preservavam esse bloco a
+    cada ciclo, então ele NUNCA virava de mês: em 03/08/2026 os cinco dashs ainda
+    mostravam junho embaixo do rótulo "julho" (Omoda R$ 62.440 no lugar dos
+    R$ 91.487 que julho fechou). O _assemble_brand.py das marcas genéricas já
+    reconstruía o bloco; isto estende a mesma regra para todas.
+
+    Fonte = nd_mom_full, repuxado da API todo ciclo com a regra de contagem da
+    própria marca. `pv` não é reaproveitado (o template só usa nd_jun.pv) e sai,
+    em vez de ficar um pós-venda velho pendurado no bloco novo.
+    Devolve (mudou, antes_bruto, depois_bruto) ou None se não deu pra sincronizar.
+    """
+    name = f"{slug}_D.json"
+    D = jload(name, default=None)
+    if not isinstance(D, dict):
+        return None
+    mf = D.get("nd_mom_full") or {}
+    tot = mf.get("total") or {}
+    if not tot or not tot.get("bruto"):
+        return None                      # sem base boa: não mexe (Seminovos não tem nd_maio mesmo)
+    antes = float((D.get("nd_maio") or {}).get("total", {}).get("bruto", 0) or 0)
+    depois = float(tot.get("bruto") or 0)
+    novo = {"total": tot, "seg": mf.get("seg", {})}
+    if D.get("nd_maio") == novo:
+        return (False, antes, depois)
+    D["nd_maio"] = novo
+    jdump(name, D)
+    return (True, antes, depois)
+
+
 # ---------- série diária ----------
 def day_entry(insights, classify, date, seg_filter=None):
     """Agrega um dia em buckets form/wa/aux/pv. seg PV -> pv; senão por canal."""

@@ -80,6 +80,12 @@ def main():
             mod.refresh(api, ctx)
             if getattr(mod, "GENERIC", slug in GENERIC_ASSEMBLE):
                 run([sys.executable, "_assemble_brand.py", slug])
+            # comparativo de mês fechado sempre no mês certo (os refresh bespoke
+            # preservavam o nd_maio e ele não virava de mês, ver common.sync_nd_maio)
+            r = common.sync_nd_maio(slug)
+            if r and r[0]:
+                print(f"[nd_maio] {slug}: mês anterior atualizado "
+                      f"R${r[1]:,.2f} -> R${r[2]:,.2f}")
             run([sys.executable, "build.py", f"fichas/{slug}.json"])
             return None
         except Exception:
