@@ -2,13 +2,31 @@
 # -*- coding: utf-8 -*-
 """Montagem generica de <slug>_D.json a partir de data/_<slug>_{core,daily,ads,geo_raw}.json + junho inline.
 Uso: python3 _assemble_brand.py <slug>   (slug in gac/gwm/vw). Sem arg = todas."""
-import json,collections,sys,datetime,calendar
+import json,collections,sys,os,datetime,calendar
 TAX=1.1215
 TODAY=datetime.date.today()
 TODAY_ISO=TODAY.isoformat()
 DIM=calendar.monthrange(TODAY.year,TODAY.month)[1]
 ASOF="%02d/%02d"%(TODAY.day,TODAY.month)
 def b(x): return round(x*TAX,2)
+
+# nome do mes corrente e do anterior: nada chumbado, senao o dash vira o mes e continua
+# escrito "Julho" (foi o que aconteceu em 01-03/08/2026 nas 3 marcas deste assemble).
+MESES=["","Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro",
+       "Outubro","Novembro","Dezembro"]
+MES_CURTO=["","jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"]
+_PM=(TODAY.replace(day=1)-datetime.timedelta(days=1)).month
+MES_NOME,MOM_NOME=MESES[TODAY.month],MESES[_PM]
+
+# orcamento aprovado do mes corrente (mesma fonte dos dashs: o central manda, o valor ja e BRUTO)
+_ORC_KEY={'gac':'GAC','gwm':'GWM','vw':'VW','zeekr':'ZEEKR'}
+def budget_central(slug,fallback):
+    p=os.path.join(os.path.dirname(os.path.abspath(__file__)),"ORCAMENTO_MIDIA_CENTRAL.json")
+    try:
+        v=json.load(open(p,encoding='utf-8'))['meta'][_ORC_KEY[slug]][MES_CURTO[TODAY.month]]
+        return float(v) if v not in (None,0) else fallback
+    except Exception:
+        return fallback
 SEGN={'NV':'Novos','SN':'Seminovos','VD':'Venda Direta','PV':'Pós-venda'}
 
 CFG={
@@ -33,11 +51,12 @@ CFG={
 
 def build(slug):
     c=CFG[slug];COMM=c['COMM'];hasPV=c['PV'];LN=c['lojanome']
+    BUD=budget_central(slug,c['budget'])
     core=json.load(open(f'data/_{slug}_core.json',encoding='utf-8'))
     daily=json.load(open(f'data/_{slug}_daily.json',encoding='utf-8'))
     adsf=json.load(open(f'data/_{slug}_ads.json',encoding='utf-8'))
     geraw=json.load(open(f'data/_{slug}_geo_raw.json',encoding='utf-8'))
-    D={'conta':c['conta'],'account_id':c['acc'],'gerado':TODAY_ISO,'mes_nome':'Julho','mom_nome':'Junho','parcial':True,'orcamento_bruto':c['budget']}
+    D={'conta':c['conta'],'account_id':c['acc'],'gerado':TODAY_ISO,'mes_nome':MES_NOME,'mom_nome':MOM_NOME,'parcial':True,'orcamento_bruto':BUD}
     WINMAP={'jun':core['jul'],'30d':core['30d']}
     SEGS=COMM+(['PV'] if hasPV else [])
     kpi={};agg={};kpifilter={};chan={}
@@ -105,12 +124,19 @@ def build(slug):
     camps.sort(key=lambda x:-x['bruto'])
     D['nd_jun']={'total':{'bruto':tb,'leads':tl,'conv':tc,'res':tr,'cpl':round(tb/tr,2) if tr else 0},'lojas':lojas,'campanhas':camps,
                  'pv':({'bruto':pvb,'conv':pvc,'cpr':round(pvb/pvc,2) if pvc else 0} if hasPV else {'bruto':0,'conv':0,'cpr':0})}
-    sm={};tlq=tll=tcc=0
-    for s,v in c['june'].items():
-        br=b(v['liq']);res=v['leads']+v['conv'];sm[s]={'bruto':br,'leads':v['leads'],'conv':v['conv'],'res':res,'cpl':round(br/res,2) if res else 0}
-        tlq+=v['liq'];tll+=v['leads'];tcc+=v['conv']
-    tbm=b(tlq);trm=tll+tcc
-    D['nd_maio']={'total':{'bruto':tbm,'leads':tll,'conv':tcc,'res':trm,'cpl':round(tbm/trm,2) if trm else 0},'seg':sm}
+    # comparativo MoM = mes ANTERIOR fechado. Prioridade pro mom_full do harvest, que vira
+    # sozinho todo mes; o dict 'june' inline so vale enquanto o harvest nao tiver mom_full
+    # (era o unico caminho ate 03/08/2026, e por isso o dash comparava agosto com junho).
+    mf=core.get('mom_full')
+    if mf and mf.get('total',{}).get('res'):
+        D['nd_maio']={'total':mf['total'],'seg':mf.get('seg',{})}
+    else:
+        sm={};tlq=tll=tcc=0
+        for s,v in c['june'].items():
+            br=b(v['liq']);res=v['leads']+v['conv'];sm[s]={'bruto':br,'leads':v['leads'],'conv':v['conv'],'res':res,'cpl':round(br/res,2) if res else 0}
+            tlq+=v['liq'];tll+=v['leads'];tcc+=v['conv']
+        tbm=b(tlq);trm=tll+tcc
+        D['nd_maio']={'total':{'bruto':tbm,'leads':tll,'conv':tcc,'res':trm,'cpl':round(tbm/trm,2) if trm else 0},'seg':sm}
     # MoM de MESMO PERIODO (01 -> mesmo dia do mes anterior), vindo do refresh
     if core.get('mom_sp'): D['nd_mom_sp']=core['mom_sp']
     if core.get('mom_full'): D['nd_mom_full']=core['mom_full']
@@ -143,7 +169,7 @@ def build(slug):
     D['note_verba']=''
     D['edits']=[{'quando':e.get('quando',''),'quem':e.get('quem',''),'o_que':e.get('o_que','')} for e in core.get('edits',[])]
     D['nd_changes']=[];D['note_edits']=''
-    D['pacing']={'budget':c['budget'],'days':DIM,'elapsed':TODAY.day,'asof':ASOF}
+    D['pacing']={'budget':BUD,'days':DIM,'elapsed':TODAY.day,'asof':ASOF}
     s=json.dumps(D,ensure_ascii=False).replace("—",", ").replace("–","-")
     open(f'data/{slug}_D.json','w',encoding='utf-8').write(s)
     comm_liq=kpi['30d']['ALL']['liq'];pv_liq=kpi['30d'].get('PV',{}).get('liq',0)

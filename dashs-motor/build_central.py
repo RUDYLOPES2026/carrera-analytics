@@ -253,7 +253,8 @@ def main():
     print(f"[OK] {out}")
     print(f"  grupo: orc R${g['budget']:,.0f} | gasto MTD R${g['spend_tot']:,.0f} "
           f"({g['attain']*100:.0f}%) | tendencia R${g['proj_tend']:,.0f} ({g['proj_attain']*100:.0f}%) "
-          f"| teto R${g['proj_pay']:,.0f} ({g['proj_teto_attain']*100:.0f}%) | junho R${g['prev_bruto']:,.0f}")
+          f"| teto R${g['proj_pay']:,.0f} ({g['proj_teto_attain']*100:.0f}%) "
+          f"| mes anterior R${g['prev_bruto']:,.0f}")
 
 def render(P):
     data_json = json.dumps(P, ensure_ascii=False).replace("—", ", ").replace("</", "<\\/")
