@@ -60,6 +60,11 @@ function snap(k){
              momt: CAP["_t_momt"]||"", charts: CHARTS.length,
              torc: CAP["torc"]||"", graficos: CHARTS.map(c=>c.id).join(",")};
 }
+// o bloco de orçamento só desenha quando aberto: simula o clique no acordeão
+const _acc = el("accOrc");
+_acc.open = true;
+(LISTENERS["accOrc"]||[]).forEach(fn => fn({}));
+if(!(CAP["torc"]||"")) throw new Error("acordeao do orcamento nao desenhou ao abrir");
 snap("atual");
 for(const m of (global.__MESES__||[])){
   if(m.key === "atual") continue;

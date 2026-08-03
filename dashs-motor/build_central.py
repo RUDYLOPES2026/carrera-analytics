@@ -454,6 +454,17 @@ TEMPLATE = r"""<!doctype html>
        font-weight:600;padding:7px 14px;border-radius:9px;cursor:pointer;}
   .seg:hover{color:var(--tx);border-color:#33414f;}
   .seg.on{background:rgba(245,158,11,.14);border-color:var(--acc);color:var(--acc);}
+  /* seção recolhível (fica no fim da página, abre sob demanda) */
+  details.acc{margin-top:34px;background:var(--card);border:1px solid var(--line);border-radius:14px;}
+  details.acc>summary{cursor:pointer;padding:15px 18px;font-size:15px;font-weight:600;
+                      list-style:none;letter-spacing:.2px;}
+  details.acc>summary::-webkit-details-marker{display:none;}
+  details.acc>summary::before{content:"▸";color:var(--acc);margin-right:10px;}
+  details.acc[open]>summary::before{content:"▾";}
+  details.acc>summary:hover{color:var(--acc);}
+  details.acc>summary .h{color:var(--mut);font-weight:400;font-size:12.5px;margin-left:8px;}
+  details.acc[open]>summary .h{display:none;}
+  details.acc .inner{padding:0 18px 18px;}
   /* comparativo dentro da célula */
   td .cmp{font-size:11px;font-weight:600;margin-top:2px;}
   td .cmp .z{color:var(--mut);font-weight:400;}
@@ -503,15 +514,20 @@ TEMPLATE = r"""<!doctype html>
     <div class="chartbox"><div class="t" id="sharet">Participação de cada marca no investimento do grupo (bruto)</div><canvas id="cShare" height="220"></canvas></div>
   </div>
 
-  <h2>Orçamento aprovado, mês a mês <span class="h" id="orch">bruto, por marca</span></h2>
-  <div class="chartbox"><canvas id="cOrc" height="150"></canvas></div>
-  <div class="card" style="overflow-x:auto;margin-top:12px"><table id="torc"></table></div>
-
   <div id="soAtual2">
     <h2>Mix de canal , Formulário x WhatsApp <span class="h" id="mixh">investimento BRUTO do mês, por marca</span></h2>
     <div class="chartbox"><canvas id="cMix" height="140"></canvas></div>
   </div>
   <div class="meta hide" id="notaFechado" style="margin-top:16px;line-height:1.6"></div>
+
+  <details class="acc" id="accOrc">
+    <summary>Orçamento aprovado, mês a mês <span class="h">clique para abrir</span></summary>
+    <div class="inner">
+      <div class="meta" id="orch" style="margin-bottom:10px"></div>
+      <div class="chartbox"><canvas id="cOrc" height="150"></canvas></div>
+      <div class="card" style="overflow-x:auto;margin-top:12px"><table id="torc"></table></div>
+    </div>
+  </details>
 
   <footer id="foot"></footer>
 </div>
@@ -811,6 +827,15 @@ function renderOrc(){
     "bruto, por marca · fonte: ORÇAMENTO MÍDIA (plano aprovado) · a seta compara com o mês anterior · "
     + L[L.length-1] + " é o mês em curso";
 }
+// desenha só quando o bloco é aberto: gráfico dentro de <details> fechado nasce
+// com largura zero e sai torto se for criado antes.
+(function(){
+  const acc = document.getElementById("accOrc");
+  let feito = false;
+  acc.addEventListener("toggle", () => {
+    if(acc.open && !feito){ feito = true; renderOrc(); }
+  });
+})();
 
 // ---- troca de período: redesenha tudo que depende da visão ----
 function renderTudo(){
@@ -834,7 +859,6 @@ function renderTudo(){
       : ("comparativo = "+(GV().prev?GV().prev.periodo:"sem base")+", mês fechado contra mês fechado."));
 }
 renderTudo();
-renderOrc();
 </script>
 </body>
 </html>"""
