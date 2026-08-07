@@ -337,3 +337,41 @@ def refresh(api, ctx):
                   f"vs conta={acct_liq:.2f} diff={diff:.2f}%")
     except Exception as e:
         print(f"  [{SLUG}] [aviso] recon falhou: {e}")
+
+
+# ---------- MES FECHADO (meses.py) ----------
+def month_blocks(adset_ins, ad_ins, day_ins, linkmap):
+    """Mes fechado com as MESMAS funcoes do mes corrente (Seminovos e mono-segmento SN
+    e so conta conversa no WhatsApp , regra estrita, fidelidade ao legado)."""
+    rows = _agg_rows(adset_ins)
+    agg = [{k: a[k] for k in ("seg", "reg", "canal", "bruto", "leads", "conv", "res")}
+           for a in rows]
+    lm = {k: (v.get("link", "") if isinstance(v, dict) else v)
+          for k, v in (linkmap or {}).items()}
+    ads = sorted(_ads_rows(ad_ins, lm), key=lambda a: -a["bruto"])
+    k = _kpi_from(rows)
+    c = defaultdict(lambda: [0.0, 0, 0])
+    for a in rows:
+        c[a["canal"]][0] += a["bruto"]; c[a["canal"]][1] += a["leads"]; c[a["canal"]][2] += a["conv"]
+    cd = {}
+    for kk, v in c.items():
+        res = v[1] + v[2]
+        cd[kk] = {"bruto": r2(v[0]), "leads": v[1], "conv": v[2], "res": res,
+                  "cpr": r2(v[0] / res) if res else 0}
+    kfb = {"bruto": round(sum(a["bruto"] for a in rows)),
+           "leads": sum(a["leads"] for a in rows), "conv": sum(a["conv"] for a in rows),
+           "ads": len(rows), "on": len(rows)}
+    return {
+        "kpi": {"SN": k, "ALL": k},
+        "chan": {"SN": cd, "ALL": cd},
+        "kpifilter": {"ALL": {"ALL": {"ALL": kfb}}, "SN": {"ALL": {"ALL": kfb}}},
+        "agg": agg,
+        "ads": ads,
+        "rank": _rank_block(ads),
+        "cells": common.cells_from_rows(agg),
+        "total": common.month_total(agg, ("SN",)),
+        "seg": common.month_seg(agg, ("SN",)),
+        "daily": common.month_daily(day_ins,
+                                    lambda rw, d: common.day_entry(rw, classify, d),
+                                    _agg_rows),
+    }

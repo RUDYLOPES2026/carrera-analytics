@@ -24,6 +24,7 @@ sys.path.insert(0, HERE)
 
 import meta_api as api
 import common
+import meses
 
 BRANDS = ["nissan", "bajaj", "chevrolet_sp", "chevrolet_bsb", "omoda",
           "seminovos_sp", "gac", "gwm", "vw"]
@@ -86,6 +87,18 @@ def main():
             if r and r[0]:
                 print(f"[nd_maio] {slug}: mês anterior atualizado "
                       f"R${r[1]:,.2f} -> R${r[2]:,.2f}")
+            # meses FECHADOS do seletor de período: colhe o que faltar no cofre e nunca
+            # mais chama a API por aquele mês (mês fechado não muda). Falha aqui não
+            # derruba a marca: o dash sai só com mês corrente + 30 dias.
+            try:
+                import json as _json
+                _D = _json.load(open(os.path.join(HERE, "data", f"{slug}_D.json"),
+                                     encoding="utf-8"))
+                _ok = meses.atualizar(api, slug, D=_D, today=ctx["today"])
+                if _ok:
+                    print(f"[meses] {slug}: {', '.join(_ok)} no cofre")
+            except Exception as e:
+                print(f"[meses] {slug}: falhou ({e}), dash segue sem mês fechado")
             run([sys.executable, "build.py", f"fichas/{slug}.json"])
             return None
         except Exception:

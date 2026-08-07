@@ -426,3 +426,27 @@ def refresh(api, ctx):
               % (tot, acct, (tot / acct - 1) * 100 if acct else 0))
     except Exception as e:
         print("  [aviso] reconcile account_spend falhou:", e)
+
+
+# ---------- MES FECHADO (meses.py) ----------
+def month_blocks(adset_ins, ad_ins, day_ins, linkmap):
+    """Mes fechado com as MESMAS funcoes do mes corrente (nichos e GRU inclusive)."""
+    agg = build_agg(adset_ins)
+    lm = {k: (v.get("link", "") if isinstance(v, dict) else v)
+          for k, v in (linkmap or {}).items()}
+    ads = build_ads(ad_ins, lm, {})
+    pvb, pvc = pv_totals(adset_ins)
+    return {
+        "kpi": kpi_from_agg(agg, pvb, pvc),
+        "chan": chan_from_agg(agg, pvb, pvc),
+        "kpifilter": kpifilter_from_agg(agg),
+        "agg": agg,
+        "ads": ads,
+        "rank": build_rank(ads),
+        "nichos": build_nichos(adset_ins),
+        "cells": common.cells_from_rows(agg),
+        "total": common.month_total(agg, COMM),
+        "seg": common.month_seg(agg, COMM),
+        "pv": {"bruto": pvb, "conv": pvc, "cpr": round(pvb / pvc, 2) if pvc else 0},
+        "daily": common.month_daily(day_ins, lambda rows, d: daily_bucket(rows), build_agg),
+    }

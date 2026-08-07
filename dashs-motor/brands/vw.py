@@ -142,3 +142,12 @@ def refresh(api, ctx):
     print(f"  [{SLUG}] core 30d={len(rows['30d'])}r jul={len(rows['jul'])}r "
           f"liq30d={core['totais']['30d']['spend']:.2f} | ads {len(ads['30d'])}/{len(ads['jul'])} "
           f"| verba {len(verba)}")
+
+
+# ---------- MES FECHADO (meses.py) ----------
+def month_blocks(adset_ins, ad_ins, day_ins, linkmap):
+    """Marca generica: os blocos saem do _assemble_brand, o mesmo codigo que monta o
+    D do mes corrente , as regras de contagem nao mudam."""
+    import _assemble_brand as A
+    return A.month_blocks_generic(SLUG, _rows(adset_ins), ad_ins, day_ins,
+                                  classify, _rows, linkmap)

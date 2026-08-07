@@ -312,6 +312,24 @@ def main():
     if ficha.get("budget") and isinstance(D.get("pacing"), dict):
         D["pacing"]["budget"] = ficha["budget"]
 
+    # --- meses FECHADOS (meses.py) -> viram janelas do seletor de período ---------
+    # Não faz chamada nenhuma: só lê o cofre data/_meses/<slug>_<AAAA-MM>.json que o
+    # run_daily já garantiu. Marca sem cofre simplesmente não ganha os meses.
+    # ATENCAO: a chave do cofre e o nome da FICHA (seminovos_sp), nao o slug do arquivo
+    # de saida, que sai do nome da marca ("Carrera Veiculos (Seminovos SP)" ->
+    # carrera_ve_culos_seminovos_sp). E o mesmo nome que brands/<slug>.py usa.
+    cofre_slug = os.path.splitext(os.path.basename(ficha_path))[0]
+    try:
+        import meses as _meses
+        D["meses"] = _meses.carregar(cofre_slug)
+        if D["meses"]:
+            print("[meses] %s: %s" % (cofre_slug, ", ".join(m["label"] for m in D["meses"])))
+        else:
+            print("[meses] %s: cofre vazio (dash so com mes corrente e 30 dias)" % cofre_slug)
+    except Exception as e:
+        print("[meses] %s: sem meses fechados (%s)" % (cofre_slug, e))
+        D["meses"] = []
+
     # --- template ---
     tpl_path = os.path.join(HERE, "template.html")
     if not os.path.exists(tpl_path):
@@ -554,6 +572,43 @@ console.log("@@RESULT@@"+JSON.stringify(RESULT));
     print("    ->", "OK (todas dentro de ±0,5%)" if fu_ok else "FALHA (>0,5%)")
     if not fu_ok:
         ok = False
+
+    # 5) MESES FECHADOS: dentro de cada mes do cofre, KPI == soma do agg == soma das
+    #    celulas == soma da serie diaria (a mesma prova de fonte unica do mes corrente,
+    #    so que sobre o bloco do mes fechado). Contando so os segmentos COMERCIAIS:
+    #    pos-venda entra nas celulas e sai do KPI de proposito (o _nCells filtra igual).
+    meses_blocos = D.get("meses") or []
+    if meses_blocos:
+        print("\n[5] MESES FECHADOS (kpi == agg == celulas == serie diaria):")
+        cfg = D.get("config") or {}
+        tax = cfg.get("gross_up", 1.1215)
+        # MESMA regra do SEG_TOTAL do template: o total comercial tira os segmentos de
+        # fora (pós-venda). Sem isso o GAC "divergia" 2%, que era só o PV das células.
+        exc = cfg.get("exceptions") or {}
+        segs = list(cfg.get("segments") or ())
+        if isinstance(exc.get("segForaTotal"), list):
+            fora = exc["segForaTotal"]
+        else:
+            fora = ["PV"] if exc.get("pvForaDoTotal") is not False else []
+        comm = tuple(s for s in segs if s not in fora)
+        for mb in meses_blocos:
+            kpi_all = ((mb.get("kpi") or {}).get("ALL") or {}).get("bruto") or 0
+            if not kpi_all:
+                print("    %s: sem KPI, pulado" % mb.get("mes"))
+                continue
+            s_agg = round(sum(r.get("bruto", 0) for r in (mb.get("agg") or [])), 2)
+            s_cel = round(sum(c[3] for c in (mb.get("cells") or []) if c[0] in comm) * tax, 2)
+            s_dia = round(sum(sum(c[3] for c in (d.get("c") or []) if c[0] in comm)
+                              for d in (mb.get("daily") or [])) * tax, 2)
+            d_agg = abs(s_agg - kpi_all) / kpi_all * 100
+            d_cel = abs(s_cel - kpi_all) / kpi_all * 100
+            d_dia = abs(s_dia - kpi_all) / kpi_all * 100
+            m_ok = max(d_agg, d_cel, d_dia) <= 0.5
+            print("    %s (%s): kpi=%.2f | agg %.3f%% | celulas %.3f%% | diario %.3f%% (%d dias) -> %s"
+                  % (mb.get("mes"), mb.get("label"), kpi_all, d_agg, d_cel, d_dia,
+                     len(mb.get("daily") or []), "OK" if m_ok else "FALHA"))
+            if not m_ok:
+                ok = False
 
     return ok
 

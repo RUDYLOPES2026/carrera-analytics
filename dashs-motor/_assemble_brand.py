@@ -49,6 +49,86 @@ CFG={
    'citycoord':{'São Paulo':(-23.5505,-46.6333),'Sao Paulo':(-23.5505,-46.6333),'Sorocaba':(-23.5015,-47.4526),'Campinas':(-22.9099,-47.0626)}},
 }
 
+# ===== MES FECHADO (meses.py) ==============================================
+# gac/gwm/vw nao montam o D dentro do brands/<slug>.py: quem monta e o build() aqui
+# embaixo, a partir das linhas "core" (com 'spend' LIQUIDO). Entao o mes fechado das
+# tres tambem sai daqui, repetindo EXATAMENTE as mesmas contas do build(), so que
+# sobre as linhas de um mes fechado em vez das duas janelas do ciclo.
+def month_ads_generic(ad_ins, classify, linkmap):
+    """Linhas ad-level de um mes fechado, no formato que o fixads()/rank do build() usa."""
+    import common
+    lst = []
+    for i in ad_ins:
+        sp = float(i.get("spend", 0) or 0)
+        if sp <= 0:
+            continue
+        seg, canal, loja = classify(i.get("campaign_name"), i.get("adset_name"))
+        leads, conv = common.leads_conv(i, canal)
+        bruto = b(sp)
+        res = leads if canal == "Form" else (conv if canal == "WhatsApp" else 0)
+        aid = i.get("ad_id")
+        lk = (linkmap or {}).get(aid, "")
+        if isinstance(lk, dict):
+            lk = lk.get("link", "")
+        lst.append({"ad": aid, "nome": i.get("ad_name"), "seg": seg, "canal": canal,
+                    "loja": loja, "reg": "",
+                    "tipo": "WA" if canal == "WhatsApp" else ("FORM" if canal == "Form" else "IMAGEM"),
+                    "bruto": bruto, "leads": leads, "conv": conv, "res": res,
+                    "cpr": round(bruto / res, 2) if res else 0,
+                    "link": lk or "", "st": "", "dt": "", "off": None})
+    lst.sort(key=lambda x: -x["bruto"])
+    return lst
+
+
+def month_blocks_generic(slug, rows, ad_ins, day_ins, classify, rowsfn, linkmap):
+    """Blocos de um mes fechado pras marcas genericas. `rows` = saida do _rows() da
+    marca sobre o adset-level do mes (com 'spend' liquido)."""
+    import common
+    c = CFG[slug]; COMM = c['COMM']; hasPV = c['PV']
+    SEGS = COMM + (['PV'] if hasPV else [])
+    kpi = {}; chan = {}
+    for seg in SEGS:
+        rs = [r for r in rows if r['seg'] == seg]; bru = b(sum(r['spend'] for r in rs))
+        kpi[seg] = {'liq': round(bru / TAX, 2), 'bruto': bru,
+                    'leads': sum(r['leads'] for r in rs), 'conv': sum(r['conv'] for r in rs)}
+    comm = [r for r in rows if r['seg'] in COMM]; bru = b(sum(r['spend'] for r in comm))
+    kpi['ALL'] = {'liq': round(bru / TAX, 2), 'bruto': bru,
+                  'leads': sum(r['leads'] for r in comm), 'conv': sum(r['conv'] for r in comm)}
+    agg = [{'seg': r['seg'], 'reg': '', 'canal': r['canal'], 'bruto': b(r['spend']),
+            'leads': r['leads'], 'conv': r['conv'],
+            'res': (r['leads'] if r['canal'] == 'Form' else (r['conv'] if r['canal'] == 'WhatsApp' else 0))}
+           for r in comm]
+    kpifilter = {}
+    for seg in ['ALL'] + SEGS:
+        sub = comm if seg == 'ALL' else [r for r in rows if r['seg'] == seg]
+        kpifilter[seg] = {'ALL': {'bruto': round(b(sum(r['spend'] for r in sub))),
+                                  'leads': sum(r['leads'] for r in sub),
+                                  'conv': sum(r['conv'] for r in sub),
+                                  'ads': len(sub), 'on': len(sub)}}
+    for seg in SEGS:
+        chan[seg] = {}
+        for canal in ('Form', 'WhatsApp', 'Engaj'):
+            rs = [r for r in rows if r['seg'] == seg and r['canal'] == canal]
+            if rs:
+                chan[seg][canal] = {'bruto': b(sum(r['spend'] for r in rs)),
+                                    'leads': sum(r['leads'] for r in rs),
+                                    'conv': sum(r['conv'] for r in rs)}
+    ads = month_ads_generic(ad_ins, classify, linkmap)
+    rank = {}
+    for seg in SEGS:
+        sa = [a for a in ads if a['seg'] == seg]
+        rank[seg] = {'top': sorted([a for a in sa if a['res'] > 0], key=lambda x: -x['res'])[:10],
+                     'pior': sorted([a for a in sa if a['res'] == 0], key=lambda x: -x['bruto'])[:5]}
+    daily = common.month_daily(
+        day_ins,
+        lambda rw, d: common.day_entry(rw, classify, d, seg_filter=tuple(COMM)),
+        rowsfn)
+    return {'kpi': kpi, 'chan': chan, 'kpifilter': kpifilter, 'agg': agg, 'ads': ads,
+            'rank': rank, 'cells': common.cells_from_rows(agg),
+            'total': common.month_total(agg, COMM),
+            'seg': common.month_seg(agg, COMM), 'daily': daily}
+
+
 def build(slug):
     c=CFG[slug];COMM=c['COMM'];hasPV=c['PV'];LN=c['lojanome']
     BUD=budget_central(slug,c['budget'])

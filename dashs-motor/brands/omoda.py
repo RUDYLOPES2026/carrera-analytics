@@ -450,3 +450,44 @@ def refresh(api, ctx):
     if acct:
         print(f"  [{SLUG}] reconcile 30d: conta liq={acct:.2f} | NV liq={kl:.2f} | NV+PV={kl + pvl:.2f} "
               f"| diff NV+PV={((kl + pvl - acct) / acct * 100):+.2f}%")
+
+
+# ---------- MES FECHADO (meses.py) ----------
+def month_blocks(adset_ins, ad_ins, day_ins, linkmap):
+    """Mes fechado montado com as MESMAS funcoes do mes corrente (Omoda e mono-segmento
+    e so conta conversa no WhatsApp , regra estrita, fidelidade ao legado)."""
+    rows, pv = _load_agg(adset_ins)
+    agg = [{k: a[k] for k in ("seg", "reg", "canal", "bruto", "leads", "conv", "res")}
+           for a in rows]
+    lm = {k: (v.get("link", "") if isinstance(v, dict) else v)
+          for k, v in (linkmap or {}).items()}
+    ads = _load_ads(ad_ins, lm)
+    c = defaultdict(lambda: [0.0, 0, 0])
+    for a in rows:
+        c[a["canal"]][0] += a["bruto"]; c[a["canal"]][1] += a["leads"]; c[a["canal"]][2] += a["conv"]
+    kf = {"ALL": {}, "NV": {}}
+    for seg in ("ALL", "NV"):
+        kf[seg]["ALL"] = {"bruto": round(sum(a["bruto"] for a in rows)),
+                          "leads": sum(a["leads"] for a in rows),
+                          "conv": sum(a["conv"] for a in rows), "ads": len(rows), "on": len(rows)}
+        for r in REGORD:
+            sub = [a for a in rows if a["reg"] == r]
+            kf[seg][r] = {"bruto": round(sum(a["bruto"] for a in sub)),
+                          "leads": sum(a["leads"] for a in sub),
+                          "conv": sum(a["conv"] for a in sub), "ads": len(sub), "on": len(sub)}
+    return {
+        "kpi": {"NV": _kpi_from(rows), "ALL": _kpi_from(rows),
+                "PV": {"liq": r2(pv[0] / TAX), "bruto": pv[0], "leads": 0, "conv": pv[1]}},
+        "chan": {"NV": {k: {"bruto": r2(v[0]), "leads": v[1], "conv": v[2]} for k, v in c.items()}},
+        "kpifilter": kf,
+        "regperf": _regperf_from(rows),
+        "agg": agg,
+        "ads": ads,
+        "rank": _rank_block(ads),
+        "cells": common.cells_from_rows(agg),
+        "total": common.month_total(agg, ("NV",)),
+        "seg": common.month_seg(agg, ("NV",)),
+        "pv": {"bruto": pv[0], "conv": pv[1], "cpr": r2(pv[0] / pv[1]) if pv[1] else 0},
+        "daily": common.month_daily(day_ins, lambda rw, d: _bucket_day(rw),
+                                    lambda rw: _load_agg(rw)[0]),
+    }

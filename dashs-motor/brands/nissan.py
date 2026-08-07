@@ -518,3 +518,28 @@ def refresh(api, ctx):
                  for a in rank[w][s]["top"] + rank[w][s]["pior"] if not a.get("link"))
     print("  [%s] rank sem link: %d | ads mtd com link: %d/%d"
           % (SLUG, faltam, sum(1 for a in ads_mtd if a["link"]), len(ads_mtd)))
+
+
+# ============ MES FECHADO (meses.py) ============
+def month_blocks(adset_ins, ad_ins, day_ins, linkmap):
+    """Blocos de um mes FECHADO, com as MESMAS funcoes do mes corrente , a regra de
+    contagem da Nissan (conversa em qualquer canal, PV fora do comercial) nao muda."""
+    agg = build_agg(adset_ins)
+    ads = build_ads(ad_ins, {k: {"link": v} if isinstance(v, str) else v
+                             for k, v in (linkmap or {}).items()})
+    pv_bruto, pv_conv = pv_totals(adset_ins)
+    return {
+        "kpi": kpi_from_agg(agg),
+        "chan": chan_from_agg(agg),
+        "kpifilter": kpifilter_from_agg(agg),
+        "regperf": regperf_from(agg),
+        "agg": agg,
+        "ads": ads,
+        "rank": {s: rank_block(ads, s) for s in COMM},
+        "cells": common.cells_from_rows(agg),
+        "total": common.month_total(agg, COMM),
+        "seg": common.month_seg(agg, COMM),
+        "pv": {"bruto": pv_bruto, "conv": pv_conv,
+               "cpr": round(pv_bruto / pv_conv, 2) if pv_conv else 0},
+        "daily": common.month_daily(day_ins, lambda rows, d: daily_bucket(rows), build_agg),
+    }

@@ -421,3 +421,32 @@ def refresh(api, ctx):
                   for a in rank[w][s]["top"] + rank[w][s]["pior"] if not a.get("link"))
     print(f"  rank ads sem link: {semlink} | ads mtd com link: "
           f"{sum(1 for a in ads_jul if a['link'])}/{len(ads_jul)} | verba {len(base['nd_verba'])}")
+
+
+# ---------- MES FECHADO (meses.py) ----------
+def month_blocks(adset_ins, ad_ins, day_ins, linkmap):
+    """Mes fechado com as MESMAS funcoes do mes corrente. Chevrolet SP conta conversa
+    em qualquer canal e exclui campanha de GRU , fidelidade ao legado."""
+    agg = build_agg(adset_ins)
+    lm = {k: (v if isinstance(v, dict) else {"link": v}) for k, v in (linkmap or {}).items()}
+    ads = build_ads(ad_ins, lm)
+    pvb, pvc = pv_totals(adset_ins)
+    rank = {}
+    for s in COMM:
+        tp = _rank_candidates(ads, s)
+        rank[s] = {"top": [_detail(x) for x in tp[0]], "pior": [_detail(x) for x in tp[1]]}
+    return {
+        "kpi": kpi_from_agg(agg, pvb, pvc),
+        "chan": chan_from_agg(agg, pvb, pvc),
+        "kpifilter": kpifilter_from_agg(agg),
+        "agg": agg,
+        "ads": ads,
+        "rank": rank,
+        "cells": common.cells_from_rows(agg),
+        "total": common.month_total(agg, COMM),
+        "seg": common.month_seg(agg, COMM),
+        "pv": {"bruto": pvb, "conv": pvc,
+               "cpr": round(pvb / pvc, 2) if pvc else 0},
+        "gru_liq": gru_liq(adset_ins),
+        "daily": common.month_daily(day_ins, lambda rows, d: daily_bucket(rows), build_agg),
+    }

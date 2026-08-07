@@ -148,6 +148,48 @@ def cells_from_rows(rows, tax=1.1215):
     return [[k[0], k[1], k[2], round(v[0], 2), v[1], v[2]] for k, v in sorted(agg.items())]
 
 
+# ---------- mês fechado (ver meses.py) ----------
+def group_by_day(day_ins):
+    """`time_increment=1` devolve o mês inteiro numa lista só, com `date_start` em cada
+    linha. Separa por dia, em ordem, pra série diária de um mês fechado sair de UMA
+    chamada em vez de uma por dia."""
+    out = {}
+    for i in day_ins:
+        d = i.get("date_start")
+        if d:
+            out.setdefault(d, []).append(i)
+    return dict(sorted(out.items()))
+
+
+def month_daily(day_ins, bucketfn, aggfn):
+    """Série diária de um mês fechado no MESMO formato do n_daily do mês corrente
+    (bucket da marca + célula seg x praça x canal), pra o gráfico e os filtros do topo
+    funcionarem sem o template saber que o mês é fechado.
+    `bucketfn(rows, data)` e `aggfn(rows)` são as funções da própria marca (algumas
+    querem a data, outras não; o adaptador de cada marca resolve isso num lambda)."""
+    out = []
+    for d, rows in group_by_day(day_ins).items():
+        r = {"date": d}
+        r.update(bucketfn(rows, d))
+        r["date"] = d
+        r["c"] = cells_from_rows(aggfn(rows))
+        out.append(r)
+    return out
+
+
+def month_total(rows, seg_total, tax=1.1215):
+    """Total comercial do mês (mesma conta do nd_mom_full, pra dar pra conferir um
+    contra o outro)."""
+    return _tot_rows([r for r in rows if r.get("seg") in tuple(seg_total)], tax)
+
+
+def month_seg(rows, seg_total, tax=1.1215):
+    """Total por segmento, no mesmo formato do `nd_mom_full.seg`. É o que o comparativo
+    "julho x junho" usa quando o dash está num mês fechado."""
+    return {s: _tot_rows([r for r in rows if r.get("seg") == s], tax)
+            for s in tuple(seg_total)}
+
+
 def daily_cells(h, ctx, aggfn):
     """Células por dia (chave 'c' de cada linha do n_daily), no mesmo pull que a
     série diária já faz. `aggfn` = a função de linhas adset da marca."""

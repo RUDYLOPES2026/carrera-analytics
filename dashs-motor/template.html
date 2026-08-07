@@ -484,7 +484,27 @@ const REGIONS  = CFG.regions || ["SP","VL","INT"];          // praças da marca
 const REG_ALL  = HASREGION ? REGIONS.concat(["G"]) : [];    // praças + Geral (reconcilia)
 const BUDGET   = CFG.budget || (D.pacing && D.pacing.budget) || 0;
 const GROSSUP  = CFG.gross_up || 1.1215;
+// ===== MESES FECHADOS (meses.py) ==========================================
+// Cada mês fechado vira uma JANELA de primeira classe, com a chave "AAAA-MM" nos MESMOS
+// dicionários que o mês corrente usa. Assim nenhuma seção precisa saber que o mês é
+// fechado: D.kpi[WIN], D.ads[WIN], D.rank[WIN]... continuam funcionando iguais.
+const MESES = (D && Array.isArray(D.meses)) ? D.meses : [];
+const MESMAP = {};
+MESES.forEach(m=>{
+  MESMAP[m.mes]=m;
+  if(D.kpi)       D.kpi[m.mes]=m.kpi;
+  if(D.chan)      D.chan[m.mes]=m.chan;
+  if(D.kpifilter) D.kpifilter[m.mes]=m.kpifilter;
+  if(D.agg)       D.agg[m.mes]=m.agg;
+  if(D.ads)       D.ads[m.mes]=m.ads;
+  if(D.rank)      D.rank[m.mes]=m.rank;
+});
+// mês fechado não tem ritmo pra projetar, verba configurada de então, nem mapa de onde
+// os anúncios rodam hoje: esses blocos saem da tela (mesma decisão da central).
+function mesFechado(w){ return !!MESMAP[w||WIN]; }
+function mesInfo(w){ return MESMAP[w||WIN]||null; }
 // gasto realizado do D (bruto) -> LÍQUIDO, uma vez só, antes de qualquer render. Ver _liqD() no ENGINE.
+// (_liqD marca cada objeto com __liq, então o alias acima não converte nada duas vezes.)
 _liqD(D, GROSSUP);
 const ACCT     = (CFG.account_id||"").replace("act_","");
 const BRANDNM  = CFG.brand || D.conta || "";
@@ -592,7 +612,16 @@ const MOMSP_PER = ND_MOMSP ? (ND_MOMSP.periodo||"") : "";   // ex.: "1 a 22 de j
 // no proprio D (ex.: Seminovos) NAO pode usar esse literal, senao compara com a Nissan.
 const HAS_MAIO = !!(D && D.nd_maio && D.nd_maio.total);
 const MAIO = HAS_MAIO ? ND_MAIO : null;
-function momBase(win){ return (win==="30d" || !ND_MOMSP) ? MAIO : ND_MOMSP; }
+// Mês FECHADO se compara com o mês fechado ANTERIOR (julho x junho), do mesmo jeito que
+// a central faz. Se o anterior não está no cofre (o mais antigo do seletor), fica sem base.
+function momPrev(win){
+  const i=MESES.findIndex(m=>m.mes===win);
+  return (i>=0 && MESES[i+1]) ? MESES[i+1] : null;
+}
+function momBase(win){
+  if(mesFechado(win)){ const p=momPrev(win); return p?{total:p.total,seg:p.seg||{},cells:p.cells}:null; }
+  return (win==="30d" || !ND_MOMSP) ? MAIO : ND_MOMSP;
+}
 // COMPARATIVO COM FILTRO (24/jul): antes o "vs mês anterior" sumia quando se escolhia uma
 // praça ou um canal, porque o bloco do mês anterior só tinha total + segmento. Agora cada
 // bloco traz as CELULAS [seg, praça, canal, gasto LIQUIDO, leads, conversas] , mesma
@@ -623,8 +652,21 @@ function momFor(win,seg,reg,canal){
   return {bruto:liq,leads:leads,conv:conv,res:res,cpl:res?liq/res:0};
 }
 function momLbl(win){
+  if(mesFechado(win)){ const p=momPrev(win); return p?p.label:""; }
   return (win==="30d" || !ND_MOMSP) ? MOMNM : MOMNM+" (1 a "+ND_MOMSP.dias+")";
 }
+// ===== ROTULOS DA JANELA ATIVA ============================================
+// A janela deixou de ser "mês corrente ou 30 dias": agora pode ser um mês fechado
+// ("2026-07"). Estes 4 helpers concentram o nome que aparece em cada lugar, pra nenhum
+// texto continuar dizendo "30 dias" quando o usuário está olhando julho.
+function winNome(w){ const m=mesInfo(w||WIN); if(m) return m.label; return (w||WIN)==="30d"?"30 dias":MESNM; }
+function winNomeLC(w){ const m=mesInfo(w||WIN); if(m) return m.label; return (w||WIN)==="30d"?"30 dias":MESNM_LC; }
+function winNome30(w){ const m=mesInfo(w||WIN); if(m) return m.label; return (w||WIN)==="30d"?"últimos 30 dias":MESNM_LC; }
+// mês corrente é parcial; mês fechado não
+function winNomePar(w){ const m=mesInfo(w||WIN); if(m) return m.label+" (fechado)"; return (w||WIN)==="30d"?"últimos 30 dias":(MESNM_LC+" (parcial)"); }
+// dias da janela (usado nas médias por dia)
+function winDiasDe(w){ const m=mesInfo(w||WIN); if(m) return (m.daily&&m.daily.length)||30;
+  return (w||WIN)==="30d"?30:((D.pacing&&D.pacing.elapsed)||29); }
 // dia/mes final da janela do mes corrente (pra rotulos "/07" e "05/07"): le D.pacing.asof (dd/mm) ou D.gerado.
 const _MMDD=(function(){
   if(D && D.pacing && /^\d{2}\/\d{2}$/.test(D.pacing.asof||"")) return D.pacing.asof;
@@ -707,7 +749,7 @@ function kpiCards(){
   if(CANAL!=="all"){
     const k=kpiCanal(SEG,REG,WIN,CANAL);
     const res=k.res||(k.leads+k.conv);
-    const perlbl = WIN==="30d" ? "30 dias" : MESNM;
+    const perlbl = winNome(WIN);
     const isForm = CANAL==="Form";
     const reslbl = isForm ? "leads" : "conversas";
     const regtxt = REG!=="ALL" ? " · "+(REGN[REG]||REG) : "";
@@ -733,7 +775,7 @@ function kpiCards(){
     const k=(_kfW[_segK]||{})[REG];
     if(k){
     const res=k.leads+k.conv;
-    const perlbl = WIN==="30d" ? "30 dias" : MESNM;
+    const perlbl = winNome(WIN);
     // comparativo vs mes anterior na MESMA praça (e no mesmo segmento)
     const _M=momFor(WIN,SEG,REG,"all"), _vsl="vs "+momLbl(WIN).toLowerCase();
     const _dInv=_M?_momDelta(k.bruto,_M.bruto,true,_vsl):"";
@@ -752,9 +794,9 @@ function kpiCards(){
   // Topo SEMPRE segue o filtro de janela (WIN) e segmento (SEG), via kpiFor.
   const k=kpiFor(SEG,WIN);
   const res=k.leads+k.conv;
-  const perlbl = WIN==="30d" ? "30 dias" : MESNM;
-  const altlbl = WIN==="30d" ? MESNM_LC : "30 dias";
-  const alt = kpiFor(SEG,WIN==="30d"?"jun":"30d");
+  const perlbl = winNome(WIN);
+  const altlbl = (mesFechado(WIN)?MESNM_LC:(WIN==="30d"?MESNM_LC:"30 dias"));
+  const alt = kpiFor(SEG,(mesFechado(WIN)?"jun":(WIN==="30d"?"jun":"30d")));
   // Comparativo vs mes anterior no mesmo recorte dos filtros (momFor) e sempre contra a
   // janela do MESMO tamanho (momBase: MTD -> mesmo periodo; 30d -> mes inteiro)
   const _M = momFor(WIN,SEG,REG,CANAL);
@@ -1001,7 +1043,7 @@ function _axisKey(a){return HASREGION?_regBucket(a.reg):(a.seg||NREG_ORDER[0]);}
 // cor/label do eixo (praça ou segmento conforme o modo)
 function _axisCol(k){return HASREGION?(REGCOL[k]||'#71717a'):(SEGCOL[k]||'#a1a1aa');}
 function _axisShort(k){return HASREGION?(REGSHORT[k]||k):(SEGSHORT[k]||SEGN[k]||k);}
-function winDays(){return WIN==="30d"?30:((D.pacing&&D.pacing.elapsed)||29);}
+function winDays(){return winDiasDe(WIN);}
 // Agrega tudo a partir de D.ads[WIN] filtrado por SEG. Soma SP+VL+INT+G fecha com kpiFor(SEG,WIN).bruto.
 // ===== FONTE UNICA DE REGIAO =====
 // aggRegion(win,segFilter) agrega D.ads[win] por praça (_regBucket) e por canal.
@@ -1022,7 +1064,7 @@ function aggRegion(win,segFilter,canalFilter){
     else if(a.canal==="WhatsApp"){o.wa.spend+=b;o.wa.res+=res;o.wa.leads+=le;o.wa.conv+=cv;}
     else {o.outros.spend+=b;o.outros.res+=res;}
   });
-  out._total=total; out._days=(win==="30d"?30:((D.pacing&&D.pacing.elapsed)||29));
+  out._total=total; out._days=winDiasDe(win);
   // cpr combinado e por canal
   NREG_ORDER.forEach(r=>{const o=out[r];
     o.cpr=o.res>0?o.spend/o.res:0;
@@ -1036,7 +1078,7 @@ function aggRegion(win,segFilter,canalFilter){
 function regionAgg(){return aggRegion(WIN,SEG);}
 function nRegionCompText(r,A){
   const d=A[r];
-  const win=WIN==="30d"?"nos 30 dias":("em "+MESNM_LC);
+  const win=(mesFechado(WIN)?("em "+winNome(WIN)):(WIN==="30d"?"nos 30 dias":("em "+MESNM_LC)));
   // referencia de custo = piso do eixo (praça SP com região; melhor CPR entre segmentos sem região)
   const refKey=HASREGION?"SP":(function(){let best=null,bc=Infinity;NREG_ORDER.forEach(k=>{const x=A[k];if(x&&x.spend>0&&x.cpr>0&&x.cpr<bc){bc=x.cpr;best=k;}});return best;})();
   const refCpr=(refKey&&A[refKey])?(A[refKey].cpr||0):0;
@@ -1089,7 +1131,7 @@ function nRegionCard(r,A){
   // split por canal (% sobre o spend do card): Form / WhatsApp / Outros
   const sp=d.spend||0;
   const fw=sp>0?d.form.spend/sp*100:0, ww=sp>0?d.wa.spend/sp*100:0, ow=sp>0?d.outros.spend/sp*100:0;
-  const winlbl=WIN==="30d"?"30 dias":MESNM_LC;
+  const winlbl=winNomeLC(WIN);
   const subhead = !HASREGION
     ? `Formulário + WhatsApp do segmento`
     : (r==="G"
@@ -1142,7 +1184,7 @@ function nRegionCard(r,A){
 }
 function regionSection(){
   const A=regionAgg();
-  const winlbl=WIN==="30d"?"últimos 30 dias":MESNM_LC;
+  const winlbl=winNome30(WIN);
   const soma=NREG_ORDER.reduce((s,r)=>s+(A[r]?A[r].spend:0),0);
   const cards=NREG_ORDER.filter(r=>A[r]&&(A[r].spend>0||HASREGION)).map(r=>nRegionCard(r,A)).join("");
   const somalbl=HASREGION?(NREG_ORDER.map(r=>_axisShort(r)).join(" + ")):("os segmentos ("+NREG_ORDER.map(r=>_axisShort(r)).join(" + ")+")");
@@ -1156,11 +1198,11 @@ function regionSection(){
 // Contam normalmente em NV; aqui ganham visibilidade a parte, sem seção pesada.
 function nichosNote(){
   if(!D||!D.nichos) return "";
-  const key = WIN==="30d" ? "30d" : "mes";
+  const key = (WIN==="30d" ? "30d" : "mes");
   const arr = D.nichos[key];
   if(!Array.isArray(arr)||!arr.length) return "";
   if(SEG!=="ALL" && SEG!=="NV") return "";
-  const winlbl = WIN==="30d" ? "30 dias" : MESNM_LC;
+  const winlbl = winNomeLC(WIN);
   const parts = arr.map(n=>{
     const cpl = n.res>0 ? brl2(n.bruto/n.res) : "-";
     return `<span class="nicho-chip"><b>${n.nome}</b> ${brl(n.bruto)} · ${nfmt(n.res)} result. · CPL ${cpl}</span>`;
@@ -1743,7 +1785,7 @@ function _insightBullet(it){
 }
 function insightsSection(){
   const o=insights(WIN);
-  const winlbl=WIN==="30d"?"últimos 30 dias":(MESNM_LC+" (parcial)");
+  const winlbl=winNomePar(WIN);
   const note=`<div class="taxnote" style="margin-bottom:14px">📋 Leitura automática dos números de <b>${winlbl}</b> (BRUTO, c/ imposto). Segue o filtro de período. À esquerda o que aconteceu, à direita os apontamentos de gestão, sempre ancorados no dado real.</div>`;
   const colResumo=`<div class="inscol"><h3 class="insh">📊 Resumo do mês</h3><ul class="inslist">${o.resumo.map(_insightBullet).join("")||'<li class="insbullet"><span class="instxt" style="color:#8b8b93">Sem dados suficientes para o resumo.</span></li>'}</ul></div>`;
   const colMelh=`<div class="inscol"><h3 class="insh">🛠 Melhorias</h3><ul class="inslist">${o.melhorias.map(_insightBullet).join("")||'<li class="insbullet"><span class="instxt" style="color:#8b8b93">Nada crítico apontado nesta janela.</span></li>'}</ul></div>`;
@@ -1779,7 +1821,7 @@ function concSection(){
   return `<div class="conclusao"><h2>🎯 Direção pra ${MESNM_LC}</h2><ul>${lis.map(t=>`<li>${t}</li>`).join("")}</ul></div>`;
 }
 function sectionBlock(id){
-  const wl=WIN==="30d"?"últimos 30 dias":(MESNM_LC+" (parcial)");
+  const wl=winNomePar(WIN);
   const T={dist:["Distribuição entre segmentos","Participação de cada segmento no total da conta ("+wl+"). Acompanha o filtro de período."],
     pacing:["Orçado × Consumido , "+MESNM,"Ritmo de gasto do mês vs orçamento de "+brl(BUDGET)+" (bruto, c/ imposto). Sempre referente a "+MESNM_LC+", independente do filtro de período."],
     acts:["Ações recomendadas","O que pensar e decidir neste segmento. Claude recomenda , você executa (ativar/pausar/verba)."],
@@ -1908,11 +1950,34 @@ function drawMap(){
   });
   if(bounds.length){try{MAP.fitBounds(bounds,{padding:[30,30],maxZoom:11});}catch(e){}}
 }
+// ===== MES FECHADO: o que continua na tela e o que sai =====================
+// O mês acabou, então não existe ritmo pra projetar, nem verba configurada daquela
+// época, nem "onde os anúncios rodam" (o mapa é dos conjuntos de HOJE). As seções que
+// dependem do mês em curso saem da tela em vez de mostrar número de outro período ,
+// mesma decisão que a central já usa. Fica o que é do mês: KPIs, evolução diária,
+// distribuição por segmento, praça, canal, ranking de criativos e os apontamentos.
+const SECOES_MES_FECHADO=['dist','top','channel','region','insights'];
+function secoesDaJanela(){
+  if(!mesFechado(WIN)) return SECTIONS;
+  return SECTIONS.filter(s=>SECOES_MES_FECHADO.indexOf(s)>=0);
+}
+function notaMesFechado(){
+  if(!mesFechado(WIN)) return "";
+  const m=mesInfo(WIN), p=momPrev(WIN);
+  const base=p?("Comparativo contra <b>"+p.label+"</b>.")
+              :("Sem mês anterior guardado pra comparar (o histórico começa em "+
+                (MESES.length?MESES[MESES.length-1].label:"")+").");
+  return '<div class="taxnote" style="margin-top:20px">📅 <b>'+m.label+' fechado</b> ('+
+    m.desde.split("-").reverse().slice(0,2).join("/")+' a '+m.ate.split("-").reverse().slice(0,2).join("/")+
+    '). Pacing, projeção de fim de mês, verba configurada, mapa de geolocalização e o '+
+    'detalhe por loja/campanha só existem no mês em curso, por isso saem da tela aqui. '+
+    base+' Voltando para <b>'+MESNM+'</b> tudo reaparece.</div>';
+}
 function render(){
   FAROL_REF=farolRef();
   const _frl=document.getElementById("farolRefLbl"); if(_frl)_frl.textContent=FAROL_REF.ref?brl2(FAROL_REF.ref):"-";
   document.getElementById("kpiz").innerHTML=kpiCards();
-  document.getElementById("body").innerHTML=SECTIONS.map(sectionBlock).join("");
+  document.getElementById("body").innerHTML=notaMesFechado()+secoesDaJanela().map(sectionBlock).join("");
   document.querySelectorAll(".segbtn").forEach(b=>b.classList.toggle("on",b.dataset.seg===SEG));
   document.querySelectorAll(".wbtn").forEach(b=>b.classList.toggle("on",b.dataset.win===WIN));
   document.querySelectorAll(".regbtn").forEach(b=>b.classList.toggle("on",b.dataset.reg===REG));
@@ -1951,7 +2016,7 @@ function mfSync(){
   const p=[], add=(t,on)=>p.push(on?("<b>"+t+"</b>"):t);
   if(MULTISEG) add(SEG==="ALL"?"Todos os segmentos":(SEGSHORT[SEG]||SEG), SEG!=="ALL");
   if(HASREGION) add(REG==="ALL"?"Todas as praças":(REGN[REG]||REG), REG!=="ALL");
-  add(WIN==="30d"?"Últimos 30 dias":MESNM, WIN==="30d");
+  add(mesFechado(WIN)?winNome(WIN):(WIN==="30d"?"Últimos 30 dias":MESNM), WIN!=="jun");
   const mainCh=CHANNELS.filter(k=>k==="Form"||k==="WhatsApp");
   if(mainCh.length>1) add(CANAL==="all"?"Todos os canais":(CHANN[CANAL]||CANAL), CANAL!=="all");
   el.innerHTML=p.join(" · ");
@@ -2014,8 +2079,16 @@ function buildFilters(){
       canBox.innerHTML=h;
     }
   }
-  // rotulo dinamico do botao de mes corrente ("Julho"/"Junho"/...)
-  const wmb=document.getElementById("winMesBtn"); if(wmb) wmb.textContent=MESNM;
+  // PERIODO , mes em curso + os meses FECHADOS do cofre + a janela movel de 30 dias.
+  // Mesma logica da central (decisao Rudy 07/08/2026): "Agosto (em curso) / Julho/26 /
+  // Junho/26", com "30 dias" ficando como quarta opcao.
+  const wt=document.querySelector(".wtoggle");
+  if(wt){
+    let h='<button class="wbtn" data-win="jun" id="winMesBtn" onclick="setWin(\'jun\')">'+MESNM+' <small>em curso</small></button>';
+    MESES.forEach(m=>{ h+='<button class="wbtn" data-win="'+m.mes+'" onclick="setWin(\''+m.mes+'\')">'+m.label+'</button>'; });
+    h+='<button class="wbtn" data-win="30d" onclick="setWin(\'30d\')">30 dias</button>';
+    wt.innerHTML=h;
+  }
   const pdsc=document.getElementById("periodoDesc"); if(pdsc) pdsc.textContent='"'+MESNM+'"';
   const fat=document.getElementById("footAtual"); if(fat) fat.textContent=MESNM+" atualizado em "+((D.pacing&&D.pacing.asof)?D.pacing.asof:(D.gerado||""))+(D.gerado_hora?(" às "+D.gerado_hora):"");
   // grafico diario (N_DAILY) segue o filtro de janela (WIN); titulo/subtitulo setados no _renderNDaily
@@ -2032,7 +2105,7 @@ function buildFilters(){
     const ate=(D.pacing&&D.pacing.asof)?D.pacing.asof:"";
     dp.textContent="Carrera · dados reais Meta Ads · atualizado "+gtxt+(D.gerado_hora?(" às "+D.gerado_hora):"")+(ate?" · dados até "+ate:"");
   }
-  var wm=document.getElementById("winMesBtn"); if(wm) wm.textContent=MESNM;
+  // (o rotulo do botao do mes em curso ja sai montado no seletor acima, com o "em curso")
 }
 window.addEventListener("DOMContentLoaded",function(){mfInit();buildFilters();render();});
 </script>
@@ -2138,14 +2211,18 @@ function _renderNDaily(){
   // mes corrente = mes do ultimo dia da serie (a serie termina sempre no mes em curso, MTD).
   const lastDate=N_DAILY[N_DAILY.length-1].date;      // "YYYY-MM-DD"
   const curMonth=lastDate.slice(0,7);                 // "YYYY-MM"
-  const rows=(curWin==="30d")?N_DAILY.slice():N_DAILY.filter(x=>x.date.slice(0,7)===curMonth);
+  // MES FECHADO: a serie sai do cofre daquele mes (o n_daily do D so guarda 30 dias).
+  const _mi=(typeof mesInfo==="function")?mesInfo(curWin):null;
+  const rows=(_mi&&Array.isArray(_mi.daily)&&_mi.daily.length) ? _mi.daily.slice()
+            : ((curWin==="30d")?N_DAILY.slice():N_DAILY.filter(x=>x.date.slice(0,7)===curMonth));
   // titulo/subtitulo seguem a janela
   const MNM=(typeof MESNM!=="undefined")?MESNM:"mês corrente";
-  const isMTD=(typeof D!=="undefined"&&D.pacing&&D.pacing.elapsed<D.pacing.days);
-  const winTitle=(curWin==="30d")?"últimos 30 dias":MNM;
+  const isMTD=(!_mi)&&(typeof D!=="undefined"&&D.pacing&&D.pacing.elapsed<D.pacing.days);
+  const winTitle=_mi?_mi.label:((curWin==="30d")?"últimos 30 dias":MNM);
   const tEl=document.getElementById("ndailyTitle"); if(tEl) tEl.textContent="📈 Evolução diária · "+winTitle;
   const sEl=document.getElementById("ndailySub"); if(sEl){
-    const janlbl=(curWin==="30d")?"Janela móvel dos últimos 30 dias corridos.":(MNM+(isMTD?" (parcial, MTD)":" (fechado)")+".");
+    const janlbl=_mi?(_mi.label+" fechado, mês inteiro.")
+                    :((curWin==="30d")?"Janela móvel dos últimos 30 dias corridos.":(MNM+(isMTD?" (parcial, MTD)":" (fechado)")+"."));
     // recorte ativo (vem dos filtros do topo) + aviso de dia sem detalhamento
     let rec=[];
     if(_ndSeg()!=="ALL") rec.push(SEGN[_ndSeg()]||_ndSeg());

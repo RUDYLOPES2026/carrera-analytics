@@ -359,3 +359,26 @@ def refresh(api, ctx):
           "ads %d/%d | n_daily %d..%s" % (SLUG, kA["bruto"], kA["leads"], kA["conv"],
           k3["bruto"], k3["leads"], k3["conv"], len(ads[MTD_KEY]), len(ads["30d"]),
           len(nd), nd[-1]["date"]))
+
+
+# ---------- MES FECHADO (meses.py) ----------
+def month_blocks(adset_ins, ad_ins, day_ins, linkmap):
+    """Mes fechado com as MESMAS funcoes do mes corrente. Bajaj e mono-segmento (NV) e
+    conta conversa em qualquer canal , fidelidade ao legado, nao mexer."""
+    agg = _agg_rows(adset_ins)
+    ads = _ads_rows(ad_ins, {k: (v if isinstance(v, str) else (v or {}).get("link", ""))
+                             for k, v in (linkmap or {}).items()})
+    k = _kpi_from(agg)
+    return {
+        "kpi": {"NV": k, "ALL": dict(k)},
+        "chan": _chan_from(agg),
+        "kpifilter": _kpifilter_from(agg),
+        "regperf": _regperf_from(agg),
+        "agg": agg,
+        "ads": ads,
+        "rank": _rank_block(ads),
+        "cells": common.cells_from_rows(agg),
+        "total": common.month_total(agg, ("NV",)),
+        "seg": common.month_seg(agg, ("NV",)),
+        "daily": common.month_daily(day_ins, _bucket_day, _agg_rows),
+    }
