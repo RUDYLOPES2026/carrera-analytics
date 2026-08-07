@@ -629,6 +629,9 @@ function momBase(win){
 //   janela "mes corrente" -> D.nd_mom_sp.cells (mesmo periodo do mes anterior)
 //   janela "30 dias"      -> D.nd_mom_full.cells (mes anterior inteiro)
 function momCells(win){
+  // mês fechado: as células têm que vir do mês fechado ANTERIOR (a mesma base do
+  // momBase). Sem isso, filtrar praça/canal em julho comparava com o mês corrente.
+  if(mesFechado(win)){ const p=momPrev(win); return (p&&Array.isArray(p.cells)&&p.cells.length)?p.cells:null; }
   const B=(win==="30d")?(D&&D.nd_mom_full):ND_MOMSP;
   return (B&&Array.isArray(B.cells)&&B.cells.length)?B.cells:null;
 }
