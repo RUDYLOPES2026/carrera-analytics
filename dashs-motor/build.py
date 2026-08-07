@@ -136,6 +136,8 @@ def build_config(ficha):
         "budget": ficha.get("budget"),
         "gross_up": ficha.get("gross_up", 1.1215),
         "exceptions": ficha.get("exceptions", {}),
+        # celular: filtros viram gaveta (abre/escolhe/fecha) em vez de barra fixa gigante
+        "mobile_filters": bool(ficha.get("mobile_filters", False)),
     }
 
 
@@ -321,6 +323,9 @@ def main():
     d_json = json.dumps(D, ensure_ascii=False, separators=(",", ":"))
     # injeta o objeto literal no lugar do marcador (substitui o {} placeholder logo apos)
     html = tpl.replace("/*__D_INJECT__*/{}", d_json, 1)
+    # gaveta de filtros no celular: marca o <html> antes da 1a pintura (sem piscar)
+    html = html.replace("/*__MOBFILTERS__*/false",
+                        "true" if ficha.get("mobile_filters") else "false", 1)
 
     # --- escreve dist (dash completo) ---
     today = datetime.date.today().isoformat()

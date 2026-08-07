@@ -407,7 +407,7 @@ TEMPLATE = r"""<!doctype html>
   body{margin:0;background:var(--bg);color:var(--tx);
        font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
   a{color:inherit;}
-  .wrap{max-width:1440px;margin:0 auto;padding:36px 24px 72px;}
+  .wrap{max-width:1760px;margin:0 auto;padding:36px 24px 72px;}
   .top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:8px;}
   h1{font-size:25px;margin:0;letter-spacing:.3px;}
   h1 .b{color:var(--acc);}
@@ -426,8 +426,12 @@ TEMPLATE = r"""<!doctype html>
   .kpi .c .z{color:var(--mut);font-weight:400;}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
   table{width:100%;border-collapse:collapse;font-size:12.5px;}
-  th,td{padding:9px 7px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap;}
-  th{color:var(--mut);font-weight:500;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;}
+  th,td{padding:9px 6px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap;}
+  /* o cabeçalho pode quebrar em duas linhas: "Gasto comercial (bruto)" numa linha só
+     sozinho já jogava a tabela pra 1.380px e obrigava a arrastar pro lado. */
+  th{color:var(--mut);font-weight:500;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;
+     white-space:normal;line-height:1.3;vertical-align:bottom;}
+  th:not(:first-child){max-width:96px;}
   th:first-child,td:first-child{text-align:left;}
   tbody tr:hover{background:rgba(245,158,11,.04);}
   td a{text-decoration:none;font-weight:600;}

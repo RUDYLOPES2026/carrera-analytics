@@ -83,5 +83,6 @@
   "gross_up": 1.1215,
   "exceptions": {
     "geralLabel": "campanhas sem praça de loja no nome (Capital / Regional SP)"
-  }
+  },
+  "mobile_filters": true
 }

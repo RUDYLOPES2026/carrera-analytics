@@ -44,5 +44,6 @@
   "gross_up": 1.1215,
   "exceptions": {
     "geralLabel": "campanhas auxiliares (engajamento, vídeo)"
-  }
+  },
+  "mobile_filters": true
 }

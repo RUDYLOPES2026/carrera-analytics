@@ -64,5 +64,6 @@
       "PV"
     ],
     "geralLabel": "campanhas auxiliares (catálogo, tráfego, remarketing, awareness)"
-  }
+  },
+  "mobile_filters": true
 }

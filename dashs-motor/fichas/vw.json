@@ -54,5 +54,6 @@
   "gross_up": 1.1215,
   "exceptions": {
     "geralLabel": "campanhas auxiliares (reconhecimento, tráfego)"
-  }
+  },
+  "mobile_filters": true
 }

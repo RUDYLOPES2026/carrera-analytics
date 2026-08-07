@@ -63,5 +63,6 @@
     "pvForaDoTotal": true,
     "geralLabel": "campanhas de evento/sem região no nome"
   },
-  "orcamento_key": "BAJAJ"
+  "orcamento_key": "BAJAJ",
+  "mobile_filters": true
 }

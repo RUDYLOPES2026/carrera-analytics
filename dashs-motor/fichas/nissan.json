@@ -94,5 +94,6 @@
     "pvForaDoTotal": true,
     "geralLabel": "campanhas sem região no nome"
   },
-  "orcamento_key": "NISSAN"
+  "orcamento_key": "NISSAN",
+  "mobile_filters": true
 }

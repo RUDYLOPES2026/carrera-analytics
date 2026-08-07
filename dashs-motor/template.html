@@ -256,6 +256,10 @@ a{color:inherit;text-decoration:none}
 .pacing-mk .lbl{position:absolute;top:-15px;font-size:9px;white-space:nowrap;letter-spacing:.3px}
 .pacing-mk.ideal .lbl{right:5px;color:#fff;text-align:right}
 .pacing-mk.proj .lbl{left:5px;color:#fbbf24}
+/* marcador colado numa das pontas: o rotulo vira pro lado de dentro da barra, senao
+   sobra pra fora da tela e o celular ganha rolagem horizontal */
+.pacing-mk.proj.flipl .lbl{left:auto;right:5px;text-align:right}
+.pacing-mk.ideal.flipr .lbl{right:auto;left:5px;text-align:left}
 .pacing-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:#aaa}
 .pacing-legend b{color:#fff}
 /* sugestao no card de criativo */
@@ -352,12 +356,72 @@ a{color:inherit;text-decoration:none}
 .insbullet:last-child{border-bottom:none}
 .insdot{flex:0 0 auto;font-size:11px;line-height:1.7}
 .instxt b{color:#fff}
+/* ===== CELULAR , filtros em gaveta ========================================
+   Liga pela ficha (mobile_filters: true). No celular o cabecalho fixo vira uma
+   barra baixa (logo + marca + botao Filtros + resumo do que esta ligado) e os
+   filtros saem do fluxo: viram uma gaveta que sobe de baixo, abre / escolhe /
+   fecha. Antes disso a Nissan (4 segmentos + 4 praças + 2 periodos + 3 canais)
+   comia metade da tela em pe e a rolagem ficava travando no topo. No desktop
+   nada muda. */
+.mfbar{display:none;align-items:center;gap:11px;margin-top:11px}
+.mfbtn{display:inline-flex;align-items:center;gap:7px;background:#f59e0b;color:#0a0a0a;border:none;border-radius:11px;padding:10px 16px;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap;flex:0 0 auto}
+.mfsum{font-size:12px;color:#71717a;line-height:1.4;min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mfsum b{color:#f59e0b;font-weight:800}
+.mfhead{display:none}
+.mfback{display:none;position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,.62);z-index:90}
+@media(max-width:760px){
+  html.mfx .head{backdrop-filter:none;background:#0a0a0a;padding:12px 0}
+  html.mfx .head .logo{width:34px;height:34px;font-size:16px;border-radius:9px}
+  html.mfx .head .h1{font-size:16px;letter-spacing:-.2px}
+  html.mfx .head .htag,html.mfx .head .pill{display:none}
+  html.mfx .mfbar{display:flex}
+  html.mfx.mf-open,html.mfx.mf-open body{overflow:hidden}
+  html.mfx.mf-open .head{z-index:500}
+  html.mfx.mf-open .mfback{display:block}
+  html.mfx.mf-open .pdfbtn{display:none}
+  html.mfx .filters{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:510;display:block;margin:0;
+    padding:0 18px calc(22px + env(safe-area-inset-bottom));background:#121212;border-top:1px solid #2a2a2a;
+    border-radius:20px 20px 0 0;max-height:82vh;overflow-y:auto;box-shadow:0 -20px 46px rgba(0,0,0,.7);
+    transform:translateY(103%);visibility:hidden;transition:transform .22s ease,visibility .22s}
+  html.mfx.mf-open .filters{transform:translateY(0);visibility:visible}
+  html.mfx .mfhead{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;
+    background:#121212;padding:16px 0 12px;z-index:2;border-bottom:1px solid #1f1f1f}
+  html.mfx .mfhead .t{font-size:16px;font-weight:800}
+  html.mfx .mfclose{background:#1e1e1e;border:1px solid #2e2e2e;color:#f4f4f5;font-size:14px;font-weight:700;border-radius:10px;padding:8px 14px;cursor:pointer}
+  html.mfx .filters .filterlbl{display:block;font-size:11px;margin:17px 0 8px!important}
+  html.mfx .filters .segfilter,html.mfx .filters .wtoggle{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;width:100%;border-radius:14px;padding:6px}
+  html.mfx .filters .segbtn,html.mfx .filters .wbtn{width:100%;padding:12px 8px;font-size:14px;border-radius:10px;justify-content:center;text-align:center}
+  /* linha do ranking: os numeros + os dois botoes nao cabiam em 390px e empurravam a pagina
+     inteira pro lado (era dai que vinha a rolagem horizontal no celular) */
+  html.mfx .arow .anums{flex-wrap:wrap;gap:10px 14px}
+  html.mfx .ametabtn{margin-left:0}
+  /* tabela larga rola dentro do proprio painel, sem arrastar a pagina junto */
+  html.mfx .panel:has(>.regtable),html.mfx .tipo-table,html.mfx .ntipo-table{overflow-x:auto}
+  html.mfx .regtable{min-width:430px;font-size:13px}
+  html.mfx .regtable th,html.mfx .regtable td{padding:9px 7px}
+  html.mfx .tipo-table>table,html.mfx .ntipo-table>table{min-width:340px}
+  /* o padding de 90px do rodape do .wrap (folga do botao de PDF) abria um buraco
+     entre os KPIs e o grafico; no celular so o ultimo bloco precisa dessa folga */
+  html.mfx #kpiwrap{padding-bottom:0}
+  /* rede de seguranca: sobra de alguns px em qualquer bloco vira corte, nunca rolagem
+     lateral da pagina inteira. clip (e nao hidden) pra nao quebrar o cabeçalho sticky. */
+  html.mfx body{overflow-x:clip}
+  html.mfx .kpi{padding:15px}
+  html.mfx .kpi .v{font-size:25px;letter-spacing:-.7px}
+}
 </style><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script></head><body>
+<script>/* gaveta de filtros no celular , marcada antes da 1a pintura pra nao piscar */
+try{if(/*__MOBFILTERS__*/false)document.documentElement.className+=" mfx";}catch(e){}</script>
 <div class="head"><div class="wrap" style="padding-bottom:0">
   <div class="brandrow"><div class="logo">C</div>
     <div><div class="h1" id="brandTitle">Nissan <b>·</b> Acompanhamento Comercial</div><div class="htag">Painel Comercial , o que acontece nas campanhas, por tipo de interesse</div></div>
     <div class="pill" id="datapill">Carrera · dados reais Meta Ads</div></div>
-  <div class="filters">
+  <div class="mfbar" id="mfbar">
+    <button class="mfbtn" type="button" onclick="mfOpen()">☰ Filtros</button>
+    <div class="mfsum" id="mfsum"></div>
+  </div>
+  <div class="filters" id="filtersBox">
+    <div class="mfhead"><span class="t">Filtros</span><button class="mfclose" type="button" onclick="mfClose()">Fechar ✕</button></div>
     <span id="segfilterwrap-lbl" class="filterlbl">Segmento</span>
     <div id="segfilterwrap"><div class="segfilter"><button class="segbtn" data-seg="ALL" onclick="setSeg('ALL')">Todos<small>NV+SN+VD</small></button><button class="segbtn" data-seg="NV" onclick="setSeg('NV')">Novos<small>0km</small></button><button class="segbtn" data-seg="SN" onclick="setSeg('SN')">Seminovos<small>usados</small></button><button class="segbtn" data-seg="VD" onclick="setSeg('VD')">Venda Direta<small>CNPJ/PCD</small></button></div>
     </div><span id="regfilterwrap-lbl" class="filterlbl" style="margin-left:8px">Região</span>
@@ -368,7 +432,8 @@ a{color:inherit;text-decoration:none}
     <div id="canfilterwrap"><div class="segfilter"></div></div>
   </div>
 </div></div>
-<div class="wrap" style="padding-top:16px"><div id="kpiz"></div></div>
+<div class="mfback" id="mfback" onclick="mfClose()"></div>
+<div class="wrap" id="kpiwrap" style="padding-top:16px"><div id="kpiz"></div></div>
 <div class="wrap">
 <!-- DAILY CHART (movido para ANTES dos criativos/ranking, fora do #body para nao ser destruido pelo render()) -->
 <section class="ndaily-wrap" id="ndailyWrap">
@@ -495,7 +560,9 @@ const ND_CHANGES=(D && D.nd_changes) ? D.nd_changes : {novos:0,pausados:0,exclui
     {dt:"27/06 01:29",obj:"GERAL MOVA BRASIL TAXISTA 2"}]};
 // Ontem (D-1) real da serie diaria N_DAILY (ultimo dia fechado = 30/06, mes fechado). Computado em pacingSection via _ndYesterday().
 const SECTIONS=['pacing','mom','dist','top','channel','geo','region','loja','camp','insights','conc','verba'];
-let SEG="ALL", WIN="30d", REG="ALL", RANKMODE="vol", CANAL="all", GEOREG="all", GEOADSET="all";
+// abre no MES CORRENTE (decisao Rudy 07/08/2026): e o periodo que casa com o orçamento
+// e com a central. "30 dias" continua existindo, mas como escolha, nao como padrao.
+let SEG="ALL", WIN="jun", REG="ALL", RANKMODE="vol", CANAL="all", GEOREG="all", GEOADSET="all";
 // chips LOCAIS do ranking de criativos (refinam DENTRO do filtro global, AND)
 let RANKCANAL="all", RANKLOJA="all";
 // labels/cores agora vem da ficha (config)
@@ -1199,9 +1266,9 @@ function pacingSection(){
   const proj_lt_ideal = projPct<pctE;
   const bar=`<div class="pacing-barwrap">
     <div class="pacing-track"><div class="fill" style="width:${fillW}%"></div></div>
-    <div class="pacing-mk ideal" style="left:${markL}%"><span class="lbl">ideal hoje</span></div>
-    <div class="pacing-mk proj" style="left:${projL}%"><span class="lbl">tendência</span></div>
-    ${projOtim?`<div class="pacing-mk proj" style="left:${projTetoL}%;opacity:.45"><span class="lbl" style="color:#71717a">teto</span></div>`:''}
+    <div class="pacing-mk ideal${markL<22?' flipr':''}" style="left:${markL}%"><span class="lbl">ideal hoje</span></div>
+    <div class="pacing-mk proj${projL>62?' flipl':''}" style="left:${projL}%"><span class="lbl">tendência</span></div>
+    ${projOtim?`<div class="pacing-mk proj${projTetoL>62?' flipl':''}" style="left:${projTetoL}%;opacity:.45"><span class="lbl" style="color:#71717a">teto</span></div>`:''}
   </div>
   <div class="pacing-legend" style="margin-top:14px">
     <span><i style="display:inline-block;width:16px;height:8px;background:#34d399;border-radius:2px;vertical-align:middle;margin-right:6px"></i>Na Meta até hoje (líq): <b>${brl(consumed)}</b> (${(pctC*100).toFixed(1)}%)</span>
@@ -1851,6 +1918,7 @@ function render(){
   document.querySelectorAll(".regbtn").forEach(b=>b.classList.toggle("on",b.dataset.reg===REG));
   document.querySelectorAll(".rkbtn").forEach(b=>b.classList.toggle("on",b.dataset.rk===RANKMODE));
   document.querySelectorAll(".canbtn").forEach(b=>b.classList.toggle("on",b.dataset.can===CANAL));
+  if(typeof mfSync==="function"){try{mfSync();}catch(e){}}
   _syncDaily();
   setTimeout(drawMap,60);
 }
@@ -1869,6 +1937,44 @@ function setCanal(c){CANAL=c;RANKCANAL="all";render();}
 function _renderTopOnly(){const el=document.getElementById("topSecBody");if(el)el.innerHTML=topSection();else render();}
 function setRankCanal(c){RANKCANAL=c;_renderTopOnly();}
 function setRankLoja(l){RANKLOJA=l;_renderTopOnly();}
+// ===== CELULAR , gaveta de filtros =========================================
+// So liga se a ficha da marca pediu (mobile_filters). O CSS ja marcou <html class="mfx">
+// antes da 1a pintura; aqui fica so o comportamento: abre, escolhe, fecha.
+const MOBFILTERS = !!CFG.mobile_filters;
+function _htmlEl(){ try{ return document.documentElement||null; }catch(e){ return null; } }
+function mfOpen(){ const h=_htmlEl(); if(h&&h.classList) h.classList.add("mf-open"); }
+function mfClose(){ const h=_htmlEl(); if(h&&h.classList) h.classList.remove("mf-open"); }
+function mfAberta(){ const h=_htmlEl(); return !!(h&&h.classList&&h.classList.contains("mf-open")); }
+// resumo do que esta ligado, na barra: em laranja/negrito so o que fugiu do padrao
+function mfSync(){
+  const el=document.getElementById("mfsum"); if(!el)return;
+  const p=[], add=(t,on)=>p.push(on?("<b>"+t+"</b>"):t);
+  if(MULTISEG) add(SEG==="ALL"?"Todos os segmentos":(SEGSHORT[SEG]||SEG), SEG!=="ALL");
+  if(HASREGION) add(REG==="ALL"?"Todas as praças":(REGN[REG]||REG), REG!=="ALL");
+  add(WIN==="30d"?"Últimos 30 dias":MESNM, WIN==="30d");
+  const mainCh=CHANNELS.filter(k=>k==="Form"||k==="WhatsApp");
+  if(mainCh.length>1) add(CANAL==="all"?"Todos os canais":(CHANN[CANAL]||CANAL), CANAL!=="all");
+  el.innerHTML=p.join(" · ");
+}
+function mfInit(){
+  if(!MOBFILTERS)return;
+  const box=document.getElementById("filtersBox");
+  if(box&&box.addEventListener) box.addEventListener("click",function(ev){
+    if(!mfAberta())return;
+    const b=(ev.target&&ev.target.closest)?ev.target.closest("button"):null;
+    if(!b||b.classList.contains("mfclose"))return;   // o X ja fecha sozinho
+    setTimeout(mfClose,190);                          // deixa a escolha aparecer antes de descer
+  });
+  try{ window.addEventListener("keydown",function(e){ if(e.key==="Escape")mfClose(); }); }catch(e){}
+  // girou a tela / abriu no desktop: a gaveta nao pode ficar "aberta" no meio da pagina
+  try{
+    if(window.matchMedia){
+      const mq=window.matchMedia("(max-width:760px)");
+      const h=function(){ if(!mq.matches)mfClose(); };
+      if(mq.addEventListener)mq.addEventListener("change",h); else if(mq.addListener)mq.addListener(h);
+    }
+  }catch(e){}
+}
 // ===== FILTROS config-driven (segmento condicional, região condicional) =====
 function buildFilters(){
   // SEGMENTO , some se mono-segmento
@@ -1928,7 +2034,7 @@ function buildFilters(){
   }
   var wm=document.getElementById("winMesBtn"); if(wm) wm.textContent=MESNM;
 }
-window.addEventListener("DOMContentLoaded",function(){buildFilters();render();});
+window.addEventListener("DOMContentLoaded",function(){mfInit();buildFilters();render();});
 </script>
 <script>
 const N_DAILY=(D && Array.isArray(D.n_daily) && D.n_daily.length) ? D.n_daily : [];

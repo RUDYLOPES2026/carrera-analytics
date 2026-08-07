@@ -86,5 +86,6 @@
       "PV"
     ],
     "geralLabel": "campanhas sem praça no nome (institucional / múltiplas praças)"
-  }
+  },
+  "mobile_filters": true
 }
