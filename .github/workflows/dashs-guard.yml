@@ -1,0 +1,137 @@
+name: Dashs Guard (destrava e vigia)
+
+# POR QUE ESTE WORKFLOW EXISTE
+# Em 06-07/08/2026 os dashs ficaram 36h sem refresh e ninguem percebeu. A causa nao foi
+# o atraso normal do cron: um run do dashs-daily travou em status "waiting", parado no
+# environment github-pages esperando uma aprovacao que nunca viria (o environment nao tem
+# revisor e a branch policy ja libera main). Como o dashs-daily usa
+# `concurrency: cancel-in-progress: false`, esse run travado segurou o grupo e TODO run
+# novo morreu cancelado atras dele, inclusive os agendados.
+#
+# POR QUE NAO RESOLVI TROCANDO O cancel-in-progress DO DASHS-DAILY
+# Seria o reflexo obvio, mas quebra outra coisa: o passo 4 do dashs-daily dispara um run
+# de retry ENQUANTO o run atual ainda esta rodando. Com cancel-in-progress: true esse
+# retry mataria o run atual antes do passo 5, que e justamente quem pinta o run de
+# vermelho quando alguma marca falha. Trocaria uma falha rara por um bug em toda falha
+# parcial. Por isso a solucao mora aqui fora.
+#
+# ESTE VIGIA
+#  1. cancela run do dashs-daily parado em "waiting" (nunca legitimo aqui);
+#  2. se o ultimo refresh esta velho demais, dispara o dashs-daily e ABRE UMA ISSUE, que
+#     e o que gera e-mail. Silencio de 36h nao acontece de novo.
+# Grupo de concorrencia PROPRIO: o vigia nunca pode ficar preso atras do vigiado.
+
+on:
+  schedule:
+    - cron: '35 */3 * * *'   # de 3 em 3 horas (minuto quebrado pega fila mais curta)
+  workflow_dispatch:
+
+permissions:
+  actions: write     # cancelar e disparar o dashs-daily
+  contents: read     # ler o carimbo do ultimo refresh
+  issues: write      # avisar quando o dado envelhece
+
+concurrency:
+  group: dashs-guard
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    env:
+      TZ: America/Sao_Paulo
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      # Crons do dashs-daily: 04:20, 12:00 e 19:00 BRT. O maior vao entre dois e ~9h20,
+      # e o atraso de fila do GitHub chega a 2h40 (ver memoria do projeto). 14h da folga
+      # pra tudo isso sem alarme falso.
+      HORAS_LIMITE: '14'
+      # "waiting" e blindagem de environment, nao fila de runner. 30min ja e patologico.
+      # NAO usar isso pra "queued": queued e a fila normal do GitHub e pode levar 2h40.
+      MIN_TRAVADO: '30'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: destrava run parado no environment
+        run: |
+          set -euo pipefail
+          DESTRAVOU=0
+          # a idade sai em python3 (e nao em `date -d`) so pra dar pra rodar este mesmo
+          # script no Mac na hora de mexer nele; o `date -d` e exclusivo do GNU.
+          idade_min() { python3 -c "import datetime,sys;print(int((datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(sys.argv[1].replace('Z','+00:00'))).total_seconds()//60))" "$1"; }
+          gh api "/repos/$REPO/actions/workflows/dashs-daily.yml/runs?status=waiting&per_page=30" \
+            --jq '.workflow_runs[] | "\(.id) \(.created_at)"' > waiting.txt || true
+          if [ ! -s waiting.txt ]; then
+            echo "nenhum run em waiting, nada travado"
+          else
+            while read -r ID CRIADO; do
+              [ -z "${ID:-}" ] && continue
+              MIN=$(idade_min "$CRIADO")
+              if [ "$MIN" -ge "$MIN_TRAVADO" ]; then
+                echo "run $ID travado em waiting ha ${MIN}min -> cancelando"
+                gh run cancel "$ID" -R "$REPO" || true
+                DESTRAVOU=1
+              else
+                echo "run $ID em waiting ha ${MIN}min, ainda dentro do aceitavel"
+              fi
+            done < waiting.txt
+          fi
+          echo "DESTRAVOU=$DESTRAVOU" >> "$GITHUB_ENV"
+
+      - name: dado velho? dispara e avisa
+        run: |
+          set -euo pipefail
+          QUANDO=$(python3 -c "import json;print(json.load(open('dashs-motor/data/_last_run.json'))['quando'])")
+          IDADE_H=$(python3 -c "import datetime,sys;print(int((datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(sys.argv[1].replace('Z','+00:00'))).total_seconds()//3600))" "$QUANDO")
+          echo "ultimo refresh: $QUANDO (ha ${IDADE_H}h) | limite: ${HORAS_LIMITE}h"
+
+          TITULO="Dashs Meta sem refresh ha mais de ${HORAS_LIMITE}h"
+          ABERTA=$(gh issue list -R "$REPO" --state open --search "in:title $TITULO" --json number --jq 'length')
+
+          if [ "$IDADE_H" -lt "$HORAS_LIMITE" ]; then
+            echo "dado fresco."
+            if [ "$ABERTA" -gt 0 ]; then
+              NUM=$(gh issue list -R "$REPO" --state open --search "in:title $TITULO" --json number --jq '.[0].number')
+              gh issue close "$NUM" -R "$REPO" \
+                --comment "Voltou ao normal: ultimo refresh em $QUANDO (ha ${IDADE_H}h)." || true
+            fi
+            exit 0
+          fi
+
+          # ja tem run tentando? entao so espero, pra nao empilhar disparo em cima de disparo
+          ATIVOS=$(gh api "/repos/$REPO/actions/workflows/dashs-daily.yml/runs?per_page=30" \
+            --jq '[.workflow_runs[] | select(.status=="in_progress" or .status=="queued" or .status=="waiting")] | length')
+          if [ "$ATIVOS" -gt 0 ] && [ "${DESTRAVOU:-0}" = "0" ]; then
+            echo "dado velho, mas ja existe run ativo ($ATIVOS). Aguardando o proximo ciclo do vigia."
+            exit 0
+          fi
+
+          echo "disparando dashs-daily"
+          gh workflow run dashs-daily.yml -R "$REPO" || true
+
+          if [ "$ABERTA" -gt 0 ]; then
+            echo "ja existe issue aberta avisando, nao vou duplicar"
+            exit 0
+          fi
+          gh label create dashs-parado -R "$REPO" --color b60205 \
+            --description "Refresh dos dashs Meta parou" 2>/dev/null || true
+          cat > corpo.md <<CORPO
+          O ultimo refresh dos dashs Meta foi em \`$QUANDO\`, ha **${IDADE_H}h**. O limite e ${HORAS_LIMITE}h.
+
+          O vigia ja disparou o \`dashs-daily\` sozinho. Se a proxima rodada resolver, esta issue fecha sozinha.
+
+          **Se nao resolver, olhar nesta ordem:**
+
+          1. Tem run do \`dashs-daily\` parado em \`waiting\`? Ele fica preso no environment
+          \`github-pages\` e, como o workflow usa \`cancel-in-progress: false\`, segura o grupo de
+          concorrencia e mata todo run novo. Foi o que causou as 36h de silencio em 06-07/08/2026.
+          O vigia cancela sozinho depois de ${MIN_TRAVADO}min, mas vale conferir:
+          \`gh run list -R $REPO --workflow=dashs-daily.yml\`
+          2. Run vermelho? \`gh run view <id> --log\` e procurar o \`RESUMO: ok=[...] fail=[...]\`.
+          Falha de uma marca nao derruba as outras: o dash anterior daquela marca continua no ar.
+          3. \`queued\` por horas e a fila normal do GitHub (chega a 2h40), nao e bug.
+          4. O token da Meta (\`secrets.META_TOKEN\`) e de system user e nao expira, mas se TODAS
+          as marcas falharem de uma vez com erro de auth, e ele.
+          CORPO
+          gh issue create -R "$REPO" --title "$TITULO" --label dashs-parado --body-file corpo.md
